@@ -1,0 +1,5 @@
+{
+  "_desc": "Donde cae cada toma en el corte (segundos). La usan subs.py y banda.py: audio y texto salen del mismo numero. 'at' = segundo del corte donde empieza el wav de la toma (t = 0 de sus eventos).",
+  "ida": {"take": "ida_c", "at": 2.1, "src": "es", "tgt": "ja"},
+  "vuelta": {"take": "vuelta_f", "at": 15.95, "src": "ja", "tgt": "es"}
+}

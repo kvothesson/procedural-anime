@@ -37,6 +37,48 @@ def check_loop(root, shots):
     return float(np.abs(a - b).mean())
 
 
+def subs_at(blocks, t):
+    """Textos visibles en el segundo t del corte. Cada bloque: t0, t1, fade_s
+    e items; un item con "reveal" [[t, texto acumulado], ...] se escribe de a
+    poco, como llegan las transcripciones en la app."""
+    out = []
+    for b in blocks:
+        t0, t1, fd = b["t0"], b["t1"], b.get("fade_s", 0.25)
+        if not (t0 <= t < t1):
+            continue
+        a = min(1.0, (t - t0) / fd if fd else 1.0, (t1 - t) / fd if fd else 1.0)
+        for it in b["items"]:
+            it = dict(it)
+            if "reveal" in it:
+                shown = [txt for tt, txt in it["reveal"] if tt <= t]
+                it["text"] = shown[-1] if shown else ""
+            if it.get("from", -1e9) > t:
+                continue
+            it["alpha"] = a * it.get("alpha", 1.0)
+            out.append(it)
+    return out
+
+
+def burn_subs(seq, path, fps):
+    """Subtitulos sobre la secuencia ya pegada (tiempo absoluto del corte)."""
+    import cv2
+    import numpy as np
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    import textos
+    blocks = json.loads(Path(path).read_text(encoding="utf-8"))
+    n = 0
+    for fr in sorted(seq.glob("m_*.png")):
+        t = (int(fr.stem[2:]) - 1) / fps
+        items = subs_at(blocks, t)
+        if not items:
+            continue
+        img = cv2.cvtColor(cv2.imread(str(fr)), cv2.COLOR_BGR2RGB).astype(np.float32) / 255
+        img = textos.compose(img, items)
+        cv2.imwrite(str(fr), cv2.cvtColor((np.clip(img, 0, 1) * 255 + 0.5).astype(np.uint8), cv2.COLOR_RGB2BGR))
+        n += 1
+    print(f"subtitulos: {n} frames ({path.name})")
+
+
 def main():
     if len(sys.argv) < 2:
         raise SystemExit("uso: python motor/montaje.py episodios/<nombre> [--draft]")
@@ -62,6 +104,8 @@ def main():
             n += 1
             shutil.copyfile(fr, seq / f"m_{n:05d}.png")
         report.append(f"{shot}: {len(frames)} frames ({len(frames) / tl['fps_unique']:.1f} s)")
+    if tl.get("subs"):
+        burn_subs(seq, ROOT / "shots" / tl["subs"], tl["fps_unique"])
     out = ROOT / "out" / f"{tl['name']}{'_draft' if draft else ''}.mp4"
     video = ROOT / "out" / f"{tl['name']}{'_draft' if draft else ''}_video.mp4"
     cmd = ["ffmpeg", "-y", "-loglevel", "error", "-framerate", str(tl["fps_unique"]),

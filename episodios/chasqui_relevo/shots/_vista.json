@@ -1,0 +1,5 @@
+{
+  "extends": "andes_base.json",
+  "_desc": "Prueba: vista aerea del mundo andino entero (no entra al montaje).",
+  "camera": {"lens": 22, "keys": [{"frame": 1, "pos": [38, -45, 32], "aim": [0, 70, 0]}]}
+}

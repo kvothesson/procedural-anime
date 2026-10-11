@@ -19,6 +19,10 @@ rendimiento, sonido y criterio de dirección).
 | [motor/escena.py](motor/escena.py) | Entrada de Blender: lee el JSON, arma las piezas en orden (`PIEZAS`) y renderiza |
 | [motor/piezas/](motor/piezas) | Las piezas: `base` (utilidades), `materiales`, `mundo` (cielo, luces, reflejo, tinta, cámara, render), `ciudad`, `plaza`, `obelisco`, `eventos` (apagón, destello), `colectivo`, `espacio`, `despiece` |
 | [motor/piezas/mecanica.py](motor/piezas/mecanica.py) | Engranajes: dientes reales, tics, trabas, forcejeo, giro libre, ejes, diente que salta |
+| [motor/piezas/andes.py](motor/piezas/andes.py) | Andes: una ruta (`camino.pts`) de la que sale todo: terreno con cresta y quebrada, cordillera, calzada de lajas, tambos con baliza, puente colgante, apacheta, luna |
+| [motor/piezas/viaje.py](motor/piezas/viaje.py) | Mensaje de luz con estela por una ruta, un arco sobre la Tierra o puntos; `relevo` (enciende lo que tiene `relevo_s` al pasar); cámara `follow`; globo que gira (`arco.spin`) |
+| [motor/piezas/tokio.py](motor/piezas/tokio.py) | Callejón bajo las vías: viaducto con tren, faroles de papel, expendedoras, farol hexagonal |
+| [motor/textos.py](motor/textos.py) | Texto 2D: `post.textos` por plano y subtítulos del corte (`timeline.subs`, con `reveal` palabra por palabra) |
 | [motor/colision.py](motor/colision.py) | Traspasos entre mallas frame por frame (BVH, sin render): `python motor/colision.py episodios/<ep> <plano>` |
 | [motor/engrane.py](motor/engrane.py) | Engrane sin penetración entre pares de engranajes, frame por frame |
 | [motor/plano.py](motor/plano.py) | Carga de planos con `extends`/`drop`. Una sola implementación para escena, post, render y banda |
@@ -30,7 +34,8 @@ rendimiento, sonido y criterio de dirección).
 | `episodios/<ep>/banda.py` | Partitura y diseño sonoro del episodio (a medida) |
 | `episodios/<ep>/render/`, `out/` | Frames y videos (ignorados por git: se regeneran desde los JSON) |
 
-**Episodio de ejemplo y plantilla: `episodios/nodo_404/`.**
+**Episodio de ejemplo y plantilla: `episodios/nodo_404/`.** Otro episodio completo, con voces
+reales y subtítulos: `episodios/chasqui_relevo/`.
 
 ## Requisitos
 
@@ -89,7 +94,10 @@ la vez se cuelgan).
 | `luz_mala` | Destello verde en frames dados |
 | `blackout` | Apagón en cascada o reencendido (`mode: "on"`), latido del cristal |
 | `camera` | `from`/`to` lineal o `keys` con `ease` |
-| `post` | `glow`, `rain`, `rain_dim`, `ripples`, `speedlines`, `glitch`, `grain`, ... |
+| `post` | `glow`, `rain` (`false` la apaga), `rain_dim`, `ripples`, `speedlines`, `glitch`, `grain`, `textos`, ... |
+| `camino`, `terreno`, `cordillera`, `puente`, `tambos`, `apacheta`, `luna` | Andes (ver `piezas/andes.py`): todo se ubica por `s`, metros sobre la ruta |
+| `mensaje`, `relevo` | Mensaje de luz (o lista de mensajes) con `keys` [[frame, s]], `colors` por tramo, `from_frame`/`to_frame`, `frac`; `relevo` lo enciende todo a su paso (`lead`, `delay`, `off`) |
+| `viaducto`, `chochin`, `expendedoras`, `farol_hex` | Tokio (ver `piezas/tokio.py`) |
 | `font` | Ruta a una fuente para los textos 3D (si no, Bahnschrift en Windows o la de Blender) |
 
 Todas las claves son opcionales (sin `street` no hay piso mojado ni reflejo; sin `sky` va un

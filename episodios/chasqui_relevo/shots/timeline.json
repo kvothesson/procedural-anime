@@ -1,0 +1,14 @@
+{
+  "name": "chasqui_relevo",
+  "fps_unique": 12,
+  "fps_out": 24,
+  "shots": [
+    "01_apacheta",
+    "02_puente",
+    "03_camino",
+    "04_orbita",
+    "05_tokio",
+    "06_cierre"
+  ],
+  "subs": "subs.json"
+}

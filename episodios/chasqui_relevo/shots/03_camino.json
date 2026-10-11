@@ -1,0 +1,65 @@
+{
+  "extends": "andes_base.json",
+  "_desc": "Plano 3: el mensaje (ya en japones, violeta) corre por el camino de la cresta y cada tambo enciende su baliza al pasar.",
+  "frames": 48,
+  "mensaje": {
+    "keys": [
+      [
+        1,
+        114.0
+      ],
+      [
+        48,
+        250.0
+      ]
+    ],
+    "colors": [
+      [
+        0,
+        "#a98bf5"
+      ]
+    ],
+    "height": 1.1,
+    "trail": 7.5,
+    "radius": 0.24,
+    "trail_radius": 0.08,
+    "light": 420
+  },
+  "camera": {
+    "lens": 24,
+    "clip_end": 3000,
+    "follow": {
+      "behind": 9,
+      "side": 1.0,
+      "up": 2.1,
+      "ahead": 30,
+      "aim_up": 2.2
+    }
+  },
+  "relevo": {
+    "lead": 14,
+    "delay": 0
+  },
+  "post": {
+    "speedlines": {
+      "frames": [
+        1,
+        48
+      ],
+      "count": 22,
+      "alpha": 0.18,
+      "band": [
+        0.3,
+        0.8
+      ]
+    }
+  },
+  "luna": {
+    "at": [
+      260,
+      1500,
+      620
+    ],
+    "r": 60
+  }
+}

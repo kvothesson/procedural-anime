@@ -9,7 +9,7 @@ El render 3D es lo unico caro. Todo lo de aca tarda segundos, asi que probar
 brillo, lluvia o grano NUNCA requiere volver a renderizar.
 
 Orden: ondas -> brillo (solo lo que emite) -> lluvia -> lineas de velocidad ->
-glitch -> aberracion -> vineta -> grano.
+glitch -> aberracion -> vineta -> textos ("textos", ver textos.py) -> grano.
 Nada aleatorio por frame: la lluvia es una lista fija de gotas que se mueve
 con el tiempo, y el grano cicla entre 3 patrones fijos.
 """
@@ -320,6 +320,11 @@ def _frame(f):
             img = glitch(img, i, ga)
     img = aberration(img, P["aberration"])
     img = img * _W["vig"]
+    if P.get("textos"):
+        # titulos del plano: despues de brillo y vineta (nitidos), antes del grano
+        import textos
+        img = textos.compose(img, [dict(t, alpha=textos.fade_alpha(i, t["frames"], t.get("fade")))
+                                   for t in P["textos"]])
     img = img + _W["grains"][i % len(_W["grains"])]
     out = (np.clip(img, 0, 1) * 255 + 0.5).astype(np.uint8)
     cv2.imwrite(str(_W["dst"] / f"p_{i:04d}.png"), cv2.cvtColor(out, cv2.COLOR_RGB2BGR))

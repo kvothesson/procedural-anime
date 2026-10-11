@@ -229,6 +229,52 @@ Salieron de cada vez que quien dirigía miró un frame y dijo "esto no". Pesan t
 - **Publicar lo decide el humano:** visibilidad y metadatos se proponen y se confirman antes de
   subir.
 
+## 10. Paisaje, viajes y texto (aprendido en chasqui_relevo)
+
+- **Una ruta manda.** Terreno, camino, tambos, puente y mensaje salen de la misma polilínea
+  medida por longitud de arco (`s`). Ubicar cosas por `s` evita que floten o se entierren.
+- **Terreno: color por shader, no por cara.** Con el color por cara (grilla de 2 m) el pasto
+  salía en bloques tipo Minecraft. Umbrales sobre la normal suave, la altura y un ruido de
+  mundo dan bordes duros pero curvos, que es como se pinta un fondo.
+- **La caída de una cresta necesita fondo** (`max_drop`). Sin tope, a 150 m el valle quedaba
+  220 m abajo y por debajo del horizonte se veía cielo con estrellas. Lo mismo para una
+  quebrada: que se cierre lejos (`gorge.open`), o se abre al vacío en el borde del terreno.
+- **Calzada sin geometría por laja.** Con una caja por laja la línea de tinta dibujaba cada una
+  y el camino parecía una pila de cajones. Una cinta barrida con juntas pintadas (Voronoi a
+  distancia del borde) se lee como piedra.
+- **Line Art y esferas:** con `crease_deg` 150 se contorneaba cada triángulo de una icoesfera;
+  120 alcanza.
+- **`clip_end` por defecto (500) recorta picos lejanos** y una luna a 1500 m. Subirlo en planos
+  de paisaje.
+- **Emisivo apagado = agujero negro.** Una baliza con `power` 0 se ve negra; apagada va en
+  ~0.12 (`relevo.off`).
+- **La luz del mensaje se apaga cuando el mensaje no está** (`from_frame`/`to_frame` también
+  cortan su energía): si no, alumbraba la apacheta antes de salir y rompía el empalme del loop.
+- **Sobre un globo, la cámara no orbita: gira el globo.** Con Track To el "arriba" es +Z del
+  mundo y el cuadro salía girado 90 grados. `arco.spin` cuelga Tierra y mensaje de un pivote
+  que rota para que la cabeza pase siempre por +Z; el lado de noche (calculado en el mundo)
+  queda fijo respecto de la cámara.
+- **Una estela de 8 cm no existe a 160 m.** El grosor se elige para la distancia del plano.
+- **`hex_prism`:** `create_cone` ya pone un vértice en +y; girado 90° en x queda punta arriba.
+
+### Texto
+
+- **Subtítulos sobre el corte, no por plano:** una frase cruza cortes. `montaje.py` los quema
+  con tiempo absoluto (`timeline.subs`); los títulos de un plano van en `post.textos`.
+- **Que el texto sea el real.** Los subtítulos salen de los deltas de transcripción grabados
+  con su tiempo y se escriben de a poco, como en la app. No se corrigen.
+- **Reservar dos líneas por bloque:** una frase que se corta pisaba la etiqueta de abajo.
+- **El texto narrativo va donde la imagen está vacía** (el piso oscuro), no sobre la luna.
+- Fuentes: Yu Gothic Bold cubre latino y japonés con la misma letra; Consolas para lo que
+  "dice la máquina".
+
+### Voces reales en la banda
+
+- **Una sola fuente de tiempos para audio y texto** (`voces.json`).
+- La traducción simultánea se superpone al original: original a la izquierda y traducción a
+  la derecha, el original baja cuando entra la traducción, la música se corre debajo de las
+  voces.
+
 ## 9. Publicar
 
 El motor no sube nada: `montaje.py` deja `episodios/<ep>/out/<ep>.mp4` (H.264 + AAC a 48 kHz,

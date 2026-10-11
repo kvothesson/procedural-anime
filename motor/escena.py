@@ -43,6 +43,10 @@ from piezas.espacio import build_estrellas, build_tierra  # noqa: E402
 from piezas.mecanica import build_engranajes  # noqa: E402
 from piezas.obelisco import build_obelisco  # noqa: E402
 from piezas.plaza import build_flag, build_plaza, build_trees  # noqa: E402
+from piezas.andes import (build_apacheta, build_camino, build_cordillera,  # noqa: E402
+                          build_luna, build_puente, build_tambos, build_terreno)
+from piezas.viaje import build_mensaje  # noqa: E402
+from piezas.tokio import build_chochin, build_expendedoras, build_farol_hex, build_viaducto  # noqa: E402
 
 SKY = {"horizon": "#2a1f4a", "top": "#070814", "ambient": "#1b2a4a"}
 LINE = {"color": "#0d0b24"}
@@ -95,6 +99,21 @@ PIEZAS = [
     ("estrellas", build_estrellas, None),
     ("tierra", build_tierra, None),
     ("engranajes", build_engranajes, None),
+    # Andes (chasqui_relevo): todo se ubica sobre la ruta de "camino"
+    ("terreno", build_terreno, None),
+    ("cordillera", build_cordillera, None),
+    ("camino", build_camino, None),
+    ("puente", build_puente, None),
+    ("tambos", build_tambos, None),
+    ("apacheta", build_apacheta, None),
+    # despues de todo lo que tiene relevo_s: el mensaje los enciende al pasar
+    ("mensaje", build_mensaje, None),
+    ("luna", build_luna, None),
+    # Tokio (chasqui_relevo): callejon bajo las vias
+    ("viaducto", build_viaducto, None),
+    ("chochin", build_chochin, None),
+    ("expendedoras", build_expendedoras, None),
+    ("farol_hex", build_farol_hex, None),
 ]
 
 

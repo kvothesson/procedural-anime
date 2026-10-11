@@ -1,0 +1,225 @@
+{
+ "toma": {
+  "src": "ja",
+  "tgt": "es",
+  "text": "もしもし。東京に着いたよ。こっちは雨だけど、元気だよ。",
+  "voice": "sage",
+  "how": "東京に住む若い人の自然な声。ほっとして、少しうれしそうに。"
+ },
+ "pares": [
+  {
+   "t": 9.27481985092163,
+   "src": "もしもし。 東京に着いたよ。。こっちは雨だけど、元気だよ。",
+   "tgt": "Hola. Ya llegué a Tokio. Aquí está lloviendo, pero estoy bien.",
+   "latency_ms": 7034.357786178589
+  }
+ ],
+ "deltas": [
+  {
+   "t": 2.2404427528381348,
+   "type": "session.input_transcript.delta",
+   "text": " "
+  },
+  {
+   "t": 2.2404730319976807,
+   "type": "session.input_transcript.delta",
+   "text": "もし"
+  },
+  {
+   "t": 2.428800582885742,
+   "type": "session.input_transcript.delta",
+   "text": "もし"
+  },
+  {
+   "t": 2.438573122024536,
+   "type": "session.input_transcript.delta",
+   "text": "。"
+  },
+  {
+   "t": 2.7089340686798096,
+   "type": "session.output_transcript.delta",
+   "text": "Hola"
+  },
+  {
+   "t": 3.0884971618652344,
+   "type": "session.output_transcript.delta",
+   "text": "."
+  },
+  {
+   "t": 3.446516752243042,
+   "type": "session.input_transcript.delta",
+   "text": " 東京"
+  },
+  {
+   "t": 3.899944305419922,
+   "type": "session.output_transcript.delta",
+   "text": " Ya"
+  },
+  {
+   "t": 4.044735431671143,
+   "type": "session.input_transcript.delta",
+   "text": "に"
+  },
+  {
+   "t": 4.044780731201172,
+   "type": "session.input_transcript.delta",
+   "text": "着"
+  },
+  {
+   "t": 4.250854253768921,
+   "type": "session.input_transcript.delta",
+   "text": "いた"
+  },
+  {
+   "t": 4.29636812210083,
+   "type": "session.output_transcript.delta",
+   "text": " lleg"
+  },
+  {
+   "t": 4.43181037902832,
+   "type": "session.input_transcript.delta",
+   "text": "よ"
+  },
+  {
+   "t": 4.442108154296875,
+   "type": "session.input_transcript.delta",
+   "text": "。"
+  },
+  {
+   "t": 4.442152738571167,
+   "type": "session.output_transcript.delta",
+   "text": "ué"
+  },
+  {
+   "t": 4.70244026184082,
+   "type": "session.output_transcript.delta",
+   "text": " a"
+  },
+  {
+   "t": 4.702479839324951,
+   "type": "session.output_transcript.delta",
+   "text": " Tokio"
+  },
+  {
+   "t": 5.108245849609375,
+   "type": "session.output_transcript.delta",
+   "text": "."
+  },
+  {
+   "t": 5.231020927429199,
+   "type": "session.input_transcript.delta",
+   "text": "。"
+  },
+  {
+   "t": 5.237359046936035,
+   "type": "session.input_transcript.delta",
+   "text": "こ"
+  },
+  {
+   "t": 5.434659719467163,
+   "type": "session.input_transcript.delta",
+   "text": "っ"
+  },
+  {
+   "t": 5.445161819458008,
+   "type": "session.input_transcript.delta",
+   "text": "ちは"
+  },
+  {
+   "t": 5.836520433425903,
+   "type": "session.input_transcript.delta",
+   "text": "雨"
+  },
+  {
+   "t": 6.018655776977539,
+   "type": "session.input_transcript.delta",
+   "text": "だけ"
+  },
+  {
+   "t": 6.092470169067383,
+   "type": "session.output_transcript.delta",
+   "text": " Aquí"
+  },
+  {
+   "t": 6.247283220291138,
+   "type": "session.input_transcript.delta",
+   "text": "ど"
+  },
+  {
+   "t": 6.5072338581085205,
+   "type": "session.output_transcript.delta",
+   "text": " está"
+  },
+  {
+   "t": 6.683150053024292,
+   "type": "session.output_transcript.delta",
+   "text": " ll"
+  },
+  {
+   "t": 6.683188199996948,
+   "type": "session.output_transcript.delta",
+   "text": "ov"
+  },
+  {
+   "t": 6.836854457855225,
+   "type": "session.input_transcript.delta",
+   "text": "、"
+  },
+  {
+   "t": 6.845493793487549,
+   "type": "session.input_transcript.delta",
+   "text": "元"
+  },
+  {
+   "t": 6.905799627304077,
+   "type": "session.output_transcript.delta",
+   "text": "iendo"
+  },
+  {
+   "t": 7.040599584579468,
+   "type": "session.input_transcript.delta",
+   "text": "気"
+  },
+  {
+   "t": 7.099998950958252,
+   "type": "session.output_transcript.delta",
+   "text": ","
+  },
+  {
+   "t": 7.100039005279541,
+   "type": "session.output_transcript.delta",
+   "text": " pero"
+  },
+  {
+   "t": 7.221721410751343,
+   "type": "session.input_transcript.delta",
+   "text": "だ"
+  },
+  {
+   "t": 7.221765995025635,
+   "type": "session.input_transcript.delta",
+   "text": "よ"
+  },
+  {
+   "t": 7.230012655258179,
+   "type": "session.input_transcript.delta",
+   "text": "。"
+  },
+  {
+   "t": 7.230050563812256,
+   "type": "session.output_transcript.delta",
+   "text": " estoy"
+  },
+  {
+   "t": 7.68630838394165,
+   "type": "session.output_transcript.delta",
+   "text": " bien"
+  },
+  {
+   "t": 7.88935661315918,
+   "type": "session.output_transcript.delta",
+   "text": "."
+  }
+ ],
+ "audio_parts": 41
+}
