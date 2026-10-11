@@ -1,0 +1,10 @@
+Hace 500 años, los chasquis corrían el Qhapaq Ñan llevando mensajes de posta en posta. Hoy el mensaje cruza idiomas.
+
+Las voces y los subtítulos son la salida real de chasqui, sin editar: español → japonés y japonés → español, con su demora real (la traducción arranca ~1,6 s después y se superpone, como en una charla).
+
+Todo lo demás está hecho con código: Blender headless + Python, sin IA de imagen ni de video, música sintetizada.
+
+chasqui, traductor simultáneo en tiempo real (código abierto): https://github.com/kvothesson/chasqui
+Motor de animación: https://github.com/kvothesson/procedural-anime
+
+#shorts #traduccion #anime #blender
