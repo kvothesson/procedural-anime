@@ -1,0 +1,90 @@
+{
+  "extends": "02_calle.json",
+  "drop": [
+    "render_frames"
+  ],
+  "_desc": "Plano 3: lateral desde la vereda. Un colectivo flotante de la linea 404 cruza la calle bajo la lluvia, con lineas de velocidad.",
+  "frames": 48,
+  "colectivo": {
+    "length": 12.0,
+    "width": 2.55,
+    "lane_x": 2.4,
+    "hover": 0.85,
+    "body": "#c8323c",
+    "cream": "#efe3c4",
+    "stripe": "#f2c230",
+    "interior": "#e0a050",
+    "pad": "#3ff0ff",
+    "number": "404",
+    "number_color": "#1a1830",
+    "number_size": 0.8,
+    "destination": "404 · RUTA",
+    "pad_light": 3000,
+    "interior_light": 500,
+    "path": [
+      [
+        1,
+        30
+      ],
+      [
+        6,
+        22
+      ],
+      [
+        46,
+        -22
+      ],
+      [
+        48,
+        -24
+      ]
+    ],
+    "interior_strength": 0.45
+  },
+  "camera": {
+    "lens": 24,
+    "ease": false,
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          -8.0,
+          0,
+          0.9
+        ],
+        "aim": [
+          10,
+          0.3,
+          3.2
+        ]
+      },
+      {
+        "frame": 48,
+        "pos": [
+          -8.0,
+          -1.0,
+          0.9
+        ],
+        "aim": [
+          10,
+          -0.7,
+          3.2
+        ]
+      }
+    ]
+  },
+  "post": {
+    "speedlines": {
+      "frames": [
+        14,
+        38
+      ],
+      "count": 30,
+      "alpha": 0.28,
+      "band": [
+        0.5,
+        0.85
+      ]
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "extends": "06_apagon.json",
+  "drop": [
+    "blackout",
+    "luz_mala",
+    "render_list"
+  ],
+  "_desc": "Plano 4: contrapicado al pie del Obelisco. La camara orbita lento mirando hacia arriba: anillos holograficos girando, torres con pantallas alrededor.",
+  "frames": 72,
+  "blocks": {
+    "facade_screens": 0.55,
+    "screen_dark": "#141a3a",
+    "billboards": 0.45
+  },
+  "row_x": {
+    "screen_dark": "#141a3a",
+    "billboards": 0.5
+  },
+  "camera": {
+    "lens": 20,
+    "ease": true,
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          -16.96,
+          57.86,
+          1.4
+        ],
+        "aim": [
+          0,
+          85,
+          33
+        ]
+      },
+      {
+        "frame": 72,
+        "pos": [
+          16.96,
+          57.86,
+          1.4
+        ],
+        "aim": [
+          0,
+          85,
+          33
+        ]
+      }
+    ]
+  },
+  "post": {
+    "glitch": [],
+    "rain_dim": [
+      [
+        1,
+        1.0
+      ]
+    ],
+    "glow": {
+      "threshold": 0.8
+    }
+  },
+  "obelisco": {
+    "uplight_energy": 1000,
+    "crystal": {
+      "energy": 12000
+    },
+    "color": "#a89fb8"
+  }
+}

@@ -1,0 +1,12 @@
+# renders y videos: se regeneran desde los JSON
+episodios/*/render/
+episodios/*/out/
+*.mp4
+*.wav
+*.png
+__pycache__/
+*.pyc
+# credenciales: nunca en el repo
+*token*.json
+client_secret*.json
+.env

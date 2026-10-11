@@ -1,0 +1,5 @@
+# Python 3.13. Blender 5.2 y ffmpeg van aparte (Blender usa su propio Python).
+numpy>=2.1
+scipy>=1.15
+opencv-python>=4.11
+pillow>=10.4

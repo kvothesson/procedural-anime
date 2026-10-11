@@ -1,0 +1,241 @@
+# Producción — todo lo aprendido
+
+Reglas verificadas haciendo NODO 404 (el episodio de ejemplo de este repo) y otro episodio con
+un personaje mecánico (cuyo código no está acá: la sección 3b conserva las lecciones). Cada
+regla salió de ver un frame fallar, no de planificar. Si algo deja de ser cierto (otra
+versión de Blender, otra PC), corregilo acá mismo.
+
+---
+
+## 1. El look: cel-shading anime con código
+
+**Objetivo de referencia:** *high-end cyberpunk anime style, cel-shaded, sharp line art,
+vibrant colors, Studio aesthetic, flat color, 9:16.* Sin personajes, este método llega
+a ~65-70 % de ese prompt. Lo que sale mejor: ciudad, luz, lluvia, arquitectura, máquinas.
+Lo que sale peor: caras, pelo, actuación de personajes. Diseñar alrededor de eso.
+
+- **Todo material termina en Emission.** El sombreado toon se calcula a mano en el
+  nodo: Shader to RGB → rampa **CONSTANTE** sobre la luminancia → la luz se reescala
+  para **conservar su tono**. Cuantizar por canal mete colores fuera de paleta.
+- **Rampa toon:** 3 escalones para escenas encendidas (`0.25 / 0.6 / 1.0`). Para
+  escenas oscuras hace falta un **escalón negro** (`[0, 0.05], [0.02, 0.25], ...`):
+  si el mínimo es 0.25, nada llega nunca a oscuro.
+- **Línea:** Grease Pencil Line Art sobre la colección `main`, color tinta `#0d0b24`
+  (nunca negro puro). El radio va **en metros**: 0.035–0.045 a 1080 de ancho. Lejos
+  se afina sola, como en un fondo de anime. Neón, reflejo y velos van excluidos.
+- **Cel para la forma, aerógrafo para la luz.** La rampa parte *toda* luz en
+  escalones: está bien para el volumen (luna, reflectores), pero el **resplandor de
+  una fuente emisiva** se ve en capas. En el anime ese brillo se pinta suave encima.
+  `mat_toon(..., glows=[...])` suma resplandores `fuerza / (1 + (d/caída)²)` de un
+  punto o de un anillo, sin escalones, y a la fuente se le saca la luz puntual sobre
+  esa superficie con light linking.
+- **Un emisivo de EEVEE sin GI no ilumina nada.** Si un neón tiene que teñir algo
+  (se nota enseguida), hay que dárselo explícito: luz puntual o glow.
+- **Ventanas por shader**, no por geometría: grilla en la fachada + hash por celda.
+  **Redondear la normal antes del hash**, o la ventana sale rayada (la normal
+  interpolada varía en el último decimal y cada píxel saca otro azar).
+- **Niebla por distancia dentro del shader**: determinista y separa planos. El neón
+  recibe 2,5 veces menos niebla.
+- **Fondos de anime:** luz cálida abajo (vidrieras, faroles), fachadas frías arriba.
+  Las vidrieras derraman su color en la vereda con una luz puntual sin sombra.
+- **Conos de luz** de faroles: malla cónica translúcida con alfa ~0.035 y **una sola
+  cara** (backface culling). Con las dos caras se ve el doble de denso.
+
+## 2. Piso mojado y reflejos
+
+- Charcos = huecos con alfa binario en el asfalto + **copia espejada del mundo** debajo
+  (las copias cuelgan de un vacío con escala z = -1, sin `matrix_parent_inverse`).
+- Lo que emite se refleja con su color; el resto se refleja como silueta oscura.
+- **Lo que está a ras del piso (< 0,5 m) no se espeja:** su copia queda justo bajo el
+  charco y tapa todo el reflejo (pasó con el camino de la plaza).
+- Los objetos con padre no se espejan (perderían al padre). Si hace falta, construirlos
+  sin padre.
+- **Charcos fijos** (`spots` en coordenadas de mundo) para el charco de empalme entre
+  planos: el azar no sirve. Si el charco cruza dos superficies, los dos llevan el hueco.
+- **Ángulo:** para ver en el charco algo a altura H y distancia D, la cámara a altura h
+  tiene que estar a h·D/H del charco.
+
+## 3. Animación y eventos
+
+- **Propiedad `power` por objeto** (0..1, animable con keyframes). Todo lo que emite la
+  multiplica vía nodo Attribute OBJECT. Así un apagón se programa por objeto aunque el
+  material sea compartido. **Todo objeto necesita la propiedad** (sin ella vale 0 y el
+  emisivo sale apagado): `escena.py` la pone en 1 por defecto.
+- **Apagón en cascada** (`blackout`): frame de corte según distancia al origen + azar fijo
+  + parpadeo. Interpolación CONSTANTE: la luz se corta, no se desvanece. `mode: "on"` es
+  el reencendido (los tubos dudan: prenden, se apagan, prenden). Bajan también luna,
+  ambiente y el resplandor del cielo.
+- **Cámara:** `keys` (frame, pos, aim) con `ease: true`. Sin grilla de píxeles, el easing
+  le da peso. Lineal para travellings constantes.
+- **Bandera:** modificador Wave (dos frentes) + grupo de vértices con peso 0 en el mástil.
+  El sol va dentro de la malla (material por cara) para que ondee con la tela. Malla de
+  48×27 o el sol sale como una cruz.
+- **Pantallas con contenido:** `mat_screen` = barras que corren, dos tonos planos, con el
+  tiempo en un nodo Value animado lineal (función pura del frame).
+- **Texto 3D:** nace en el plano XY mirando a -y; rotación (90°, 0, 0) lo pone de frente a -y.
+  Para que mire a ±x leyendo bien: z = ±90° según el lado (si sale espejado, invertir el signo).
+- **Plano quieto** (`still: true`): si la cámara y la escena no se mueven y todo el
+  movimiento es del post, se renderiza un frame y se copia (el plano 1 de NODO 404: un
+  render en vez de 36).
+
+### 3b. Personajes mecánicos y mecanismos (aprendido en otro episodio; ese código no está en este repo)
+
+- **Robot = piezas rígidas colgadas de pivotes** (vacíos), sin esqueleto. Pose por
+  articulación con claves en el JSON. Lee bien: un ojo-luz, visera de ceja, postura.
+- **Las manos van por IK, no por ángulos a ojo.** Rotando articulaciones la mano nunca toca
+  nada y se nota ("el pecho se abre solo"). IK analítica de dos tramos
+  (una función `_ik_arm` en el `piezas.py` del episodio, no incluida): objetivos en mundo (`to`), en ejes del
+  robot (`rel`) o pegados a un objeto que se mueve (`obj` + `off`: la mano sigue a la
+  perilla mientras la tapa se abre). `pole` orienta el codo; `palm` orienta la palma (si no,
+  lo que sostiene queda en cualquier ángulo y atraviesa los dedos).
+- **Caminar = pies apoyados, nunca el cuerpo moviendo las piernas en el aire.** El robot que
+  subía entero y se deslizaba "se veía raro". Piernas con rodilla y tobillo, IK de piernas
+  (una función `_two_bone`, no incluida) con objetivos en el piso/escalón, el
+  pie que se mueve en arco y el cuerpo continuo; el tobillo deja el pie plano. Antes de
+  animar, cuentas de alcance: la pierna de atrás no puede pedir más que su largo.
+- **Agarrar = traspaso a una copia hija de la mano** que toma la matriz exacta del original
+  en ese frame (`_catch`): no salta. Soltar = copia que cae con gravedad y queda plana.
+- **Las articulaciones necesitan luz:** el tramo de brazo y el de antebrazo no llegan al codo
+  (la bola cubre la unión) o al doblar más de 90° uno entra en el otro. Igual la muñeca.
+- **Caras a la misma altura** (tapa del torso = tapa del ribete) dan manchas y líneas de
+  tinta sueltas. Que una sobresalga. Tapas de cilindro con sombreado plano.
+- **Mecanismos que el público entiende:** cada pieza que se rompe o se arregla tiene que
+  estar haciendo algo visible. Una rueda que no engrana con nada no puede romperse; el
+  repuesto tiene que ser *la misma pieza* que se rompió (el corazón = el piñón).
+- **Engrane real** (`motor/piezas/mecanica.py`): pasos, forcejeo y giro libre en razón
+  inversa a los dientes y con signo opuesto; fases calculadas con la misma `gear_angle` que usa la escena. Perfil con la punta en 29 % del paso
+  (`PERFIL`) y centros a r1 + r2 − 0,9·profundidad: los dientes entran hasta el fondo. Con
+  la punta ancha había que dejar holgura y se nota: "no parecen encajar".
+- **Nada de engranajes sueltos de decoración:** cada rueda en cuadro engrana con otra y el
+  tren se lee (piñón → escape → piñón coaxial → rueda grande), en un mismo plano.
+- **Verificar el engrane:** `python motor/engrane.py episodios/<ep> <plano> a:b c:d` mide
+  la penetración entre contornos de dientes frame por frame (colision.py no sirve: dos
+  ruedas engranadas se tocan desde el frame 1). Probado: 1° de fase mal = 12 mm.
+- **Un tic tiene que durar ~0,4 s** (5 cuadros únicos con rebote) y avanzar medio diente.
+  Con 0,18 s y un diente entero, como los dientes son iguales, el ojo lee teletransporte.
+- **Una acción, varias cámaras:** un plano base con la acción completa y planos que lo
+  heredan con otra cámara y su tramo (`render_frames`). El montaje pega lo que haya.
+- **Chequeo de traspasos:** `python motor/colision.py episodios/<ep> <plano>` (BVH por
+  frame, sin render). Lo que se toca en el frame 1 es la base; los contactos buscados van en
+  `"colision_ok"`. Mirar frames no alcanza: un traspaso de tres frames no se ve en la lámina.
+- **Luz que se mueve con un objeto: resplandor por shader, no luz puntual.** Una luz puntual
+  cerca de superficies curvas moteaba el cel (aun sin sombra). `glow_follow`: distancia a un
+  vacío vía coordenadas de objeto, intensidad en un nodo Value animado.
+- **Sombras de rayos y engranajes** sobre un personaje se ven como ruido: `visible_shadow =
+  False` en lo que está entre la luz y el personaje. Paredes de interior tampoco proyectan.
+
+## 4. Post (`motor/post.py`)
+
+Orden: ondas → brillo → líneas de velocidad → lluvia → glitch → aberración → viñeta → grano.
+**Nada aleatorio por frame**: gotas con posición y velocidad fijas (frame = f(t)), grano que
+cicla 3 patrones, glitch y líneas de velocidad con semilla por frame.
+
+- `glow.threshold`: 0.55 por defecto. **Subirlo (0.72–0.8) en planos donde una superficie
+  clara iluminada se quema** (pasó con el Obelisco dos veces).
+- `rain_dim`: la lluvia se atenúa cuando la ciudad se apaga (la lluvia "se ve" por la luz).
+- `ripples`: gota + ondas en un charco en perspectiva (`aspect` ≈ seno del ángulo de cámara).
+  Calcular cada onda solo en su caja; sobre la imagen entera el post tardaba 3 veces más.
+- `speedlines`: trazos horizontales en una banda, durante un rango de frames.
+- Los borradores (`--draft`) se reescalan a la resolución final **antes** de los efectos.
+  Viven en `render/_draft_<plano>/` y `out/_draft_<plano>/`: nunca pisan el plano final
+  ni entran al montaje.
+- El post borra de `out/<plano>/` los frames que ya no están en `render/` (un render previo
+  más largo los dejaba y el montaje los pegaba) y el mp4 arranca en el primer frame que
+  haya (planos con `render_frames`).
+- Con una esfera de reloj luminosa en cuadro, `glow.threshold` 0.9: a 0.7 se quemó en blanco.
+
+## 5. Rendimiento en la PC de producción
+
+Máquina de referencia: CPU de 4 núcleos · 16 GB de RAM · **GPU con 2 GB de VRAM** (el cuello
+de botella).
+
+| Perfil | s/frame | Plano de 96 frames |
+|---|---|---|
+| EEVEE por defecto | 6.2 | 10–14 min |
+| `PERF` (en `motor/piezas/mundo.py`) | 2.2 | ~4 min |
+| `--draft` (540×960, 4 muestras) | 1.5 | ~2.5 min |
+
+`PERF`: pool de sombras de 256 MB a media resolución, un solo sol con sombra, sin GI ni
+raytracing, `light_threshold` en 0.05. Diferencia visual media: 1,9/255.
+
+- **Las luces de relleno van sin sombra** (`use_shadow = False`). Con sombra, 12 luces llenan
+  el pool; con el pool en 2 GB Blender **se cae sin traceback** (exit 127).
+- El borrador casi no gana: lo que queda es CPU (escena + Line Art).
+- El primer frame tras cambiar un ajuste de render tarda ~35 s (EEVEE recompila shaders).
+- **Nunca dos renders de Blender a la vez**: con 2 GB de VRAM, se cuelga.
+- **Iterar con frames sueltos** (`render.py --frames 1 40 66`, ~30-60 s) y tirar el plano
+  entero recién con el look aprobado. Los renders largos van en segundo plano.
+
+## 6. Trampas de Blender 5.2
+
+- Motor: `BLENDER_EEVEE` (es EEVEE Next; el id viejo `BLENDER_EEVEE_NEXT` ya no existe).
+- **Blender devuelve exit 0 aunque el script falle:** verificar frames y buscar `Traceback`
+  (`render.py` lo hace).
+- `bpy.data.materials.create_gpencil_data(m)` deja `show_stroke = False`: Line Art genera los
+  trazos y no se dibuja nada.
+- Un **spot mira a -Z**: para iluminar algo desde abajo, apuntarlo con Track To.
+- Light linking: `light.light_linking.receiver_collection = coll` y
+  `coll.collection_objects[i].light_linking.link_state = "EXCLUDE"` (**por índice**, no
+  acepta nombre).
+- `Material.use_nodes` / `World.use_nodes` tiran DeprecationWarning (se van en 6.0); por ahora andan.
+- Las fcurves viven en `layers > strips > channelbags` desde 4.4 (`action_fcurves()` cubre las dos).
+- `view_transform = "Standard"`: AgX desatura y levanta negros.
+- Color: Blender espera **lineal**; todo hex del JSON pasa por `lin()`.
+
+## 7. Sonido
+
+Síntesis pura (`motor/audio/dsp.py`, copia de `pixelfilm/audio/dsp.py`): aditiva con límite de
+banda, campanas inarmónicas, pads desafinados, reverb por convolución con IR generada.
+
+- **Cada evento se ancla a (plano, offset o frame)**: si un plano cambia de duración, el sonido
+  se reacomoda. Las duraciones salen del `frames` de cada JSON (no de contar PNGs: durante un
+  re-render las carpetas están vacías).
+- **Semilla fija.** **Las ganancias son dramaturgia:** el script imprime el RMS por momento y hay
+  que leerlo. La primera versión de NODO 404 salió plana (todo a −12 dB) hasta poner una curva.
+- **Silencio = silencio**: cortar también la cola de reverb de lo que se corta.
+- **Loop de audio:** renderizar con cola (6 s) y sumarla al principio.
+- **Doppler real** para lo que pasa: c = 343 m/s, velocidad y distancia de la escena.
+- Mezcla final: AAC 320 kbps, **48 kHz** (`montaje.py`).
+- **Lo que marca el ritmo en la imagen, se calcula, no se tipea:** en un episodio con un reloj, cada tic
+  salía de `tick_count` y las trabas de cada JSON (una función `ticks()` en su banda), incluido el tic
+  con que el reloj arranca al soltarse la traba (la parte entera del tiempo no cambia ahi).
+- **Planos con `render_frames`** (una accion repartida en varias camaras) duran lo que se
+  renderiza, no `frames`; los eventos se anclan al frame de la escena.
+- Instrumentos de otro episodio: se importan de su `banda.py` (importlib) sin tocarlo.
+
+## 8. Criterio de dirección (lecciones de las correcciones)
+
+Salieron de cada vez que quien dirigía miró un frame y dijo "esto no". Pesan tanto como lo técnico:
+
+- **Nada de cyberpunk de catálogo.** Carteles verticales de neón con palabras sueltas (BAR,
+  HOTEL, TANGO) leen a cliché; los de texto cotidiano, peor. El sabor local tiene que salir de
+  **lugares reales y reconocibles**, no de palabras en neón.
+- **Fidelidad a la referencia real:** con una foto del lugar (plaza de pasto, edificios crema,
+  bandera) el pedido es que se parezca, no "más cyberpunk".
+- **Mirar la luz con ojo de fotógrafo:** toda fuente de luz tiene que afectar su entorno
+  (anillos de neón que tiñen la piedra) y el brillo va en degradé, no en capas.
+- **Continuidad:** dos planos que se sienten de lugares distintos son un error. Lo que se ve por
+  una ventana tiene que ser la misma noche y el mismo clima que los planos de afuera.
+- **Lo estático se nota:** la bandera tiene que ondear.
+- **El tiempo importa:** mostrar avances con frames de prueba, no tirar renders largos sin
+  necesidad y optimizar para la máquina real.
+- **Sonido a medida:** música hecha para los eventos de la imagen, no un loop genérico.
+- **Ficción antes que documental:** el lugar real puede inspirar, no atar.
+- **La causalidad se lee sin palabras:** si algo se rompe, se ve qué lo rompe; si algo lo
+  arregla, se ve por qué encaja.
+- **Se notan los traspasos y lo que se mueve solo** (una tapa que se abre sin que la mano la
+  toque, dedos dentro de una pieza) y **los movimientos a saltos** (un tic de 2 cuadros parece
+  teletransporte).
+- **Publicar lo decide el humano:** visibilidad y metadatos se proponen y se confirman antes de
+  subir.
+
+## 9. Publicar
+
+El motor no sube nada: `montaje.py` deja `episodios/<ep>/out/<ep>.mp4` (H.264 + AAC a 48 kHz,
+1080×1920, 24 fps), que sirve tal cual para YouTube Shorts, X y Reddit (todas piden MP4
+H.264/AAC).
+
+- Si automatizás la subida: **nunca dejes tokens ni credenciales en el repo.**
+- **Antes de reintentar una subida que "falló", verificá qué quedó publicado.** En Windows, un
+  script que imprime caracteres no ASCII puede fallar al *imprimir* (cp1252) después de subir
+  bien: `PYTHONIOENCODING=utf-8` lo evita y listar los últimos videos evita el duplicado.

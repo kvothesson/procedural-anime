@@ -1,0 +1,126 @@
+{
+  "extends": "06_apagon.json",
+  "drop": [
+    "luz_mala",
+    "render_list"
+  ],
+  "_desc": "Plano 7: sigue el negro del apagon con el cristal latiendo. La ciudad se enciende en cascada desde el Obelisco hacia afuera y la camara baja hasta un charco del camino donde se refleja el cristal. Ese charco empalma con el plano 1.",
+  "frames": 84,
+  "street": {
+    "puddles": {
+      "spots": [
+        [
+          -0.85,
+          -6.6,
+          1.6,
+          1.1
+        ]
+      ]
+    }
+  },
+  "plaza": {
+    "wet_path": {
+      "scale": 6.0,
+      "threshold": 0.72,
+      "stretch": 0.5,
+      "spots": [
+        [
+          -0.85,
+          -6.6,
+          1.6,
+          1.1
+        ]
+      ]
+    }
+  },
+  "blackout": {
+    "mode": "on",
+    "start": 6,
+    "origin_y": 85,
+    "m_per_frame": 7.0,
+    "jitter": 3,
+    "flicker": 0.6,
+    "light_from": 6,
+    "light_to": 36,
+    "moon_after": 0.1,
+    "ambient_after": 0.25,
+    "steady_from": 30,
+    "beat_frames": 10,
+    "beat_phase": 6
+  },
+  "camera": {
+    "lens": 28,
+    "ease": true,
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          -4,
+          -1,
+          2.4
+        ],
+        "aim": [
+          0,
+          85,
+          41
+        ]
+      },
+      {
+        "frame": 34,
+        "pos": [
+          -4,
+          -1,
+          2.4
+        ],
+        "aim": [
+          0,
+          85,
+          41
+        ]
+      },
+      {
+        "frame": 74,
+        "pos": [
+          -0.85,
+          -8.1,
+          1.2
+        ],
+        "aim": [
+          -0.85,
+          -6.6,
+          0.0
+        ]
+      },
+      {
+        "frame": 84,
+        "pos": [
+          -0.85,
+          -8.1,
+          1.2
+        ],
+        "aim": [
+          -0.85,
+          -6.6,
+          0.0
+        ]
+      }
+    ]
+  },
+  "post": {
+    "glitch": [],
+    "rain_dim": [
+      [
+        1,
+        0.4
+      ],
+      [
+        10,
+        0.4
+      ],
+      [
+        36,
+        1.0
+      ]
+    ]
+  }
+}

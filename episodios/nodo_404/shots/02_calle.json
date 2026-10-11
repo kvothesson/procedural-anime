@@ -1,0 +1,209 @@
+{
+  "_desc": "Plano 2: la avenida a ras del piso, lluvia, carteles, charcos. Camara avanza.",
+  "width": 1080,
+  "height": 1920,
+  "fps": 12,
+  "frames": 72,
+  "samples": 8,
+  "sky": {
+    "horizon": "#5a2468",
+    "top": "#070a1c",
+    "zenith_at": 0.62,
+    "ambient": "#1c2a5a",
+    "ambient_strength": 1.0
+  },
+  "fog": {
+    "color": "#2a1f4e",
+    "dist": 75.0
+  },
+  "toon": {
+    "steps": [
+      [
+        0.0,
+        0.25
+      ],
+      [
+        0.12,
+        0.6
+      ],
+      [
+        0.55,
+        1.0
+      ]
+    ]
+  },
+  "street": {
+    "length": 200,
+    "width": 10,
+    "sidewalk": 3.5,
+    "start": -20,
+    "asphalt": "#2a2d48",
+    "sidewalk_color": "#3b3f5e",
+    "line_color": "#ffb03a",
+    "line_strength": 0.7,
+    "missing": 0.3,
+    "puddles": {
+      "scale": 2.6,
+      "threshold": 0.58,
+      "stretch": 0.3
+    },
+    "reflection_tint": "#0b0d22",
+    "reflection_dim": 0.35
+  },
+  "blocks": {
+    "seed": 404,
+    "start": -15,
+    "end": 150,
+    "width": [
+      8,
+      14
+    ],
+    "height": [
+      22,
+      46
+    ],
+    "depth": [
+      12,
+      18
+    ],
+    "setback": 0.8,
+    "colors": [
+      "#cdbb9e",
+      "#d8ccb6",
+      "#b3a38c",
+      "#c4b49c",
+      "#a9a39b",
+      "#9fb0bf"
+    ],
+    "antenna_color": "#1a1830",
+    "awning": 0.85,
+    "shop_colors": [
+      "#ffc56b",
+      "#7ff6ff",
+      "#ff7ac0"
+    ],
+    "sign_body": "#141226",
+    "sign_rate": 0.8,
+    "windows": {
+      "pitch_x": 2.4,
+      "pitch_z": 3.3,
+      "base": 4.6,
+      "margin_x": 0.3,
+      "margin_z": 0.22,
+      "lit": 0.4,
+      "cold_ratio": 0.4,
+      "warm": "#ffc56b",
+      "cold": "#bff6ff",
+      "dark": "#26283d"
+    },
+    "signs": [],
+    "fronts": [],
+    "shop_light": 450,
+    "balcony_color": "#8f8576",
+    "balconies": 0.8,
+    "billboards": 0.35,
+    "billboard_colors": [
+      "#3ff0ff",
+      "#ff3ea5",
+      "#ffb03a",
+      "#7ff6ff",
+      "#ff5050"
+    ],
+    "screen_dark": "#141a3a",
+    "facade_screens": 0.25
+  },
+  "cables": {
+    "seed": 7,
+    "count": 14,
+    "y": [
+      0,
+      90
+    ],
+    "z": [
+      7,
+      13
+    ],
+    "span": 34,
+    "color": "#0d0b24",
+    "thickness": 0.03
+  },
+  "lights": [
+    {
+      "kind": "SUN",
+      "color": "#6f8cff",
+      "energy": 1.6,
+      "rot": [
+        55,
+        0,
+        -50
+      ],
+      "angle": 1
+    },
+    {
+      "kind": "SUN",
+      "color": "#ff4fa8",
+      "energy": 0.6,
+      "rot": [
+        70,
+        0,
+        140
+      ],
+      "angle": 1
+    }
+  ],
+  "line": {
+    "color": "#0d0b24",
+    "radius": 0.035,
+    "crease_deg": 140
+  },
+  "camera": {
+    "lens": 20,
+    "from": [
+      0.8,
+      -6,
+      1.4
+    ],
+    "to": [
+      0.8,
+      8,
+      1.4
+    ],
+    "rise": 5.0
+  },
+  "skyline": {
+    "seed": 11,
+    "count": 16,
+    "width": [
+      10,
+      22
+    ],
+    "height": [
+      60,
+      150
+    ],
+    "spread": 70,
+    "y": [
+      175,
+      260
+    ],
+    "colors": [
+      "#3a3a5e",
+      "#3f3b62",
+      "#353a58"
+    ],
+    "beacon": "#ff3355"
+  },
+  "lamps": {
+    "start": 4,
+    "end": 150,
+    "spacing": 11,
+    "height": 6.5,
+    "arm": 1.8,
+    "color": "#ffc27a",
+    "pole_color": "#1c1a33",
+    "energy": 1100,
+    "spot_deg": 80,
+    "beam_alpha": 0.035,
+    "beam_radius": 2.6
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "extends": "07_reencendido.json",
+  "drop": [
+    "blackout",
+    "render_list"
+  ],
+  "_desc": "Plano 1 (gancho y loop): el charco frente a la plaza con el cristal reflejado. Cae una gota y el reflejo tiembla. Empalma con el ultimo cuadro del plano 7.",
+  "frames": 36,
+  "camera": {
+    "lens": 28,
+    "ease": false,
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          -0.85,
+          -8.1,
+          1.2
+        ],
+        "aim": [
+          -0.85,
+          -6.6,
+          0.0
+        ]
+      },
+      {
+        "frame": 36,
+        "pos": [
+          -0.85,
+          -8.1,
+          1.2
+        ],
+        "aim": [
+          -0.85,
+          -6.6,
+          0.0
+        ]
+      }
+    ]
+  },
+  "post": {
+    "glitch": [],
+    "rain_dim": [
+      [
+        1,
+        1.0
+      ]
+    ],
+    "ripples": {
+      "main": {
+        "frame": 14,
+        "x": 0.509,
+        "y": 0.507,
+        "fall_frames": 6,
+        "speed": 34,
+        "life": 9,
+        "amp": 12,
+        "rings": 3,
+        "spacing": 34,
+        "alpha": 0.55,
+        "width": 2
+      },
+      "aspect": 0.62,
+      "region": [
+        0,
+        0.31,
+        1,
+        1
+      ],
+      "rain_per_frame": 3,
+      "rain_speed": 10,
+      "rain_life": 4,
+      "rain_amp": 2.5,
+      "seed": 3,
+      "frames": 36
+    }
+  },
+  "still": true
+}
