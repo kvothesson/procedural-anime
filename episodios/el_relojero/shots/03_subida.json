@@ -1,0 +1,226 @@
+{
+  "_desc": "Plano 3 (la subida): el relojero sube la escalera caracol del campanario, un escalon por tic. Corte: camara afuera de la torre, el muro cercano no se dibuja; atras, ventanas a los arboles.",
+  "width": 1080,
+  "height": 1920,
+  "fps": 12,
+  "frames": 60,
+  "samples": 8,
+  "sky": {
+    "horizon": "#140f24",
+    "top": "#0a0814",
+    "ambient": "#4a3542",
+    "ambient_strength": 0.55
+  },
+  "fog": {
+    "color": "#120e1e",
+    "dist": 30.0
+  },
+  "toon": {
+    "steps": [
+      [
+        0.0,
+        0.07
+      ],
+      [
+        0.04,
+        0.32
+      ],
+      [
+        0.4,
+        1.0
+      ]
+    ]
+  },
+  "lights": [
+    {
+      "kind": "SUN",
+      "color": "#ffd9a0",
+      "energy": 3.0,
+      "rot": [
+        38,
+        0,
+        235
+      ],
+      "angle": 0.5
+    },
+    {
+      "kind": "SUN",
+      "color": "#7f9cff",
+      "energy": 0.18,
+      "rot": [
+        -75,
+        0,
+        140
+      ],
+      "shadow": false
+    }
+  ],
+  "line": {
+    "color": "#0d0b24",
+    "radius": 0.004,
+    "crease_deg": 140
+  },
+  "escalera": {
+    "center": [
+      0,
+      0
+    ],
+    "r_in": 0.25,
+    "r_out": 1.3,
+    "rise": 0.2,
+    "per_turn": 12,
+    "steps": 30,
+    "thick": 0.07,
+    "r_wall": 1.75,
+    "step": "#7a5a40",
+    "wall": "#4a3a52",
+    "luz": "#ffd9a0",
+    "luz_fuerza": 1.4,
+    "ventanas": 6,
+    "ventana_ang": -40,
+    "ventana_paso": 28,
+    "ventana_dz": 0.55,
+    "noche": {
+      "paisaje": "arboles",
+      "copa": "#14202c",
+      "copa_lejos": "#2a2650",
+      "farol": "#ffcf8a",
+      "carriles": 46,
+      "lluvia": "#f0dcff",
+      "lluvia_alfa": 0.45,
+      "gotas": 9.0
+    }
+  },
+  "engranajes": {
+    "color": "#b08a3e",
+    "tick": {
+      "bps": 1.0,
+      "jump": 0.4
+    },
+    "list": [
+      {
+        "name": "rueda_campanario",
+        "at": [
+          0,
+          0,
+          7.4
+        ],
+        "axis": "z",
+        "r": 1.0,
+        "teeth": 40,
+        "depth": 0.03,
+        "thick": 0.08,
+        "spokes": 6,
+        "hub": 0.1,
+        "step": 3,
+        "phase": -2.925
+      },
+      {
+        "name": "pinon_campanario",
+        "at": [
+          1.223,
+          0,
+          7.4
+        ],
+        "axis": "z",
+        "r": 0.25,
+        "teeth": 10,
+        "depth": 0.03,
+        "thick": 0.08,
+        "spokes": 4,
+        "hub": 0.05,
+        "step": -12,
+        "phase": 150.3
+      }
+    ]
+  },
+  "relojero": {
+    "face": 0,
+    "cast_shadow": false,
+    "camino": {
+      "center": [
+        0,
+        0
+      ],
+      "r": 0.76,
+      "rise": 0.2,
+      "per_turn": 12,
+      "frames_step": 12,
+      "step0": 4,
+      "start": 1,
+      "z0": 0.012
+    },
+    "pose": [
+      {
+        "frame": 1,
+        "cuello": [
+          10,
+          0,
+          0
+        ],
+        "codo_i": [
+          -35,
+          0,
+          0
+        ],
+        "codo_d": [
+          -35,
+          0,
+          0
+        ],
+        "muneca_i": [
+          0,
+          0,
+          0
+        ],
+        "muneca_d": [
+          0,
+          0,
+          0
+        ],
+        "tapa": 0,
+        "ojo": 1.0,
+        "corazon": 1.0
+      }
+    ]
+  },
+  "camera": {
+    "lens": 24,
+    "clip_end": 60,
+    "ease": true,
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          -3.9,
+          -1.0,
+          1.25
+        ],
+        "aim": [
+          -0.35,
+          -0.25,
+          2.1
+        ]
+      },
+      {
+        "frame": 60,
+        "pos": [
+          -3.7,
+          -1.6,
+          1.45
+        ],
+        "aim": [
+          -0.3,
+          -0.4,
+          2.5
+        ]
+      }
+    ]
+  },
+  "post": {
+    "rain": null,
+    "glow": {
+      "threshold": 0.9
+    }
+  }
+}

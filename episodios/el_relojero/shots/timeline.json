@@ -1,0 +1,17 @@
+{
+  "name": "el_relojero",
+  "fps_unique": 12,
+  "fps_out": 24,
+  "shots": [
+    "01_gancho",
+    "02_ciudad",
+    "03_subida",
+    "04_falla",
+    "05_desincronia",
+    "06_sacrificio",
+    "06c_pecho",
+    "06d_eje",
+    "06b_ojo",
+    "07_nacimiento"
+  ]
+}

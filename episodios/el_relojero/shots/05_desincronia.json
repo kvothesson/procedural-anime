@@ -1,0 +1,116 @@
+{
+  "extends": "02_ciudad.json",
+  "_desc": "Plano 5 (la desincronia): la catedral. El reloj se traba: cada luz late con su propio ritmo, algunas titilan y se apagan, el reloj de la torre se apaga y el colectivo frena en el aire.",
+  "pulso": {
+    "bps": 1.0,
+    "lo": 0.35,
+    "hi": 1.0,
+    "decay": 0.3,
+    "seed": 11,
+    "desync": {
+      "frame": 18,
+      "die": 0.55,
+      "spread": 36,
+      "revive": 0.4
+    }
+  },
+  "colectivo": {
+    "length": 12.0,
+    "width": 2.55,
+    "lane_x": -4.2,
+    "hover": 0.85,
+    "body": "#c8323c",
+    "cream": "#efe3c4",
+    "stripe": "#f2c230",
+    "interior": "#e0a050",
+    "pad": "#3ff0ff",
+    "number": "404",
+    "number_color": "#1a1830",
+    "number_size": 0.8,
+    "destination": "404 · RUTA",
+    "pad_light": 3000,
+    "interior_light": 500,
+    "path": [
+      [
+        1,
+        40
+      ],
+      [
+        14,
+        6
+      ],
+      [
+        18,
+        -2
+      ],
+      [
+        22,
+        -7
+      ],
+      [
+        27,
+        -9.4
+      ],
+      [
+        32,
+        -9.9
+      ],
+      [
+        60,
+        -10.1
+      ]
+    ],
+    "interior_strength": 0.45
+  },
+  "camera": {
+    "lens": 16,
+    "ease": true,
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          -16.0,
+          -2.5,
+          1.4
+        ],
+        "aim": [
+          3.0,
+          15.0,
+          22.0
+        ]
+      },
+      {
+        "frame": 60,
+        "pos": [
+          -15.4,
+          -1.9,
+          1.38
+        ],
+        "aim": [
+          3.0,
+          15.0,
+          22.5
+        ]
+      }
+    ]
+  },
+  "post": {
+    "glitch": [
+      [
+        18,
+        19,
+        0.6
+      ],
+      [
+        31,
+        31,
+        0.35
+      ],
+      [
+        45,
+        46,
+        0.5
+      ]
+    ]
+  }
+}

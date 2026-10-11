@@ -1,0 +1,8 @@
+{
+  "extends": "07_nacimiento.json",
+  "render_frames": [
+    80,
+    108
+  ],
+  "_desc": "Plano 1 (gancho): en la oscuridad de la sala, el ojo de un relojero nuevo titila y se enciende."
+}

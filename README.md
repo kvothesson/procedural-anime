@@ -17,6 +17,11 @@ through the city, a hexagonal crystal pulses in the dark, then everything lights
   stitches the shots and mixes the audio; `audio/dsp.py` has the synthesis primitives.
 - **`episodios/nodo_404/`** — a complete example episode: six shots as JSON, a hand-written
   score (`banda.py`) and the timeline. It is also the template for new episodes.
+- **`episodios/el_relojero/`** — a mechanical short story: an old robot keeps the clock of the
+  San Isidro cathedral running; when a pinion breaks, his heart turns out to be the missing
+  part. Real gear trains (`motor/piezas/mecanica.py`, checked with `motor/engrane.py`), arm and
+  leg IK, assembly from a pile of spare parts, a loop with a 0.0 seam and a score built around
+  the clock tick. [Watch it on YouTube](https://youtube.com/shorts/QHXfY1VOAr0).
 - **`docs/PRODUCCION.md`** — everything learned the hard way: the look, wet-floor reflections,
   blackout animation, GPU performance on a 2 GB card, Blender 5.2 pitfalls, sound design.
 - **`AGENTS.md`** — the same map written for a coding agent, with the full JSON reference.

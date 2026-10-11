@@ -1,0 +1,41 @@
+{
+  "extends": "06_sacrificio.json",
+  "_desc": "Plano 6c: primer plano del pecho. Abre la tapa, el corazon asoma: es la misma pieza que el pinon roto. Lo saca.",
+  "render_frames": [
+    40,
+    67
+  ],
+  "camera": {
+    "lens": 40,
+    "clip_end": 100,
+    "ease": true,
+    "keys": [
+      {
+        "frame": 40,
+        "pos": [
+          -1.0,
+          0.58,
+          1.18
+        ],
+        "aim": [
+          -0.25,
+          -0.02,
+          1.08
+        ]
+      },
+      {
+        "frame": 67,
+        "pos": [
+          -0.94,
+          0.54,
+          1.16
+        ],
+        "aim": [
+          -0.25,
+          -0.02,
+          1.1
+        ]
+      }
+    ]
+  }
+}

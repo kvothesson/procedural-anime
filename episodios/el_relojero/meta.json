@@ -1,0 +1,28 @@
+{
+  "titulo_youtube": "EL RELOJERO: su corazón era la pieza que faltaba 🇦🇷⚡ #shorts #kvothesson",
+  "descripcion_youtube": "En San Isidro, todo late al compás del reloj de la catedral.\nUn viejo robot lo cuida, tic a tic.\nUna noche se parte el piñón que mueve el reloj. No hay repuesto.\nAbre su pecho: su corazón es exactamente esa pieza.\n\n🔁 Este video loopea. El final es el principio.\n\nHecho 100% con código: Blender + Python. Sin IA generativa de imagen ni samples de audio; hasta la cajita de música es síntesis.\n\n━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Universo Kvothesson: donde el folklore argentino colisiona con la post-singularidad.\n\n#KvothessonUniverse #CyberpunkArgentino #SanIsidro #CatedralDeSanIsidro #Anime #Shorts #Argentina #Robot",
+  "tags": [
+    "kvothesson",
+    "shorts",
+    "anime",
+    "cyberpunk",
+    "argentina",
+    "san isidro",
+    "catedral de san isidro",
+    "robot",
+    "reloj",
+    "el relojero",
+    "blender"
+  ],
+  "categoria": "1",
+  "idioma": "es",
+  "privacidad": "public",
+  "video_final": "out/el_relojero.mp4",
+  "duracion_segundos": 37,
+  "resolucion": "1080x1920",
+  "fps": 24,
+  "herramientas": "Blender 5.2 (EEVEE, Line Art) + Python (PIL, numpy, scipy) + ffmpeg",
+  "youtube_id": "QHXfY1VOAr0",
+  "youtube_url": "https://youtube.com/shorts/QHXfY1VOAr0",
+  "fecha_publicacion": "2026-10-11T17:32:07Z"
+}

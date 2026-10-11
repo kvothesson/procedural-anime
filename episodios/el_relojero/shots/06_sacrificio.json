@@ -1,0 +1,979 @@
+{
+  "_desc": "Plano 6 (el sacrificio), accion completa de 96 frames que reparten cuatro camaras (06 general, 06c pecho, 06d eje, 06b ojo). Saca el pinon roto, lo mira, lo suelta; abre el pecho: su corazon es la misma pieza; lo monta en el eje; el reloj vuelve a andar; se apaga.",
+  "width": 1080,
+  "height": 1920,
+  "fps": 12,
+  "frames": 96,
+  "samples": 8,
+  "sky": {
+    "horizon": "#140f24",
+    "top": "#0a0814",
+    "ambient": "#1a1530",
+    "ambient_strength": 0.5
+  },
+  "fog": {
+    "color": "#120e1e",
+    "dist": 40.0
+  },
+  "toon": {
+    "steps": [
+      [
+        0.0,
+        0.07
+      ],
+      [
+        0.04,
+        0.32
+      ],
+      [
+        0.4,
+        1.0
+      ]
+    ]
+  },
+  "lights": [
+    {
+      "kind": "SUN",
+      "color": "#ffd9a0",
+      "energy": 2.2,
+      "rot": [
+        50,
+        0,
+        -35
+      ],
+      "angle": 0.3
+    },
+    {
+      "kind": "SUN",
+      "color": "#7fd6ff",
+      "energy": 1.4,
+      "rot": [
+        -70,
+        0,
+        0
+      ],
+      "shadow": false
+    }
+  ],
+  "line": {
+    "color": "#0d0b24",
+    "radius": 0.004,
+    "crease_deg": 140
+  },
+  "sala": {
+    "wall_y": 2.1,
+    "room": [
+      -2.8,
+      2.6,
+      -3.2,
+      2.1
+    ]
+  },
+  "esfera": {
+    "at": [
+      0,
+      1.9,
+      2.35
+    ],
+    "r": 2.1,
+    "top": "#161a44",
+    "bottom": "#6a3a7c",
+    "strength": 1.0,
+    "hora": [
+      11,
+      59
+    ],
+    "noche": {
+      "paisaje": "arboles",
+      "copa": "#14202c",
+      "copa_lejos": "#2a2650",
+      "farol": "#ffcf8a",
+      "carriles": 46,
+      "lluvia": "#f0dcff",
+      "lluvia_alfa": 0.45,
+      "gotas": 9.0
+    }
+  },
+  "engranajes": {
+    "color": "#b08a3e",
+    "tick": {
+      "bps": 1.0,
+      "jump": 0.4
+    },
+    "stop": [
+      1,
+      81
+    ],
+    "list": [
+      {
+        "name": "rueda_escape_pinon",
+        "at": [
+          -0.6424,
+          -0.0076,
+          1.5802
+        ],
+        "rot": [
+          90,
+          0,
+          45
+        ],
+        "r": 0.1,
+        "teeth": 10,
+        "depth": 0.022,
+        "thick": 0.03,
+        "r_in": 0.06,
+        "spokes": 4,
+        "hub": 0.022,
+        "step": 6,
+        "phase": 194.263
+      },
+      {
+        "name": "rueda_grande",
+        "at": [
+          -1.1325,
+          -0.4977,
+          2.2733
+        ],
+        "rot": [
+          90,
+          0,
+          45
+        ],
+        "r": 0.9,
+        "teeth": 90,
+        "depth": 0.022,
+        "thick": 0.06,
+        "spokes": 6,
+        "hub": 0.08,
+        "r_in": 0.8,
+        "step": -0.6666666666666666,
+        "phase": 319.815
+      },
+      {
+        "name": "rueda_escape",
+        "at": [
+          -0.6,
+          -0.05,
+          1.5802
+        ],
+        "rot": [
+          90,
+          0,
+          45
+        ],
+        "r": 0.3,
+        "teeth": 30,
+        "depth": 0.022,
+        "thick": 0.05,
+        "spokes": 5,
+        "hub": 0.05,
+        "step": 6,
+        "phase": 194.263
+      },
+      {
+        "name": "pinon_roto",
+        "at": [
+          -0.6,
+          -0.05,
+          1.2
+        ],
+        "rot": [
+          90,
+          0,
+          45
+        ],
+        "r": 0.1,
+        "teeth": 10,
+        "depth": 0.022,
+        "thick": 0.03,
+        "r_in": 0.06,
+        "spokes": 4,
+        "hub": 0.022,
+        "missing": [
+          3
+        ],
+        "phase": 167.812,
+        "axle": 0.06,
+        "color": "#8a6a3a"
+      },
+      {
+        "name": "pinon_corazon",
+        "at": [
+          -0.6,
+          -0.05,
+          1.2
+        ],
+        "rot": [
+          90,
+          0,
+          45
+        ],
+        "r": 0.1,
+        "teeth": 10,
+        "depth": 0.022,
+        "thick": 0.03,
+        "r_in": 0.06,
+        "spokes": 4,
+        "hub": 0.022,
+        "step": -18,
+        "phase": 167.812,
+        "ghost": true
+      }
+    ]
+  },
+  "relojero": {
+    "at": [
+      0,
+      0,
+      0
+    ],
+    "face": -90,
+    "corazon_mano": 62,
+    "pose": [
+      {
+        "frame": 1,
+        "cintura": [
+          8,
+          0,
+          0
+        ],
+        "cuello": [
+          25,
+          0,
+          0
+        ],
+        "muneca_i": [
+          0,
+          0,
+          0
+        ],
+        "hombro_d": [
+          0,
+          -6,
+          0
+        ],
+        "codo_d": [
+          -8,
+          0,
+          0
+        ],
+        "tapa": 0,
+        "ojo": 1.0,
+        "corazon": 1.0
+      },
+      {
+        "frame": 8,
+        "cuello": [
+          25,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 20,
+        "cintura": [
+          8,
+          0,
+          0
+        ],
+        "cuello": [
+          20,
+          0,
+          6
+        ]
+      },
+      {
+        "frame": 12,
+        "agarre": 0.0
+      },
+      {
+        "frame": 14,
+        "agarre": 1.0
+      },
+      {
+        "frame": 25,
+        "cintura": [
+          4,
+          0,
+          0
+        ],
+        "cuello": [
+          15,
+          0,
+          25
+        ]
+      },
+      {
+        "frame": 30,
+        "cintura": [
+          4,
+          0,
+          0
+        ],
+        "cuello": [
+          16,
+          0,
+          22
+        ]
+      },
+      {
+        "frame": 31,
+        "agarre": 1.0
+      },
+      {
+        "frame": 32,
+        "agarre": 0.0
+      },
+      {
+        "frame": 35,
+        "cintura": [
+          8,
+          0,
+          0
+        ],
+        "cuello": [
+          30,
+          0,
+          8
+        ]
+      },
+      {
+        "frame": 40,
+        "muneca_i": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 40,
+        "cintura": [
+          10,
+          0,
+          0
+        ],
+        "cuello": [
+          30,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 45,
+        "tapa": 0
+      },
+      {
+        "frame": 51,
+        "tapa": 120
+      },
+      {
+        "frame": 58,
+        "cintura": [
+          12,
+          0,
+          0
+        ],
+        "cuello": [
+          30,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 60,
+        "agarre": 0.0
+      },
+      {
+        "frame": 62,
+        "agarre": 1.0
+      },
+      {
+        "frame": 66,
+        "cintura": [
+          6,
+          0,
+          0
+        ],
+        "cuello": [
+          15,
+          0,
+          25
+        ]
+      },
+      {
+        "frame": 70,
+        "cintura": [
+          6,
+          0,
+          0
+        ],
+        "cuello": [
+          15,
+          0,
+          22
+        ]
+      },
+      {
+        "frame": 80,
+        "agarre": 1.0
+      },
+      {
+        "frame": 82,
+        "agarre": 0.0
+      },
+      {
+        "frame": 76,
+        "cintura": [
+          8,
+          0,
+          0
+        ],
+        "cuello": [
+          22,
+          0,
+          2
+        ]
+      },
+      {
+        "frame": 84,
+        "cintura": [
+          6,
+          0,
+          0
+        ],
+        "cuello": [
+          20,
+          0,
+          0
+        ],
+        "ojo": 1.0,
+        "muneca_i": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 86,
+        "ojo": 0.25
+      },
+      {
+        "frame": 87,
+        "ojo": 1.0
+      },
+      {
+        "frame": 89,
+        "ojo": 0.6
+      },
+      {
+        "frame": 90,
+        "ojo": 0.0
+      },
+      {
+        "frame": 92,
+        "ojo": 0.35
+      },
+      {
+        "frame": 93,
+        "ojo": 0.0
+      },
+      {
+        "frame": 96,
+        "cintura": [
+          14,
+          -8,
+          0
+        ],
+        "cuello": [
+          30,
+          0,
+          12
+        ],
+        "hombro_d": [
+          3,
+          -6,
+          0
+        ],
+        "codo_d": [
+          -5,
+          0,
+          0
+        ]
+      }
+    ],
+    "cast_shadow": false,
+    "corazon_reloj": {
+      "gear": "pinon_corazon",
+      "slide": [
+        76,
+        80
+      ],
+      "slide_m": 0.12,
+      "glow_gears": [
+        "rueda_escape"
+      ]
+    },
+    "ik_i": [
+      {
+        "frame": 1,
+        "rel": [
+          0.42,
+          -0.05,
+          0.45
+        ]
+      },
+      {
+        "frame": 8,
+        "rel": [
+          0.42,
+          -0.05,
+          0.45
+        ]
+      },
+      {
+        "frame": 12,
+        "to": [
+          -0.47,
+          -0.18,
+          1.2
+        ],
+        "pole": [
+          1.0,
+          -0.4,
+          -0.4
+        ],
+        "palm": [
+          -0.707,
+          0.707,
+          0
+        ]
+      },
+      {
+        "frame": 14,
+        "obj": "pinon_roto",
+        "off": [
+          0,
+          0,
+          0
+        ],
+        "pole": [
+          1.0,
+          -0.4,
+          -0.4
+        ],
+        "palm": [
+          -0.707,
+          0.707,
+          0
+        ]
+      },
+      {
+        "frame": 20,
+        "to": [
+          -0.416,
+          -0.234,
+          1.2
+        ],
+        "pole": [
+          1.0,
+          -0.4,
+          -0.4
+        ],
+        "palm": [
+          -0.707,
+          0.707,
+          0
+        ]
+      },
+      {
+        "frame": 25,
+        "rel": [
+          0.32,
+          -0.55,
+          1.22
+        ],
+        "pole": [
+          1.0,
+          -0.4,
+          -0.4
+        ],
+        "palm": [
+          0.5,
+          0.55,
+          0.65
+        ]
+      },
+      {
+        "frame": 30,
+        "rel": [
+          0.33,
+          -0.56,
+          1.2
+        ],
+        "pole": [
+          1.0,
+          -0.4,
+          -0.4
+        ],
+        "palm": [
+          0.5,
+          0.55,
+          0.65
+        ]
+      },
+      {
+        "frame": 32,
+        "rel": [
+          0.35,
+          -0.56,
+          1.14
+        ],
+        "pole": [
+          1.0,
+          -0.4,
+          -0.4
+        ],
+        "palm": [
+          0.5,
+          0.55,
+          0.65
+        ]
+      },
+      {
+        "frame": 34,
+        "rel": [
+          0.45,
+          -0.42,
+          1.05
+        ]
+      },
+      {
+        "frame": 40,
+        "rel": [
+          0.4,
+          -0.1,
+          0.6
+        ]
+      },
+      {
+        "frame": 44,
+        "obj": "tapa_perilla",
+        "off": [
+          0,
+          -0.08,
+          0.04
+        ],
+        "pole": [
+          1.0,
+          -0.4,
+          -0.4
+        ]
+      },
+      {
+        "frame": 45,
+        "obj": "tapa_perilla",
+        "off": [
+          0,
+          -0.08,
+          0.04
+        ],
+        "pole": [
+          1.0,
+          -0.4,
+          -0.4
+        ]
+      },
+      {
+        "frame": 49,
+        "obj": "tapa_perilla",
+        "off": [
+          0,
+          -0.08,
+          0.04
+        ],
+        "pole": [
+          1.0,
+          -0.4,
+          -0.4
+        ]
+      },
+      {
+        "frame": 51,
+        "rel": [
+          0.3,
+          -0.5,
+          0.95
+        ],
+        "pole": [
+          1.0,
+          -0.4,
+          -0.4
+        ]
+      },
+      {
+        "frame": 58,
+        "rel": [
+          0.25,
+          -0.55,
+          1.0
+        ],
+        "pole": [
+          1.0,
+          -0.4,
+          -0.4
+        ],
+        "palm": [
+          1,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 61,
+        "obj": "corazon",
+        "off": [
+          0,
+          0,
+          0
+        ],
+        "pole": [
+          1.0,
+          -0.4,
+          -0.4
+        ],
+        "palm": [
+          1,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 62,
+        "obj": "corazon",
+        "off": [
+          0,
+          0,
+          0
+        ],
+        "pole": [
+          1.0,
+          -0.4,
+          -0.4
+        ],
+        "palm": [
+          1,
+          0,
+          0
+        ]
+      },
+      {
+        "frame": 66,
+        "rel": [
+          0.32,
+          -0.55,
+          1.2
+        ],
+        "pole": [
+          1.0,
+          -0.4,
+          -0.4
+        ],
+        "palm": [
+          0.5,
+          0.55,
+          0.65
+        ]
+      },
+      {
+        "frame": 70,
+        "rel": [
+          0.33,
+          -0.56,
+          1.22
+        ],
+        "pole": [
+          1.0,
+          -0.4,
+          -0.4
+        ],
+        "palm": [
+          0.5,
+          0.55,
+          0.65
+        ]
+      },
+      {
+        "frame": 74,
+        "to": [
+          -0.45,
+          -0.2,
+          1.2
+        ],
+        "pole": [
+          1.0,
+          -0.4,
+          -0.4
+        ],
+        "palm": [
+          -0.707,
+          0.707,
+          0
+        ]
+      },
+      {
+        "frame": 76,
+        "obj": "corazon_reloj",
+        "pole": [
+          1.0,
+          -0.4,
+          -0.4
+        ],
+        "palm": [
+          -0.707,
+          0.707,
+          0
+        ]
+      },
+      {
+        "frame": 80,
+        "obj": "corazon_reloj",
+        "pole": [
+          1.0,
+          -0.4,
+          -0.4
+        ],
+        "palm": [
+          -0.707,
+          0.707,
+          0
+        ]
+      },
+      {
+        "frame": 84,
+        "rel": [
+          0.3,
+          -0.45,
+          1.0
+        ],
+        "pole": [
+          1.0,
+          -0.4,
+          -0.4
+        ]
+      },
+      {
+        "frame": 96,
+        "rel": [
+          0.42,
+          -0.08,
+          0.48
+        ]
+      }
+    ],
+    "corazon_sale": [
+      50,
+      53
+    ],
+    "pinon": {
+      "obj": "pinon_roto",
+      "grab": 14,
+      "drop": 32
+    }
+  },
+  "camera": {
+    "lens": 32,
+    "clip_end": 100,
+    "ease": true,
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          -0.35,
+          -2.45,
+          1.35
+        ],
+        "aim": [
+          -0.35,
+          -0.05,
+          1.3
+        ]
+      },
+      {
+        "frame": 39,
+        "pos": [
+          -0.35,
+          -2.25,
+          1.33
+        ],
+        "aim": [
+          -0.35,
+          -0.05,
+          1.28
+        ]
+      }
+    ]
+  },
+  "post": {
+    "rain": null,
+    "glow": {
+      "threshold": 0.9
+    }
+  },
+  "perf": {
+    "shadow_resolution_scale": 1.0
+  },
+  "colision_ok": [
+    [
+      "pinon_roto",
+      "pinon_roto_eje"
+    ],
+    [
+      "corazon_reloj",
+      "pinon_roto_eje"
+    ],
+    [
+      "corazon",
+      "corazon_eje"
+    ],
+    [
+      "corazon_eje",
+      "pecho_hueco"
+    ],
+    [
+      "corazon_mano",
+      "corazon_eje"
+    ],
+    [
+      "tapa_bisagra",
+      "pecho_aro"
+    ],
+    [
+      "tapa_bisagra",
+      "torso"
+    ],
+    [
+      "tapa_bisagra",
+      "tapa_disco"
+    ],
+    [
+      "rueda_escape",
+      "pinon_roto"
+    ],
+    [
+      "rueda_escape",
+      "corazon_reloj"
+    ],
+    [
+      "pinon_roto_mano",
+      "pinon_roto_eje"
+    ],
+    [
+      "pinon_roto_mano",
+      "rueda_escape"
+    ]
+  ],
+  "render_frames": [
+    1,
+    39
+  ]
+}
