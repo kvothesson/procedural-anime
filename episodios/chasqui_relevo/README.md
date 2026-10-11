@@ -6,6 +6,8 @@ una luz que sale de una apacheta en los Andes, cruza el puente de soga, corre el
 encendiendo los tambos, atraviesa el Pacífico y llega a un callejón de Tokio. La respuesta
 vuelve por el mismo camino. Loop exacto.
 
+Publicado el 2026-10-11: https://youtube.com/shorts/FaAWaL6D5Vg
+
 **Las voces y los subtítulos son la salida real de chasqui** (no actuada ni corregida): ver
 `voz/`. Hielo = español, violeta = japonés, los mismos colores de la app.
 
