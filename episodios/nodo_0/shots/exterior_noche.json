@@ -1,0 +1,78 @@
+{
+  "_desc": "Exterior de noche: la Puna bajo las estrellas, el cerro en silueta con las balizas rojas de las antenas y el galpon latiendo en ambar (el nodo estabilizado). 01 y 10 heredan de aca; el ultimo cuadro del 10 es el primero del 01 (loop).",
+  "extends": "exterior_base.json",
+  "sky": {
+    "horizon": "#1c2244",
+    "top": "#050d1f",
+    "ambient": "#1b2340",
+    "ambient_strength": 0.6,
+    "zenith_at": 0.4
+  },
+  "estrellas": {
+    "scale": 90,
+    "size": 0.08,
+    "density": 0.5,
+    "strength": 1.4
+  },
+  "fog": {
+    "color": "#141a33",
+    "dist": 700.0
+  },
+  "toon": {
+    "steps": [
+      [
+        0.0,
+        0.08
+      ],
+      [
+        0.02,
+        0.22
+      ],
+      [
+        0.25,
+        0.55
+      ],
+      [
+        0.6,
+        0.85
+      ]
+    ]
+  },
+  "lights": [
+    {
+      "kind": "SUN",
+      "color": "#8fa6d8",
+      "energy": 0.5,
+      "rot": [
+        55,
+        0,
+        140
+      ],
+      "angle": 0.5
+    }
+  ],
+  "cerro": {
+    "balizas": {
+      "periodo": 24,
+      "fase": 0
+    }
+  },
+  "resplandor": {
+    "latido": {
+      "desde": 6,
+      "bpm": 60,
+      "base": 0.55
+    }
+  },
+  "post": {
+    "glow": {
+      "threshold": 0.5
+    }
+  },
+  "puna": {
+    "color": "#5e4a3c",
+    "mancha": "#4d3d33",
+    "piedra": "#3e332c",
+    "ichu_color": "#7d6a48"
+  }
+}

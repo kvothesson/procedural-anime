@@ -1,0 +1,124 @@
+{
+  "_desc": "Interior del galpon ferroviario de San Antonio de los Cobres a la tarde: el sol entra por la brecha del faldon izquierdo y pega en el muro derecho (x=5). La radio de cobre contra ese muro. Los planos de adentro heredan de aca.",
+  "width": 1080,
+  "height": 1920,
+  "fps": 12,
+  "frames": 72,
+  "samples": 8,
+  "sky": {
+    "horizon": "#f2cfa4",
+    "top": "#5f93cf",
+    "ambient": "#33284a",
+    "ambient_strength": 0.38,
+    "zenith_at": 0.6
+  },
+  "fog": {
+    "color": "#2b2230",
+    "dist": 70.0
+  },
+  "toon": {
+    "steps": [
+      [
+        0.0,
+        0.1
+      ],
+      [
+        0.02,
+        0.27
+      ],
+      [
+        0.22,
+        0.68
+      ],
+      [
+        0.5,
+        1.0
+      ]
+    ]
+  },
+  "lights": [
+    {
+      "kind": "SUN",
+      "color": "#ffb46b",
+      "energy": 4.0,
+      "rot": [
+        62,
+        0,
+        -120
+      ],
+      "angle": 0.6
+    }
+  ],
+  "line": {
+    "color": "#0d0b24",
+    "radius": 0.011,
+    "crease_deg": 120
+  },
+  "galpon": {
+    "ancho": 10,
+    "largo": 20,
+    "alto": 7,
+    "cumbrera": 9.5,
+    "brecha": [
+      -6,
+      5
+    ],
+    "cerchas": 2.5,
+    "oxido": "#6e4636",
+    "piso_mancha": "#5c4c42"
+  },
+  "polvo": {
+    "n": 500,
+    "n_esporas": 70
+  },
+  "radio": {
+    "at": [
+      3.2,
+      0,
+      0
+    ],
+    "face": -90,
+    "muro": 1.8,
+    "erratico": [
+      1,
+      72
+    ]
+  },
+  "camera": {
+    "lens": 22,
+    "from": [
+      -2.0,
+      -4.2,
+      1.0
+    ],
+    "from_aim": [
+      5,
+      0.8,
+      3.2
+    ],
+    "to": [
+      -2.0,
+      -4.2,
+      1.0
+    ],
+    "to_aim": [
+      5,
+      0.8,
+      3.2
+    ]
+  },
+  "post": {
+    "rain": false,
+    "glow": {
+      "threshold": 0.62
+    },
+    "vignette": 0.34
+  },
+  "poste": {
+    "at": [
+      4.55,
+      -2.6,
+      0
+    ]
+  }
+}

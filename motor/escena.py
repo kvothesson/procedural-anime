@@ -26,6 +26,7 @@ import sys
 from pathlib import Path
 
 import bpy
+from mathutils import Vector
 
 MOTOR = Path(__file__).resolve().parent
 sys.path.insert(0, str(MOTOR))
@@ -129,6 +130,70 @@ def episode_pieces(shot_path):
     return list(getattr(mod, "PIEZAS", []))
 
 
+def write_anclas(cfg, scene, out):
+    """Rectangulos en pantalla (0..1, y hacia abajo) de los objetos marcados
+    con ob["ancla"], frame por frame, en <salida>/anclas.json. El post deja
+    esos rectangulos sin glitch ni datamosh (en el canon, el glitch del mundo
+    no toca a los personajes ancla). Solo si el plano tiene glitch o datamosh."""
+    import json
+    from bpy_extras.object_utils import world_to_camera_view
+    post = cfg.get("post", {})
+    roots = [ob for ob in bpy.data.objects if ob.get("ancla")]
+    if not roots or not (post.get("glitch") or post.get("datamosh")):
+        return
+    frames = cfg.get("render_list") or range(scene.frame_start, scene.frame_end + 1)
+    # Line Art se recalcula en cada frame_set: apagarlo mientras se mide
+    mods = [m for ob in bpy.data.objects if ob.type in ("GREASEPENCIL", "GPENCIL")
+            for m in ob.modifiers if m.show_viewport]
+    for m in mods:
+        m.show_viewport = False
+    data = {}
+    for f in frames:
+        scene.frame_set(f)
+        rects = []
+        for r in roots:
+            xs, ys = [], []
+            for ob in [r] + list(r.children_recursive):
+                if ob.type != "MESH":
+                    continue
+                for c in ob.bound_box:
+                    v = world_to_camera_view(scene, scene.camera, ob.matrix_world @ Vector(c))
+                    if v.z > 0:
+                        xs.append(v.x)
+                        ys.append(1 - v.y)
+            if xs:
+                rects.append([min(xs) - 0.01, min(ys) - 0.01, max(xs) + 0.01, max(ys) + 0.01])
+        data[str(f)] = rects
+    for m in mods:
+        m.show_viewport = True
+    scene.frame_set(scene.frame_start)
+    (out / "anclas.json").write_text(json.dumps(data), encoding="utf-8")
+
+
+def render_mascaras(cfg, scene, out):
+    """Segunda pasada, solo con los anclas (ob["ancla"] y sus hijos) sobre
+    fondo transparente: <salida>/m_####.png. El alfa es la mascara exacta que
+    usa el post para dejar a los anclas fuera de un efecto que tine todo el
+    cuadro (congelar): con el rectangulo de anclas.json se veria la caja."""
+    keep = set()
+    for r in (ob for ob in bpy.data.objects if ob.get("ancla")):
+        keep.add(r)
+        keep.update(r.children_recursive)
+    for ob in bpy.data.objects:
+        if ob.type != "LIGHT" and ob not in keep:
+            ob.hide_render = True
+    scene.render.film_transparent = True
+    scene.render.image_settings.color_mode = "RGBA"
+    if cfg.get("render_list"):
+        for f in cfg["render_list"]:
+            scene.frame_set(f)
+            scene.render.filepath = str(out) + f"/m_{f:04d}.png"
+            bpy.ops.render.render(write_still=True)
+    else:
+        scene.render.filepath = str(out) + "/m_"
+        bpy.ops.render.render(animation=True)
+
+
 def main():
     argv = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
     cfg = load_shot(argv[0])
@@ -175,6 +240,7 @@ def main():
         return      # colision.py y otros chequeos: solo la escena
 
     out.mkdir(parents=True, exist_ok=True)
+    write_anclas(cfg, scene, out.resolve())
     if cfg.get("still"):
         # escena 3D quieta (todo el movimiento lo pone el post): un render y copias
         scene.frame_set(1)
@@ -192,6 +258,8 @@ def main():
     else:
         scene.render.filepath = str(out.resolve()) + "/f_"
         bpy.ops.render.render(animation=True)
+    if cfg.get("mascara_anclas") and not cfg.get("still"):
+        render_mascaras(cfg, scene, out.resolve())
     print("render terminado", flush=True)
 
 

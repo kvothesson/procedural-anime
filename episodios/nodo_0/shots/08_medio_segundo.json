@@ -1,0 +1,225 @@
+{
+  "_desc": "08 - El medio segundo. El tiempo se detiene (el mundo pierde el color; Nyx no). Nyx abre las alas, tira un segundo cable de la mochila a la abrazadera del poste de quebracho y la energia corre: tablero -> Nyx -> poste -> tierra. Arco y grietas de luz en el piso.",
+  "extends": "06_sombra.json",
+  "frames": 60,
+  "mascara_anclas": true,
+  "torre": {
+    "escala": [
+      [
+        1,
+        1.0
+      ]
+    ]
+  },
+  "radio": {
+    "erratico": null
+  },
+  "polvo": {
+    "quieto": true
+  },
+  "nyx": {
+    "keys": [
+      [
+        1,
+        [
+          2.0,
+          -1.0,
+          1.65
+        ],
+        -95,
+        0.45
+      ],
+      [
+        5,
+        [
+          2.0,
+          -1.0,
+          1.65
+        ],
+        -95,
+        0.95
+      ],
+      [
+        60,
+        [
+          2.0,
+          -1.0,
+          1.65
+        ],
+        -95,
+        0.9
+      ]
+    ],
+    "lente": [
+      [
+        1,
+        1.0
+      ],
+      [
+        3,
+        0.2
+      ],
+      [
+        4,
+        1.0
+      ]
+    ],
+    "cable2": {
+      "crece": [
+        8,
+        20
+      ],
+      "comba": 0.35
+    },
+    "venas": [
+      [
+        1,
+        0.0
+      ],
+      [
+        20,
+        0.0
+      ],
+      [
+        22,
+        1.0
+      ],
+      [
+        40,
+        1.0
+      ],
+      [
+        46,
+        0.5
+      ],
+      [
+        60,
+        0.3
+      ]
+    ]
+  },
+  "pulsos": [
+    {
+      "ruta": "cable",
+      "de": 20,
+      "a": 28,
+      "n": 3
+    },
+    {
+      "ruta": "cable2",
+      "de": 28,
+      "a": 38,
+      "n": 3
+    },
+    {
+      "ruta": "tierra",
+      "de": 38,
+      "a": 43,
+      "n": 3
+    }
+  ],
+  "descarga": {
+    "frame": 44
+  },
+  "camera": {
+    "lens": 28,
+    "ease": true,
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          0.6,
+          -1.6,
+          1.45
+        ],
+        "aim": [
+          2.0,
+          -1.0,
+          1.6
+        ]
+      },
+      {
+        "frame": 22,
+        "pos": [
+          0.6,
+          -1.65,
+          1.45
+        ],
+        "aim": [
+          2.05,
+          -1.05,
+          1.55
+        ]
+      },
+      {
+        "frame": 36,
+        "pos": [
+          0.55,
+          -1.8,
+          1.4
+        ],
+        "aim": [
+          3.6,
+          -2.2,
+          1.0
+        ]
+      },
+      {
+        "frame": 46,
+        "pos": [
+          0.55,
+          -1.85,
+          1.35
+        ],
+        "aim": [
+          4.2,
+          -2.5,
+          1.0
+        ]
+      },
+      {
+        "frame": 60,
+        "pos": [
+          0.6,
+          -1.85,
+          1.3
+        ],
+        "aim": [
+          4.2,
+          -2.5,
+          1.0
+        ]
+      }
+    ]
+  },
+  "post": {
+    "datamosh": [],
+    "glitch": [
+      [
+        44,
+        44,
+        0.5
+      ]
+    ],
+    "congelar": {
+      "keys": [
+        [
+          1,
+          0.0
+        ],
+        [
+          3,
+          1.0
+        ],
+        [
+          56,
+          1.0
+        ],
+        [
+          60,
+          0.0
+        ]
+      ]
+    }
+  }
+}

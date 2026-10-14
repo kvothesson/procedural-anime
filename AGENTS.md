@@ -16,6 +16,7 @@ rendimiento, sonido y criterio de dirección).
 | Archivo | Para qué |
 |---|---|
 | [docs/PRODUCCION.md](docs/PRODUCCION.md) | **Todo lo aprendido**: look, reflejos, animación, post, rendimiento, trampas de Blender 5.2, sonido, criterio de dirección |
+| [docs/AUSTRAL.md](docs/AUSTRAL.md) | Canon de la serie UNIVERSO AUSTRAL (el mundo, el Verbo, Rendous, reglas, personajes) |
 | [motor/escena.py](motor/escena.py) | Entrada de Blender: lee el JSON, arma las piezas en orden (`PIEZAS`) y renderiza |
 | [motor/piezas/](motor/piezas) | Las piezas: `base` (utilidades), `materiales`, `mundo` (cielo, luces, reflejo, tinta, cámara, render), `ciudad`, `plaza`, `obelisco`, `eventos` (apagón, destello), `colectivo`, `espacio`, `despiece` |
 | [motor/piezas/mecanica.py](motor/piezas/mecanica.py) | Engranajes: dientes reales, tics, trabas, forcejeo, giro libre, ejes, diente que salta |

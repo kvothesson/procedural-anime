@@ -1,0 +1,17 @@
+{
+  "name": "nodo_0",
+  "fps_unique": 12,
+  "fps_out": 24,
+  "shots": [
+    "01_horizonte",
+    "02_llegada",
+    "03_galpon",
+    "04_mapa",
+    "05_conexion",
+    "06_sombra",
+    "07_orden",
+    "08_medio_segundo",
+    "09_luz_mala",
+    "10_salida"
+  ]
+}

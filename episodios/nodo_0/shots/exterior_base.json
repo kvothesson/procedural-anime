@@ -1,0 +1,146 @@
+{
+  "_desc": "Exterior de San Antonio de los Cobres a la tarde: la Puna, la via del C14 con la linea de telegrafo, el galpon con la brecha, el pueblo y el cerro de las antenas (foto de referencia). 02 hereda de aca; 01 y 10 de exterior_noche.",
+  "width": 1080,
+  "height": 1920,
+  "fps": 12,
+  "frames": 60,
+  "samples": 8,
+  "sky": {
+    "horizon": "#f3d2a8",
+    "top": "#6a9fd8",
+    "ambient": "#4a5878",
+    "ambient_strength": 0.8,
+    "zenith_at": 0.45
+  },
+  "fog": {
+    "color": "#d4c1ad",
+    "dist": 900.0
+  },
+  "toon": {
+    "steps": [
+      [
+        0.0,
+        0.3
+      ],
+      [
+        0.1,
+        0.62
+      ],
+      [
+        0.4,
+        1.0
+      ]
+    ]
+  },
+  "lights": [
+    {
+      "kind": "SUN",
+      "color": "#ffc58a",
+      "energy": 3.5,
+      "rot": [
+        64,
+        0,
+        -115
+      ],
+      "angle": 0.8
+    }
+  ],
+  "line": {
+    "color": "#0d0b24",
+    "radius": 0.03,
+    "crease_deg": 120
+  },
+  "puna": {},
+  "cerro": {
+    "lomas": [
+      [
+        240,
+        170,
+        130,
+        120,
+        70
+      ],
+      [
+        300,
+        250,
+        95,
+        90,
+        60
+      ],
+      [
+        170,
+        90,
+        50,
+        45,
+        110
+      ],
+      [
+        210,
+        40,
+        40,
+        60,
+        50
+      ]
+    ],
+    "antenas": 4
+  },
+  "pueblo": {
+    "zona": [
+      18,
+      75,
+      -30,
+      120
+    ]
+  },
+  "via": {},
+  "galpon": {
+    "ancho": 10,
+    "largo": 20,
+    "alto": 7,
+    "cumbrera": 9.5,
+    "brecha": [
+      -6,
+      5
+    ],
+    "cerchas": 2.5,
+    "haz": false
+  },
+  "poste": {
+    "at": [
+      4.55,
+      -2.6,
+      0
+    ]
+  },
+  "camera": {
+    "lens": 24,
+    "clip_end": 1500,
+    "from": [
+      -28,
+      -26,
+      1.6
+    ],
+    "from_aim": [
+      0,
+      0,
+      6
+    ],
+    "to": [
+      -28,
+      -26,
+      1.6
+    ],
+    "to_aim": [
+      0,
+      0,
+      6
+    ]
+  },
+  "post": {
+    "rain": false,
+    "glow": {
+      "threshold": 0.95
+    },
+    "vignette": 0.3
+  }
+}

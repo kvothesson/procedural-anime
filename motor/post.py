@@ -8,7 +8,7 @@ post.py - Composicion anime sobre los frames crudos de Blender.
 El render 3D es lo unico caro. Todo lo de aca tarda segundos, asi que probar
 brillo, lluvia o grano NUNCA requiere volver a renderizar.
 
-Orden: ondas -> brillo (solo lo que emite) -> lluvia -> lineas de velocidad ->
+Orden: ondas -> datamosh -> brillo (solo lo que emite) -> lluvia -> lineas de velocidad ->
 glitch -> aberracion -> vineta -> textos ("textos", ver textos.py) -> grano.
 Nada aleatorio por frame: la lluvia es una lista fija de gotas que se mueve
 con el tiempo, y el grano cicla entre 3 patrones fijos.
@@ -129,6 +129,89 @@ def glitch(img, f, amt, seed=404):
     out[..., 0] = np.roll(out[..., 0], sh, axis=1)
     out[..., 2] = np.roll(out[..., 2], -sh, axis=1)
     return out
+
+
+def datamosh(img, i, raw_dir, D, w, h):
+    """Datamosh: como un video al que se le perdio el cuadro clave. La imagen
+    vieja (el cuadro anterior a f0) se arrastra con el movimiento del cuadro
+    actual, en macrobloques; algunos bloques "sangran" hacia abajo. Los bloques
+    se van resolviendo (llega el cuadro clave) hacia el final del tramo.
+    D: [f0, f1, amt]. Sin estado: cada frame lee el cuadro clave del disco."""
+    f0, f1, amt = D
+    key_path = raw_dir / f"f_{max(1, f0 - 1):04d}.png"
+    key = cv2.imread(str(key_path))
+    if key is None:
+        return img
+    if key.shape[1] != w:
+        key = cv2.resize(key, (w, h), interpolation=cv2.INTER_LANCZOS4)
+    key = cv2.cvtColor(key, cv2.COLOR_BGR2RGB).astype(np.float32) / 255.0
+    B = int(24 * w / 1080)
+    s = 4
+    g_cur = cv2.cvtColor((img * 255).astype(np.uint8), cv2.COLOR_RGB2GRAY)[::s, ::s]
+    g_key = cv2.cvtColor((key * 255).astype(np.uint8), cv2.COLOR_RGB2GRAY)[::s, ::s]
+    flow = cv2.calcOpticalFlowFarneback(g_cur, g_key, None, 0.5, 3, 15, 3, 5, 1.2, 0) * s
+    bw, bh = w // B, h // B
+    blk = cv2.resize(flow, (bw, bh), interpolation=cv2.INTER_AREA) * (1 + 2 * amt)
+    rnd = np.random.default_rng(404 + f0)
+    resolve = rnd.random((bh, bw))
+    bleed = (rnd.random((bh, bw)) < 0.12 * amt) * rnd.uniform(4, 14, (bh, bw)) * (i - f0 + 1) * w / 1080
+    blk[..., 1] -= bleed
+    big = cv2.resize(blk, (bw * B, bh * B), interpolation=cv2.INTER_NEAREST)
+    big = cv2.copyMakeBorder(big, 0, h - bh * B, 0, w - bw * B, cv2.BORDER_REPLICATE)
+    yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
+    warped = cv2.remap(key, xx + big[..., 0], yy + big[..., 1], cv2.INTER_NEAREST,
+                       borderMode=cv2.BORDER_REFLECT)
+    # cuanto del cuadro sigue "moshed": todo al principio, nada al final
+    p = amt * (1 - (i - f0) / max(1, f1 - f0 + 1)) ** 0.6
+    m = cv2.resize((resolve < p).astype(np.float32), (bw * B, bh * B), interpolation=cv2.INTER_NEAREST)
+    m = cv2.copyMakeBorder(m, 0, h - bh * B, 0, w - bw * B, cv2.BORDER_REPLICATE)[..., None]
+    return img * (1 - m) + warped * m
+
+
+def anclas(raw_dir, i, w, h):
+    """Rectangulos en pixeles de los personajes ancla en el frame i (los
+    escribe escena.py en render/<plano>/anclas.json)."""
+    cache = _W.setdefault("anclas", {})
+    if raw_dir not in cache:
+        import json
+        p = raw_dir / "anclas.json"
+        cache[raw_dir] = json.loads(p.read_text(encoding="utf-8")) if p.exists() else {}
+    return [(max(0, int(x0 * w)), max(0, int(y0 * h)), min(w, int(x1 * w)), min(h, int(y1 * h)))
+            for x0, y0, x1, y1 in cache[raw_dir].get(str(i), [])]
+
+
+def mascara(raw_dir, i, w, h):
+    """Alfa de los anclas (m_####.png, de escena.py con "mascara_anclas"), un
+    poco dilatado para que entre la tinta del contorno. None si no hay."""
+    path = raw_dir / f"m_{i:04d}.png"
+    if not path.exists():
+        return None
+    m = cv2.imread(str(path), cv2.IMREAD_UNCHANGED)
+    if m is None or m.ndim < 3 or m.shape[2] < 4:
+        return None
+    a = m[..., 3]
+    if a.shape[1] != w:
+        a = cv2.resize(a, (w, h), interpolation=cv2.INTER_LINEAR)
+    k = max(3, int(5 * w / 1080)) | 1
+    a = cv2.dilate(a, np.ones((k, k), np.uint8))
+    return (a.astype(np.float32) / 255.0)[..., None]
+
+
+def keep(img, clean, rects, mask=None):
+    """El glitch no toca a los anclas: se restaura su mascara exacta si la hay
+    y si no, su rectangulo."""
+    if mask is not None:
+        return img * (1 - mask) + clean * mask
+    for x0, y0, x1, y1 in rects:
+        img[y0:y1, x0:x1] = clean[y0:y1, x0:x1]
+    return img
+
+
+def congelar(img, a, tint):
+    """El tiempo detenido: el mundo pierde el color, se enfria y baja un poco."""
+    lum = img @ np.array([0.299, 0.587, 0.114], np.float32)
+    cold = lum[..., None] * np.array(tint, np.float32) * 0.85
+    return img * (1 - a) + cold * a
 
 
 class Ripples:
@@ -310,14 +393,25 @@ def _frame(f):
     if _W["ripples"]:
         # antes del brillo: la onda deforma el reflejo y su halo la acompana
         img = _W["ripples"].apply(img, i)
+    rects = anclas(f.parent, i, w, h)
+    mask = mascara(f.parent, i, w, h)
+    for D in P.get("datamosh", []):
+        if D[0] <= i <= D[1]:
+            img = keep(datamosh(img, i, f.parent, D, w, h), img, rects, mask)
     img = glow(img, P["glow"])
+    C = P.get("congelar")
+    if C:
+        # [[frame, intensidad], ...]: el mundo detenido; los anclas, a color
+        a = keyed(C["keys"], i, 0.0)
+        if a > 0:
+            img = keep(congelar(img, a, hex_rgb(C.get("tint", "#b4c6e8"))), img, rects, mask)
     if _W["rain"]:
         img = _W["rain"].draw(img, t, keyed(P.get("rain_dim"), i))
     if P.get("speedlines"):
         img = speedlines(img, i, P["speedlines"], w, h)
     for g0, g1, ga in P.get("glitch", []):
         if g0 <= i <= g1:
-            img = glitch(img, i, ga)
+            img = keep(glitch(img, i, ga), img, rects, mask)
     img = aberration(img, P["aberration"])
     img = img * _W["vig"]
     if P.get("textos"):

@@ -122,6 +122,7 @@ def build_camera(c):
     cam_data.sensor_fit = "VERTICAL"
     cam_data.sensor_height = 36.0
     cam_data.clip_end = c.get("clip_end", 500)
+    cam_data.clip_start = c.get("clip_start", 0.1)
     cam = bpy.data.objects.new("cam", cam_data)
     link(cam)
     target = bpy.data.objects.new("mira", None)

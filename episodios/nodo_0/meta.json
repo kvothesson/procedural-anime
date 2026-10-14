@@ -1,0 +1,29 @@
+{
+  "titulo_youtube": "NODO 0: el dron que no quiso borrar la radio 🇦🇷📻",
+  "descripcion_youtube": "En San Antonio de los Cobres, una vieja radio de cobre quedó soñando con una transmisión de AM.\nAegis manda borrarla. Nyx, que siempre llega medio segundo tarde, esta vez usa ese medio segundo.\nLa descarga a tierra por un poste de quebracho, y el nodo no se borra: se vuelve luz mala en la Ruta 404.\n\n🔁 Este video loopea. El final es el principio.\n\nHecho 100% con código: Blender + Python. Sin IA generativa de imagen ni samples de audio; el bandoneón y la radio son síntesis.\n\n━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Universo Austral: Argentina después de la singularidad, donde el folklore guarda los datos.",
+  "tags": [
+    "kvothesson",
+    "shorts",
+    "anime",
+    "cyberpunk",
+    "argentina",
+    "san antonio de los cobres",
+    "puna",
+    "salta",
+    "luz mala",
+    "drones",
+    "blender",
+    "universo austral"
+  ],
+  "categoria": "1",
+  "idioma": "es",
+  "privacidad": "public",
+  "video_final": "out/nodo_0.mp4",
+  "duracion_segundos": 54,
+  "resolucion": "1080x1920",
+  "fps": 24,
+  "herramientas": "Blender 5.2 (EEVEE, Line Art) + Python (PIL, numpy, scipy, OpenCV) + ffmpeg",
+  "youtube_id": "sTA8PN0z2HE",
+  "youtube_url": "https://youtube.com/shorts/sTA8PN0z2HE",
+  "fecha_publicacion": "2026-10-13T23:55:51Z"
+}

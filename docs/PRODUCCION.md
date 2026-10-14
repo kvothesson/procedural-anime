@@ -202,6 +202,11 @@ banda, campanas inarmónicas, pads desafinados, reverb por convolución con IR g
 - **Planos con `render_frames`** (una accion repartida en varias camaras) duran lo que se
   renderiza, no `frames`; los eventos se anclan al frame de la escena.
 - Instrumentos de otro episodio: se importan de su `banda.py` (importlib) sin tocarlo.
+- **Silencio que corta en seco:** si la imagen se desatura en dos cuadros, el sonido igual se corta
+  en el primer cuadro del plano. Copiando la rampa de la imagen, el "silencio" medía -23 dB.
+  Medir el pico del tramo, no solo el RMS (en nodo_0 quedó en 0,0).
+- **Lo que suena dentro de un silencio va en otro bus,** que se suma después de la máscara (el de Nyx
+  en el 08). Así la máscara también corta las colas de reverb del resto.
 
 ## 8. Criterio de dirección (lecciones de las correcciones)
 
@@ -274,6 +279,61 @@ Salieron de cada vez que quien dirigía miró un frame y dijo "esto no". Pesan t
 - La traducción simultánea se superpone al original: original a la izquierda y traducción a
   la derecha, el original baja cuando entra la traducción, la música se corre debajo de las
   voces.
+
+## 11. Sombras que cuentan algo (aprendido en nodo_0)
+
+- **Un objeto que solo existe en la sombra:** `visible_camera = False` (y diffuse/glossy en
+  False) y en una colección con Line Art `EXCLUDE`, o la tinta lo dibuja igual. Proyecta sombra
+  con el sol como cualquier otro. Aparece a saltos con claves de escala CONSTANT (de 0,001,
+  no 0) sincronizadas con el glitch del post.
+- **Una sombra solo se ve donde hay luz.** Para que una sombra de 7 m entre en un muro, el muro
+  tiene que estar iluminado hasta esa altura: se calcula con la pendiente del rayo
+  (tan(elevación)/cos(azimut)) desde el borde que tapa (alero, cumbrera). Por eso el galpón de
+  nodo_0 tiene 7 m de muro y la brecha en el faldón del lado del sol.
+- **Las sombras de la estructura compiten.** Las cerchas y correas sobre el muro iluminado
+  son lindas, pero tapaban la silueta de la torre: en ese plano la estructura va con
+  `visible_shadow = False` (`galpon.sombra_estructura`). La pantalla tiene que estar limpia.
+- **Correr la sombra del objeto que la "proyecta":** con el sol casi detrás de la cámara la
+  sombra cae justo detrás del objeto y él la tapa. El azimut del sol se elige para que la
+  sombra caiga al costado, sobre una parte del muro que se vea.
+- Manchas de óxido por ruido con umbral: con escala baja y alto contraste salen formas que
+  parecen letras. Escala más alta, umbral más alto y un óxido apagado.
+- **Datamosh** (`post.datamosh: [[f0, f1, amt]]`): el cuadro anterior a f0 se arrastra en
+  macrobloques con el flujo óptico del cuadro actual (Farneback a 1/4), algunos bloques sangran
+  hacia abajo, y los bloques se resuelven hacia f1. Sin estado: cada frame lee el cuadro clave
+  del disco, así sigue andando con el post en paralelo. Con `--frames` no hay cuadro clave y
+  no se aplica: probarlo con el plano entero.
+- **Anclas:** un objeto con `ob["ancla"] = True` (los drones de nodo_0) no
+  recibe glitch ni datamosh. `escena.py` proyecta a pantalla la caja de sus mallas en cada
+  frame (`render/<plano>/anclas.json`, con Line Art apagado mientras mide) y el post restaura
+  esos rectángulos. Solo se calcula si el plano tiene glitch o datamosh.
+- **Personajes de caja con luz analítica** (`mat_dron`): con el cel de la escena, las sombras
+  de las cerchas manchaban a los drones y el rojo poncho salía bordó. Lambert contra la
+  dirección del sol del plano, sombra violeta, brillo en caras de frente al sol y filo cálido
+  en el contorno. `luz` (0..1) los apaga si están en la penumbra.
+- **Máscara exacta de los anclas** (`"mascara_anclas": true`): después del render, una segunda
+  pasada solo con los anclas sobre fondo transparente (`m_####.png`). El post la usa (dilatada
+  unos px para que entre la tinta) en lugar del rectángulo. Hace falta cuando el efecto tiñe todo
+  el cuadro: con el rectángulo, el borde de la caja se ve. Cuesta poco: los anclas son pocos objetos.
+- **Tiempo congelado** (`post.congelar: {"keys": [[frame, 0..1]], "tint"}`): el mundo pierde el
+  color y se enfría; los anclas (el que actúa, sus cables, sus pulsos) siguen a color. En la
+  escena, lo que se detiene se detiene de verdad: polvo con `quieto`, radio sin titilar.
+- **Un HUD translúcido tapa la tinta de lo que tiene detrás** solo si su placa está en una
+  subcolección de `main` con Line Art `OCCLUSION_ONLY`. Si va en `velo`, las líneas de las cerchas
+  lo atraviesan.
+- **Un HUD que mira siempre a cámara:** TRACK_TO hacia un vacío en la posición de la cámara. Pegado
+  al dron, desde un contrapicado se leía torcido y chico.
+- **La lámina de `--frames` no pasa por el post:** el datamosh y el congelado se juzgan con el
+  plano entero.
+- **Exterior de día:** con cielo claro, `glow.threshold` 0.95. A 0.7 el cielo florecía y todo
+  el cuadro salía lavado.
+- **Un halo de luz no se hace con una esfera translúcida** (salió como un huevo amarillo opaco),
+  ni con un haz que sube contra el cielo de noche (se lee como una losa marrón). Lo emisivo +
+  el brillo del post + una luz puntual sin sombra que tiña el piso alrededor alcanzan.
+- **Antes de poner la cámara lejos, medir el terreno ahí:** a 190 m la estepa ya ondulaba y la
+  cámara del plano final quedó enterrada (el cuadro salió dado vuelta).
+- **Latido con claves de power:** base en f-1, golpe en f, base en f+3. Con solo golpe y base
+  la luz subía en rampa entre latido y latido.
 
 ## 9. Publicar
 
