@@ -1,0 +1,35 @@
+{
+  "titulo_youtube": "DUENDE ROJO: tres milisegundos sobre el Uritorco 🇦🇷🔴",
+  "descripcion_youtube": "Capilla del Monte, tres de la mañana. Sobre una tormenta a 150 km, en el cielo despejado, aparece un duende rojo: dura tres milisegundos.\nNyx, el dron que siempre llega medio segundo tarde, lo intenta ver y no llega. Hasta que deja de mirar y aprende a escuchar la tormenta.\n\nLos duendes rojos (red sprites) son reales: descargas a 50-90 km de altura sobre tormentas grandes, rojas por el nitrógeno, que casi nunca salen solas. El rayo que los dispara se escucha en radio (VLF) milisegundos antes; la banda está hecha con esos sonidos, sintetizados.\n\n🔁 Este video loopea. El final es el principio.\n\nHecho 100% con código: Blender + Python. Sin IA generativa de imagen ni samples de audio.\n\n━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Universo Austral: Argentina después de la singularidad, donde el folklore guarda los datos.",
+  "tags": [
+    "kvothesson",
+    "shorts",
+    "anime",
+    "duende rojo",
+    "red sprite",
+    "capilla del monte",
+    "uritorco",
+    "cordoba",
+    "argentina",
+    "tormenta",
+    "blender",
+    "universo austral"
+  ],
+  "categoria": "1",
+  "idioma": "es",
+  "privacidad": "public",
+  "video_final": "out/duende_rojo.mp4",
+  "duracion_segundos": 54,
+  "resolucion": "1080x1920",
+  "fps": 24,
+  "herramientas": "Blender 5.2 (EEVEE, Line Art) + Python (PIL, numpy, scipy, OpenCV) + ffmpeg",
+  "version_anterior": {
+    "youtube_id": "eHhggV9obnA",
+    "youtube_url": "https://youtube.com/shorts/eHhggV9obnA",
+    "fecha_publicacion": "2026-10-14T03:24:31Z",
+    "nota": "primera version: corte con salto entre el 07 y el 08 (jump cut, luz y cadencia distintas)"
+  },
+  "youtube_id": "iDcbv5TqnJE",
+  "youtube_url": "https://youtube.com/shorts/iDcbv5TqnJE",
+  "fecha_publicacion": "2026-10-14T03:41:42Z"
+}

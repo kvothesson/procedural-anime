@@ -28,11 +28,13 @@ rendimiento, sonido y criterio de dirección).
 | [motor/engrane.py](motor/engrane.py) | Engrane sin penetración entre pares de engranajes, frame por frame |
 | [motor/plano.py](motor/plano.py) | Carga de planos con `extends`/`drop`. Una sola implementación para escena, post, render y banda |
 | [motor/render.py](motor/render.py) | **Un comando por plano**: Blender + verificación + post. `--draft`, `--frames` |
-| [motor/post.py](motor/post.py) | Composición 2D: ondas, brillo, lluvia, líneas de velocidad, glitch, aberración, grano, encode |
-| [motor/montaje.py](motor/montaje.py) | Pega los planos del `timeline.json` y mezcla el `.wav` |
+| [motor/storyboard.py](motor/storyboard.py) | **Hoja de storyboard**: uno o más cuadros clave por plano (`"storyboard": [frames]` en su JSON), con el post y la acción del plano, en `out/storyboard.png` |
+| [motor/post.py](motor/post.py) | Composición 2D: ondas, brillo, `resplandor` (el aire que se tiñe alrededor de una fuente de color), lluvia, líneas de velocidad, `glitch`, `datamosh`, `impacto` (impact frames con líneas de foco), `congelar` (tiempo detenido), aberración, grano, encode. Los objetos `ancla` quedan fuera del glitch, el datamosh y el congelado |
+| [motor/montaje.py](motor/montaje.py) | Pega los planos del `timeline.json` (cadencias mezcladas: cada plano declara su `fps`, 12 en doses o 24 el sakuga) y mezcla el `.wav` a -14 LUFS |
 | [motor/audio/dsp.py](motor/audio/dsp.py) | Primitivas de síntesis: aditiva con límite de banda, campanas, pads, reverb por convolución |
 | `episodios/<ep>/shots/*.json` | Los planos. `timeline.json` = orden del montaje |
 | `episodios/<ep>/banda.py` | Partitura y diseño sonoro del episodio (a medida) |
+| `episodios/<ep>/planos.py` | (Opcional) Generador de los JSON de planos cuando hay muchas cámaras y poses calculadas; conviene que chequee el encuadre (ver `episodios/duende_rojo/planos.py`) |
 | `episodios/<ep>/render/`, `out/` | Frames y videos (ignorados por git: se regeneran desde los JSON) |
 
 **Episodio de ejemplo y plantilla: `episodios/nodo_404/`.** Otro episodio completo, con voces
@@ -49,6 +51,7 @@ Desarrollado y probado en Windows; en otros sistemas debería andar, pero no est
 ```bash
 python motor/render.py episodios/<ep> <plano> --frames 1 40 72   # prueba: frames sueltos + lámina en out/_prueba_<plano>.png
 python motor/render.py episodios/<ep> <plano> --draft            # borrador 540x960 en _draft_<plano> (no pisa el final)
+python motor/storyboard.py episodios/<ep>                        # storyboard: cuadros clave de todos los planos -> out/storyboard.png
 python motor/render.py episodios/<ep> <plano>                    # plano final + post + mp4 del plano
 python motor/post.py   episodios/<ep> <plano> --frames 1 3       # solo retocar post (segundos)
 python episodios/<ep>/banda.py                                   # banda de sonido + medición RMS
@@ -67,12 +70,18 @@ la vez se cuelgan).
 3. **Prototipá el riesgo primero:** el plano más difícil, con 1-3 frames de prueba. Mirar cada
    PNG. Recién con el look aprobado, el resto.
 4. **Reutilizá escenas con `extends`** (un plano hereda de otro y pisa lo que cambia).
-5. **Cada plano**: frames de prueba → corregir → plano entero en segundo plano → lámina de
+5. **Storyboard antes de renderizar planos enteros** (`motor/storyboard.py`): con el riesgo
+   aprobado, armar todos los planos (cámara, poses, tiempos), marcar en cada JSON sus cuadros
+   clave (`"storyboard": [frames]`) y mostrar la hoja a quien dirige. Ahí se aprueban historia,
+   encuadres y acciones; corregir un encuadre cuesta un frame, no un plano. Si los planos salen
+   de un generador, que proyecte a los personajes a pantalla y avise si quedan afuera o al borde.
+6. **Cada plano**: frames de prueba → corregir → plano entero en segundo plano → lámina de
    contacto con 4-6 frames → mostrar el resultado con lo que quedó flojo, sin maquillar.
-6. **Loop**: el último cuadro del último plano = el primero del primero. Verificarlo midiendo
-   (diferencia media 0.0 sobre los frames crudos).
-7. **Sonido** (`banda.py`): eventos anclados a (plano, frame). Leer la curva RMS que imprime.
-8. **Montaje** → mostrar el corte → correcciones → publicar solo con confirmación de
+7. **Loop**: el último cuadro del último plano = el primero del primero (cámara, **lente**, pose y
+   estado de cada luz). Verificarlo midiendo (diferencia media 0.0 sobre los frames crudos).
+8. **Sonido** (`banda.py`): eventos anclados a (plano, frame). Leer la curva RMS que imprime;
+   medir el pico de los silencios.
+9. **Montaje** → mostrar el corte → correcciones → publicar solo con confirmación de
    visibilidad y metadatos.
 
 ## El JSON de un plano (lo que entiende `escena.py`)
@@ -81,6 +90,8 @@ la vez se cuelgan).
 |---|---|
 | `width`, `height`, `fps`, `frames`, `samples` | Render (1080×1920, 12 fps únicos → 24 fps en doses, 8 muestras) |
 | `extends`, `drop` | Hereda otro plano; `drop` borra claves heredadas |
+| `storyboard` | Cuadros clave del plano para `motor/storyboard.py` (si no está, el del medio) |
+| `mascara_anclas` | Segunda pasada solo con los objetos `ancla`: máscara exacta para que el post (congelar, glitch) no los toque |
 | `render_list`, `render_frames`, `still` | Frames sueltos / rango / un solo frame copiado |
 | `sky`, `fog`, `toon`, `lights`, `line`, `perf` | Cielo con resplandor, niebla, rampa toon, soles, tinta, perfil GPU |
 | `street` | Asfalto mojado con charcos (`puddles`, `spots`), veredas, línea central con huecos |

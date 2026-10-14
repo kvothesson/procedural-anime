@@ -335,6 +335,58 @@ Salieron de cada vez que quien dirigía miró un frame y dijo "esto no". Pesan t
 - **Latido con claves de power:** base en f-1, golpe en f, base en f+3. Con solo golpe y base
   la luz subía en rampa entre latido y latido.
 
+## 12. Luz que no es superficie y planos de sakuga (aprendido en duende_rojo)
+
+- **Luz aditiva:** Transparent BSDF + Emission sumados (Add Shader, `BLENDED`) se suman al cielo
+  sin taparlo. Es la base del duende, del halo, de la tormenta lejana.
+- **Brillo en degradé sobre una esfera:** la distancia al centro en la superficie vale siempre 1
+  (no hay degradé); se usa `Layer Weight > Facing` con sombreado **suave** (con caras planas cada
+  faceta da un escalón: bandas). Para un disco chato visto de canto, el radio en el plano del
+  disco (coordenadas de objeto x, y).
+- **Crecimiento de una descarga por shader:** cada punto guarda en un atributo cuándo lo alcanza
+  la cabeza (`nace`); una propiedad animada (`fase`) lo revela, con un pico en la cabeza y un
+  brillo sostenido que se apaga. Una sola malla, cero objetos por cuadro.
+- **Lo fino se afina hasta un hilo de ~medio píxel** (`radio * (1-u)^1.35`, con mínimo): grosor
+  parejo se lee como fideos. Ojo con `(1-u)**x` si u pasa de 1: da un número complejo.
+- **Escala de un fenómeno lejano:** con los ángulos reales y un 35 mm el duende ocupaba un quinto
+  del cuadro. Las fotos que impresionan son con teleobjetivo: el tele aplana el cerro contra el
+  cielo. Se calcula qué asoma sobre un cerro (elevación con curvatura de la Tierra) antes de
+  componer.
+- **La tinta va en metros:** 3 cm sirven a 40 m; en un primer plano a 1 m son trazos de 90 px que
+  tapan la cara (parecía un error de material). `line.radius` por plano según la distancia.
+- **Personajes de caja de noche:** no hay curvatura donde aparezca un filo de luz; se encienden las
+  caras que miran a la fuente. Con el brillo del post, en un primer plano iluminado, subir
+  `glow.threshold` (0.8) o la cara sale lavada.
+- **Impact frames** (`post.impacto`): dos tonos (la tinta = lo oscuro, lo que brilla invertido)
+  sobre fondo rojo, negro o blanco cada dos cuadros a 24 fps, con líneas de foco. Hit-stop:
+  cuadros sin cambio en la escena y **silencio exacto** en la banda.
+- **Cadencias mezcladas en el montaje:** cada plano declara `fps` (12 en doses, 24 el sakuga) y el
+  montaje repite cuadros para llevarlo a la cadencia del corte. La banda lee la misma `fps`.
+- **Sonoridad:** el montaje normaliza a -14 LUFS (`loudnorm`), el estándar de YouTube. La banda
+  normalizada por pico dejaba cada episodio a un volumen distinto.
+- **Un silencio se aplica también después de doblar la cola del loop:** si no, la cola se mete en
+  el silencio cuando cae al principio. Medir el pico, y que la rampa de vuelta empiece en el cuadro
+  del golpe, no antes.
+- **Un fenómeno que "no encaja con el cielo"** (quien dirige): el halo en anillo y la campana en
+  óvalo tenían contorno limpio y color parejo, y se leían pegados encima. El aire que se tiñe
+  alrededor de una fuente se hace en el post a partir de la forma real de la fuente
+  (`post.resplandor`: lo de color dominante, difuminado en radios grandes), sin borde.
+- **"Me lo imaginaba llenando el cielo":** antes de exagerar la escala, buscar lo que la física
+  permite. Los duendes salen en grupo sobre una tormenta grande y se encienden en cadena; una
+  tormenta más cerca los sube y los agranda. Con eso y el encuadre, llenan el cuadro sin mentir.
+- **Storyboard antes que planos enteros** (`motor/storyboard.py`): un cuadro clave por plano con
+  el post y la acción. Encontró tres planos con el protagonista fuera de cuadro y una luz que
+  quedaba prendida donde no debía.
+- **Chequeo de encuadre en el generador de planos** (`episodios/duende_rojo/planos.py`):
+  proyectar a pantalla a los personajes en cada cuadro clave y avisar si quedan afuera o al
+  borde. Más barato que renderizar para descubrirlo.
+- **El loop también es el lente:** dos planos que empalman en la misma toma tienen que tener el
+  mismo lente (no se anima), además de cámara, pose y estado de cada luz. Con un 50 mm contra un
+  32 mm, el empalme difería 37/255.
+- **Llegar tarde se mide:** si un personaje "llega medio segundo tarde", lo que mira tiene que
+  haber desaparecido antes de que termine de girar. Con un resto rojo de un segundo, parecía que
+  lo había visto.
+
 ## 9. Publicar
 
 El motor no sube nada: `montaje.py` deja `episodios/<ep>/out/<ep>.mp4` (H.264 + AAC a 48 kHz,

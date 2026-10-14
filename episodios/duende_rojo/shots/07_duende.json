@@ -1,0 +1,167 @@
+{
+  "_desc": "07a - El duende, plano general. Hit-stop con el rayo de la tormenta (1-3), impact frames con el duende entero: los 3 ms reales (4-15), y el replay en camara lenta: el halo y las cabezas que bajan (16-120).",
+  "extends": "_calle.json",
+  "frames": 120,
+  "fps": 24,
+  "duende": {
+    "fase": [
+      [
+        1,
+        0.0
+      ],
+      [
+        3,
+        0.0
+      ],
+      [
+        4,
+        1.0
+      ],
+      [
+        15,
+        1.0
+      ],
+      [
+        16,
+        0.02
+      ],
+      [
+        120,
+        0.55
+      ]
+    ]
+  },
+  "tormenta": {
+    "rayos": [],
+    "dispara": 1
+  },
+  "nyx": {
+    "keys": [
+      [
+        1,
+        [
+          34.548,
+          20.18,
+          7.2
+        ],
+        119,
+        0.9
+      ],
+      [
+        120,
+        [
+          34.548,
+          20.18,
+          7.2
+        ],
+        119,
+        0.9
+      ]
+    ],
+    "vaiven": 0.0
+  },
+  "vesper": {
+    "keys": [
+      [
+        1,
+        [
+          35.47,
+          18.518,
+          7.32
+        ],
+        119
+      ],
+      [
+        120,
+        [
+          35.47,
+          18.518,
+          7.32
+        ],
+        119
+      ]
+    ],
+    "vaiven": 0.0
+  },
+  "camera": {
+    "lens": 46,
+    "clip_end": 60000,
+    "clip_start": 0.3,
+    "ease": true,
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          0,
+          0,
+          1.7
+        ],
+        "aim": [
+          83.18,
+          46.11,
+          32.6
+        ]
+      },
+      {
+        "frame": 16,
+        "pos": [
+          0,
+          0,
+          1.7
+        ],
+        "aim": [
+          83.18,
+          46.11,
+          32.6
+        ]
+      },
+      {
+        "frame": 120,
+        "pos": [
+          0,
+          0,
+          2.4
+        ],
+        "aim": [
+          81.92,
+          45.41,
+          37.42
+        ]
+      }
+    ]
+  },
+  "post": {
+    "fps_unique": 24,
+    "fps_out": 24,
+    "impacto": {
+      "frames": [
+        4,
+        15
+      ],
+      "centro": [
+        0.5,
+        0.38
+      ],
+      "umbral": 0.3,
+      "lineas": 110
+    },
+    "resplandor": {
+      "radios": [
+        50,
+        140,
+        300
+      ],
+      "pesos": [
+        0.45,
+        0.4,
+        0.3
+      ],
+      "fuerza": 0.9,
+      "tinte": "#ff2438"
+    }
+  },
+  "storyboard": [
+    4,
+    100
+  ]
+}

@@ -15,6 +15,7 @@ con el tiempo, y el grano cicla entre 3 patrones fijos.
 """
 
 import argparse
+import math
 import subprocess
 from pathlib import Path
 
@@ -65,6 +66,28 @@ def glow(img, g):
         small = cv2.GaussianBlur(small, (0, 0), k)
         acc += wt * cv2.resize(small, (w, h), interpolation=cv2.INTER_LINEAR)
     acc *= g["strength"]
+    return 1 - (1 - img) * (1 - np.clip(acc, 0, 1))
+
+
+def resplandor(img, R):
+    """El aire que se tine alrededor de una fuente de color: toma solo lo que
+    tiene ese color dominante (por defecto rojo: r por encima de g y b), lo
+    difumina en radios muy grandes y lo suma (screen) tenido. El halo sigue la
+    forma real de la fuente y no tiene borde: no es una forma pegada al cielo.
+    R: {"radios": [60, 160, 320], "pesos": [...], "fuerza": 1.0, "tinte": "#ff2a3a",
+    "umbral": 0.12}"""
+    h, w = img.shape[:2]
+    r, g, b = img[..., 0], img[..., 1], img[..., 2]
+    dom = r - np.maximum(g, b) * R.get("cruce", 0.85)
+    mask = np.clip((dom - R.get("umbral", 0.12)) / 0.5, 0, 1)[..., None]
+    src = mask * hex_rgb(R.get("tinte", "#ff2a3a"))
+    acc = np.zeros_like(img)
+    scale = w / 1080.0
+    small = cv2.resize(src, (w // 8, h // 8), interpolation=cv2.INTER_AREA)
+    for rad, wt in zip(R.get("radios", [60, 160, 320]), R.get("pesos", [0.5, 0.45, 0.35])):
+        k = max(1, int(rad * scale / 8))
+        acc += wt * cv2.resize(cv2.GaussianBlur(small, (0, 0), k), (w, h), interpolation=cv2.INTER_LINEAR)
+    acc *= R.get("fuerza", 1.0)
     return 1 - (1 - img) * (1 - np.clip(acc, 0, 1))
 
 
@@ -212,6 +235,40 @@ def congelar(img, a, tint):
     lum = img @ np.array([0.299, 0.587, 0.114], np.float32)
     cold = lum[..., None] * np.array(tint, np.float32) * 0.85
     return img * (1 - a) + cold * a
+
+
+def impacto(img, i, I, w, h):
+    """Impact frames de anime: el cuadro pasa a dos tonos (la tinta = lo
+    oscuro de la imagen) con fondo de color, alternando cada dos cuadros
+    rojo/negro, negro/rojo y blanco/negro, mas lineas de foco radiales hacia
+    "centro". I: {"frames": [f0, f1], "modos": [...], "centro": [x, y],
+    "umbral": 0.35, "lineas": 90, "cada": 2}. Determinista por frame."""
+    f0, f1 = I["frames"]
+    modos = I.get("modos", ["rojo", "negro", "blanco"])
+    m = modos[((i - f0) // I.get("cada", 2)) % len(modos)]
+    pal = {"rojo": ("#e0142a", "#0a0608"), "negro": ("#0a0608", "#ff2a3a"), "blanco": ("#f4efe6", "#0a0608")}
+    fondo, tinta = (hex_rgb(c) for c in pal[m])
+    lum = img @ np.array([0.299, 0.587, 0.114], np.float32)
+    ink = (lum < I.get("umbral", 0.35)).astype(np.float32)
+    # lo que brilla (el duende) va en tinta invertida: es el centro del golpe
+    ink = np.where(lum > I.get("brillo", 0.75), 0.0, ink)
+    out = fondo * (1 - ink[..., None]) + tinta * ink[..., None]
+    # lineas de foco: triangulos finos desde el borde hacia un radio interior
+    rnd = np.random.default_rng(1000 + i)
+    cx, cy = I.get("centro", [0.5, 0.35])
+    cx, cy = cx * w, cy * h
+    capa = np.zeros((h, w), np.uint8)
+    R = math.hypot(w, h)
+    for _ in range(I.get("lineas", 90)):
+        a = rnd.uniform(0, 2 * math.pi)
+        r_in = rnd.uniform(0.28, 0.5) * min(w, h)
+        anc = rnd.uniform(0.004, 0.014)
+        p0 = (cx + math.cos(a) * r_in, cy + math.sin(a) * r_in)
+        pa = (cx + math.cos(a - anc) * R, cy + math.sin(a - anc) * R)
+        pb = (cx + math.cos(a + anc) * R, cy + math.sin(a + anc) * R)
+        cv2.fillPoly(capa, [np.array([p0, pa, pb], np.int32)], 255)
+    L = (capa > 0)[..., None]
+    return np.where(L, tinta, out)
 
 
 class Ripples:
@@ -399,6 +456,8 @@ def _frame(f):
         if D[0] <= i <= D[1]:
             img = keep(datamosh(img, i, f.parent, D, w, h), img, rects, mask)
     img = glow(img, P["glow"])
+    if P.get("resplandor"):
+        img = resplandor(img, P["resplandor"])
     C = P.get("congelar")
     if C:
         # [[frame, intensidad], ...]: el mundo detenido; los anclas, a color
@@ -412,6 +471,9 @@ def _frame(f):
     for g0, g1, ga in P.get("glitch", []):
         if g0 <= i <= g1:
             img = keep(glitch(img, i, ga), img, rects, mask)
+    I = P.get("impacto")
+    if I and I["frames"][0] <= i <= I["frames"][1]:
+        img = impacto(img, i, I, w, h)
     img = aberration(img, P["aberration"])
     img = img * _W["vig"]
     if P.get("textos"):

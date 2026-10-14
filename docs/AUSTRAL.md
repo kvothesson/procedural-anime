@@ -53,3 +53,4 @@ nada de neón de catálogo (ver `docs/PRODUCCION.md` §8).
 | Episodio | Estado |
 |---|---|
 | NODO 0 — La marea de cobre (`episodios/nodo_0/`), especial | publicado |
+| DUENDE ROJO (`episodios/duende_rojo/`) | publicado |

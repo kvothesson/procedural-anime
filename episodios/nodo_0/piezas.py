@@ -1326,6 +1326,21 @@ def build_mapa(e, colls):
         set_interp(ob, "LINEAR")
         _scale_keys(ob, ((1, 0.001), (F + 3 + 2 * j, 1.0)), lambda v: (v, v, v), "CONSTANT")
     _texto("mapa_nodo", "NODO 0", 0.044, titulo, colls["neon"], piv, nodo + Vector((0.055, -0.012, 0)))
+    # puntos extra (otros episodios): [{"lat", "lon", "color", "desde", "rotulo"}]
+    for k, pe in enumerate(e.get("puntos", [])):
+        q = P(pe["lat"], pe["lon"])
+        bm = bmesh.new()
+        bmesh.ops.create_uvsphere(bm, u_segments=12, v_segments=8, radius=0.026)
+        ob = _mesh_obj(f"mapa_punto_{k}", bm, [mat_neon(f"mapa_punto_{k}", pe.get("color", "#ff2a3a"), 2.4, fog=False)],
+                       colls["neon"], parent=piv)
+        ob.location = q + Vector((0, 0, 0.03))
+        f0 = pe.get("desde", 1)
+        _scale_keys(ob, ([(1, 0.001)] if f0 > 1 else []) + [(f0, 0.3), (f0 + 2, 1.5), (f0 + 4, 1.0)],
+                    lambda v: (v, v, v), "BEZIER")
+        if pe.get("rotulo"):
+            t = _texto(f"mapa_punto_rotulo_{k}", pe["rotulo"], 0.04, mat_neon(f"mapa_punto_txt_{k}", pe.get("color", "#ff2a3a"), 1.4, fog=False),
+                       colls["neon"], piv, q + Vector((0.05, -0.012, 0)))
+            _scale_keys(t, ([(1, 0.001)] if f0 > 1 else []) + [(f0 + 3, 1.0)], lambda v: (v, v, v), "CONSTANT")
 
     # el cono de luz desde el lente de Vesper hasta las esquinas de la placa
     de = e.get("de")
@@ -1389,10 +1404,21 @@ def build_mapa(e, colls):
         set_interp(aguja, "BEZIER")
     if ap:
         # la proyeccion se abre: la placa crece desde el centro
-        for f, v in ((1, 0.001), (ap[0], 0.001), (ap[1], 1.0)):
+        keys = [(1, 0.001), (ap[0], 0.001), (ap[1], 1.0)]
+        if e.get("se_va"):
+            # y se cierra cuando el proyector se va (el cono tambien se apaga)
+            f1 = e["se_va"]
+            keys += [(f1, 1.0), (f1 + 4, 0.001)]
+        for f, v in keys:
             piv.scale = (v, v, v)
             piv.keyframe_insert("scale", frame=f)
         set_interp(piv, "BEZIER")
+        if e.get("se_va") and de and de in bpy.data.objects:
+            cono = bpy.data.objects.get("mapa_cono")
+            if cono:
+                for f, v in ((e["se_va"], 1.0), (e["se_va"] + 1, 0.0)):
+                    key_power(cono, f, v)
+                set_interp(cono, "CONSTANT")
     return piv
 
 
