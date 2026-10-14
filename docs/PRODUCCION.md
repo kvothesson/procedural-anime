@@ -13,6 +13,8 @@ versión de Blender, otra PC), corregilo acá mismo.
 vibrant colors, Studio aesthetic, flat color, 9:16.* Sin personajes, este método llega
 a ~65-70 % de ese prompt. Lo que sale mejor: ciudad, luz, lluvia, arquitectura, máquinas.
 Lo que sale peor: caras, pelo, actuación de personajes. Diseñar alrededor de eso.
+Cada plano se contrasta contra este objetivo, no contra el plano anterior: comparando entre
+planos, el look se va corriendo de a poco.
 
 - **Todo material termina en Emission.** El sombreado toon se calcula a mano en el
   nodo: Shader to RGB → rampa **CONSTANTE** sobre la luminancia → la luz se reescala
@@ -113,6 +115,9 @@ Lo que sale peor: caras, pelo, actuación de personajes. Diseñar alrededor de e
   ruedas engranadas se tocan desde el frame 1). Probado: 1° de fase mal = 12 mm.
 - **Un tic tiene que durar ~0,4 s** (5 cuadros únicos con rebote) y avanzar medio diente.
   Con 0,18 s y un diente entero, como los dientes son iguales, el ojo lee teletransporte.
+- **Giro continuo y cadencia:** lo mismo vale para una rueda que gira sin parar. Por cuadro
+  único tiene que avanzar menos de medio paso de diente (o de rayo): cerca de un paso entero
+  se ve quieta, a saltos o girando al revés. La velocidad se elige con la `fps` del plano.
 - **Una acción, varias cámaras:** un plano base con la acción completa y planos que lo
   heredan con otra cámara y su tramo (`render_frames`). El montaje pega lo que haya.
 - **Chequeo de traspasos:** `python motor/colision.py episodios/<ep> <plano>` (BVH por
@@ -216,12 +221,21 @@ Salieron de cada vez que quien dirigía miró un frame y dijo "esto no". Pesan t
   HOTEL, TANGO) leen a cliché; los de texto cotidiano, peor. El sabor local tiene que salir de
   **lugares reales y reconocibles**, no de palabras en neón.
 - **Fidelidad a la referencia real:** con una foto del lugar (plaza de pasto, edificios crema,
-  bandera) el pedido es que se parezca, no "más cyberpunk".
+  bandera) el pedido es que se parezca, no "más cyberpunk". Con un personaje basado en uno
+  real (un animal), las proporciones se miden sobre la foto, no a ojo: forma de la cara,
+  tamaño y separación de las orejas, frente. La expresión se escribe explícita en el criterio
+  del plano ("contenta sin sonreír").
 - **Mirar la luz con ojo de fotógrafo:** toda fuente de luz tiene que afectar su entorno
   (anillos de neón que tiñen la piedra) y el brillo va en degradé, no en capas.
 - **Continuidad:** dos planos que se sienten de lugares distintos son un error. Lo que se ve por
-  una ventana tiene que ser la misma noche y el mismo clima que los planos de afuera.
+  una ventana tiene que ser la misma noche y el mismo clima que los planos de afuera. Lo mismo
+  con la cámara: si un movimiento sigue después del corte, el plano siguiente arranca donde
+  terminó el anterior o más adelante, nunca antes (se lee como un salto para atrás). Se revisa
+  en el storyboard con el último cuadro de uno y el primero del otro.
 - **Lo estático se nota:** la bandera tiene que ondear.
+- **Gancho en los primeros 3 segundos:** el primer plano ya tiene que tener acción o algo que
+  intrigue. Un plano de ambiente vacío al arranque hace que la gente pase de largo. Como el
+  primer cuadro es también el empalme del loop, se diseña junto con el final.
 - **El tiempo importa:** mostrar avances con frames de prueba, no tirar renders largos sin
   necesidad y optimizar para la máquina real.
 - **Sonido a medida:** música hecha para los eventos de la imagen, no un loop genérico.
@@ -276,6 +290,10 @@ Salieron de cada vez que quien dirigía miró un frame y dijo "esto no". Pesan t
 ### Voces reales en la banda
 
 - **Una sola fuente de tiempos para audio y texto** (`voces.json`).
+- **Nombres propios y cifras en TTS se escuchan antes del render final:** el agente no puede
+  oír, así que se le pasan a quien dirige. Las cifras van escritas en letras en el texto que
+  se sintetiza y los nombres difíciles, con grafía de ayuda si hace falta; el subtítulo lleva
+  la grafía real. Pasó con un topónimo mal leído y con un número grande que salió deformado.
 - La traducción simultánea se superpone al original: original a la izquierda y traducción a
   la derecha, el original baja cuando entra la traducción, la música se corre debajo de las
   voces.

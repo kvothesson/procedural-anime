@@ -75,14 +75,20 @@ la vez se cuelgan).
    clave (`"storyboard": [frames]`) y mostrar la hoja a quien dirige. Ahí se aprueban historia,
    encuadres y acciones; corregir un encuadre cuesta un frame, no un plano. Si los planos salen
    de un generador, que proyecte a los personajes a pantalla y avise si quedan afuera o al borde.
-6. **Cada plano**: frames de prueba → corregir → plano entero en segundo plano → lámina de
-   contacto con 4-6 frames → mostrar el resultado con lo que quedó flojo, sin maquillar.
+6. **Cada plano**: criterio de aceptación escrito en el README del episodio (qué se tiene que
+   ver y en qué cuadro) → frames de prueba de los cuadros clave → corregir → plano entero en
+   segundo plano → lámina de contacto con 4-6 frames → mostrar el resultado con lo que quedó
+   flojo, sin maquillar. Si hay contacto entre mallas, `motor/colision.py` antes de aprobar.
+   Las correcciones van de a un plano: se corrige y se sigue con el siguiente, y cada una se
+   anota en la bitácora del README del episodio (plano, qué se pidió, qué se cambió), para no
+   repetirla. Lo que generaliza pasa a `docs/PRODUCCION.md`.
 7. **Loop**: el último cuadro del último plano = el primero del primero (cámara, **lente**, pose y
    estado de cada luz). Verificarlo midiendo (diferencia media 0.0 sobre los frames crudos).
 8. **Sonido** (`banda.py`): eventos anclados a (plano, frame). Leer la curva RMS que imprime;
    medir el pico de los silencios.
 9. **Montaje** → mostrar el corte → correcciones → publicar solo con confirmación de
-   visibilidad y metadatos.
+   visibilidad y metadatos. Un plano o un corte no está terminado sin evidencia: frames
+   revisados, y con `ffprobe` duración, 1080×1920 y pista de audio presente.
 
 ## El JSON de un plano (lo que entiende `escena.py`)
 
@@ -123,6 +129,8 @@ cielo nocturno por defecto).
 - Solo de un episodio → `episodios/<ep>/piezas.py` con `PIEZAS = [("clave", build_fn)]`.
   Se arma después de las del motor y puede importar de `piezas.*`.
 - Las piezas leen la config global en `piezas.ctx` (`ctx.CFG`, `ctx.FOG`, ...).
+- **Antes de un motor o una técnica nueva**, escribir en el README del episodio por qué no
+  alcanza lo que hay. Si no se puede decir, se itera sobre el motor actual.
 
 ## Qué decide el humano
 
