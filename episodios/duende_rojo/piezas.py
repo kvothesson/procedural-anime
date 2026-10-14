@@ -607,12 +607,36 @@ def build_calle(e, colls):
     _mesh_obj("vidrieras", bm_luz, [vidriera], colls["neon"]).parent = root
     _mesh_obj("vidrieras_frias", bm_fria, [vidriera_fria], colls["neon"]).parent = root
 
-    # la calle techada: techo sobre la calle detras del arco, con luces colgando
+    # la calle techada: techo a dos aguas de chapa sobre la calle detras del arco, con
+    # tragaluces y luces colgando. Tiene que leerse como techo desde abajo Y desde arriba
+    # (desde el arco, a la altura de Nyx): una losa plana y oscura se confundia con la
+    # calle y la pasarela "desaparecia". Los tragaluces dejan ver la luz de abajo.
+    L_t, y0t = 80.0, A
+    zc, ze, hw = 5.2, 4.45, 6.2                          # cumbrera, alero, medio ancho
     bm = bmesh.new()
-    N0._bm_box(bm, (0, A + 40, 4.45), (12, 80, 0.15), 0)
-    for k in range(9):
-        N0._bm_box(bm, (0, A + 3 + k * 9, 4.2), (12, 0.25, 0.35), 0)
-    _mesh_obj("techado", bm, [T("techado", "#3a3640")], colls["main"]).parent = root
+    for sx in (-1, 1):
+        q = [(0, y0t, zc), (0, y0t + L_t, zc), (sx * hw, y0t + L_t, ze), (sx * hw, y0t, ze)]
+        N0._bm_quad_slab(bm, q if sx > 0 else q[::-1], 0.06, 0)
+    for k in range(9):                                   # cerchas debajo
+        yy = y0t + 3 + k * 9
+        N0._bm_beam(bm, (-hw, yy, ze - 0.1), (0, yy, zc - 0.12), 0.18, 1)
+        N0._bm_beam(bm, (hw, yy, ze - 0.1), (0, yy, zc - 0.12), 0.18, 1)
+        N0._bm_beam(bm, (-hw, yy, ze - 0.12), (hw, yy, ze - 0.12), 0.14, 1)
+    _mesh_obj("techado", bm, [N0.mat_chapa("techado_chapa", e.get("techo", "#7d8790"), "#6e4636", pitch=0.35),
+                              T("techado_viga", "#3a3640")], colls["main"]).parent = root
+    bm = bmesh.new()
+    for k in range(13):                                  # tragaluces: franjas translucidas
+        ya = y0t + 2.5 + k * 6.0
+        for sx in (-1, 1):
+            u0, u1 = 0.12, 0.88
+            pa = Vector((sx * hw * u0, ya, zc + (ze - zc) * u0 + 0.075))
+            pb = Vector((sx * hw * u1, ya, zc + (ze - zc) * u1 + 0.075))
+            q = [pa, pa + Vector((0, 1.6, 0)), pb + Vector((0, 1.6, 0)), pb]
+            N0._bm_quad_slab(bm, [tuple(p) for p in (q if sx > 0 else q[::-1])], 0.01, 0)
+    tl = _mesh_obj("techado_tragaluces", bm, [N0.mat_neon("tragaluz", e.get("tragaluz", "#ffcf96"), 0.55)],
+                   colls["neon"])
+    tl.parent = root
+    tl.visible_shadow = False
     bm = bmesh.new()
     for k in range(16):
         for xx in (-2.2, 2.2):

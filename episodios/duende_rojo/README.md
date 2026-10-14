@@ -1,7 +1,8 @@
 # DUENDE ROJO
 
-Publicado el 2026-10-14: https://youtube.com/shorts/iDcbv5TqnJE (versión corregida: el 08 continúa la toma del 07).
-Primera versión, con un salto entre el 07 y el 08: https://youtube.com/shorts/eHhggV9obnA
+Publicado el 2026-10-14: https://youtube.com/shorts/Tgr1W6OtBoU (versión final). Versiones
+anteriores en `meta.json` (`versiones_anteriores`): la primera tenía un salto entre el 07 y el 08;
+la segunda, un techo de la calle techada que no se leía desde arriba.
 
 **UNIVERSO AUSTRAL.** Canon: [docs/AUSTRAL.md](../../docs/AUSTRAL.md).
 

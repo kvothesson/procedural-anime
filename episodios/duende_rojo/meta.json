@@ -23,13 +23,21 @@
   "resolucion": "1080x1920",
   "fps": 24,
   "herramientas": "Blender 5.2 (EEVEE, Line Art) + Python (PIL, numpy, scipy, OpenCV) + ffmpeg",
-  "version_anterior": {
-    "youtube_id": "eHhggV9obnA",
-    "youtube_url": "https://youtube.com/shorts/eHhggV9obnA",
-    "fecha_publicacion": "2026-10-14T03:24:31Z",
-    "nota": "primera version: corte con salto entre el 07 y el 08 (jump cut, luz y cadencia distintas)"
-  },
-  "youtube_id": "iDcbv5TqnJE",
-  "youtube_url": "https://youtube.com/shorts/iDcbv5TqnJE",
-  "fecha_publicacion": "2026-10-14T03:41:42Z"
+  "versiones_anteriores": [
+    {
+      "youtube_id": "eHhggV9obnA",
+      "youtube_url": "https://youtube.com/shorts/eHhggV9obnA",
+      "fecha_publicacion": "2026-10-14T03:24:31Z",
+      "nota": "primera version: corte con salto entre el 07 y el 08 (jump cut, luz y cadencia distintas)"
+    },
+    {
+      "youtube_id": "iDcbv5TqnJE",
+      "youtube_url": "https://youtube.com/shorts/iDcbv5TqnJE",
+      "fecha_publicacion": "2026-10-14T03:41:42Z",
+      "nota": "segunda version: el techo de la calle techada no se leia desde arriba (parecia que la pasarela desaparecia)"
+    }
+  ],
+  "youtube_id": "Tgr1W6OtBoU",
+  "youtube_url": "https://youtube.com/shorts/Tgr1W6OtBoU",
+  "fecha_publicacion": "2026-10-14T04:47:44Z"
 }

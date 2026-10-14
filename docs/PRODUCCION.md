@@ -404,6 +404,11 @@ Salieron de cada vez que quien dirigía miró un frame y dijo "esto no". Pesan t
 - **Llegar tarde se mide:** si un personaje "llega medio segundo tarde", lo que mira tiene que
   haber desaparecido antes de que termine de girar. Con un resto rojo de un segundo, parecía que
   lo había visto.
+- **Lo que aparece desde varios ángulos tiene que leerse desde todos** (quien dirige: "cuando se
+  ve a Nyx arriba, la pasarela desapareció"). El techo de la calle techada estaba, pero era una
+  losa plana y oscura: desde abajo se leía por las luces colgadas; desde arriba era igual a la
+  calle. Un techo de chapa a dos aguas con tragaluces encendidos se lee de los dos lados. En el
+  storyboard, si un elemento del lugar se ve de lados distintos, mirarlo en un cuadro de cada lado.
 
 ## 9. Publicar
 
