@@ -8,6 +8,7 @@ FOG = {}
 TOON = {}
 FONT = ""
 DRAFT = False
+EPISODIO = None      # carpeta del episodio (para leer <ep>/data/...)
 
 
 def configurar(cfg, draft=False):

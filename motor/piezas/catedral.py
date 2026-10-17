@@ -23,8 +23,8 @@ import bmesh
 import bpy
 from mathutils import Matrix, Vector
 
-from .base import link
-from .materiales import mat_toon
+from .base import lin, link, tint_light
+from .materiales import _fog, mat_toon
 
 # ---------------------------------------------------------------- medidas
 BAY = 31.6 / 6          # tramo de la nave: 6 tramos hasta el crucero
@@ -113,6 +113,7 @@ class Pieza:
     def __init__(self, name):
         self.name = name
         self.bm = bmesh.new()
+        self.vidrios = []       # contornos 3D de las ventanas cerradas
 
     def prism(self, poly2, O, U, V, N, t, skip_axis=None):
         """Extruye el poligono 2D (u, v) -> O + U*u + V*v, con espesor t a lo
@@ -141,11 +142,13 @@ class Pieza:
             except ValueError:
                 pass
 
-    def wall(self, O, U, N, u0, u1, v0, v1, t, holes=()):
+    def wall(self, O, U, N, u0, u1, v0, v1, t, holes=(), vidrio=True):
         """Muro rectangular [u0,u1] x [v0,v1] con vanos sobre su eje central.
         holes: cadenas de arch_chain / circle_chain (mitad izquierda, abajo ->
         arriba), ordenadas de abajo hacia arriba. Se arma en dos mitades
-        concavas, sin booleanas."""
+        concavas, sin booleanas. Cada vano cerrado (ventana, roseton) deja
+        su contorno en self.vidrios, salvo vidrio=False (campanario, galeria
+        ciega)."""
         V = (0, 0, 1)
         if not holes:
             self.prism([(u0, v0), (u1, v0), (u1, v1), (u0, v1)], O, U, V, N, t)
@@ -157,6 +160,12 @@ class Pieza:
         for h in holes:
             left += h
         right = [(2 * uc - u, v) for u, v in reversed(left)]
+        if vidrio:
+            Ov, Uv = Vector(O), Vector(U)
+            for h in holes:
+                if abs(h[0][0] - uc) < 1e-6:
+                    full = h + [(2 * uc - u, v) for u, v in reversed(h[1:-1])]
+                    self.vidrios.append([Ov + Uv * u + Vector((0, 0, v)) for u, v in full])
         self.prism(left, O, U, V, N, t, skip_axis=uc)
         self.prism(right, O, U, V, N, t, skip_axis=uc)
 
@@ -388,7 +397,8 @@ def _nave_walls(pc):
             for j in range(n):
                 a = y0 + j * w
                 pc.wall((xs, 0, 0), (0, 1, 0), N, a, a + w, Z_TRI0, Z_TRI1, 0.14,
-                        [arch_chain(a + w / 2, w / 2 - 0.12, Z_TRI1 - 0.75, 0.55, sill=Z_TRI0 + 0.55)])
+                        [arch_chain(a + w / 2, w / 2 - 0.12, Z_TRI1 - 0.75, 0.55, sill=Z_TRI0 + 0.55)],
+                        vidrio=False)
 
 
 def _choir_walls(pc):
@@ -508,7 +518,8 @@ def _tower(pc):
         w = 2 * Wb / 3
         for j in range(3):
             a = -Wb + j * w
-            pc.wall(O, U, N, a, a + w, z0, z1, 0.6, [arch_chain(a + w / 2, 0.5, 37.0, 1.4, sill=30.0)])
+            pc.wall(O, U, N, a, a + w, z0, z1, 0.6, [arch_chain(a + w / 2, 0.5, 37.0, 1.4, sill=30.0)],
+                    vidrio=False)
     # reloj
     pc.box(-3.7, 3.7, yc - 3.7, yc + 3.7, z1, 46.0)
     pc.box(-4.4, 4.4, yc - 4.4, yc + 4.4, z1, z1 + 0.5)
@@ -683,8 +694,8 @@ def _floor(pc, ground):
 def _annexes(pc, roof):
     """Sacristia, capilla del Santisimo y casa parroquial, alrededor del
     abside (bloques simples a dos aguas, como en el plano de OSM)."""
-    blocks = [(5.0, 12.9, 41.0, 52.2, 8.5), (-11.6, -5.0, 41.0, 52.2, 8.5),
-              (-11.6, 12.9, 52.2, 56.7, 8.5), (-11.6, 12.9, 56.7, 64.3, 11.0)]
+    blocks = [(5.0, 11.6, 41.0, 52.2, 8.5), (-12.9, -5.0, 41.0, 52.2, 8.5),
+              (-12.9, 11.6, 52.2, 56.7, 8.5), (-12.9, 11.6, 56.7, 64.3, 11.0)]
     for x0, x1, y0, y1, h in blocks:
         pc.box(x0, x1, y0, y1, Z_GROUND, h)
         # cumbrera a lo largo del lado mayor
@@ -698,8 +709,101 @@ def _annexes(pc, roof):
                        (1, 0, 0), (0, 0, 1), (0, 1, 0), y1 - y0)
 
 
+def mat_vitral(name, v):
+    """Vitral: mosaico de celdas de color con plomo oscuro entre ellas, por
+    coordenadas del mundo (sin UV): sirve igual en cualquier ventana. Emite
+    con fuerza v["fuerza"]: de noche es la luz de afuera, de dia el sol."""
+    colors = v.get("colores", ["#b9c3cc"])
+    cw, ch = v.get("celda", [0.32, 0.45])
+    mat = bpy.data.materials.new(name)
+    mat.use_nodes = True
+    nt = mat.node_tree
+    nt.nodes.clear()
+    n, L = nt.nodes, nt.links
+
+    def m(op, a, b=None):
+        node = n.new("ShaderNodeMath")
+        node.operation = op
+        for i, x in enumerate((a, b)):
+            if x is None:
+                continue
+            if isinstance(x, (int, float)):
+                node.inputs[i].default_value = x
+            else:
+                L.new(x, node.inputs[i])
+        return node.outputs[0]
+
+    geo = n.new("ShaderNodeNewGeometry")
+    sep = n.new("ShaderNodeSeparateXYZ")
+    L.new(geo.outputs["Position"], sep.inputs[0])
+    a = m("DIVIDE", m("ADD", sep.outputs[0], sep.outputs[1]), cw)
+    b = m("DIVIDE", sep.outputs[2], ch)
+    cell = n.new("ShaderNodeCombineXYZ")
+    L.new(m("FLOOR", a), cell.inputs[0])
+    L.new(m("FLOOR", b), cell.inputs[1])
+    noise = n.new("ShaderNodeTexWhiteNoise")
+    noise.noise_dimensions = "3D"
+    L.new(cell.outputs[0], noise.inputs["Vector"])
+    ramp = n.new("ShaderNodeValToRGB")
+    ramp.color_ramp.interpolation = "CONSTANT"
+    els = ramp.color_ramp.elements
+    while len(els) < len(colors):
+        els.new(0.5)
+    for k, (el, c) in enumerate(zip(els, colors)):
+        el.position = k / len(colors)
+        el.color = lin(c)
+    L.new(noise.outputs["Value"], ramp.inputs["Fac"])
+    lead = v.get("plomo_ancho", 0.09)
+    plomo = m("MAXIMUM", m("LESS_THAN", m("FRACT", a), lead), m("LESS_THAN", m("FRACT", b), lead))
+    mix = n.new("ShaderNodeMix")
+    mix.data_type = "RGBA"
+    L.new(plomo, mix.inputs["Factor"])
+    L.new(ramp.outputs["Color"], mix.inputs[6])
+    mix.inputs[7].default_value = lin(v.get("plomo", "#1a1a22"))
+    em = n.new("ShaderNodeEmission")
+    L.new(_fog(nt, mix.outputs[2]), em.inputs["Color"])
+    em.inputs["Strength"].default_value = v.get("fuerza", 1.0)
+    out = n.new("ShaderNodeOutputMaterial")
+    L.new(em.outputs[0], out.inputs["Surface"])
+    return mat
+
+
+def _vidrios(piezas, mat, coll):
+    pc = Pieza("catedral_vidrios")
+    for src in piezas:
+        for pts in src.vidrios:
+            vs = [pc.bm.verts.new(p) for p in pts]
+            try:
+                pc.bm.faces.new(vs)
+            except ValueError:
+                pass
+    ob = pc.done(mat, coll, weld=False)
+    # el vidrio no lleva tinta propia: el borde del vano ya la tiene
+    ob.lineart.usage = "EXCLUDE"
+    return ob
+
+
+def _luz_vitrales(vidrios, v, luz, colls):
+    """La luz que entra por los ventanales altos: un punto sin sombra por
+    ventana, un poco hacia adentro, con el color de su vitral. Tine las
+    bovedas y el triforio (si no, de noche la arquitectura se pierde)."""
+    colors = v.get("colores", ["#ffffff"])
+    k = 0
+    for pts in vidrios:
+        c = sum(pts, Vector()) / len(pts)
+        if c.z < luz.get("desde_z", 10.0) or c.y < -1.0:
+            continue
+        inward = Vector((-c.x, 0, 0)).normalized() if abs(c.x) > 0.5 else Vector((0, -1, 0))
+        if abs(c.x) < 0.5 and c.y > Y_AB - 0.5:
+            inward = Vector((0, -1, 0))
+        tint_light(f"vitral_luz{k}", colors[k % len(colors)], luz.get("energia", 150),
+                   tuple(c + inward * luz.get("adentro", 1.6) - Vector((0, 0, 0.5))), colls)
+        k += 1
+
+
 def build_catedral(e, colls):
-    """e: {"techo": true, "anexos": true, "suelo": 240, "colores": {...}}"""
+    """e: {"techo": true, "anexos": true, "suelo": 240, "colores": {...},
+    "vidrios": {...} (ver mat_vitral; false = vanos abiertos)}"""
     col = {"piedra": "#d8d4cb", "techo": "#8d949c", "suelo": "#7d8578", **e.get("colores", {})}
     m_stone = mat_toon("catedral_piedra", col["piedra"])
     m_roof = mat_toon("catedral_techo", col["techo"])
@@ -711,15 +815,25 @@ def build_catedral(e, colls):
     _columns(pc)
     pc.done(m_stone, main)
 
-    pc = Pieza("catedral_muros")
-    _nave_walls(pc)
-    _choir_walls(pc)
-    _outer_walls(pc)
-    pc.done(m_stone, main)
+    muros = Pieza("catedral_muros")
+    _nave_walls(muros)
+    _choir_walls(muros)
+    _outer_walls(muros)
+    vid = list(muros.vidrios)
+    muros.done(m_stone, main)
 
-    pc = Pieza("catedral_torre")
-    _tower(pc)
-    pc.done(m_stone, main)
+    torre = Pieza("catedral_torre")
+    _tower(torre)
+    vid_t = list(torre.vidrios)
+    torre.done(m_stone, main)
+    if e.get("vidrios", True) is not False:
+        holder = Pieza("_v")
+        holder.vidrios = vid + vid_t
+        holder.bm.free()
+        _vidrios([holder], mat_vitral("catedral_vitral", e.get("vidrios") or {}), main)
+        luz = (e.get("vidrios") or {}).get("luz")
+        if luz:
+            _luz_vitrales(holder.vidrios, e["vidrios"], luz, colls)
 
     pc = Pieza("catedral_contrafuertes")
     _buttresses(pc)

@@ -24,6 +24,9 @@ rendimiento, sonido y criterio de dirección).
 | [motor/piezas/viaje.py](motor/piezas/viaje.py) | Mensaje de luz con estela por una ruta, un arco sobre la Tierra o puntos; `relevo` (enciende lo que tiene `relevo_s` al pasar); cámara `follow`; globo que gira (`arco.spin`) |
 | [motor/piezas/tokio.py](motor/piezas/tokio.py) | Callejón bajo las vías: viaducto con tren, faroles de papel, expendedoras, farol hexagonal |
 | [motor/piezas/catedral.py](motor/piezas/catedral.py) | Catedral de San Isidro a escala real (planta OSM): nave, crucero, ábside, bóvedas con nervios, torre con aguja; recorrible, `"techo": false` para la cenital |
+| [motor/piezas/servidores.py](motor/piezas/servidores.py) | Servidores dentro de la catedral: filas de racks con leds que parpadean (un shader, un atributo por rack), cables, bandejas y el núcleo del crucero |
+| [motor/piezas/entorno.py](motor/piezas/entorno.py) | Alrededores reales sobre el relieve: calles con veredas, plazas, vías, edificios extruidos (techos a dos aguas en casas) y árboles, desde `<ep>/data/entorno.json` |
+| [motor/osm.py](motor/osm.py) | Baja OpenStreetMap y lo pasa a metros en el marco de la escena (`<ep>/data/osm.json` → `entorno.json`); completa alturas, casas faltantes y árboles marcados como `relleno`; con `terreno` baja la elevación (SRTM, tiles de Mapzen) y deja una grilla de alturas: `python motor/osm.py episodios/<ep>` |
 | [motor/textos.py](motor/textos.py) | Texto 2D: `post.textos` por plano y subtítulos del corte (`timeline.subs`, con `reveal` palabra por palabra) |
 | [motor/colision.py](motor/colision.py) | Traspasos entre mallas frame por frame (BVH, sin render): `python motor/colision.py episodios/<ep> <plano>` |
 | [motor/engrane.py](motor/engrane.py) | Engrane sin penetración entre pares de engranajes, frame por frame |
@@ -97,6 +100,7 @@ la vez se cuelgan).
 |---|---|
 | `width`, `height`, `fps`, `frames`, `samples` | Render (1080×1920, 12 fps únicos → 24 fps en doses, 8 muestras) |
 | `extends`, `drop` | Hereda otro plano; `drop` borra claves heredadas |
+| `estilo` | Nombre de `<ep>/estilos/<nombre>.json`: el look entero (cielo, luces, tinta, toon, post y colores de cada pieza en `piezas`). Va debajo del plano; cambiar el look = cambiar una palabra |
 | `storyboard` | Cuadros clave del plano para `motor/storyboard.py` (si no está, el del medio) |
 | `mascara_anclas` | Segunda pasada solo con los objetos `ancla`: máscara exacta para que el post (congelar, glitch) no los toque |
 | `render_list`, `render_frames`, `still` | Frames sueltos / rango / un solo frame copiado |
@@ -113,7 +117,9 @@ la vez se cuelgan).
 | `luz_mala` | Destello verde en frames dados |
 | `blackout` | Apagón en cascada o reencendido (`mode: "on"`), latido del cristal |
 | `camera` | `from`/`to` lineal o `keys` con `ease`; `lens_keys` [[frame, mm]] cambia la lente |
-| `catedral` | Catedral de San Isidro (`techo`, `anexos`, `suelo`, `colores`) |
+| `catedral` | Catedral de San Isidro (`techo`, `anexos`, `suelo`, `colores`, `vidrios` con `luz`) |
+| `servidores` | Racks, cables y núcleo dentro de la catedral (`colores`, `leds`, `nucleo`, `luces`, `filas`) |
+| `entorno` | Alrededores de OSM (`datos`, `z`, `piso`, `radio`, `relleno`, `arboles`, `colores`, `ventanas`) |
 | `post` | `glow`, `rain` (`false` la apaga), `rain_dim`, `ripples`, `speedlines`, `glitch`, `grain`, `textos`, ... |
 | `camino`, `terreno`, `cordillera`, `puente`, `tambos`, `apacheta`, `luna` | Andes (ver `piezas/andes.py`): todo se ubica por `s`, metros sobre la ruta |
 | `mensaje`, `relevo` | Mensaje de luz (o lista de mensajes) con `keys` [[frame, s]], `colors` por tramo, `from_frame`/`to_frame`, `frac`; `relevo` lo enciende todo a su paso (`lead`, `delay`, `off`) |

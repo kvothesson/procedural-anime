@@ -1,93 +1,15 @@
 {
   "_desc": "Catedral de San Isidro, geometria base: una vista por frame (sin estetica).",
+  "estilo": "maqueta",
   "width": 1080,
   "height": 1920,
   "fps": 12,
   "frames": 8,
   "samples": 8,
-  "sky": {
-    "horizon": "#c9ccd1",
-    "top": "#a7b0bb",
-    "ambient": "#9a9ea6",
-    "ambient_strength": 1.0
-  },
-  "fog": {
-    "color": "#c9ccd1",
-    "dist": 5000
-  },
-  "toon": {
-    "steps": [
-      [
-        0.0,
-        0.5
-      ],
-      [
-        0.3,
-        0.75
-      ],
-      [
-        0.65,
-        1.0
-      ]
-    ]
-  },
-  "lights": [
-    {
-      "kind": "SUN",
-      "color": "#ffffff",
-      "energy": 2.2,
-      "rot": [
-        50,
-        0,
-        35
-      ],
-      "shadow": false
-    }
-  ],
-  "line": {
-    "color": "#1d1d22",
-    "radius": 0.01,
-    "crease_deg": 135,
-    "intersection": true,
-    "radius_keys": [
-      [
-        1,
-        0.012
-      ],
-      [
-        2,
-        0.045
-      ],
-      [
-        3,
-        0.04
-      ],
-      [
-        4,
-        0.05
-      ],
-      [
-        5,
-        0.012
-      ],
-      [
-        6,
-        0.01
-      ],
-      [
-        7,
-        0.012
-      ],
-      [
-        8,
-        0.012
-      ]
-    ]
-  },
   "catedral": {
     "techo": true,
     "anexos": true,
-    "suelo": 240
+    "suelo": 0
   },
   "storyboard": [
     1,
@@ -112,7 +34,7 @@
   "camera": {
     "lens": 16,
     "ease": false,
-    "clip_end": 1000,
+    "clip_end": 3000,
     "keys": [
       {
         "frame": 1,
@@ -253,5 +175,49 @@
         15
       ]
     ]
+  },
+  "line": {
+    "radius": 0.01,
+    "radius_keys": [
+      [
+        1,
+        0.012
+      ],
+      [
+        2,
+        0.045
+      ],
+      [
+        3,
+        0.04
+      ],
+      [
+        4,
+        0.05
+      ],
+      [
+        5,
+        0.012
+      ],
+      [
+        6,
+        0.01
+      ],
+      [
+        7,
+        0.012
+      ],
+      [
+        8,
+        0.012
+      ]
+    ]
+  },
+  "servidores": {},
+  "entorno": {
+    "datos": "data/entorno.json",
+    "z": -1.0,
+    "piso": 6000,
+    "radio": 450
   }
 }

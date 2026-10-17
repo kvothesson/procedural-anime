@@ -1,0 +1,89 @@
+{
+  "extends": "vistas.json",
+  "estilo": "cyberpunk",
+  "_desc": "Prueba de estilo: 3 cuadros clave (nave, nucleo, exterior).",
+  "frames": 3,
+  "storyboard": [
+    1,
+    2,
+    3
+  ],
+  "vistas": [
+    "nave desde la entrada",
+    "el nucleo en el crucero",
+    "dron 3/4 de noche"
+  ],
+  "line": {
+    "radius_keys": [
+      [
+        1,
+        0.012
+      ],
+      [
+        2,
+        0.012
+      ],
+      [
+        3,
+        0.045
+      ]
+    ]
+  },
+  "camera": {
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          0,
+          3.0,
+          1.6
+        ],
+        "aim": [
+          0,
+          45,
+          9.5
+        ]
+      },
+      {
+        "frame": 2,
+        "pos": [
+          0,
+          27.0,
+          1.7
+        ],
+        "aim": [
+          0,
+          36,
+          9
+        ]
+      },
+      {
+        "frame": 3,
+        "pos": [
+          -48,
+          -52,
+          38
+        ],
+        "aim": [
+          0,
+          20,
+          12
+        ]
+      }
+    ],
+    "lens_keys": [
+      [
+        1,
+        15
+      ],
+      [
+        2,
+        16
+      ],
+      [
+        3,
+        26
+      ]
+    ]
+  }
+}

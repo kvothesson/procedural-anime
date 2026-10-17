@@ -49,6 +49,8 @@ from piezas.andes import (build_apacheta, build_camino, build_cordillera,  # noq
 from piezas.viaje import build_mensaje  # noqa: E402
 from piezas.tokio import build_chochin, build_expendedoras, build_farol_hex, build_viaducto  # noqa: E402
 from piezas.catedral import build_catedral  # noqa: E402
+from piezas.servidores import build_servidores  # noqa: E402
+from piezas.entorno import build_entorno  # noqa: E402
 
 SKY = {"horizon": "#2a1f4a", "top": "#070814", "ambient": "#1b2a4a"}
 LINE = {"color": "#0d0b24"}
@@ -118,6 +120,9 @@ PIEZAS = [
     ("farol_hex", build_farol_hex, None),
     # Catedral de San Isidro: escenario recorrible a escala real
     ("catedral", build_catedral, None),
+    ("servidores", build_servidores, None),
+    # alrededores reales desde OpenStreetMap (motor/osm.py -> <ep>/data/entorno.json)
+    ("entorno", build_entorno, None),
 ]
 
 
@@ -203,6 +208,8 @@ def main():
     out = Path(argv[1]) if len(argv) > 1 else Path("render/out")
     # --draft: mitad de resolucion y 4 muestras, para iterar. El post reescala.
     ctx.configurar(cfg, draft="--draft" in argv)
+    # el JSON vive en <ep>/shots/ (o en <ep>/render/ para las pruebas)
+    ctx.EPISODIO = Path(argv[0]).resolve().parent.parent
 
     bpy.ops.wm.read_factory_settings(use_empty=True)
     scene = bpy.context.scene

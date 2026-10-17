@@ -18,12 +18,45 @@ def merge(base, over):
     return out
 
 
-def load_shot(path):
+def _load_raw(path):
     path = Path(path)
     cfg = json.loads(path.read_text(encoding="utf-8"))
     if "extends" in cfg:
-        base = load_shot(path.parent / cfg.pop("extends"))
+        base = _load_raw(path.parent / cfg.pop("extends"))
         for k in cfg.pop("drop", []):
             base.pop(k, None)
         cfg = merge(base, cfg)
+    return cfg
+
+
+def find_estilo(shot_path, name):
+    """estilos/<name>.json del episodio (el JSON vive en <ep>/shots/ o en
+    <ep>/render/ para las pruebas de render.py)."""
+    src = Path(shot_path).resolve().parent.parent / "estilos" / f"{name}.json"
+    if not src.exists():
+        raise FileNotFoundError(f"No existe el estilo {src}")
+    return json.loads(src.read_text(encoding="utf-8"))
+
+
+def load_shot(path):
+    """Plano resuelto: herencia (extends/drop) y despues el estilo.
+
+    "estilo": "<nombre>" carga <ep>/estilos/<nombre>.json: el look entero
+    (sky, fog, toon, lights, line, post, ...) separado de la geometria y la
+    camara, para cambiarlo con una palabra. El estilo va debajo: lo que el
+    plano dice gana. Sus "piezas" ({"catedral": {...}, ...}) se mezclan solo
+    en las piezas que el plano ya tiene: un estilo da colores, no agrega
+    objetos."""
+    cfg = _load_raw(path)
+    name = cfg.pop("estilo", None)
+    if not name:
+        return cfg
+    est = dict(find_estilo(path, name))
+    piezas = est.pop("piezas", {})
+    est.pop("_desc", None)
+    for k, v in piezas.items():
+        if k in cfg:
+            cfg[k] = merge(v, cfg[k]) if isinstance(cfg[k], dict) else cfg[k]
+    cfg = merge(est, cfg)
+    cfg["_estilo"] = name
     return cfg

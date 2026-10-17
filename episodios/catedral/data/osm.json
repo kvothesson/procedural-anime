@@ -1,0 +1,68 @@
+{
+  "_lugar": "Alrededores de la Catedral de San Isidro (Plaza Mitre, Av. del Libertador, Tren de la Costa)",
+  "centro": [
+    -34.46725,
+    -58.50905
+  ],
+  "radio": 450,
+  "origen": [
+    -34.4670881,
+    -58.5094402
+  ],
+  "origen_local": [
+    5.0,
+    0.0
+  ],
+  "rumbo_deg": -27.50245657990324,
+  "excluir": [
+    129970084,
+    434818612,
+    434818617,
+    434818618,
+    434818620,
+    434818621,
+    434818622
+  ],
+  "zonas_libres": [
+    [
+      [
+        -18,
+        -16
+      ],
+      [
+        18,
+        -16
+      ],
+      [
+        18,
+        67
+      ],
+      [
+        -18,
+        67
+      ]
+    ]
+  ],
+  "relleno": true,
+  "seed": 11,
+  "terreno": {
+    "ref_m": 29.0,
+    "paso": 5.0,
+    "lado": 1400.0,
+    "suavizado_m": 10.0,
+    "plataformas": [
+      {
+        "min": [
+          -17,
+          -14
+        ],
+        "max": [
+          17,
+          66
+        ],
+        "z": -1.0,
+        "borde": 25.0
+      }
+    ]
+  }
+}

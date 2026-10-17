@@ -1,0 +1,138 @@
+{
+  "_desc": "Cyberpunk anime high-end: cel-shading, tinta fina y nitida, noche violeta, neon cian y magenta de los servidores y los vitrales.",
+  "sky": {
+    "horizon": "#2b0f4d",
+    "top": "#05030f",
+    "ambient": "#2a2350",
+    "ambient_strength": 1.1
+  },
+  "fog": {
+    "color": "#1a0f33",
+    "dist": 70
+  },
+  "toon": {
+    "steps": [
+      [
+        0.0,
+        0.14
+      ],
+      [
+        0.08,
+        0.48
+      ],
+      [
+        0.42,
+        1.0
+      ]
+    ]
+  },
+  "lights": [
+    {
+      "kind": "SUN",
+      "color": "#7a8cff",
+      "energy": 2.2,
+      "rot": [
+        55,
+        0,
+        -30
+      ],
+      "shadow": true
+    },
+    {
+      "kind": "SUN",
+      "color": "#ff4fd8",
+      "energy": 0.35,
+      "rot": [
+        70,
+        0,
+        150
+      ],
+      "shadow": false
+    }
+  ],
+  "line": {
+    "color": "#07040f",
+    "crease_deg": 135,
+    "intersection": true
+  },
+  "post": {
+    "glow": {
+      "threshold": 0.5,
+      "radii": [
+        5,
+        18,
+        55
+      ],
+      "weights": [
+        0.7,
+        0.55,
+        0.45
+      ],
+      "strength": 1.6
+    },
+    "rain": false,
+    "aberration": 0.0025,
+    "vignette": 0.32,
+    "grain": 0.01,
+    "resplandor": {
+      "tinte": "#ff2bd6",
+      "umbral": 0.1,
+      "fuerza": 0.5,
+      "radios": [
+        60,
+        160,
+        320
+      ]
+    }
+  },
+  "piezas": {
+    "catedral": {
+      "colores": {
+        "piedra": "#6b6f8f",
+        "techo": "#262a42",
+        "suelo": "#141626"
+      },
+      "vidrios": {
+        "colores": [
+          "#ff2bd6",
+          "#26e8ff",
+          "#7b4dff",
+          "#ffb03a",
+          "#26e8ff",
+          "#ff2bd6"
+        ],
+        "fuerza": 2.2,
+        "plomo": "#0b0716",
+        "luz": {
+          "energia": 220,
+          "desde_z": 10.0,
+          "adentro": 1.8
+        }
+      }
+    },
+    "servidores": {
+      "colores": {
+        "cuerpo": "#1b1e2e",
+        "frente": "#0f1120",
+        "cable": "#2a2440"
+      },
+      "leds": {
+        "colores": [
+          "#26e8ff",
+          "#ff2bd6",
+          "#7dff6a",
+          "#26e8ff"
+        ],
+        "fuerza": 4.0,
+        "densidad": 0.45,
+        "parpadeo": 0.3
+      },
+      "nucleo": "#26e8ff",
+      "nucleo_fuerza": 3.0,
+      "luces": {
+        "energia": 35,
+        "nucleo": 500
+      }
+    }
+  }
+}
