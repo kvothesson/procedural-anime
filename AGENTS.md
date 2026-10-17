@@ -23,6 +23,7 @@ rendimiento, sonido y criterio de dirección).
 | [motor/piezas/andes.py](motor/piezas/andes.py) | Andes: una ruta (`camino.pts`) de la que sale todo: terreno con cresta y quebrada, cordillera, calzada de lajas, tambos con baliza, puente colgante, apacheta, luna |
 | [motor/piezas/viaje.py](motor/piezas/viaje.py) | Mensaje de luz con estela por una ruta, un arco sobre la Tierra o puntos; `relevo` (enciende lo que tiene `relevo_s` al pasar); cámara `follow`; globo que gira (`arco.spin`) |
 | [motor/piezas/tokio.py](motor/piezas/tokio.py) | Callejón bajo las vías: viaducto con tren, faroles de papel, expendedoras, farol hexagonal |
+| [motor/piezas/catedral.py](motor/piezas/catedral.py) | Catedral de San Isidro a escala real (planta OSM): nave, crucero, ábside, bóvedas con nervios, torre con aguja; recorrible, `"techo": false` para la cenital |
 | [motor/textos.py](motor/textos.py) | Texto 2D: `post.textos` por plano y subtítulos del corte (`timeline.subs`, con `reveal` palabra por palabra) |
 | [motor/colision.py](motor/colision.py) | Traspasos entre mallas frame por frame (BVH, sin render): `python motor/colision.py episodios/<ep> <plano>` |
 | [motor/engrane.py](motor/engrane.py) | Engrane sin penetración entre pares de engranajes, frame por frame |
@@ -111,7 +112,8 @@ la vez se cuelgan).
 | `engranajes` | Engranajes de relojería (`list` con `r`, `teeth`, `step`/`spin`, `stop`, `strain`, `free`, `salta`, `axle`, `ghost`) |
 | `luz_mala` | Destello verde en frames dados |
 | `blackout` | Apagón en cascada o reencendido (`mode: "on"`), latido del cristal |
-| `camera` | `from`/`to` lineal o `keys` con `ease` |
+| `camera` | `from`/`to` lineal o `keys` con `ease`; `lens_keys` [[frame, mm]] cambia la lente |
+| `catedral` | Catedral de San Isidro (`techo`, `anexos`, `suelo`, `colores`) |
 | `post` | `glow`, `rain` (`false` la apaga), `rain_dim`, `ripples`, `speedlines`, `glitch`, `grain`, `textos`, ... |
 | `camino`, `terreno`, `cordillera`, `puente`, `tambos`, `apacheta`, `luna` | Andes (ver `piezas/andes.py`): todo se ubica por `s`, metros sobre la ruta |
 | `mensaje`, `relevo` | Mensaje de luz (o lista de mensajes) con `keys` [[frame, s]], `colors` por tramo, `from_frame`/`to_frame`, `frac`; `relevo` lo enciende todo a su paso (`lead`, `delay`, `off`) |

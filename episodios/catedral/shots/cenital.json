@@ -1,0 +1,64 @@
+{
+  "extends": "vistas.json",
+  "_desc": "Sin techo ni bovedas: la planta en cruz desde arriba.",
+  "frames": 2,
+  "catedral": {
+    "techo": false
+  },
+  "line": {
+    "radius_keys": [
+      [
+        1,
+        0.035
+      ],
+      [
+        2,
+        0.03
+      ]
+    ]
+  },
+  "camera": {
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          0,
+          24.0,
+          115
+        ],
+        "aim": [
+          0,
+          24.5,
+          0
+        ]
+      },
+      {
+        "frame": 2,
+        "pos": [
+          -40,
+          -20,
+          60
+        ],
+        "aim": [
+          0,
+          25,
+          0
+        ]
+      }
+    ],
+    "lens_keys": [
+      [
+        1,
+        30
+      ],
+      [
+        2,
+        24
+      ]
+    ]
+  },
+  "storyboard": [
+    1,
+    2
+  ]
+}

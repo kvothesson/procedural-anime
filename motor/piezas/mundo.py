@@ -110,6 +110,11 @@ def build_lineart(e, colls):
     mod.target_layer = "linea"
     mod.target_material = m
     mod.radius = e.get("radius", 0.01)
+    # el radio va en metros: un plano que viaja de lo general al detalle lo
+    # baja en el camino ([[frame, radio], ...]) para que la tinta no engorde
+    for f, r in e.get("radius_keys", []):
+        mod.radius = r
+        mod.keyframe_insert("radius", frame=f)
     mod.use_intersection = e.get("intersection", True)
     mod.use_crease = True
     mod.crease_threshold = math.radians(e.get("crease_deg", 140))
@@ -119,6 +124,11 @@ def build_lineart(e, colls):
 def build_camera(c):
     cam_data = bpy.data.cameras.new("cam")
     cam_data.lens = c["lens"]
+    # "lens_keys": [[frame, mm], ...] cambia la lente en el plano (una hoja
+    # de vistas con una camara distinta por frame, o un zoom)
+    for f, mm in c.get("lens_keys", []):
+        cam_data.lens = mm
+        cam_data.keyframe_insert("lens", frame=f)
     cam_data.sensor_fit = "VERTICAL"
     cam_data.sensor_height = 36.0
     cam_data.clip_end = c.get("clip_end", 500)

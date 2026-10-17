@@ -48,6 +48,7 @@ from piezas.andes import (build_apacheta, build_camino, build_cordillera,  # noq
                           build_luna, build_puente, build_tambos, build_terreno)
 from piezas.viaje import build_mensaje  # noqa: E402
 from piezas.tokio import build_chochin, build_expendedoras, build_farol_hex, build_viaducto  # noqa: E402
+from piezas.catedral import build_catedral  # noqa: E402
 
 SKY = {"horizon": "#2a1f4a", "top": "#070814", "ambient": "#1b2a4a"}
 LINE = {"color": "#0d0b24"}
@@ -115,6 +116,8 @@ PIEZAS = [
     ("chochin", build_chochin, None),
     ("expendedoras", build_expendedoras, None),
     ("farol_hex", build_farol_hex, None),
+    # Catedral de San Isidro: escenario recorrible a escala real
+    ("catedral", build_catedral, None),
 ]
 
 
@@ -236,6 +239,13 @@ def main():
     build_lineart(cfg.get("line", LINE), colls)
     build_camera(cfg["camera"])
     print("escena armada", flush=True)
+    if "--blend" in argv:
+        # el escenario armado como .blend, para recorrerlo a mano en Blender
+        dst = Path(argv[argv.index("--blend") + 1]).resolve()
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        bpy.ops.wm.save_as_mainfile(filepath=str(dst))
+        print(f"blend -> {dst}", flush=True)
+        return
     if "--sin-render" in argv:
         return      # colision.py y otros chequeos: solo la escena
 
