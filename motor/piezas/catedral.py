@@ -416,11 +416,27 @@ def _choir_walls(pc):
         L = U.length
         U.normalize()
         N = U.cross(Vector((0, 0, 1)))
-        holes = [arch_chain(L / 2, 0.55, 7.0, 1.2, sill=2.2),
-                 arch_chain(L / 2, 0.6, 16.8, 1.4, sill=14.3)]
+        # abajo, arqueria ciega con hornacinas (foto 61); arriba, el ventanal
+        holes = [arch_chain(L / 2, 0.6, 16.8, 1.4, sill=14.3)]
         # se estira un poco para cerrar las juntas del poligono
         pc.wall(A - U * 0.25, U, N, 0.0, L + 0.5, 0.0, Z_WALL, TN,
                 [[(u + 0.25, v) for u, v in h] for h in holes])
+        mid = (A + B) / 2
+        adentro = (Vector((0.0, Y_AB, 0.0)) - mid)
+        adentro.z = 0
+        adentro.normalize()
+        for k2 in range(2):
+            uc = L * (0.27 + 0.46 * k2)
+            arco = arch_chain(0.0, 0.5, 4.6, 1.3, foot=0.6)
+            pts = [mid + U * (uc - L / 2 + u) + Vector((0, 0, v)) + adentro * (TN / 2 + 0.05) for u, v in arco]
+            pts += [mid + U * (uc - L / 2 - u) + Vector((0, 0, v)) + adentro * (TN / 2 + 0.05) for u, v in reversed(arco[:-1])]
+            pc.tube(pts, 0.16, 0.2)
+            peana = mid + U * (uc - L / 2) + adentro * (TN / 2 + 0.25)
+            pc.box(peana.x - 0.3, peana.x + 0.3, peana.y - 0.3, peana.y + 0.3, 1.4, 1.6)
+        # cornisa que separa la arqueria del ventanal
+        c0 = A + adentro * (TN / 2 + 0.1)
+        c1 = B + adentro * (TN / 2 + 0.1)
+        pc.tube([(c0.x, c0.y, 7.4), (c1.x, c1.y, 7.4)], 0.25, 0.22)
 
 
 def _outer_walls(pc):
@@ -685,6 +701,9 @@ def _buttresses(pc):
             x0, x1 = sorted((sx * xo, sx * (xo + 1.5)))
             pc.box(x0, x1, y - 0.5, y + 0.5, Z_GROUND, Z_AISLE_WALL + 0.6)
             pc.pinnacle(sx * (xo + 0.55), y, Z_AISLE_WALL + 0.6, 0.85, 2.6, 3.0)
+            # gablete en la cara de afuera del pinaculo (foto 7)
+            pc.prism([(y - 0.45, Z_AISLE_WALL + 1.6), (y + 0.45, Z_AISLE_WALL + 1.6), (y, Z_AISLE_WALL + 2.7)],
+                     (sx * (xo + 0.55 + 0.45), 0, 0), (0, 1, 0), (0, 0, 1), (1, 0, 0), 0.12)
             # arbotante: un arco rampante del contrafuerte al muro alto
             if 0 < k < NB:
                 a = Vector((sx * (xo + 0.2), y, Z_AISLE_WALL + 2.4))
@@ -902,6 +921,46 @@ def mat_vitral(name, v):
     return mat
 
 
+def _traceria(pc, vidrios, ancho_min=1.05):
+    """Traceria gotica en las ventanas (fotos 31 y 57): parteluz, dos lancetas
+    y un oculo en la cabeza. Sale del contorno de cada vidrio: el plano, el
+    ancho, el antepecho y el arranque del arco."""
+    for pts in vidrios:
+        zs = [q.z for q in pts]
+        sill, apex = min(zs), max(zs)
+        base = [q for q in pts if abs(q.z - sill) < 1e-3]
+        if len(base) < 2:
+            continue
+        a, b = min(base, key=lambda q: (q.x, q.y)), max(base, key=lambda q: (q.x, q.y))
+        U = b - a
+        w = U.length
+        if w < ancho_min:
+            continue
+        U.normalize()
+        # el arranque: el punto mas alto de las jambas verticales
+        jamba = [q for q in pts if (q - a).cross(Vector((0, 0, 1))).length < 0.02 and q.z > sill + 0.01]
+        spring = max((q.z for q in jamba), default=sill + (apex - sill) * 0.7)
+        mid = (a + b) / 2
+        mid.z = 0.0                      # las alturas van aparte (sill, spring)
+        bot, top = mid.copy(), mid.copy()
+        bot.z, top.z = sill, spring
+        pc.tube([bot, top], 0.11, 0.16)
+        half = w / 2
+        sub = half / 2 - 0.06
+        for sgn in (-1, 1):
+            uc = mid + U * (sgn * half / 2)
+            arc = arch_chain(0.0, sub, 0.0, sub * 1.4)
+            pts3 = [uc + U * u + Vector((0, 0, spring + v)) for u, v in arc]
+            pts3 += [uc + U * (-u) + Vector((0, 0, spring + v)) for u, v in reversed(arc[:-1])]
+            pc.tube(pts3, 0.09, 0.14)
+        r = min(half * 0.42, (apex - spring - sub * 1.4) * 0.5 + 0.12)
+        if r > 0.12:
+            cz = spring + sub * 1.4 + r * 1.1
+            ring = [mid + U * (r * math.cos(2 * math.pi * k / 16)) + Vector((0, 0, cz + r * math.sin(2 * math.pi * k / 16)))
+                    for k in range(17)]
+            pc.tube(ring, 0.08, 0.13)
+
+
 def _vidrios(piezas, mat, coll):
     pc = Pieza("catedral_vidrios")
     for src in piezas:
@@ -1106,6 +1165,8 @@ def build_catedral(e, colls):
     _choir_walls(muros)
     _outer_walls(muros)
     vid = list(muros.vidrios)
+    if e.get("traceria", True):
+        _traceria(muros, vid)
     muros.done(m_stone, main)
 
     _puertas(e.get("puertas", {}), mat_toon("catedral_puerta", col["puerta"]), main)

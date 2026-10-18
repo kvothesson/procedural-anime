@@ -408,6 +408,27 @@ def build_entorno(e, colls):
     if e.get("faroles"):
         _faroles(calles, H, e["faroles"], colls, R if R < 1e8 else 450)
 
+    # monumentos: fuente (pileta redonda con columna y taza) y busto en pedestal
+    mon = bmesh.new()
+    for m in data.get("monumentos", []):
+        x, y = m["at"]
+        z = H(x, y)
+        if m["tipo"] == "fuente":
+            bmesh.ops.create_cone(mon, cap_ends=True, segments=24, radius1=3.2, radius2=3.2, depth=0.55,
+                                  matrix=Matrix.Translation((x, y, z + 0.27)))
+            bmesh.ops.create_cone(mon, cap_ends=True, segments=24, radius1=2.9, radius2=2.9, depth=0.2,
+                                  matrix=Matrix.Translation((x, y, z + 0.5)))
+            bmesh.ops.create_cone(mon, cap_ends=True, segments=12, radius1=0.35, radius2=0.25, depth=1.6,
+                                  matrix=Matrix.Translation((x, y, z + 1.3)))
+            bmesh.ops.create_cone(mon, cap_ends=True, segments=16, radius1=0.3, radius2=1.1, depth=0.35,
+                                  matrix=Matrix.Translation((x, y, z + 2.2)))
+        else:
+            bmesh.ops.create_cube(mon, size=1.0, matrix=Matrix.Translation((x, y, z + 0.9))
+                                  @ Matrix.Diagonal((0.9, 0.9, 1.8, 1)))
+            bmesh.ops.create_icosphere(mon, subdivisions=2, radius=0.32,
+                                       matrix=Matrix.Translation((x, y, z + 2.25)))
+    _obj("entorno_monumentos", mon, mat_toon("entorno_monumento_m", col.get("monumento", "#b9b4aa")), main)
+
     # arboles
     if e.get("arboles", True):
         copas = [bmesh.new() for _ in col["copa"]]

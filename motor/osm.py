@@ -511,6 +511,45 @@ def terreno(spec, M, cache):
     return {"x0": x0, "y0": y0, "paso": paso, "n": n, "z": [round(float(v), 2) for v in z.ravel()]}
 
 
+def bosque_barranca(out, spec, R):
+    """La barranca es un monte: arboles donde el terreno (SRTM) tiene mucha
+    pendiente y no hay edificios ni calles. El bosque sigue al relieve real."""
+    B = spec.get("bosque")
+    T = out.get("terreno")
+    if not B or not T:
+        return 0
+    occ = Ocupado(R)
+    for b in out["edificios"]:
+        occ.poly([tuple(p) for p in b["p"]], grow=1.5)
+    for c in out["calles"]:
+        occ.line([tuple(p) for p in c["p"]], c["w"] + 4.0)
+    for v in out["vias"]:
+        occ.line([tuple(p) for p in v["p"]], 9.0)
+    arr = np.array(occ.img, dtype=bool)
+    n, paso, x0, y0 = T["n"], T["paso"], T["x0"], T["y0"]
+    z = np.array(T["z"]).reshape(n, n)
+    gy, gx = np.gradient(z, paso)
+    pend = np.hypot(gx, gy)
+    rnd = random.Random(spec.get("seed", 11) + 7)
+    k, d = 0, B.get("paso", 7.0)
+    yy = -R
+    while yy < R:
+        xx = -R
+        while xx < R:
+            x, y = xx + rnd.uniform(-d * 0.4, d * 0.4), yy + rnd.uniform(-d * 0.4, d * 0.4)
+            i, j = int((x - x0) / paso), int((y - y0) / paso)
+            if 0 <= i < n and 0 <= j < n and pend[j, i] > B.get("pendiente", 0.12) and math.hypot(x, y) < R - 5:
+                px, py = occ.px(x, y)
+                if 0 <= int(py) < arr.shape[0] and 0 <= int(px) < arr.shape[1] and not arr[int(py), int(px)] \
+                        and not _sin_arbol(x, y):
+                    out["arboles"].append([round(x, 2), round(y, 2), round(rnd.uniform(1.2, 1.9), 2), "barranca"])
+                    k += 1
+            xx += d
+        yy += d
+    print(f"bosque de la barranca: {k} arboles (pendiente > {B.get('pendiente', 0.12):.0%})")
+    return k
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("episode", type=Path)
@@ -525,6 +564,11 @@ def main():
     out = convertir(spec, json.loads(raw_p.read_text(encoding="utf-8")))
     if spec.get("terreno"):
         out["terreno"] = terreno(spec, Marco(spec), data / "dem")
+        _SIN_ARBOLES[:] = spec.get("zonas_sin_arboles", [])
+        bosque_barranca(out, spec, spec.get("radio", 450))
+    # monumentos (puntos de OSM: fuentes, bustos, estatuas)
+    M = Marco(spec)
+    out["monumentos"] = [dict(m, at=M({"lat": m["lat"], "lon": m["lon"]})) for m in spec.get("monumentos", [])]
     dst = data / "entorno.json"
     dst.write_text(json.dumps(out, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     src = {}

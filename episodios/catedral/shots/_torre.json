@@ -1,24 +1,19 @@
 {
   "extends": "vistas.json",
   "estilo": "maqueta",
-  "frames": 2,
+  "frames": 1,
   "storyboard": [
-    1,
-    2
+    1
   ],
   "entorno": {
     "arboles": false
   },
   "line": {
-    "radius": 0.02,
+    "radius": 0.01,
     "radius_keys": [
       [
         1,
-        0.02
-      ],
-      [
-        2,
-        0.02
+        0.01
       ]
     ]
   },
@@ -27,38 +22,21 @@
       {
         "frame": 1,
         "pos": [
-          -75,
-          -3.6,
-          34
+          32,
+          6,
+          24
         ],
         "aim": [
-          0,
-          -3.6,
-          34
-        ]
-      },
-      {
-        "frame": 2,
-        "pos": [
-          -40,
-          -60,
-          40
-        ],
-        "aim": [
-          0,
-          -3.6,
-          40
+          8,
+          16,
+          15
         ]
       }
     ],
     "lens_keys": [
       [
         1,
-        32
-      ],
-      [
-        2,
-        30
+        24
       ]
     ]
   }

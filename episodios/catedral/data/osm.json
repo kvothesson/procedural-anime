@@ -88,5 +88,25 @@
         -8
       ]
     ]
+  ],
+  "bosque": {
+    "pendiente": 0.12,
+    "paso": 7.0
+  },
+  "monumentos": [
+    {
+      "tipo": "fuente",
+      "osm": "node/4327371444",
+      "lat": -34.4662069,
+      "lon": -58.5095717,
+      "nombre": "fuente de Plaza Mitre"
+    },
+    {
+      "tipo": "busto",
+      "osm": "node/7622861431",
+      "lat": -34.4684849,
+      "lon": -58.5119158,
+      "nombre": "Andres Rolon"
+    }
   ]
 }
