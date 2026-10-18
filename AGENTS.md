@@ -100,7 +100,7 @@ la vez se cuelgan).
 |---|---|
 | `width`, `height`, `fps`, `frames`, `samples` | Render (1080×1920, 12 fps únicos → 24 fps en doses, 8 muestras) |
 | `extends`, `drop` | Hereda otro plano; `drop` borra claves heredadas |
-| `estilo` | Nombre de `<ep>/estilos/<nombre>.json`: el look entero (cielo, luces, tinta, toon, post y colores de cada pieza en `piezas`). Va debajo del plano; cambiar el look = cambiar una palabra |
+| `estilo` | Nombre de `<ep>/estilos/<nombre>.json`: el look entero (cielo, luces, tinta, toon, post y colores de cada pieza en `piezas`). Va debajo del plano; un estilo puede heredar de otro (`extends`); cambiar el look = cambiar una palabra |
 | `storyboard` | Cuadros clave del plano para `motor/storyboard.py` (si no está, el del medio) |
 | `mascara_anclas` | Segunda pasada solo con los objetos `ancla`: máscara exacta para que el post (congelar, glitch) no los toque |
 | `render_list`, `render_frames`, `still` | Frames sueltos / rango / un solo frame copiado |
@@ -117,9 +117,9 @@ la vez se cuelgan).
 | `luz_mala` | Destello verde en frames dados |
 | `blackout` | Apagón en cascada o reencendido (`mode: "on"`), latido del cristal |
 | `camera` | `from`/`to` lineal o `keys` con `ease`; `lens_keys` [[frame, mm]] cambia la lente |
-| `catedral` | Catedral de San Isidro (`techo`, `anexos`, `suelo`, `colores`, `vidrios` con `luz`) |
+| `catedral` | Catedral de San Isidro (`techo`, `anexos`, `suelo`, `colores`, `vidrios` con `luz`, `reflectores` puntuales o en cono, `brillos`) |
 | `servidores` | Racks, cables y núcleo dentro de la catedral (`colores`, `leds`, `nucleo`, `luces`, `filas`) |
-| `entorno` | Alrededores de OSM (`datos`, `z`, `piso`, `radio`, `relleno`, `arboles`, `colores`, `ventanas`) |
+| `entorno` | Alrededores de OSM sobre el relieve (`datos`, `terreno`, `piso`, `radio`, `relleno`, `arboles`, `quitar_arboles`, `colores`, `ventanas`) |
 | `post` | `glow`, `rain` (`false` la apaga), `rain_dim`, `ripples`, `speedlines`, `glitch`, `grain`, `textos`, ... |
 | `camino`, `terreno`, `cordillera`, `puente`, `tambos`, `apacheta`, `luna` | Andes (ver `piezas/andes.py`): todo se ubica por `s`, metros sobre la ruta |
 | `mensaje`, `relevo` | Mensaje de luz (o lista de mensajes) con `keys` [[frame, s]], `colors` por tramo, `from_frame`/`to_frame`, `frac`; `relevo` lo enciende todo a su paso (`lead`, `delay`, `off`) |

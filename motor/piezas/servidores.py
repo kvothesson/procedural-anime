@@ -17,7 +17,7 @@ import bmesh
 import bpy
 from mathutils import Matrix, Vector
 
-from .base import lin, tint_light
+from .base import key_power, lin, tint_light
 from .catedral import AI, BAY, NB, XC, XW, Y_CR0, Y_CR1, Z_TRI0, Z_V, Pieza
 from .materiales import _fog, _toon_light, mat_neon, mat_toon
 
@@ -144,6 +144,13 @@ def mat_leds(name, frente, leds):
     strip = m("MULTIPLY", m("GREATER_THAN", sep.outputs[0], 0.9), m("LESS_THAN", sep.outputs[0], 0.95))
     strip = m("MULTIPLY", strip, m("GREATER_THAN", sep.outputs[1], 0.04))
     mask = m("MAXIMUM", mask, strip)
+    # latido: la propiedad "latido" del objeto (0..1, animable) prende todos
+    # los leds de todas las unidades a la vez, del mismo color
+    lt = n.new("ShaderNodeAttribute")
+    lt.attribute_type = "OBJECT"
+    lt.attribute_name = "latido"
+    lat = lt.outputs["Fac"]
+    mask = m("ADD", m("MULTIPLY", mask, m("SUBTRACT", 1.0, lat)), m("MULTIPLY", dot, lat))
     # color: un color dominante por rack y algunos leds de otro
     ramp = n.new("ShaderNodeValToRGB")
     ramp.color_ramp.interpolation = "CONSTANT"
@@ -158,10 +165,16 @@ def mat_leds(name, frente, leds):
     pick = m("ADD", m("MULTIPLY", noise(rk.outputs[0]).outputs["Value"], 0.8),
              m("MULTIPLY", noise(cell.outputs[0], 3.0).outputs["Value"], 0.35))
     L.new(m("FRACT", pick), ramp.inputs["Fac"])
+    unico = n.new("ShaderNodeMix")
+    unico.data_type = "RGBA"
+    L.new(lat, unico.inputs["Factor"])
+    L.new(ramp.outputs["Color"], unico.inputs[6])
+    unico.inputs[7].default_value = lin(leds.get("latido_color", "#dffbff"))
     led_col = n.new("ShaderNodeVectorMath")
     led_col.operation = "SCALE"
-    L.new(ramp.outputs["Color"], led_col.inputs[0])
-    L.new(m("MULTIPLY", mask, leds.get("fuerza", 3.0)), led_col.inputs["Scale"])
+    L.new(unico.outputs[2], led_col.inputs[0])
+    L.new(m("MULTIPLY", m("MULTIPLY", mask, leds.get("fuerza", 3.0)), m("ADD", 1.0, m("MULTIPLY", lat, 0.8))),
+          led_col.inputs["Scale"])
     # panel con toon
     base = n.new("ShaderNodeMix")
     base.data_type = "RGBA"
@@ -313,7 +326,7 @@ def _nucleo(pc, glow_pc):
 
 # ---------------------------------------------------------------- armado
 def build_servidores(e, colls):
-    """e: {"colores": {"cuerpo", "frente", "cable"}, "leds": {...},
+    """e: {"colores": {"cuerpo", "frente", "cable"}, "leds": {...}, "latido": [[frame, 0..1], ...],
     "nucleo": "#...", "luces": {"energia": 60} o false, "seed": 7}"""
     rnd = random.Random(e.get("seed", 7))
     col = {"cuerpo": "#9a9da3", "frente": "#6e7178", "cable": "#55585e", **e.get("colores", {})}
@@ -329,6 +342,10 @@ def build_servidores(e, colls):
     else:
         mf = mat_leds("servidores_frente", col["frente"], leds)
     ob = front.done(mf, main, weld=False)
+    latido = e.get("latido", [[1, 0.0]])
+    for f, v in latido:
+        ob["latido"] = float(v)
+        ob.keyframe_insert('["latido"]', frame=f)
     ob.lineart.usage = "EXCLUDE"
 
     pc = Pieza("servidores_cables")
@@ -343,7 +360,10 @@ def build_servidores(e, colls):
     if leds.get("modo") == "toon":
         gl.done(mat_toon("servidores_nucleo_luz", nuc), main)
     else:
-        gl.done(mat_neon("servidores_nucleo_luz", nuc, e.get("nucleo_fuerza", 2.5)), colls["neon"])
+        glo = gl.done(mat_neon("servidores_nucleo_luz", nuc, e.get("nucleo_fuerza", 2.5)), colls["neon"])
+        # con el latido el nucleo sube a la vez que los leds
+        for f, v in latido:
+            key_power(glo, f, 1.0 + 1.2 * float(v))
 
     luces = e.get("luces", {})
     if luces:

@@ -1,0 +1,88 @@
+{
+  "_desc": "Prueba de estilo adentro: el pasillo de la nave.",
+  "estilo": "cyberpunk_adentro",
+  "width": 1080,
+  "height": 1920,
+  "fps": 12,
+  "frames": 1,
+  "samples": 8,
+  "storyboard": [
+    1
+  ],
+  "catedral": {
+    "techo": true,
+    "anexos": true,
+    "suelo": 0
+  },
+  "servidores": {},
+  "entorno": {
+    "datos": "../catedral/data/entorno.json",
+    "piso": 6000,
+    "radio": 450
+  },
+  "nena": {
+    "keys": [
+      {
+        "rumbo": [
+          0,
+          1
+        ],
+        "at": [
+          0.35,
+          7.3,
+          0.0
+        ],
+        "cabeza": [
+          -6,
+          22
+        ],
+        "paso": 10,
+        "habla": 1,
+        "frame": 1
+      }
+    ]
+  },
+  "papa_brazo": {
+    "hombro": [
+      0.24,
+      0.05,
+      0.36
+    ]
+  },
+  "line": {
+    "radius": 0.005,
+    "radius_keys": [
+      [
+        1,
+        0.005
+      ]
+    ]
+  },
+  "camera": {
+    "lens": 18,
+    "ease": false,
+    "clip_start": 0.05,
+    "clip_end": 3000,
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          -0.3,
+          7.0,
+          1.7
+        ],
+        "aim": [
+          3.607,
+          9.839,
+          0.406
+        ]
+      }
+    ],
+    "lens_keys": [
+      [
+        1,
+        16
+      ]
+    ]
+  }
+}

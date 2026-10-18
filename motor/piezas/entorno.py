@@ -213,7 +213,7 @@ def _tree(tronco, copa, x, y, z, s, rnd):
 def build_entorno(e, colls):
     """e: {"datos": "data/entorno.json", "terreno": true, "z": -1.0 (sin
     terreno), "piso": 6000, "colores": {...}, "arboles": true, "relleno": true,
-    "radio": 450, "ventanas": {...} (ver mat_toon)}"""
+    "radio": 450, "ventanas": {...} (ver mat_toon), "quitar_arboles": [[x, y], ...]}"""
     data = json.loads((ctx.EPISODIO / e.get("datos", "data/entorno.json")).read_text(encoding="utf-8"))
     col = {"piso": "#b8b4aa", "vereda": "#cfcac0", "asfalto": "#77797e", "camino": "#c2b8a6",
            "pasto": "#9fb48f", "playa": "#8c8e92", "edificio": ["#d6d2ca", "#cbc6bd", "#dedad2"],
@@ -317,8 +317,11 @@ def build_entorno(e, colls):
     if e.get("arboles", True):
         copas = [bmesh.new() for _ in col["copa"]]
         tr = bmesh.new()
+        # "quitar_arboles": puntos [x, y] de arboles que se sacan (de relleno que
+        # tapan una vista que el plano necesita)
+        quitar = {(round(q[0], 1), round(q[1], 1)) for q in e.get("quitar_arboles", [])}
         for x, y, s, src in data["arboles"]:
-            if math.hypot(x, y) > R or (not relleno and src == "relleno"):
+            if math.hypot(x, y) > R or (not relleno and src == "relleno") or (round(x, 1), round(y, 1)) in quitar:
                 continue
             _tree(tr, copas[rnd.randrange(len(copas))], x, y, H(x, y) - 0.2,
                   s * e.get("escala_arboles", 1.3), rnd)

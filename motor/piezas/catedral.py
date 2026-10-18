@@ -801,11 +801,42 @@ def _luz_vitrales(vidrios, v, luz, colls):
         k += 1
 
 
+def _puertas(e, mat, coll):
+    """Las dos hojas de la portada (vano de 3,4 m con arco apuntado), con la
+    bisagra en cada jamba, cerca de la cara interior del muro. Se abren hacia
+    adentro: e["abre"] = [[frame, grados], ...] (sin claves, cerradas)."""
+    half, spring, rise = 1.68, 7.0, 3.4
+    chain = arch_chain(0.0, half, spring, rise, foot=0.0)
+    keys = e.get("abre", [[1, 0]])
+    for sx, name in ((-1, "i"), (1, "d")):
+        pc = Pieza(f"catedral_puerta_{name}")
+        # en coordenadas de la hoja: x desde la bisagra hacia el centro del vano
+        poly = [((u + half) * -sx, v) for u, v in chain] + [(half * -sx, 0.0)]
+        if sx > 0:
+            poly.reverse()
+        pc.prism(poly, (0, 0, 0), (1, 0, 0), (0, 0, 1), (0, 1, 0), 0.12)
+        ob = pc.done(mat, coll)
+        ob.location = (sx * 1.7, Y_TO + 1.05, 0.0)
+        for f, deg in keys:
+            # la izquierda gira antihorario y la derecha horario: las dos hacia +y
+            ob.rotation_euler = (0, 0, math.radians(-sx * deg))
+            ob.keyframe_insert("rotation_euler", frame=f)
+
+
 def build_catedral(e, colls):
     """e: {"techo": true, "anexos": true, "suelo": 240, "colores": {...},
-    "vidrios": {...} (ver mat_vitral; false = vanos abiertos)}"""
-    col = {"piedra": "#d8d4cb", "techo": "#8d949c", "suelo": "#7d8578", **e.get("colores", {})}
-    m_stone = mat_toon("catedral_piedra", col["piedra"])
+    "vidrios": {...} (ver mat_vitral; false = vanos abiertos),
+    "reflectores": [{"at": [x, y, z], "color": "#...", "energia": W,
+    "apunta": [x, y, z] (cono; sin esto, luz puntual), "abre": grados}],
+    "brillos": [{"kind": "point", "at": [x, y, z], "color", "strength", "falloff"}],
+    "puertas": {"abre": [[frame, grados], ...]}}"""
+    col = {"piedra": "#d8d4cb", "techo": "#8d949c", "suelo": "#7d8578", "puerta": "#6b5a4e",
+           **e.get("colores", {})}
+    # "brillos": resplandores suaves sumados sobre el cel (como el aerografo del
+    # anime): la piedra se ve encendida por los reflectores. Siguen a la
+    # propiedad "brillo" de cada objeto de la catedral (0..1, animable).
+    brillos = [dict(g, prop="brillo") for g in e.get("brillos", [])]
+    m_stone = mat_toon("catedral_piedra", col["piedra"], glows=brillos or None)
     m_roof = mat_toon("catedral_techo", col["techo"])
     m_ground = mat_toon("catedral_suelo", col["suelo"])
     main = colls["main"]
@@ -821,6 +852,8 @@ def build_catedral(e, colls):
     _outer_walls(muros)
     vid = list(muros.vidrios)
     muros.done(m_stone, main)
+
+    _puertas(e.get("puertas", {}), mat_toon("catedral_puerta", col["puerta"]), main)
 
     torre = Pieza("catedral_torre")
     _tower(torre)
@@ -858,6 +891,28 @@ def build_catedral(e, colls):
         else:
             rf.bm.free()
 
+    # reflectores: luces sin sombra que lavan fachada y torre desde abajo
+    # (de noche, desde lejos, la catedral se lee por su propia luz)
+    # Con "apunta" es un cono (spot) hacia ese punto: un punto a ras del piso
+    # pinta un charco duro en el suelo; el cono solo lava lo que mira.
+    for i, r in enumerate(e.get("reflectores", [])):
+        if "apunta" not in r:
+            tint_light(f"catedral_reflector{i}", r["color"], r.get("energia", 3000), tuple(r["at"]), colls)
+            continue
+        li = bpy.data.lights.new(f"catedral_reflector{i}", "SPOT")
+        li.color = lin(r["color"])[:3]
+        li.energy = r.get("energia", 3000)
+        li.spot_size = math.radians(r.get("abre", 30))
+        li.spot_blend = 0.6
+        li.shadow_soft_size = 0.3
+        li.use_shadow = False
+        ob = bpy.data.objects.new(li.name, li)
+        ob.location = r["at"]
+        d = Vector(r["apunta"]) - Vector(r["at"])
+        ob.rotation_mode = "QUATERNION"
+        ob.rotation_quaternion = Vector((0, 0, -1)).rotation_difference(d.normalized())
+        link(ob, colls["lights"])
+
     if techo:
         vb = Pieza("catedral_bovedas")
         rb = Pieza("catedral_nervios")
@@ -867,3 +922,6 @@ def build_catedral(e, colls):
         pc = Pieza("catedral_techos")
         _roofs(pc)
         pc.done(m_roof, main)
+    for ob in bpy.data.objects:
+        if ob.name.startswith("catedral_"):
+            ob["brillo"] = 1.0

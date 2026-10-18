@@ -35,7 +35,12 @@ def find_estilo(shot_path, name):
     src = Path(shot_path).resolve().parent.parent / "estilos" / f"{name}.json"
     if not src.exists():
         raise FileNotFoundError(f"No existe el estilo {src}")
-    return json.loads(src.read_text(encoding="utf-8"))
+    est = json.loads(src.read_text(encoding="utf-8"))
+    # un estilo puede heredar de otro ("extends": "cyberpunk") y pisar lo que
+    # cambia (adentro vs afuera de la misma escena)
+    if "extends" in est:
+        est = merge(find_estilo(shot_path, est.pop("extends")), est)
+    return est
 
 
 def load_shot(path):

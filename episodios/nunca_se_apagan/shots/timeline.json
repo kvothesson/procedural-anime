@@ -1,0 +1,15 @@
+{
+  "name": "nunca_se_apagan",
+  "fps_unique": 12,
+  "fps_out": 24,
+  "shots": [
+    "01_libertador",
+    "02_torre",
+    "03_atrio",
+    "04_umbral",
+    "05_nave",
+    "06_misa",
+    "07_nucleo",
+    "08_boveda"
+  ]
+}

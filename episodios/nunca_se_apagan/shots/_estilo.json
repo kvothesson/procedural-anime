@@ -1,0 +1,133 @@
+{
+  "_desc": "Prueba de estilo afuera: caminando, senalando la torre.",
+  "estilo": "cyberpunk",
+  "width": 1080,
+  "height": 1920,
+  "fps": 12,
+  "frames": 2,
+  "samples": 8,
+  "storyboard": [
+    1,
+    2
+  ],
+  "catedral": {
+    "techo": true,
+    "anexos": true,
+    "suelo": 0
+  },
+  "servidores": {},
+  "entorno": {
+    "datos": "../catedral/data/entorno.json",
+    "piso": 6000,
+    "radio": 450
+  },
+  "nena": {
+    "keys": [
+      {
+        "rumbo": [
+          0,
+          1
+        ],
+        "at": [
+          20.05,
+          -79.7,
+          -3.838
+        ],
+        "cabeza": [
+          8,
+          5
+        ],
+        "paso": 18,
+        "habla": 1,
+        "frame": 1
+      },
+      {
+        "rumbo": [
+          0,
+          1
+        ],
+        "at": [
+          19.8,
+          -44.0,
+          -2.222
+        ],
+        "cabeza": [
+          25,
+          35
+        ],
+        "paso": 0,
+        "habla": 0,
+        "senala": [
+          0.0,
+          -3.6,
+          40.0
+        ],
+        "frame": 2
+      }
+    ]
+  },
+  "papa_brazo": {
+    "hombro": [
+      0.24,
+      0.05,
+      0.36
+    ]
+  },
+  "line": {
+    "radius": 0.005,
+    "radius_keys": [
+      [
+        1,
+        0.005
+      ],
+      [
+        2,
+        0.006
+      ]
+    ]
+  },
+  "camera": {
+    "lens": 18,
+    "ease": false,
+    "clip_start": 0.05,
+    "clip_end": 3000,
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          19.4,
+          -80.0,
+          -2.125
+        ],
+        "aim": [
+          22.862,
+          -77.196,
+          -4.395
+        ]
+      },
+      {
+        "frame": 2,
+        "pos": [
+          19.4,
+          -45.0,
+          -0.525
+        ],
+        "aim": [
+          20.173,
+          -40.122,
+          0.257
+        ]
+      }
+    ],
+    "lens_keys": [
+      [
+        1,
+        18
+      ],
+      [
+        2,
+        14
+      ]
+    ]
+  }
+}

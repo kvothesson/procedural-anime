@@ -410,6 +410,27 @@ Salieron de cada vez que quien dirigía miró un frame y dijo "esto no". Pesan t
   calle. Un techo de chapa a dos aguas con tragaluces encendidos se lee de los dos lados. En el
   storyboard, si un elemento del lugar se ve de lados distintos, mirarlo en un cuadro de cada lado.
 
+## 13. Lugares reales, estilos y primera persona (aprendido en catedral / nunca_se_apagan)
+
+- **Un lugar real sale de OpenStreetMap + SRTM** (`motor/osm.py`): planta, calles, plazas, vías y
+  relieve en el marco de la escena. OSM casi nunca trae alturas y en barrios bajos faltan las
+  casas: se completan y quedan marcadas `relleno`. Verificar el relieve contra el mapa (el escalón
+  de la barranca tiene que caer donde OSM tiene escaleras y vías).
+- **El estilo va en un archivo aparte** (`<ep>/estilos/<nombre>.json`, `"estilo"` en el plano, con
+  `extends` entre estilos): adentro y afuera de la misma escena son dos estilos, y el corte de la
+  puerta coincide con el cambio.
+- **El toon topea la luz en el 100 % del color:** más energía no hace "más encendido", solo cambia
+  el tono. Una superficie encendida por reflectores se logra con `glows` (el aerógrafo sumado sobre
+  el cel), no subiendo la luz. Cerca de la cámara el glow quema: chico y suave donde se camina.
+- **Una luz puntual a ras del piso pinta un charco duro** (un cuadrado de color en el toon). Para
+  lavar una fachada, un cono (`SPOT`) que apunte a lo que ilumina.
+- **Primera persona:** la mira se calcula para que la cabeza del personaje caiga donde se pide en
+  pantalla (búsqueda de giro e inclinación); si además se exige otro punto en cuadro y no entra,
+  aflojar esa exigencia en ese cuadro. Un chico de la mano va al costado, no adelante: adelante, su
+  brazo sale de la espalda.
+- **Árboles de relleno que tapan una vista que el plano necesita se sacan** calculando qué copas
+  cortan la línea de vista (no se tocan los de OSM).
+
 ## 9. Publicar
 
 El motor no sube nada: `montaje.py` deja `episodios/<ep>/out/<ep>.mp4` (H.264 + AAC a 48 kHz,
