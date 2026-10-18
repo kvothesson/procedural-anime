@@ -63,6 +63,16 @@ catedral, los vitrales y los servidores). Geometría y cámaras no cambian.
 Para un estilo nuevo (por ejemplo `real`, con la piedra clara y la luz de día de las fotos) se
 copia uno y se cambian los valores; ningún plano se toca.
 
+## Hora del día y clima
+
+Cualquier plano del escenario acepta `"hora": "HH:MM"` (con `"fecha"`) y `"clima"` (`despejado`,
+`nublado`, `lluvia`, `niebla`, `tormenta`); ver `motor/cielo.py`. El sol sale de la posición real
+para San Isidro (la `georef` de `data/entorno.json`), así que las sombras caen como caerían ese día
+a esa hora; de su altura salen cielo, luz, niebla, cuántas ventanas del barrio están prendidas y si
+los reflectores de la fachada están encendidos. Pruebas con la misma cámara: `_clima_dia` (11:00),
+`_clima_atardecer_lluvia` (18:50), `_clima_noche_niebla` (22:00), `_clima_tormenta` (16:00, cuadro
+del relámpago). La paleta por defecto es natural; un estilo puede traer la suya en `horas`.
+
 ## Planos
 
 | JSON | Qué es |
@@ -103,3 +113,5 @@ copia uno y se cambian los valores; ningún plano se toca.
 
 Pendiente: la barranca es más suave que la real (SRTM de 30 m); el entorno todavía no tiene colores en el estilo cyberpunk. Falta de la referencia: tracería de ventanas y rosetón, bancos y mobiliario,
 torre sin el ahusamiento real, anexos como bloques simples.
+
+| 2026-10-18 | Hora del día y clima configurables | `motor/cielo.py` (sol astronómico, paleta por altura del sol, climas con lluvia del post y relámpagos), `hora`/`clima` en `plano.py`, `hacia` y `energia_keys` en las luces, `georef` en `entorno.json`. 4 cuadros con la misma cámara |

@@ -1,0 +1,104 @@
+{
+  "extends": "vistas.json",
+  "frames": 1,
+  "storyboard": [
+    1
+  ],
+  "entorno": {
+    "ventanas": {
+      "pitch_x": 2.6,
+      "pitch_z": 3.0,
+      "base": -40.0,
+      "margin_x": 0.32,
+      "margin_z": 0.25,
+      "lit": 0.5,
+      "cold_ratio": 0.25,
+      "warm": "#ffc56b",
+      "cold": "#cfe8ff",
+      "dark": "#3a3f50"
+    }
+  },
+  "catedral": {
+    "reflectores": [
+      {
+        "at": [
+          -9.0,
+          -22.0,
+          0.5
+        ],
+        "apunta": [
+          0.0,
+          -5.0,
+          32.0
+        ],
+        "abre": 24,
+        "color": "#e8f2ff",
+        "energia": 12000
+      },
+      {
+        "at": [
+          9.0,
+          -22.0,
+          0.5
+        ],
+        "apunta": [
+          0.0,
+          -5.0,
+          26.0
+        ],
+        "abre": 24,
+        "color": "#e8f2ff",
+        "energia": 10000
+      },
+      {
+        "at": [
+          0.0,
+          -30.0,
+          2.0
+        ],
+        "apunta": [
+          0.0,
+          -5.0,
+          55.0
+        ],
+        "abre": 14,
+        "color": "#e8f2ff",
+        "energia": 12000
+      }
+    ]
+  },
+  "line": {
+    "radius": 0.03,
+    "radius_keys": [
+      [
+        1,
+        0.03
+      ]
+    ]
+  },
+  "camera": {
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          -60,
+          -70,
+          45
+        ],
+        "aim": [
+          0,
+          15,
+          8
+        ]
+      }
+    ],
+    "lens_keys": [
+      [
+        1,
+        24
+      ]
+    ]
+  },
+  "hora": "22:00",
+  "clima": "niebla"
+}

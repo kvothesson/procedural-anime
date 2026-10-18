@@ -59,6 +59,15 @@ def build_lights(items, colls):
         ob.location = l.get("at", (0, 0, 10))
         if "rot" in l:
             ob.rotation_euler = [math.radians(a) for a in l["rot"]]
+        if "hacia" in l:
+            # "hacia": vector que apunta a la fuente (el sol de cielo.py); la
+            # luz alumbra en la direccion opuesta, por su -Z
+            ob.rotation_mode = "QUATERNION"
+            ob.rotation_quaternion = Vector((0, 0, 1)).rotation_difference(Vector(l["hacia"]).normalized())
+        # "energia_keys": [[frame, energia], ...] (relampagos)
+        for f, en in l.get("energia_keys", []):
+            li.energy = en
+            li.keyframe_insert("energy", frame=f)
         link(ob, colls["lights"])
 
 

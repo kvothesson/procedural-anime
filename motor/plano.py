@@ -51,17 +51,38 @@ def load_shot(path):
     camara, para cambiarlo con una palabra. El estilo va debajo: lo que el
     plano dice gana. Sus "piezas" ({"catedral": {...}, ...}) se mezclan solo
     en las piezas que el plano ya tiene: un estilo da colores, no agrega
-    objetos."""
+    objetos.
+
+    "hora" (con "fecha") y "clima" se aplican encima del estilo y debajo de
+    lo que el plano dice (ver cielo.py)."""
     cfg = _load_raw(path)
+    raw = json.loads(json.dumps(cfg))     # lo que el plano dice, antes del estilo
     name = cfg.pop("estilo", None)
-    if not name:
-        return cfg
-    est = dict(find_estilo(path, name))
-    piezas = est.pop("piezas", {})
-    est.pop("_desc", None)
-    for k, v in piezas.items():
-        if k in cfg:
-            cfg[k] = merge(v, cfg[k]) if isinstance(cfg[k], dict) else cfg[k]
-    cfg = merge(est, cfg)
-    cfg["_estilo"] = name
+    if name:
+        est = dict(find_estilo(path, name))
+        piezas = est.pop("piezas", {})
+        est.pop("_desc", None)
+        for k, v in piezas.items():
+            if k in cfg:
+                cfg[k] = merge(v, cfg[k]) if isinstance(cfg[k], dict) else cfg[k]
+        cfg = merge(est, cfg)
+        cfg["_estilo"] = name
+    if "hora" in cfg or "clima" in cfg:
+        # hora del dia y clima van encima del estilo y debajo del plano
+        import cielo
+        cfg = cielo.aplicar(cfg, raw, lugar(path, cfg))
     return cfg
+
+
+def lugar(shot_path, cfg):
+    """Latitud, longitud y rumbo de la escena: "lugar" del plano o la
+    georreferencia de los datos del entorno (motor/osm.py)."""
+    if "lugar" in cfg:
+        return cfg["lugar"]
+    datos = cfg.get("entorno", {}).get("datos")
+    if not datos:
+        return None
+    src = Path(shot_path).resolve().parent.parent / datos
+    if not src.exists():
+        return None
+    return json.loads(src.read_text(encoding="utf-8")).get("georef")

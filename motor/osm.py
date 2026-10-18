@@ -210,6 +210,8 @@ def convertir(spec, raw):
     excl = set(spec.get("excluir", []))
     out = {"_fuente": "(c) colaboradores de OpenStreetMap, ODbL. " + spec.get("_lugar", ""),
            "_fecha_osm": raw.get("osm3s", {}).get("timestamp_osm_base"),
+           "georef": {"lat": spec["origen"][0], "lon": spec["origen"][1],
+                      "rumbo_deg": spec.get("rumbo_deg", 90.0), "utc": spec.get("utc", -3)},
            "edificios": [], "calles": [], "areas": [], "vias": [], "andenes": [], "arboles": []}
     occ = Ocupado(R)
     for z in spec.get("zonas_libres", []):

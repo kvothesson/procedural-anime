@@ -56,5 +56,6 @@
     "catedral": {
       "brillos": []
     }
-  }
+  },
+  "interior": true
 }

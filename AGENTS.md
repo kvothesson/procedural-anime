@@ -27,6 +27,7 @@ rendimiento, sonido y criterio de dirección).
 | [motor/piezas/servidores.py](motor/piezas/servidores.py) | Servidores dentro de la catedral: filas de racks con leds que parpadean (un shader, un atributo por rack), cables, bandejas y el núcleo del crucero |
 | [motor/piezas/entorno.py](motor/piezas/entorno.py) | Alrededores reales sobre el relieve: calles con veredas, plazas, vías, edificios extruidos (techos a dos aguas en casas) y árboles, desde `<ep>/data/entorno.json` |
 | [motor/osm.py](motor/osm.py) | Baja OpenStreetMap y lo pasa a metros en el marco de la escena (`<ep>/data/osm.json` → `entorno.json`); completa alturas, casas faltantes y árboles marcados como `relleno`; con `terreno` baja la elevación (SRTM, tiles de Mapzen) y deja una grilla de alturas: `python motor/osm.py episodios/<ep>` |
+| [motor/cielo.py](motor/cielo.py) | Hora del día y clima: el sol real del lugar (elevación y azimut por fecha y hora), cielo, luz, niebla, ventanas y reflectores según la altura del sol; climas `despejado`, `nublado`, `lluvia`, `niebla`, `tormenta` (relámpagos) |
 | [motor/textos.py](motor/textos.py) | Texto 2D: `post.textos` por plano y subtítulos del corte (`timeline.subs`, con `reveal` palabra por palabra) |
 | [motor/colision.py](motor/colision.py) | Traspasos entre mallas frame por frame (BVH, sin render): `python motor/colision.py episodios/<ep> <plano>` |
 | [motor/engrane.py](motor/engrane.py) | Engrane sin penetración entre pares de engranajes, frame por frame |
@@ -101,6 +102,7 @@ la vez se cuelgan).
 | `width`, `height`, `fps`, `frames`, `samples` | Render (1080×1920, 12 fps únicos → 24 fps en doses, 8 muestras) |
 | `extends`, `drop` | Hereda otro plano; `drop` borra claves heredadas |
 | `estilo` | Nombre de `<ep>/estilos/<nombre>.json`: el look entero (cielo, luces, tinta, toon, post y colores de cada pieza en `piezas`). Va debajo del plano; un estilo puede heredar de otro (`extends`); cambiar el look = cambiar una palabra |
+| `hora`, `fecha`, `clima`, `lugar`, `interior` | Hora del día y clima (ver `motor/cielo.py`): van encima del estilo y debajo de lo que el plano fija. `lugar` {lat, lon, rumbo_deg, utc} o la `georef` de los datos del entorno; un plano o estilo con `"interior": true` no recibe lluvia ni cambia de cielo. Un estilo puede traer su paleta por altura del sol en `horas` |
 | `storyboard` | Cuadros clave del plano para `motor/storyboard.py` (si no está, el del medio) |
 | `mascara_anclas` | Segunda pasada solo con los objetos `ancla`: máscara exacta para que el post (congelar, glitch) no los toque |
 | `render_list`, `render_frames`, `still` | Frames sueltos / rango / un solo frame copiado |
