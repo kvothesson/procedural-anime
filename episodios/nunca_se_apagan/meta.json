@@ -1,0 +1,29 @@
+{
+  "titulo_youtube": "NUNCA SE APAGAN: la catedral de San Isidro llena de servidores 🇦🇷⛪",
+  "descripcion_youtube": "San Isidro, en el futuro. Un papá y su hija caminan por Av. del Libertador al anochecer. Ella ve la catedral encendida y pregunta qué es. Adentro no hay bancos: hay servidores.\nNadie se acuerda por qué los pusieron ahí. Las iglesias siempre fueron frías. Y dicen que antes la gente venía a escuchar una palabra.\n\nLa Catedral de San Isidro está modelada a escala real: la planta sale de OpenStreetMap, las medidas del folleto de la parroquia y la barranca de datos de elevación reales.\n\nHecho 100% con código: Blender + Python. Sin IA generativa de imagen ni samples de audio. Mapa © colaboradores de OpenStreetMap.\n\n━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Universo Austral: Argentina después de la singularidad, donde el folklore guarda los datos.",
+  "tags": [
+    "kvothesson",
+    "shorts",
+    "anime",
+    "pov",
+    "san isidro",
+    "catedral de san isidro",
+    "servidores",
+    "cyberpunk",
+    "argentina",
+    "buenos aires",
+    "blender",
+    "universo austral"
+  ],
+  "categoria": "1",
+  "idioma": "es",
+  "privacidad": "public",
+  "video_final": "out/nunca_se_apagan.mp4",
+  "duracion_segundos": 54,
+  "resolucion": "1080x1920",
+  "fps": 24,
+  "herramientas": "Blender 5.2 (EEVEE, Line Art) + Python (PIL, numpy, scipy, OpenCV) + ffmpeg; OpenStreetMap + SRTM",
+  "youtube_id": "l4ME0NIQwVI",
+  "youtube_url": "https://youtube.com/shorts/l4ME0NIQwVI",
+  "fecha_publicacion": "2026-10-18T07:46:11Z"
+}

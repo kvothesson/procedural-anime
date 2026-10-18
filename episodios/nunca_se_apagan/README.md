@@ -6,6 +6,8 @@ pero deja los guiños: el frío y una palabra que la gente venía a escuchar. Un
 (la Catedral de Servidores de RITUAL_404; el frío computa, el calor recuerda; el Verbo se roza,
 no se dice).
 
+Publicado el 2026-10-18: https://youtube.com/shorts/l4ME0NIQwVI
+
 Escenario: la catedral, los servidores y el barrio de `episodios/catedral/` (piezas
 `catedral`, `servidores`, `entorno`; datos en `../catedral/data/`).
 
