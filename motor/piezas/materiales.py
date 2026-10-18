@@ -138,10 +138,44 @@ def _glow(nt, g, albedo):
     return sc.outputs[0]
 
 
-def mat_toon(name, color, windows=None, glows=None):
+def _franjas(nt, color, F):
+    """Paños de ladrillo con franjas de piedra cada tanto en altura (la fabrica
+    de la catedral de San Isidro): en las caras verticales el color es el
+    ladrillo salvo una banda de piedra cada "paso" metros; las horizontales
+    (cornisas, albardillas) quedan de piedra. F: {"color", "paso", "banda"}."""
+    n = nt.nodes
+    L = nt.links
+    geo = n.new("ShaderNodeNewGeometry")
+    sp = n.new("ShaderNodeSeparateXYZ")
+    L.new(geo.outputs["Position"], sp.inputs[0])
+    sn = n.new("ShaderNodeSeparateXYZ")
+    L.new(geo.outputs["Normal"], sn.inputs[0])
+
+    def m(op, a, b):
+        node = n.new("ShaderNodeMath")
+        node.operation = op
+        for i, x in enumerate((a, b)):
+            if isinstance(x, (int, float)):
+                node.inputs[i].default_value = x
+            else:
+                L.new(x, node.inputs[i])
+        return node.outputs[0]
+    fr = m("FRACT", m("DIVIDE", sp.outputs[2], F.get("paso", 1.2)), 0.0)
+    ladrillo = m("GREATER_THAN", fr, F.get("banda", 0.22) / F.get("paso", 1.2))
+    vertical = m("LESS_THAN", m("ABSOLUTE", sn.outputs[2], 0.0), 0.5)
+    mix = n.new("ShaderNodeMix")
+    mix.data_type = "RGBA"
+    L.new(m("MULTIPLY", ladrillo, vertical), mix.inputs["Factor"])
+    mix.inputs[6].default_value = lin(color)
+    mix.inputs[7].default_value = lin(F["color"])
+    return mix.outputs[2]
+
+
+def mat_toon(name, color, windows=None, glows=None, franjas=None):
     """Superficie opaca con sombreado toon. windows: dict opcional para
     grilla de ventanas por shader (sin geometria, sin linea). glows: lista de
-    resplandores suaves que se suman encima del cel (ver _glow)."""
+    resplandores suaves que se suman encima del cel (ver _glow). franjas:
+    paños de ladrillo con bandas del color base (ver _franjas)."""
     mat = bpy.data.materials.new(name)
     mat.use_nodes = True
     nt = mat.node_tree
@@ -152,7 +186,10 @@ def mat_toon(name, color, windows=None, glows=None):
     mul.data_type = "RGBA"
     mul.blend_type = "MULTIPLY"
     mul.inputs["Factor"].default_value = 1.0
-    mul.inputs[6].default_value = lin(color)
+    if franjas:
+        nt.links.new(_franjas(nt, color, franjas), mul.inputs[6])
+    else:
+        mul.inputs[6].default_value = lin(color)
     nt.links.new(light, mul.inputs[7])
     col = mul.outputs[2]
     if windows:

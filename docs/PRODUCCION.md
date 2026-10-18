@@ -456,6 +456,19 @@ Salieron de cada vez que quien dirigía miró un frame y dijo "esto no". Pesan t
   commitear.
 - **Cámaras de comparación puestas donde se paró el fotógrafo:** muy cerca y bajo, la perspectiva
   esconde la aguja detrás de la torre y un árbol de vereda tapa la puerta que se quería ver.
+- **"No se ve como high-end cyberpunk anime, flat color"** (quien dirige, sobre la catedral): lo que
+  más alejaba no era la paleta sino lo que ablanda: reflectores que lavaban todo parejo (sin lado
+  de luz y de sombra), tinta fina que de lejos desaparece, niebla cercana que degrada cada cara,
+  aberración y viñeta. Dos tonos duros, tinta casi negra y gruesa, niebla lejos y post limpio.
+- **De noche la luna va en un escalón medio del toon** (`[0, 0.1], [0.25, 0.5], [0.8, 1.0]`): con
+  el tope en 1.0 una piedra clara sale blanca aunque la luna sea débil (el toon topea en el 100 %
+  del color). El tope queda para lo que toca un reflector.
+- **Luz de color sobre colores reales:** una luna cian vuelve verde menta la piedra crema. Para
+  conservar los colores reales, luna casi blanca (lavanda) y el neón en las fuentes.
+- **Ladrillo con franjas por shader** (`mat_toon(franjas=...)`, `colores.ladrillo` en la catedral):
+  bandas en z solo en caras verticales. Franjas cada 1,1 m hacen cebra desde un dron; cada ~2 m.
+- **La lámina de `--frames` sale sin post:** para juzgar un estilo copiar los cuadros a
+  `render/<plano>/` y correr `post.py --frames`; el brillo cambia mucho el cuadro (de día lo lavaba).
 
 ## 9. Publicar
 

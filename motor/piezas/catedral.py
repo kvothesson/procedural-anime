@@ -1397,7 +1397,8 @@ def build_catedral(e, colls):
     "puertas": {"abre": [[frame, grados], ...]},
     "rayos": {"alpha", "inclinacion", "desde_z"} (de los ventanales altos),
     "bancos": true (los de cedro; en los planos con servidores van ellos),
-    "niebla_piso": {"color", "alpha", "alturas"}}"""
+    "niebla_piso": {"color", "alpha", "alturas"},
+    "franjas", "franjas_torre": {"paso", "banda"} (con "ladrillo" en colores)}"""
     col = {"piedra": "#d8d4cb", "techo": "#8d949c", "suelo": "#7d8578", "puerta": "#6b5a4e",
            **e.get("colores", {})}
     # "brillos": resplandores suaves sumados sobre el cel (como el aerografo del
@@ -1405,6 +1406,15 @@ def build_catedral(e, colls):
     # propiedad "brillo" de cada objeto de la catedral (0..1, animable).
     brillos = [dict(g, prop="brillo") for g in e.get("brillos", [])]
     m_stone = mat_toon("catedral_piedra", col["piedra"], glows=brillos or None)
+    # "ladrillo" en colores: muros y torre en paños de ladrillo con franjas de
+    # piedra (fotos 12, 30 y 67); contrafuertes, columnas y piso, de piedra
+    # la torre es casi toda piedra: "franjas_torre" con una banda de piedra ancha
+    m_muro = m_torre = m_stone
+    if "ladrillo" in col:
+        m_muro = mat_toon("catedral_muro", col["piedra"], glows=brillos or None,
+                          franjas=dict(e.get("franjas", {}), color=col["ladrillo"]))
+        m_torre = mat_toon("catedral_torre_m", col["piedra"], glows=brillos or None,
+                           franjas=dict(e.get("franjas_torre", e.get("franjas", {})), color=col["ladrillo"]))
     m_roof = mat_toon("catedral_techo", col["techo"])
     m_ground = mat_toon("catedral_suelo", col["suelo"])
     main = colls["main"]
@@ -1421,14 +1431,14 @@ def build_catedral(e, colls):
     vid = list(muros.vidrios)
     if e.get("traceria", True):
         _traceria(muros, vid)
-    muros.done(m_stone, main)
+    muros.done(m_muro, main)
 
     _puertas(e.get("puertas", {}), mat_toon("catedral_puerta", col["puerta"]), main)
 
     torre = Pieza("catedral_torre")
     _tower(torre)
     vid_t = list(torre.vidrios)
-    torre.done(m_stone, main)
+    torre.done(m_torre, main)
     if e.get("vidrios", True) is not False:
         holder = Pieza("_v")
         holder.vidrios = vid + vid_t

@@ -87,6 +87,50 @@ catedral, los vitrales y los servidores). Geometría y cámaras no cambian.
 |---|---|
 | `maqueta` | Grises por familia, sin post: para revisar forma |
 | `cyberpunk` | High-end cyberpunk anime: cel-shading, tinta fina, noche violeta, neón cian/magenta de racks y vitrales, luz de los vitrales en las bóvedas, brillo y aberración en el post |
+| `studio_noche`, `studio_dia` | Afuera, de noche y de día (ver abajo). Heredan de `_studio` |
+| `studio_adentro`, `studio_adentro_dia` | Adentro, de noche y de día (`interior`) |
+
+### Estilo `studio` (propuesta, 2026-10-18)
+
+Pedido: *high-end cyberpunk anime style, cel-shaded, sharp line art, vibrant colors, Studio
+aesthetic*. Lo que fallaba en `cyberpunk`: piedra, piso y cielo caían en el mismo violeta medio, sin
+contraste de valor; el neón no tenía contra qué brillar y los árboles eran manchas grises. Y lo que
+más lo alejaba del pedido (quien dirige: "no se ve como high-end cyberpunk anime... flat color"):
+reflectores que lavaban la catedral pareja (sin lado de luz y lado de sombra), tinta casi invisible,
+niebla a 320 m que degradaba cada superficie y aberración y viñeta que ablandaban el cuadro.
+
+- **Color plano y tinta:** dos tonos duros por superficie (afuera de noche, tres: sombra, luna y lo
+  que toca un reflector), tinta casi negra y gruesa (0,05 m en el dron, 0,025 a pie, 0,016 adentro),
+  niebla lejos (700 m), sin aberración, viñeta y grano mínimos.
+
+- **Valores:** de noche, la mayor parte del cuadro en tinta índigo (nunca negro), poco medio tono y
+  el neón como lo único claro. De día, al revés: luz dura, sombras azul índigo, color saturado.
+- **Tres luces con dueño:** cian = la máquina (racks, núcleo, reflectores), magenta = la señal
+  (vitrales), ámbar = la gente (ventanas y faroles del barrio). El barrio cálido contra la catedral
+  fría, como en AUSTRAL.
+- **La catedral con sus colores reales** (quien dirige: "se mantuvieron en el tiempo"), medidos en
+  las fotos 12, 30, 39 y 67 e iguales de día y de noche: piedra arenisca crema `#ecd7b0`, paños de
+  ladrillo `#b5604a` con franjas de piedra (muros cada 2,2 m; la torre casi toda piedra, ladrillo
+  de 45 cm cada 1,6 m), techo de cobre con verdín `#5f8577`. La noche la hace la luz: una luna
+  lavanda sin tope de color y el neón en vitrales, reflectores y ventanas. `colores.ladrillo`,
+  `franjas` y `franjas_torre` en la pieza `catedral` (shader, sin geometría).
+- **Vitrales:** los faroles de la catedral de noche (magenta, cian, violeta, ámbar); de día, oscuros
+  desde afuera y, desde adentro, haces de color que cruzan la nave.
+- **Racks y núcleo:** cuerpos negros, leds casi todos cian con algo de magenta y ámbar (sin verde);
+  el núcleo blanco cian. Adentro de noche no hay otra luz: las bóvedas se leen por los vitrales.
+- **Barrio:** de noche oscuro con ventanas ámbar encendidas; de día fachadas claras.
+- **Río:** espejo negro azulado de noche, café con leche de día (el Río de la Plata).
+- **Árboles:** de noche siluetas verde petróleo, los jacarandás en violeta oscuro, los liquidámbares
+  vino; de día verdes vivos, tipas verde amarillento y jacarandás en flor lila (octubre).
+- **Faroles:** ámbar sodio con cono; apagados de día.
+- **Post:** de noche brillo fuerte (umbral 0,6), `resplandor` rosado alrededor de lo magenta y ámbar,
+  `estelas` en el piso pulido de adentro, aberración y grano leves. De día brillo solo en lo que
+  quema (umbral 0,95, fuerza 0,2), sin resplandor ni estelas.
+- Cualquier `hora` sobre un estilo `studio` usa su propia paleta (`horas` en `_studio`): atardecer
+  rosa y naranja, noche índigo con el horizonte magenta.
+
+Banco: `shots/_estilo_afuera_noche`, `_estilo_afuera_dia` (dron 3/4 y Plaza Mitre),
+`_estilo_adentro_noche`, `_estilo_adentro_dia` (nave y núcleo), con `--frames 1 2`.
 
 Para un estilo nuevo (por ejemplo `real`, con la piedra clara y la luz de día de las fotos) se
 copia uno y se cambian los valores; ningún plano se toca.
@@ -139,6 +183,17 @@ numeradas como en `ref/items.json`).
 - Núcleo: el núcleo cian en el crucero con cables que suben a la clave y a los pilares.
 - Exterior: la catedral de noche con los vitrales encendidos.
 
+## Criterio de aceptación (estilo studio)
+
+- Noche afuera: el cielo y el barrio más oscuros que la catedral; piedra crema y ladrillo
+  reconocibles bajo la luna; vitrales y ventanas ámbar como los puntos más claros; árboles en
+  silueta que no se confundan con el piso.
+- Día afuera: cielo cian, sombras azules duras, la catedral como en las fotos (crema, ladrillo,
+  techo verde), jacarandás lila reconocibles, nada lavado por el brillo.
+- Adentro de noche: los racks y el núcleo son lo único claro; bóvedas leídas por el color de los
+  vitrales, piso con estelas.
+- Adentro de día: haces de color de los vitrales sobre racks y piso; la nave sigue en penumbra.
+
 ## Bitácora
 
 | Fecha | Qué se pidió | Qué se cambió |
@@ -165,3 +220,4 @@ laterales, el piso calcáreo (es estilo) y el leve ahusamiento de la torre.
 | 2026-10-18 | (iteración 16) Estilo y Plaza Mitre | El banco de estilo (`cyberpunk`) sigue andando con toda la geometría nueva (vitrales, racks, núcleo, barrio). Fuente de Plaza Mitre: explanada empedrada sin árboles y cantero en trébol de cuatro lóbulos, como en la foto aérea |
 | 2026-10-18 | (iteración 17) Torre de cerca contra las fotos 12, 30 y 31 | Relojes con aro, doce marcas y agujas (eran un disco liso del color de la piedra). El arco que enmarca las tres lancetas del campanario quedaba por debajo de sus puntas y flotaba sin jambas: ahora las encierra y baja hasta el pie |
 | 2026-10-18 | Que los árboles se vean mejor y se parezcan a los de la zona | Especies reales: tipas en las plazas (foto 44 de Plaza Mitre: horqueta baja, ramas que se abren y vuelven a abrir, copa alta en paraguas; la catedral se ve entre los troncos), veredas con la mezcla del censo de arbolado de San Isidro (fresno, liquidámbar cónico, jacarandá, plátano, paraíso, tilo) y monte en la barranca. Plazas en grilla cada ~13 m (la copa es continua en la aérea), veredas de 9-13 m. Color por especie en el estilo (`copa_<especie>`). Detalle por distancia (`arboles_finos`, 200 m). Se arman con plantillas y numpy: de 677 s a 0,8 s |
+| 2026-10-18 | Capa de estilo: *high-end cyberpunk anime, cel-shaded, sharp line art, vibrant colors, flat color*; afuera, los colores reales de la catedral | Estilos `studio_noche`, `studio_dia`, `studio_adentro`, `studio_adentro_dia` (base `_studio`, con su paleta por hora). Colores medidos en las fotos; ladrillo con franjas por shader (`mat_toon(franjas=...)`). Tres rondas: v1 seguía monocroma; v2 con luz cian la piedra salía verde menta y las franjas cada 1,1 m hacían cebra; v3 luna lavanda, toon de tres escalones de noche (la luna en el medio, el tope para los reflectores), post de día casi sin brillo. Lámina `out/_estilo_studio.png`. Flojo: adentro de día sale quemado en rosa y el sol no entra (los vitrales le hacen sombra); los reflectores de colores quedaron débiles; faltan elementos cyberpunk en el barrio (carteles, pantallas, cables) |

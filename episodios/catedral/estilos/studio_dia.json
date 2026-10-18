@@ -1,0 +1,133 @@
+{
+  "extends": "_studio",
+  "_desc": "Afuera de dia (15:30 por defecto; un plano puede pedir otra hora y la paleta sale de 'horas'). Cielo cian intenso, sol duro y sombras azul indigo; la piedra clara de las fotos, techos de pizarra. Los jacarandas en flor (octubre), las tipas verde amarillento, el rio color cafe con leche. El neon queda dormido: vitrales oscuros, reflectores apagados; el brillo solo donde pega el sol.",
+  "hora": "15:30",
+  "fog": {
+    "dist": 1400
+  },
+  "toon": {
+    "steps": [
+      [
+        0.0,
+        0.5
+      ],
+      [
+        0.3,
+        1.0
+      ]
+    ]
+  },
+  "line": {
+    "color": "#1a1838"
+  },
+  "post": {
+    "glow": {
+      "threshold": 0.95,
+      "strength": 0.2
+    },
+    "resplandor": false,
+    "estelas": false,
+    "aberration": 0.0,
+    "vignette": 0.1,
+    "grain": 0.01
+  },
+  "piezas": {
+    "catedral": {
+      "colores": {
+        "suelo": "#a8a090",
+        "ventana": "#2a3a5c"
+      },
+      "vidrios": {
+        "plomo": "#1a1830"
+      },
+      "rayos": {
+        "alpha": 0.0,
+        "inclinacion": 0.55,
+        "desde_z": 12.0
+      }
+    },
+    "entorno": {
+      "colores": {
+        "piso": "#a29e86",
+        "vereda": "#cfc8b8",
+        "asfalto": "#4a4e62",
+        "camino": "#ccb698",
+        "adoquin": "#7c7468",
+        "pasto": "#5aac4a",
+        "playa": "#d8c8a0",
+        "agua": "#a8967a",
+        "edificio": [
+          "#f2e2c6",
+          "#e6cdbe",
+          "#dce2ea"
+        ],
+        "techo": "#6a7290",
+        "teja": "#c8643c",
+        "via": "#6c6662",
+        "riel": "#a0a6b8",
+        "anden": "#d2cabb",
+        "monumento": "#ece6d8",
+        "copa": [
+          "#4f9a3e",
+          "#5ea846"
+        ],
+        "copa_tipa": [
+          "#7cb83a",
+          "#8cc442"
+        ],
+        "copa_fresno": [
+          "#4c963e",
+          "#58a248"
+        ],
+        "copa_liquidambar": [
+          "#5c9e3c",
+          "#4c8e40"
+        ],
+        "copa_jacaranda": [
+          "#a68ae4",
+          "#9478dc"
+        ],
+        "copa_platano": [
+          "#74ae48",
+          "#669e42"
+        ],
+        "copa_paraiso": [
+          "#56a050",
+          "#4a9446"
+        ],
+        "copa_tilo": [
+          "#6aae50",
+          "#78ba58"
+        ],
+        "copa_monte": [
+          "#3e883c",
+          "#347c38"
+        ],
+        "copa_lejos": "#7ea698",
+        "tronco": "#5a4038"
+      },
+      "ventanas": {
+        "pitch_x": 2.6,
+        "pitch_z": 3.0,
+        "base": -40.0,
+        "margin_x": 0.32,
+        "margin_z": 0.25,
+        "lit": 0.05,
+        "cold_ratio": 0.3,
+        "warm": "#ffd27a",
+        "cold": "#cfefff",
+        "dark": "#3a4a6c"
+      },
+      "faroles": {
+        "paso": 32,
+        "alto": 5.5,
+        "color": "#ffaa44",
+        "cono_alpha": 0.07,
+        "charco_alpha": 0.2,
+        "cables": true,
+        "poste": "#2c2a3a",
+        "cable": "#15131c"
+      }
+    }
+  }
+}

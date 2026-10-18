@@ -1,0 +1,95 @@
+{
+  "extends": "studio_adentro",
+  "_desc": "Adentro de dia: la nave sigue en penumbra (sin GI el cielo no entra) pero el sol cruza los vitrales en haces de color que pegan en los racks y el piso. La piedra se lee un poco mas, el nucleo pierde contra el sol.",
+  "sky": {
+    "horizon": "#1c2c50",
+    "mid": "#101a34",
+    "top": "#060a16",
+    "ambient": "#4a5a80",
+    "ambient_strength": 0.75
+  },
+  "fog": {
+    "color": "#2a3450",
+    "dist": 160
+  },
+  "toon": {
+    "steps": [
+      [
+        0.0,
+        0.3
+      ],
+      [
+        0.25,
+        1.0
+      ]
+    ]
+  },
+  "lights": [
+    {
+      "kind": "SUN",
+      "color": "#ffd8a0",
+      "energy": 1.6,
+      "rot": [
+        42,
+        0,
+        -60
+      ],
+      "shadow": true
+    }
+  ],
+  "post": {
+    "resplandor": {
+      "tinte": "#ffb347",
+      "umbral": 0.12,
+      "fuerza": 0.35,
+      "radios": [
+        60,
+        160,
+        320
+      ]
+    },
+    "estelas": {
+      "umbral": 0.6,
+      "largo": 0.12,
+      "fuerza": 0.5,
+      "desde": 0.6
+    },
+    "glow": {
+      "threshold": 0.85,
+      "strength": 0.6
+    }
+  },
+  "piezas": {
+    "catedral": {
+      "colores": {
+        "piedra": "#d6c9aa",
+        "ladrillo": "#d6c9aa"
+      },
+      "vidrios": {
+        "fuerza": 3.4,
+        "luz": {
+          "energia": 420,
+          "desde_z": 10.0,
+          "adentro": 2.6
+        }
+      },
+      "niebla_piso": {
+        "color": "#ffe2b0",
+        "alpha": 0.05,
+        "alturas": [
+          0.12,
+          0.35,
+          0.65
+        ]
+      },
+      "rayos": {
+        "alpha": 0.16,
+        "inclinacion": 0.55,
+        "desde_z": 12.0
+      }
+    },
+    "servidores": {
+      "nucleo_fuerza": 2.6
+    }
+  }
+}

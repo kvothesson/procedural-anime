@@ -1,0 +1,295 @@
+{
+  "extends": "_studio",
+  "_desc": "Afuera de noche. Cielo tinta con el horizonte teñido de magenta (la ciudad); la piedra en pizarra fria, lavada desde abajo por un reflector cian de un lado y uno magenta del otro; los vitrales son los faroles de la catedral. El barrio oscuro con ventanas ambar; arboles en silueta verde petroleo, los jacarandas en violeta oscuro; el rio, un espejo negro azulado.",
+  "sky": {
+    "horizon": "#7a2a78",
+    "mid": "#2a1650",
+    "mid_at": 0.18,
+    "top": "#04040f",
+    "zenith_at": 1.0,
+    "interp": "EASE",
+    "ambient": "#141a3a",
+    "ambient_strength": 0.6
+  },
+  "fog": {
+    "color": "#24184a",
+    "dist": 700
+  },
+  "lights": [
+    {
+      "kind": "SUN",
+      "color": "#c4ccff",
+      "energy": 0.9,
+      "rot": [
+        55,
+        0,
+        -40
+      ],
+      "shadow": true
+    },
+    {
+      "kind": "SUN",
+      "color": "#ff2a8a",
+      "energy": 0.7,
+      "rot": [
+        60,
+        0,
+        150
+      ],
+      "shadow": false
+    }
+  ],
+  "post": {
+    "resplandor": {
+      "tinte": "#ff5aa0",
+      "umbral": 0.12,
+      "fuerza": 0.4,
+      "radios": [
+        60,
+        160,
+        320
+      ]
+    },
+    "estelas": {
+      "umbral": 0.6,
+      "largo": 0.1,
+      "fuerza": 0.4,
+      "desde": 0.62
+    }
+  },
+  "piezas": {
+    "catedral": {
+      "colores": {
+        "suelo": "#151728",
+        "ventana": "#e8963e"
+      },
+      "reflectores": [
+        {
+          "at": [
+            -9.0,
+            -22.0,
+            0.5
+          ],
+          "apunta": [
+            0.0,
+            -5.0,
+            32.0
+          ],
+          "abre": 24,
+          "color": "#3ee8ff",
+          "energia": 3780
+        },
+        {
+          "at": [
+            9.0,
+            -22.0,
+            0.5
+          ],
+          "apunta": [
+            0.0,
+            -5.0,
+            26.0
+          ],
+          "abre": 24,
+          "color": "#ff3fb0",
+          "energia": 2940
+        },
+        {
+          "at": [
+            0.0,
+            -30.0,
+            2.0
+          ],
+          "apunta": [
+            0.0,
+            -5.0,
+            55.0
+          ],
+          "abre": 14,
+          "color": "#9ff4ff",
+          "energia": 3780
+        },
+        {
+          "at": [
+            -24.0,
+            10.0,
+            1.0
+          ],
+          "apunta": [
+            -15.0,
+            36.0,
+            20.0
+          ],
+          "abre": 28,
+          "color": "#3ee8ff",
+          "energia": 1680
+        },
+        {
+          "at": [
+            26.0,
+            10.0,
+            1.0
+          ],
+          "apunta": [
+            15.0,
+            36.0,
+            20.0
+          ],
+          "abre": 28,
+          "color": "#ff3fb0",
+          "energia": 1680
+        }
+      ],
+      "brillos": [
+        {
+          "kind": "point",
+          "at": [
+            0.0,
+            -12.0,
+            9.0
+          ],
+          "color": "#3ee8ff",
+          "strength": 0.08,
+          "falloff": 6.0
+        },
+        {
+          "kind": "point",
+          "at": [
+            0.0,
+            -9.0,
+            34.0
+          ],
+          "color": "#8a4dff",
+          "strength": 0.175,
+          "falloff": 12.0
+        },
+        {
+          "kind": "point",
+          "at": [
+            0.0,
+            -7.0,
+            58.0
+          ],
+          "color": "#3ee8ff",
+          "strength": 0.16,
+          "falloff": 9.0
+        },
+        {
+          "kind": "point",
+          "at": [
+            -12.0,
+            -4.0,
+            6.0
+          ],
+          "color": "#ff3fb0",
+          "strength": 0.07,
+          "falloff": 10.0
+        }
+      ],
+      "rayos": {
+        "alpha": 0.1,
+        "inclinacion": 0.55,
+        "desde_z": 12.0
+      }
+    },
+    "entorno": {
+      "colores": {
+        "piso": "#1c2034",
+        "vereda": "#383858",
+        "asfalto": "#121426",
+        "camino": "#3a3250",
+        "adoquin": "#26243c",
+        "pasto": "#123030",
+        "playa": "#20203a",
+        "agua": "#0a1630",
+        "edificio": [
+          "#4e4268",
+          "#424060",
+          "#584670"
+        ],
+        "techo": "#22263e",
+        "teja": "#5e2e44",
+        "via": "#262436",
+        "riel": "#8fe8ff",
+        "anden": "#3a3656",
+        "monumento": "#6a76aa",
+        "copa": [
+          "#143432",
+          "#1a3c3a"
+        ],
+        "copa_tipa": [
+          "#183c34",
+          "#1e443a"
+        ],
+        "copa_fresno": [
+          "#13323a",
+          "#163a3c"
+        ],
+        "copa_liquidambar": [
+          "#361a34",
+          "#2a1c38"
+        ],
+        "copa_jacaranda": [
+          "#3c2866",
+          "#4a2e7a"
+        ],
+        "copa_platano": [
+          "#1a3834",
+          "#1e3e36"
+        ],
+        "copa_paraiso": [
+          "#183230",
+          "#1c362e"
+        ],
+        "copa_tilo": [
+          "#1c3e36",
+          "#20423a"
+        ],
+        "copa_monte": [
+          "#0f262a",
+          "#122c2e"
+        ],
+        "copa_lejos": "#181e3e",
+        "tronco": "#1c1424"
+      },
+      "ventanas": {
+        "pitch_x": 2.6,
+        "pitch_z": 3.0,
+        "base": -40.0,
+        "margin_x": 0.32,
+        "margin_z": 0.25,
+        "lit": 0.6,
+        "cold_ratio": 0.15,
+        "warm": "#ffb347",
+        "cold": "#7ff0ff",
+        "dark": "#1a1830"
+      },
+      "faroles": {
+        "paso": 32,
+        "alto": 5.5,
+        "color": "#ffaa44",
+        "cono_alpha": 0.07,
+        "charco_alpha": 0.2,
+        "cables": true,
+        "poste": "#1a1826",
+        "cable": "#0b0a14"
+      }
+    }
+  },
+  "toon": {
+    "steps": [
+      [
+        0.0,
+        0.1
+      ],
+      [
+        0.25,
+        0.5
+      ],
+      [
+        0.8,
+        1.0
+      ]
+    ]
+  }
+}

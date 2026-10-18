@@ -1,0 +1,63 @@
+{
+  "extends": "vistas.json",
+  "estilo": "studio_noche",
+  "_desc": "Banco del estilo studio afuera: dron 3/4 y desde Plaza Mitre.",
+  "frames": 2,
+  "storyboard": [
+    1,
+    2
+  ],
+  "line": {
+    "radius": 0.05,
+    "radius_keys": [
+      [
+        1,
+        0.05
+      ],
+      [
+        2,
+        0.025
+      ]
+    ]
+  },
+  "camera": {
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          -48,
+          -52,
+          38
+        ],
+        "aim": [
+          0,
+          20,
+          12
+        ]
+      },
+      {
+        "frame": 2,
+        "pos": [
+          -30,
+          -45,
+          -0.36
+        ],
+        "aim": [
+          0,
+          -3.6,
+          30
+        ]
+      }
+    ],
+    "lens_keys": [
+      [
+        1,
+        26
+      ],
+      [
+        2,
+        18
+      ]
+    ]
+  }
+}
