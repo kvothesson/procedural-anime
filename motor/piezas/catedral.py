@@ -272,6 +272,16 @@ def vault_rect(vb, rb, cx, cy, a, b, zs, H, n=14, ribs=("diag", "ridge"), axis_l
                 rb.tube(pts, 0.22, 0.28)
     if "ridge" in ribs:
         rb.tube([P(0, -b, zs + H), P(0, b, zs + H)], 0.2, 0.22)
+    if "tierc" in ribs:
+        # terceletes (foto 50): de cada arranque al espinazo, a medio tramo
+        for su in (-1, 1):
+            for sv in (-1, 1):
+                pts = []
+                for k in range(n + 1):
+                    t = k / n
+                    u, v = su * a * (1 - t), sv * b * (1 - t * 0.5)
+                    pts.append(P(u, v, zs + max(fa(u), fb(v))))
+                rb.tube(pts, 0.16, 0.2)
     if "wall" in ribs:
         for su in (-1, 1):
             rb.tube([P(su * a, -b + 2 * b * k / n, zs + fb(-b + 2 * b * k / n)) for k in range(n + 1)], 0.18, 0.2)
@@ -437,18 +447,28 @@ def _choir_walls(pc):
         adentro = (Vector((0.0, Y_AB, 0.0)) - mid)
         adentro.z = 0
         adentro.normalize()
-        for k2 in range(2):
-            uc = L * (0.27 + 0.46 * k2)
-            arco = arch_chain(0.0, 0.5, 4.6, 1.3, foot=0.6)
-            pts = [mid + U * (uc - L / 2 + u) + Vector((0, 0, v)) + adentro * (TN / 2 + 0.05) for u, v in arco]
-            pts += [mid + U * (uc - L / 2 - u) + Vector((0, 0, v)) + adentro * (TN / 2 + 0.05) for u, v in reversed(arco[:-1])]
-            pc.tube(pts, 0.16, 0.2)
-            peana = mid + U * (uc - L / 2) + adentro * (TN / 2 + 0.25)
-            pc.box(peana.x - 0.3, peana.x + 0.3, peana.y - 0.3, peana.y + 0.3, 1.4, 1.6)
-        # cornisa que separa la arqueria del ventanal
+        cara = adentro * (TN / 2 + 0.05)
+
+        def arco_en(uc, half, spring, rise, foot, w, h):
+            arco = arch_chain(0.0, half, spring, rise, foot=foot)
+            pts = [mid + U * (uc - L / 2 + u) + Vector((0, 0, v)) + cara for u, v in arco]
+            pts += [mid + U * (uc - L / 2 - u) + Vector((0, 0, v)) + cara for u, v in reversed(arco[:-1])]
+            pc.tube(pts, w, h)
+
+        # foto 61: un arco ciego alto por cara, sobre columnillas en las esquinas
+        arco_en(L / 2, L / 2 - 0.35, 5.6, min(2.6, L * 0.42), 0.0, 0.22, 0.26)
+        for q in (A, B):
+            c = q + adentro * (TN / 2 + 0.16)
+            pc.cyl(c.x, c.y, 0.0, 5.6, 0.13, segs=8)
+            pc.box(c.x - 0.22, c.x + 0.22, c.y - 0.22, c.y + 0.22, 5.6, 5.85)
+        # galeria (el triforio sigue alrededor del abside): cornisa, tres
+        # arquitos por cara y otra cornisa bajo el ventanal
         c0 = A + adentro * (TN / 2 + 0.1)
         c1 = B + adentro * (TN / 2 + 0.1)
-        pc.tube([(c0.x, c0.y, 7.4), (c1.x, c1.y, 7.4)], 0.25, 0.22)
+        for zc in (Z_ARC + 0.1, Z_TRI1 + 0.35):
+            pc.tube([(c0.x, c0.y, zc), (c1.x, c1.y, zc)], 0.28, 0.24)
+        for k2 in range(3):
+            arco_en(L * (k2 + 0.5) / 3, L / 6 - 0.12, Z_TRI0 - 0.6, 0.7, Z_ARC + 0.2, 0.09, 0.12)
 
 
 def _outer_walls(pc):
@@ -876,11 +896,47 @@ def _amoblamiento(pc, e):
         y += 0.95
 
 
+def _presbiterio(pc):
+    """Foto 61: el sagrario (un mueble de madera con remate apuntado) al
+    fondo del abside, dos hornacinas neogoticas con su santo en las caras
+    diagonales, el ambon a la izquierda y la sede."""
+    Vc = apse_pts(XC)
+    caras = []
+    for i in range(len(Vc) - 1):
+        A, B = Vector(Vc[i] + (0,)), Vector(Vc[i + 1] + (0,))
+        mid = (A + B) / 2
+        adentro = Vector((0.0, Y_AB, 0.0)) - mid
+        adentro.z = 0
+        caras.append((mid, adentro.normalized(), (B - A).normalized()))
+    centro = min(caras, key=lambda c: abs(c[0].x))
+    m, n, u = centro
+    c = m + n * (TN / 2 + 0.45)
+    pc.box(c.x - 0.85, c.x + 0.85, c.y - 0.3, c.y + 0.3, 0.54, 2.9)
+    pc.prism([(-0.85, 2.9), (0.85, 2.9), (0, 3.7)], (c.x, c.y, 0), (1, 0, 0), (0, 0, 1), (0, 1, 0), 0.6)
+    # hornacinas: las dos caras que miran en diagonal a la nave
+    diag = sorted(caras, key=lambda c: abs(abs(c[1].x) - 0.7))[:2]
+    for m, n, u in diag:
+        c = m + n * (TN / 2 + 0.35)
+        pc.box(c.x - 0.45, c.x + 0.45, c.y - 0.3, c.y + 0.3, 1.6, 2.0)            # repisa
+        pc.cyl(c.x, c.y, 2.0, 3.65, 0.26, 0.2, segs=10)                              # el santo
+        bmesh.ops.create_icosphere(pc.bm, subdivisions=1, radius=0.15, matrix=Matrix.Translation((c.x, c.y, 3.8)))
+        for sgn in (-1, 1):
+            q = c + u * (sgn * 0.5)
+            pc.cyl(q.x, q.y, 2.0, 4.4, 0.06, segs=6)
+        pc.pinnacle(c.x, c.y, 4.4, 0.5, 1.6, 1.9)
+    # ambon y sede, a los lados del altar
+    pc.box(-3.3, -2.7, 41.6, 42.2, 0.54, 1.75)
+    pc.box(-3.45, -2.55, 41.45, 42.35, 1.75, 1.85)
+    for sx in (-1, 1):
+        pc.box(sx * 3.2 - 0.3, sx * 3.2 + 0.3, 44.2, 44.7, 0.54, 1.0)
+        pc.box(sx * 3.2 - 0.3, sx * 3.2 + 0.3, 44.6, 44.7, 1.0, 2.2)
+
+
 def _vaults(vb, rb):
     H = Z_CROWN - Z_V
     for k in range(NB):
         cy = (k + 0.5) * BAY
-        vault_rect(vb, rb, 0.0, cy, AI, BAY / 2, Z_V, H, ribs=("diag", "ridge", "wall"))
+        vault_rect(vb, rb, 0.0, cy, AI, BAY / 2, Z_V, H, ribs=("diag", "ridge", "wall", "tierc"))
         for sx in (-1, 1):
             a = (XW - (XC + TN / 2)) / 2
             vault_rect(vb, rb, sx * (XC + TN / 2 + a), cy, a, BAY / 2, Z_ARC, Z_AISLE_CROWN - Z_ARC,
@@ -1332,6 +1388,7 @@ def build_catedral(e, colls):
     pc = Pieza("catedral_piso")
     _floor(pc, 0)
     _amoblamiento(pc, e)
+    _presbiterio(pc)
     pc.done(m_stone, main)
     if e.get("suelo", 240):
         pc = Pieza("catedral_vereda")

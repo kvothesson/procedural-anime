@@ -87,6 +87,42 @@
         -14,
         -8
       ]
+    ],
+    [
+      [
+        -30,
+        -34
+      ],
+      [
+        -9,
+        -34
+      ],
+      [
+        -9,
+        45
+      ],
+      [
+        -30,
+        45
+      ]
+    ],
+    [
+      [
+        14,
+        -14
+      ],
+      [
+        30,
+        -14
+      ],
+      [
+        30,
+        2
+      ],
+      [
+        14,
+        2
+      ]
     ]
   ],
   "bosque": {
@@ -222,5 +258,6 @@
         ]
       ]
     }
-  ]
+  ],
+  "_zonas_sin_arboles": "atrio (fotos 67 y 74); flanco oeste despejado (foto 70); esquina de la torre sobre Libertador, solo un arbusto (foto 31)"
 }
