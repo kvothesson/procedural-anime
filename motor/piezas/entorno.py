@@ -420,10 +420,18 @@ def build_entorno(e, colls):
 
     # monumentos: fuente (pileta redonda con columna y taza) y busto en pedestal
     mon = bmesh.new()
+    cantero, explanada = bmesh.new(), bmesh.new()
     for m in data.get("monumentos", []):
         x, y = m["at"]
         z = H(x, y)
         if m["tipo"] == "fuente":
+            # cantero en trebol alrededor de la pileta (foto aerea): cuatro
+            # lobulos de pasto con cordon, alineados con la plaza
+            bmesh.ops.create_cone(explanada, cap_ends=True, segments=32, radius1=11.5, radius2=11.5, depth=0.1,
+                                  matrix=Matrix.Translation((x, y, z + 0.02)))
+            for dx, dy in ((5.0, 0), (-5.0, 0), (0, 5.0), (0, -5.0)):
+                bmesh.ops.create_cone(cantero, cap_ends=True, segments=24, radius1=4.0, radius2=4.0, depth=0.3,
+                                      matrix=Matrix.Translation((x + dx, y + dy, z + 0.2)))
             bmesh.ops.create_cone(mon, cap_ends=True, segments=24, radius1=3.2, radius2=3.2, depth=0.55,
                                   matrix=Matrix.Translation((x, y, z + 0.27)))
             bmesh.ops.create_cone(mon, cap_ends=True, segments=24, radius1=2.9, radius2=2.9, depth=0.2,
@@ -463,6 +471,8 @@ def build_entorno(e, colls):
             bmesh.ops.create_icosphere(mon, subdivisions=2, radius=0.32,
                                        matrix=Matrix.Translation((x, y, z + 2.25)))
     _obj("entorno_monumentos", mon, mat_toon("entorno_monumento_m", col.get("monumento", "#b9b4aa")), main)
+    _obj("entorno_cantero", cantero, mat_toon("entorno_cantero_m", col["pasto"]), main)
+    _obj("entorno_explanada", explanada, mat_toon("entorno_explanada_m", col["camino"]), main)
 
     # arboles
     if e.get("arboles", True):

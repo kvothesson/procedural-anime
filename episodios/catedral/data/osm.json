@@ -131,6 +131,24 @@
         10,
         40
       ]
+    ],
+    [
+      [
+        -100,
+        -66
+      ],
+      [
+        -52,
+        -66
+      ],
+      [
+        -52,
+        -45
+      ],
+      [
+        -100,
+        -45
+      ]
     ]
   ],
   "bosque": {
@@ -267,5 +285,5 @@
       ]
     }
   ],
-  "_zonas_sin_arboles": "atrio (fotos 67 y 74); flanco oeste despejado (foto 70); vereda este sobre Libertador, sin arboles del lado de la catedral (fotos 30 y 31)"
+  "_zonas_sin_arboles": "atrio (fotos 67 y 74); flanco oeste despejado (foto 70); vereda este sobre Libertador, sin arboles del lado de la catedral (fotos 30 y 31); explanada de la fuente de Plaza Mitre, empedrada y abierta (foto aerea)"
 }
