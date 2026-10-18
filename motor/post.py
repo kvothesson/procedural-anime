@@ -91,6 +91,30 @@ def resplandor(img, R):
     return 1 - (1 - img) * (1 - np.clip(acc, 0, 1))
 
 
+def estelas(img, E):
+    """Piso mojado o pulido pintado: lo que brilla deja hacia abajo una estela
+    vertical que se desvanece, como en los fondos de anime. Solo en la parte de
+    abajo del cuadro (donde esta el piso). E: {"umbral": 0.55, "largo": 0.14,
+    "fuerza": 0.55, "desde": 0.45}"""
+    h, w = img.shape[:2]
+    lum = img.max(axis=2)
+    th = E.get("umbral", 0.55)
+    src = img * np.clip((lum - th) / (1 - th), 0, 1)[..., None]
+    q = 4
+    small = cv2.resize(src, (w // q, h // q), interpolation=cv2.INTER_AREA)
+    L = max(2, int(E.get("largo", 0.14) * h / q))
+    wts = np.exp(-np.arange(L + 1) / (L / 3.0)).astype(np.float32)
+    # correlacion con ancla abajo: el pixel y recibe de y-k (lo que esta arriba)
+    k = wts[::-1].reshape(-1, 1) / wts.sum() * 3.0
+    acc = cv2.filter2D(small, -1, k, anchor=(0, L), borderType=cv2.BORDER_CONSTANT)
+    acc = cv2.GaussianBlur(acc, (0, 0), sigmaX=1.2, sigmaY=0.1)
+    acc = cv2.resize(acc, (w, h), interpolation=cv2.INTER_LINEAR)
+    y = np.linspace(0, 1, h, dtype=np.float32)[:, None, None]
+    ramp = np.clip((y - E.get("desde", 0.45)) / 0.15, 0, 1)
+    acc = np.clip(acc * ramp * E.get("fuerza", 0.55), 0, 1)
+    return 1 - (1 - img) * (1 - acc)
+
+
 class Rain:
     """Gotas con posicion y velocidad fijas: el frame t es una funcion pura
     de t. Repetir un frame da exactamente la misma lluvia."""
@@ -458,6 +482,8 @@ def _frame(f):
     img = glow(img, P["glow"])
     if P.get("resplandor"):
         img = resplandor(img, P["resplandor"])
+    if P.get("estelas"):
+        img = estelas(img, P["estelas"])
     C = P.get("congelar")
     if C:
         # [[frame, intensidad], ...]: el mundo detenido; los anclas, a color

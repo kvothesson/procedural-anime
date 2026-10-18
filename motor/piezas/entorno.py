@@ -23,7 +23,7 @@ from mathutils import Matrix, Vector
 
 from . import ctx
 from .base import collection, link
-from .materiales import mat_toon
+from .materiales import mat_beam, mat_neon, mat_tint, mat_toon
 
 AUTOS = {"motorway", "trunk", "primary", "secondary", "tertiary", "residential", "living_street",
          "unclassified"}
@@ -210,6 +210,95 @@ def _tree(tronco, copa, x, y, z, s, rnd):
             (x + rnd.uniform(-0.8, 0.8) * s, y + rnd.uniform(-0.8, 0.8) * s, z + s * rnd.uniform(3.6, 4.6))))
 
 
+def _faroles(calles, H, f, colls, R):
+    """Faroles por las calles con autos, alternando veredas cada f["paso"] m:
+    poste, brazo hacia la calle y cabeza encendida; la luz es pintada (un cono
+    translucido y un charco calido en el piso), no una lampara real: con
+    cientos de luces la placa de 2 GB no da. Cables colgando entre postes de
+    la misma vereda."""
+    alto, paso = f.get("alto", 5.5), f.get("paso", 30.0)
+    enc = f.get("encendido", 1.0)
+    postes, cabezas, conos, charcos, cables = (bmesh.new() for _ in range(5))
+    cadenas = []
+    for c in calles:
+        if c["k"] not in AUTOS:
+            continue
+        pts = _densify(c["p"], 1.0)
+        acum, prox, lado = 0.0, paso * 0.5, 1
+        lados = {-1: [], 1: []}
+        for (ax, ay), (bx, by) in zip(pts, pts[1:]):
+            d = math.hypot(bx - ax, by - ay)
+            if d < 1e-6:
+                continue
+            while acum + d >= prox:
+                t = (prox - acum) / d
+                x, y = ax + (bx - ax) * t, ay + (by - ay) * t
+                if math.hypot(x, y) < R:
+                    nx, ny = -(by - ay) / d * lado, (bx - ax) / d * lado
+                    px, py = x + nx * (c["w"] / 2 + 0.6), y + ny * (c["w"] / 2 + 0.6)
+                    z = H(px, py)
+                    bmesh.ops.create_cone(postes, cap_ends=True, segments=6, radius1=0.09, radius2=0.07,
+                                          depth=alto, matrix=Matrix.Translation((px, py, z + alto / 2)))
+                    hx, hy = px - nx * 1.4, py - ny * 1.4
+                    brazo = [Vector((px, py, z + alto - 0.1)), Vector((hx, hy, z + alto - 0.25))]
+                    _tubo(postes, brazo, 0.045)
+                    bmesh.ops.create_cube(cabezas, size=1.0, matrix=Matrix.Translation((hx, hy, z + alto - 0.35))
+                                          @ Matrix.Diagonal((0.5, 0.5, 0.12, 1)))
+                    zc = z + alto - 0.42
+                    bmesh.ops.create_cone(conos, cap_ends=False, segments=16, radius1=f.get("radio", 2.4),
+                                          radius2=0.25, depth=zc - z,
+                                          matrix=Matrix.Translation((hx, hy, z + (zc - z) / 2)))
+                    bmesh.ops.create_circle(charcos, cap_ends=True, segments=20, radius=f.get("radio", 2.4) * 1.15,
+                                            matrix=Matrix.Translation((hx, hy, H(hx, hy) + 0.2)))
+                    lados[lado].append(Vector((px, py, z + alto - 0.05)))
+                lado = -lado
+                prox += paso
+            acum += d
+        cadenas += [v for v in lados.values() if len(v) > 1]
+    if f.get("cables", True):
+        for cad in cadenas:
+            for a, b in zip(cad, cad[1:]):
+                if (b - a).length > paso * 2.2:
+                    continue
+                pts = [a.lerp(b, k / 10) - Vector((0, 0, (b - a).length * 0.035 * 4 * (k / 10) * (1 - k / 10)))
+                       for k in range(11)]
+                _tubo(cables, pts, 0.012)
+    col = f.get("color", "#ffb45c")
+    _obj("entorno_postes", postes, mat_toon("entorno_poste_m", f.get("poste", "#2c2a38")), colls["main"])
+    _obj("entorno_cables", cables, mat_toon("entorno_cable_m", f.get("cable", "#15131c")), colls["main"])
+    cab = _obj("entorno_farol_cabezas", cabezas, mat_neon("entorno_farol_m", col, 1.6 * enc), colls["neon"])
+    cab["power"] = enc
+    if enc > 0.05:
+        cn = _obj("entorno_farol_conos", conos, mat_beam("entorno_farol_cono", col, f.get("cono_alpha", 0.07) * enc),
+                  colls["veil"])
+        cn["power"] = 1.0
+        ch = _obj("entorno_farol_charcos", charcos, mat_tint("entorno_farol_charco", col, f.get("charco_alpha", 0.18) * enc),
+                  colls["veil"])
+        ch["power"] = 1.0
+    else:
+        conos.free()
+        charcos.free()
+
+
+def _tubo(bm, pts, r):
+    """Tubo de 5 lados por una polilinea (brazos de farol, cables)."""
+    pts = [Vector(p) for p in pts]
+    rings = []
+    for i, p in enumerate(pts):
+        T = (pts[min(i + 1, len(pts) - 1)] - pts[max(i - 1, 0)]).normalized()
+        S = T.cross(Vector((0, 0, 1)))
+        if S.length < 1e-4:
+            S = T.cross(Vector((1, 0, 0)))
+        S.normalize()
+        Nn = S.cross(T)
+        rings.append([bm.verts.new(p + (S * math.cos(a) + Nn * math.sin(a)) * r)
+                      for a in (2 * math.pi * k / 5 for k in range(5))])
+    for r0, r1 in zip(rings, rings[1:]):
+        for k in range(5):
+            j = (k + 1) % 5
+            bm.faces.new([r0[k], r0[j], r1[j], r1[k]])
+
+
 def build_entorno(e, colls):
     """e: {"datos": "data/entorno.json", "terreno": true, "z": -1.0 (sin
     terreno), "piso": 6000, "colores": {...}, "arboles": true, "relleno": true,
@@ -312,6 +401,9 @@ def build_entorno(e, colls):
                                                     windows=e.get("ventanas")), main)
     _obj("entorno_techos", techos, mat_toon("entorno_techo_m", col["techo"]), main)
     _obj("entorno_tejas", tejas, mat_toon("entorno_teja_m", col["teja"]), main)
+
+    if e.get("faroles"):
+        _faroles(calles, H, e["faroles"], colls, R if R < 1e8 else 450)
 
     # arboles
     if e.get("arboles", True):

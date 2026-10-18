@@ -27,6 +27,14 @@ def build_world(sky):
     els[0].color = lin(sky["horizon"])
     els[1].position = sky.get("zenith_at", 0.5)
     els[1].color = lin(sky["top"])
+    # "mid": una banda intermedia (el violeta del crepusculo entre el naranja
+    # y el azul noche) y "interp": "EASE" para que no haya corte: con dos
+    # colores muy distintos y rampa lineal, mirando hacia arriba se ve un
+    # disco con borde duro alrededor del cenit
+    if "mid" in sky:
+        el = els.new(sky.get("mid_at", 0.2))
+        el.color = lin(sky["mid"])
+    ramp.color_ramp.interpolation = sky.get("interp", "LINEAR")
     nt.links.new(sep.outputs[2], ramp.inputs["Fac"])
     world["ramp"] = ramp.name
     bg_cam = n.new("ShaderNodeBackground")

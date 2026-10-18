@@ -191,6 +191,8 @@ def aplicar(cfg, raw, lugar):
         ent["colores"] = col
         if ventanas is not None and "ventanas" in ent:
             ent["ventanas"] = dict(ent["ventanas"], lit=round(ventanas, 3))
+        if noche is not None and "faroles" in ent:
+            ent["faroles"] = dict(ent["faroles"], encendido=round(min(1.0, noche * 1.5), 3))
         cfg["entorno"] = ent
     if "catedral" in cfg and noche is not None:
         cat = dict(cfg["catedral"])

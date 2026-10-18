@@ -823,13 +823,134 @@ def _puertas(e, mat, coll):
             ob.keyframe_insert("rotation_euler", frame=f)
 
 
+def _mat_velo(name, color, alpha, kind):
+    """Luz que no es superficie. kind "rayo": cono de anime, denso junto a la
+    ventana y desvanecido hacia el piso y los bordes (UV: u de lado a lado, v
+    de la ventana al piso). kind "niebla": jirones por ruido 3D."""
+    mat = bpy.data.materials.new(name)
+    mat.use_nodes = True
+    nt = mat.node_tree
+    nt.nodes.clear()
+    n, L = nt.nodes, nt.links
+
+    def m(op, a, b=None):
+        node = n.new("ShaderNodeMath")
+        node.operation = op
+        for i, x in enumerate((a, b)):
+            if x is None:
+                continue
+            if isinstance(x, (int, float)):
+                node.inputs[i].default_value = x
+            else:
+                L.new(x, node.inputs[i])
+        return node.outputs[0]
+
+    if kind == "rayo":
+        uv = n.new("ShaderNodeUVMap")
+        sep = n.new("ShaderNodeSeparateXYZ")
+        L.new(uv.outputs[0], sep.inputs[0])
+        lado = m("POWER", m("SINE", m("MULTIPLY", sep.outputs[0], math.pi)), 1.2)
+        largo = m("POWER", m("SUBTRACT", 1.0, sep.outputs[1]), 1.4)
+        a = m("MULTIPLY", m("MULTIPLY", lado, largo), alpha)
+    else:
+        tc = n.new("ShaderNodeTexCoord")
+        nz = n.new("ShaderNodeTexNoise")
+        nz.inputs["Scale"].default_value = 0.35
+        nz.inputs["Detail"].default_value = 3.0
+        L.new(tc.outputs["Object"], nz.inputs["Vector"])
+        sm = n.new("ShaderNodeMapRange")
+        sm.interpolation_type = "SMOOTHSTEP"
+        sm.inputs["From Min"].default_value = 0.45
+        sm.inputs["From Max"].default_value = 0.72
+        L.new(nz.outputs["Fac"], sm.inputs["Value"])
+        a = m("MULTIPLY", sm.outputs["Result"], alpha)
+    em = n.new("ShaderNodeEmission")
+    em.inputs["Color"].default_value = lin(color)
+    tr = n.new("ShaderNodeBsdfTransparent")
+    mix = n.new("ShaderNodeMixShader")
+    L.new(a, mix.inputs[0])
+    L.new(tr.outputs[0], mix.inputs[1])
+    L.new(em.outputs[0], mix.inputs[2])
+    out = n.new("ShaderNodeOutputMaterial")
+    L.new(mix.outputs[0], out.inputs["Surface"])
+    if hasattr(mat, "surface_render_method"):
+        mat.surface_render_method = "BLENDED"
+    mat.use_backface_culling = False
+    return mat
+
+
+def _rayos(vidrios, r, v, coll):
+    """Rayos de luz desde los ventanales altos hacia el piso de la nave, del
+    color de su vitral: dos laminas cruzadas por rayo (se leen como volumen
+    desde cualquier lado)."""
+    colors = v.get("colores", ["#ffffff"])
+    mats = [_mat_velo(f"catedral_rayo{i}", c, r.get("alpha", 0.14), "rayo") for i, c in enumerate(colors)]
+    bms = [bmesh.new() for _ in mats]
+    k = 0
+    for pts in vidrios:
+        c = sum(pts, Vector()) / len(pts)
+        if c.z < r.get("desde_z", 12.0):
+            continue
+        eje = Vector((0.0, min(max(c.y, 0.0), Y_AB), c.z))
+        inward = Vector((eje.x - c.x, eje.y - c.y, 0.0))
+        if inward.length < 0.5:
+            continue
+        inward.normalize()
+        ancho = max((p - c).length for p in pts) * 1.1
+        tang = inward.cross(Vector((0, 0, 1))).normalized()
+        dirr = (inward * r.get("inclinacion", 0.55) - Vector((0, 0, 1))).normalized()
+        largo = c.z / -dirr.z
+        abajo = c + dirr * largo
+        otro = tang.cross(dirr).normalized()
+        bm = bms[k % len(bms)]
+        uv = bm.loops.layers.uv.get("UVMap") or bm.loops.layers.uv.new("UVMap")
+        for eje_ancho in (tang, otro):
+            vs = [bm.verts.new(c - eje_ancho * ancho * 0.5), bm.verts.new(c + eje_ancho * ancho * 0.5),
+                  bm.verts.new(abajo + eje_ancho * ancho * 1.1), bm.verts.new(abajo - eje_ancho * ancho * 1.1)]
+            f = bm.faces.new(vs)
+            for loop, (u, w) in zip(f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))):
+                loop[uv].uv = (u, w)
+        k += 1
+    for i, (bm, mat) in enumerate(zip(bms, mats)):
+        me = bpy.data.meshes.new(f"catedral_rayos{i}")
+        bm.to_mesh(me)
+        bm.free()
+        ob = bpy.data.objects.new(f"catedral_rayos{i}", me)
+        ob.data.materials.append(mat)
+        ob.visible_shadow = False
+        link(ob, coll)
+
+
+def _niebla_piso(nb, coll):
+    """Niebla fria a ras del piso de la nave, el crucero y el coro: capas de
+    jirones (el frio de las maquinas)."""
+    mat = _mat_velo("catedral_niebla", nb.get("color", "#9fefff"), nb.get("alpha", 0.16), "niebla")
+    for i, z in enumerate(nb.get("alturas", [0.12, 0.35, 0.65])):
+        bm = bmesh.new()
+        for x0, x1, y0, y1 in ((-XW, XW, -6.0, Y_CR0), (-XT, XT, Y_CR0, Y_CR1), (-AI, AI, Y_CR1, Y_AB + 4.0)):
+            vs = [bm.verts.new((x, y, z)) for x, y in ((x0, y0), (x1, y0), (x1, y1), (x0, y1))]
+            bm.faces.new(vs)
+        me = bpy.data.meshes.new(f"catedral_niebla{i}")
+        bm.to_mesh(me)
+        bm.free()
+        ob = bpy.data.objects.new(f"catedral_niebla{i}", me)
+        ob.data.materials.append(mat)
+        ob.visible_shadow = False
+        # cada capa con otro corte del ruido
+        ob.location = (0, 0, 0)
+        ob.scale = (1.0 + 0.13 * i, 1.0 + 0.07 * i, 1.0)
+        link(ob, coll)
+
+
 def build_catedral(e, colls):
     """e: {"techo": true, "anexos": true, "suelo": 240, "colores": {...},
     "vidrios": {...} (ver mat_vitral; false = vanos abiertos),
     "reflectores": [{"at": [x, y, z], "color": "#...", "energia": W,
     "apunta": [x, y, z] (cono; sin esto, luz puntual), "abre": grados}],
     "brillos": [{"kind": "point", "at": [x, y, z], "color", "strength", "falloff"}],
-    "puertas": {"abre": [[frame, grados], ...]}}"""
+    "puertas": {"abre": [[frame, grados], ...]},
+    "rayos": {"alpha", "inclinacion", "desde_z"} (de los ventanales altos),
+    "niebla_piso": {"color", "alpha", "alturas"}}"""
     col = {"piedra": "#d8d4cb", "techo": "#8d949c", "suelo": "#7d8578", "puerta": "#6b5a4e",
            **e.get("colores", {})}
     # "brillos": resplandores suaves sumados sobre el cel (como el aerografo del
@@ -867,6 +988,10 @@ def build_catedral(e, colls):
         luz = (e.get("vidrios") or {}).get("luz")
         if luz:
             _luz_vitrales(holder.vidrios, e["vidrios"], luz, colls)
+        if e.get("rayos"):
+            _rayos(holder.vidrios, e["rayos"], e.get("vidrios") or {}, colls["neon"])
+    if e.get("niebla_piso"):
+        _niebla_piso(e["niebla_piso"], colls["neon"])
 
     pc = Pieza("catedral_contrafuertes")
     _buttresses(pc)
