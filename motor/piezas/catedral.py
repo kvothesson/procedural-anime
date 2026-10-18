@@ -618,16 +618,18 @@ def _tower(pc):
         w = 2 * Wb / 3
         for j in range(3):
             a = -Wb + j * w
-            pc.wall(O, U, N, a, a + w, z0, z1, 0.6, [arch_chain(a + w / 2, 0.55, 37.4, 1.6, sill=29.0)],
+            pc.wall(O, U, N, a, a + w, z0, z1, 0.6, [arch_chain(a + w / 2, 0.55, 36.6, 1.6, sill=29.0)],
                     vidrio=False)
             # persianas: tablillas inclinadas en el vano
             uc = a + w / 2
-            for zz in [29.4 + 0.55 * k for k in range(15)]:
+            for zz in [29.4 + 0.55 * k for k in range(14)]:
                 c = O + U * uc + Vector((0, 0, zz)) - N * 0.05
                 m = Matrix.Translation(c) @ Matrix.Rotation(ang, 4, "Z") @ Matrix.Rotation(math.radians(30), 4, "X")
                 bmesh.ops.create_cube(pc.bm, size=1.0, matrix=m @ Matrix.Diagonal((1.0, 0.05, 0.32, 1)))
         # arco rehundido que enmarca las tres lancetas
-        arco = arch_chain(0.0, Wb - 0.35, 36.6, 3.4)
+        # (las jambas bajan hasta el pie del campanario; la clave queda sobre
+        # las puntas de las lancetas)
+        arco = [(-(Wb - 0.35), z0 + 0.2)] + arch_chain(0.0, Wb - 0.35, 37.2, 3.2)
         pts = [O + U * u + Vector((0, 0, v)) + N * 0.32 for u, v in arco]
         pts += [O + U * (-u) + Vector((0, 0, v)) + N * 0.32 for u, v in reversed(arco[:-1])]
         pc.tube(pts, 0.28, 0.32)
@@ -643,6 +645,18 @@ def _tower(pc):
         m = Matrix.Translation(O + N * 0.2 + Vector((0, 0, 43.4))) @ Matrix.Rotation(ang, 4, "Z") \
             @ Matrix.Rotation(math.pi / 2, 4, "X")
         bmesh.ops.create_cone(pc.bm, cap_ends=True, segments=24, radius1=1.25, radius2=1.25, depth=0.14, matrix=m)
+        # esfera que se lea (fotos 30 y 31): aro, doce marcas y las agujas
+        cz = Vector((0, 0, 43.4))
+        cara = O + N * 0.3 + cz
+        pc.tube([cara + U * (1.3 * math.cos(2 * math.pi * k / 24)) + Vector((0, 0, 1.3 * math.sin(2 * math.pi * k / 24)))
+                 for k in range(25)], 0.14, 0.12)
+        for k in range(12):
+            a = 2 * math.pi * k / 12
+            d = U * math.cos(a) + Vector((0, 0, math.sin(a)))
+            pc.tube([cara + d * 0.95, cara + d * 1.12], 0.08, 0.06)
+        for ang_h, largo in ((math.radians(60), 0.6), (math.radians(-80), 0.95)):
+            d = U * math.cos(ang_h) + Vector((0, 0, math.sin(ang_h)))
+            pc.tube([cara + N * 0.02, cara + N * 0.02 + d * largo], 0.09, 0.05)
     # torrecillas de las esquinas: ochavadas, con aguja
     for sx in (-1, 1):
         for sy in (-1, 1):
