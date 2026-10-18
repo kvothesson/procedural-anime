@@ -846,6 +846,23 @@ def _amoblamiento(pc, e):
             pc.box(min(x, x - sx * 0.6), max(x, x - sx * 0.6), y - 0.03, y + 0.03, 5.6, 5.66)
             bmesh.ops.create_icosphere(pc.bm, subdivisions=2, radius=0.24,
                                        matrix=Matrix.Translation((x - sx * 0.7, y, 5.4)))
+    # lamparas colgantes en las naves laterales, de la clave de cada arco (foto 57)
+    for sx in (-1, 1):
+        for k in range(NB):
+            y = (k + 0.5) * BAY
+            x = sx * (XC + 1.6)
+            pc.box(x - 0.015, x + 0.015, y - 0.015, y + 0.015, 6.9, Z_ARC_TOP - 0.3)
+            bmesh.ops.create_icosphere(pc.bm, subdivisions=2, radius=0.26, matrix=Matrix.Translation((x, y, 6.65)))
+    # cuadrifolios calados en el antepecho del triforio (foto 57)
+    for sx in (-1, 1):
+        xq = sx * (XC - TN / 2 - 0.2)
+        for k in range(NB):
+            for j in range(6):
+                y = k * BAY + (j + 0.5) * BAY / 6
+                for dy, dz in ((0.0, 0.11), (0.0, -0.11), (0.11, 0.0), (-0.11, 0.0)):
+                    ring = [(xq, y + dy + 0.1 * math.cos(2 * math.pi * q / 10), Z_TRI0 + 0.32 + dz + 0.1 * math.sin(2 * math.pi * q / 10))
+                            for q in range(11)]
+                    pc.tube(ring, 0.03, 0.04)
     if not e.get("bancos"):
         return
     # bancos de cedro (folleto): dos bloques en la nave central

@@ -177,6 +177,13 @@
       "lat": -34.4636046,
       "lon": -58.5097342,
       "nombre": "Primera Junta y Gaboto"
+    },
+    {
+      "tipo": "estatua",
+      "osm": "way/435069143 (centroide)",
+      "lat": -34.46739,
+      "lon": -58.5093482,
+      "nombre": "Sagrado Corazon (1940), Plazoleta Obispo Aguirre: folleto de la parroquia"
     }
   ]
 }

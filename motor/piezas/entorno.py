@@ -345,11 +345,13 @@ def build_entorno(e, colls):
         if c["k"] in AUTOS:
             _ribbon(bm, c["p"], c["w"] + 6.0, H, 0.08)
     _obj("entorno_veredas", bm, mat_toon("entorno_vereda_m", col["vereda"]), sc)
-    bm = bmesh.new()
+    # calzadas: asfalto o adoquin ("sett" en OSM: las calles del casco son de adoquin)
+    bm, bm_ad = bmesh.new(), bmesh.new()
     for c in calles:
         if c["k"] in AUTOS or c["k"] == "service":
-            _ribbon(bm, c["p"], c["w"], H, 0.12)
+            _ribbon(bm_ad if c.get("s") == "sett" else bm, c["p"], c["w"], H, 0.12)
     _obj("entorno_calzadas", bm, m_asf, sc)
+    _obj("entorno_adoquines", bm_ad, mat_toon("entorno_adoquin_m", col.get("adoquin", "#6d6862")), sc)
     bm = bmesh.new()
     for c in calles:
         if c["k"] not in AUTOS and c["k"] != "service":
@@ -422,6 +424,19 @@ def build_entorno(e, colls):
                                   matrix=Matrix.Translation((x, y, z + 1.3)))
             bmesh.ops.create_cone(mon, cap_ends=True, segments=16, radius1=0.3, radius2=1.1, depth=0.35,
                                   matrix=Matrix.Translation((x, y, z + 2.2)))
+        elif m["tipo"] == "estatua":
+            # gradas, pedestal y figura de pie con los brazos abiertos (~2,6 m)
+            for k, (r, h) in enumerate(((2.2, 0.3), (1.7, 0.3))):
+                bmesh.ops.create_cube(mon, size=1.0, matrix=Matrix.Translation((x, y, z + 0.15 + 0.3 * k))
+                                      @ Matrix.Diagonal((r * 2, r * 2, h, 1)))
+            bmesh.ops.create_cube(mon, size=1.0, matrix=Matrix.Translation((x, y, z + 0.6 + 1.3))
+                                  @ Matrix.Diagonal((1.3, 1.3, 2.6, 1)))
+            bmesh.ops.create_cone(mon, cap_ends=True, segments=12, radius1=0.42, radius2=0.26, depth=2.2,
+                                  matrix=Matrix.Translation((x, y, z + 3.2 + 1.1)))
+            bmesh.ops.create_icosphere(mon, subdivisions=2, radius=0.2, matrix=Matrix.Translation((x, y, z + 5.6)))
+            for sgn in (-1, 1):
+                bmesh.ops.create_cube(mon, size=1.0, matrix=Matrix.Translation((x + sgn * 0.45, y, z + 4.7))
+                                      @ Matrix.Rotation(sgn * 0.9, 4, "Y") @ Matrix.Diagonal((0.14, 0.14, 0.8, 1)))
         elif m["tipo"] == "parada":
             # refugio: techo, panel de fondo del lado de la vereda y dos postes
             R0 = Matrix.Translation((x, y, z)) @ Matrix.Rotation(math.radians(m.get("rumbo", 0.0)), 4, "Z")

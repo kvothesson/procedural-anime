@@ -248,7 +248,8 @@ def convertir(spec, raw):
             occ_osm.poly(pts)
         elif "highway" in t and not closed:
             w = ancho(t)
-            out["calles"].append({"p": pts, "w": round(w, 1), "k": t["highway"], "n": t.get("name", "")})
+            out["calles"].append({"p": pts, "w": round(w, 1), "k": t["highway"], "n": t.get("name", ""),
+                                  "s": t.get("surface", "")})
             occ.line(pts, w + (6.0 if t["highway"] in AUTOS else 1.0))
         elif t.get("railway") in ("rail", "light_rail", "subway", "tram") and not closed:
             out["vias"].append({"p": pts, "k": t["railway"]})
