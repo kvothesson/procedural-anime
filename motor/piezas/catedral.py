@@ -51,6 +51,7 @@ Z_RIDGE = 28.2          # cumbrera
 Z_AISLE_WALL = 11.2     # coronamiento del muro lateral
 Z_GROUND = -1.0         # vereda: el templo esta sobre un zocalo con escalinata
 TOWER_TOP = 68.65
+PUERTA_LATERAL = 3      # tramo de la puerta lateral sobre Libertador (foto 31)
 
 
 # ---------------------------------------------------------------- arcos
@@ -479,8 +480,11 @@ def _outer_walls(pc):
         for k in range(NB):
             y0, y1 = k * BAY, (k + 1) * BAY
             ym = (y0 + y1) / 2
-            pc.wall((x, 0, 0), (0, 1, 0), (1, 0, 0), y0, y1, 0.0, Z_AISLE_WALL, TW,
-                    [arch_chain(ym, 0.7, 8.2, 1.25, sill=2.3)])
+            if sx > 0 and k == PUERTA_LATERAL:
+                holes = [arch_chain(ym, 0.8, 3.0, 0.02, foot=0.0), arch_chain(ym, 0.7, 8.2, 1.25, sill=5.2)]
+            else:
+                holes = [arch_chain(ym, 0.7, 8.2, 1.25, sill=2.3)]
+            pc.wall((x, 0, 0), (0, 1, 0), (1, 0, 0), y0, y1, 0.0, Z_AISLE_WALL, TW, holes)
         # testero del crucero: puerta, ventanal grande y hastial
         xt = sx * (XT + TW / 2)
         holes = [arch_chain(36.1, 1.0, 3.3, 1.3, foot=0.0),
@@ -757,6 +761,12 @@ def _buttresses(pc):
             # pinaculo sobre el muro alto
             if k < NB:
                 pc.pinnacle(sx * (XC + 0.1), y, Z_WALL + 1.0, 0.6, 1.4, 2.0)
+        if sx > 0:
+            # escalones de la puerta lateral (foto 31)
+            ym = (PUERTA_LATERAL + 0.5) * BAY
+            for i in range(3):
+                x0 = XW + TW + 0.4 * (2 - i)
+                pc.box(x0, x0 + 0.4, ym - 1.4, ym + 1.4, Z_GROUND, Z_GROUND + 0.34 * (i + 1))
         # balaustradas caladas (fotos): pasamanos, zocalo y balaustres
         _balaustrada(pc, sx * (xo - 0.3), -TW, Y_CR0 - 0.3, Z_AISLE_WALL)
         _balaustrada(pc, sx * (XC + TN / 2 - 0.15), -0.6, Y_AB, Z_WALL)
@@ -1033,7 +1043,7 @@ def _ventanas_anexos(pc):
     lancetas(-12.9, -1, (54.45,))
     rectas((11.6, 0, 0), (0, 1, 0), (1, 0, 0), (58.4, 60.5, 62.6))
     rectas((-12.9, 0, 0), (0, 1, 0), (-1, 0, 0), (58.4, 60.5, 62.6))
-    rectas((0, 64.3, 0), (1, 0, 0), (0, 1, 0), [-10.6 + 2.45 * k for k in range(10)])
+    rectas((0, 64.3, 0), (1, 0, 0), (0, 1, 0), [-0.65 + 3.3 * (k - 3) for k in range(7)])
     return out
 
 
@@ -1050,6 +1060,20 @@ def _annexes(pc, roof):
                        (0, 1, 0), (0, 0, 1), (1, 0, 0), x1 - x0)
             roof.prism([(x0, h), (x0 + 1.1, h + 3.2), (x1 - 1.1, h + 3.2), (x1, h)], (0, (y0 + y1) / 2, 0),
                        (1, 0, 0), (0, 0, 1), (0, 1, 0), y1 - y0 - 0.01)
+            xm = (x0 + x1) / 2
+            for dx in (-7.8, -2.6, 2.6, 7.8):
+                gx = xm + dx
+                pc.prism([(gx - 1.6, h), (gx + 1.6, h), (gx, h + 3.6)], (0, y1 - 0.15, 0), (1, 0, 0), (0, 0, 1),
+                         (0, 1, 0), 0.35)
+                # techito del gablete, que entra en la mansarda
+                roof.prism([(gx - 1.75, h - 0.05), (gx + 1.75, h - 0.05), (gx, h + 3.75)], (0, y1 - 1.3, 0),
+                           (1, 0, 0), (0, 0, 1), (0, 1, 0), 2.2)
+                ring = [(gx + 0.5 * math.cos(2 * math.pi * k / 16), y1 + 0.06, h + 1.5 + 0.5 * math.sin(2 * math.pi * k / 16))
+                        for k in range(17)]
+                pc.tube(ring, 0.1, 0.12)
+            # balcon del primer piso, al centro (tres ventanas)
+            pc.box(xm - 4.6, xm + 4.6, y1, y1 + 0.9, 4.9, 5.15)
+            pc.box(xm - 4.6, xm + 4.6, y1 + 0.8, y1 + 0.9, 5.15, 6.1)
             continue
         # cumbrera a lo largo del lado mayor
         if (x1 - x0) > (y1 - y0):
@@ -1214,6 +1238,13 @@ def _puertas(e, mat, coll):
             # la izquierda gira antihorario y la derecha horario: las dos hacia +y
             ob.rotation_euler = (0, 0, math.radians(-sx * deg))
             ob.keyframe_insert("rotation_euler", frame=f)
+    # puerta lateral (foto 31), cerrada, con tres escalones afuera
+    ym = (PUERTA_LATERAL + 0.5) * BAY
+    pc = Pieza("catedral_puerta_lateral")
+    ch = arch_chain(ym, 0.8, 3.0, 0.02, foot=0.0)
+    poly = ch + [(2 * ym - u, v) for u, v in reversed(ch[:-1])]
+    pc.prism(poly, (XW + TW / 2, 0, 0), (0, 1, 0), (0, 0, 1), (1, 0, 0), 0.1)
+    pc.done(mat, coll)
 
 
 def _mat_velo(name, color, alpha, kind):

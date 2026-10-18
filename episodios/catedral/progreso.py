@@ -40,7 +40,7 @@ def ojo(x, y, h=1.6):
 AFUERA = [
     ("frente desde la plaza", "67.jpg", ojo(3.0, -46.0), [0, -6, 30], 14, 0.012),
     ("3/4 desde adelante a la izquierda", "70.jpg", ojo(-28.0, -30.0), [0, 8, 22], 16, 0.012),
-    ("costado desde Libertador", "31.jpg", ojo(23.5, -6.0), [2, 16, 15], 15, 0.012),
+    ("costado desde Libertador", "31.jpg", ojo(31.0, 22.0), [8, 6, 18], 15, 0.012),
     ("hastial del crucero", "05.jpg", ojo(26.0, 36.1), [15.4, 36.1, 21], 20, 0.012),
     ("desde el rio", "45.jpg", [-2300.0, 480.0, -24.0], [0, 20, 30], 95, 0.2),
 ]
