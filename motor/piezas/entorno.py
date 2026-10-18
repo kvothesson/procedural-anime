@@ -302,7 +302,8 @@ def _tubo(bm, pts, r):
 def build_entorno(e, colls):
     """e: {"datos": "data/entorno.json", "terreno": true, "z": -1.0 (sin
     terreno), "piso": 6000, "colores": {...}, "arboles": true, "relleno": true,
-    "radio": 450, "ventanas": {...} (ver mat_toon), "quitar_arboles": [[x, y], ...]}"""
+    "radio": 450, "ventanas": {...} (ver mat_toon), "quitar_arboles": [[x, y], ...],
+    "agua": true (el rio a la cota de los datos), "lejos": true (la arboleda mas alla del radio)}"""
     data = json.loads((ctx.EPISODIO / e.get("datos", "data/entorno.json")).read_text(encoding="utf-8"))
     col = {"piso": "#b8b4aa", "vereda": "#cfcac0", "asfalto": "#77797e", "camino": "#c2b8a6",
            "pasto": "#9fb48f", "playa": "#8c8e92", "edificio": ["#d6d2ca", "#cbc6bd", "#dedad2"],
@@ -337,6 +338,13 @@ def build_entorno(e, colls):
                 if a["k"] == k and near(a["p"]):
                     _flat(bm, a["p"], H.z + 0.03)
             _obj(f"entorno_{k}", bm, m, sc)
+
+    # el rio: un plano a la cota del agua; donde el terreno real baja de ahi, se ve
+    if "agua_z" in data and e.get("agua", True):
+        bm = bmesh.new()
+        s2 = e.get("piso", 6000) / 2
+        _flat(bm, [(-s2, -s2), (s2, -s2), (s2, s2), (-s2, s2)], data["agua_z"])
+        _obj("entorno_rio", bm, mat_toon("entorno_rio_m", col.get("agua", "#8f8576")), sc)
 
     # veredas, calzadas y caminos, apoyados en el terreno (alturas escalonadas)
     calles = [c for c in data["calles"] if near(c["p"])]
@@ -464,7 +472,16 @@ def build_entorno(e, colls):
         # tapan una vista que el plano necesita)
         quitar = {(round(q[0], 1), round(q[1], 1)) for q in e.get("quitar_arboles", [])}
         for x, y, s, src in data["arboles"]:
-            if math.hypot(x, y) > R or (not relleno and src == "relleno") or (round(x, 1), round(y, 1)) in quitar:
+            # los "lejos" (arboleda mas alla del barrio) no cuentan para el radio
+            lejos = src == "lejos"
+            if (math.hypot(x, y) > R and not lejos) or (lejos and not e.get("lejos", True))                     or (not relleno and src == "relleno") or (round(x, 1), round(y, 1)) in quitar:
+                continue
+            if lejos:
+                # de lejos alcanza una copa sola (la tinta cuesta por cara)
+                r = s * rnd.uniform(2.4, 3.0)
+                bmesh.ops.create_icosphere(copas[rnd.randrange(len(copas))], subdivisions=1, radius=r,
+                                           matrix=Matrix.Translation((x, y, H(x, y) + r * 1.15))
+                                           @ Matrix.Diagonal((1, 1, 0.8, 1)))
                 continue
             _tree(tr, copas[rnd.randrange(len(copas))], x, y, H(x, y) - 0.2,
                   s * e.get("escala_arboles", 1.3), rnd)

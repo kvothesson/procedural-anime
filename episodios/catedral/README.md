@@ -54,6 +54,18 @@ aguas si la planta es casi un rectángulo. Donde hay huellas no se inventan casa
 el atrio frente a la escalinata, empedrado y sin árboles (fotos 67 y 74). Monumentos de OSM en sus
 coordenadas (`osm.json` → `monumentos`): la fuente de Plaza Mitre y el busto de Andrés Rolón.
 
+**El río.** SRTM no ve bien la costa (el agua mide 0-3 m y el bajo casi lo mismo), así que el agua
+sale de OSM: el multipolígono del Río de la Plata (relation/3474227) y los espejos `natural=water`
+cercanos (`data/agua_raw.json`). Adentro de ellos el terreno baja 1,5 m bajo el agua, y un plano a
+la cota `agua.cota_m` (2,4 m sobre el mar → z −26,6) hace de río. La grilla cubre 3,4 km cada 10 m
+para llegar a la costa (~1 km al noreste). Más allá del barrio modelado (450 m) va una arboleda
+rala hasta 1150 m (`bosque.lejos`, árboles `"lejos"`): de lejos San Isidro es un monte continuo
+(foto 45). `"agua": false` / `"lejos": false` en `entorno` los sacan.
+
+**Alturas medidas.** `osm.json` → `alturas`: un punto y una altura pisan la del edificio que lo
+contiene. Tribunales de San Isidro (1977), el bloque alto que se ve desde el río junto a la torre:
+42 m, medidos en la foto 45 contra la torre (sin dato publicado).
+
 ## Ejes y alturas
 
 x a lo ancho (0 = eje), y a lo largo (0 = frente interior, la torre en y < 0, ábside hacia +y),
@@ -143,3 +155,4 @@ torre no tiene el leve ahusamiento real.
 
 | 2026-10-18 | Iterar el escenario 5 horas, guiado por datos e imágenes, cada vez más cerca de la realidad | Rondas de progreso contra 8 fotos de Commons. Barrio: 451 huellas reales de Microsoft en vez de casas inventadas, árboles a su tamaño, atrio sin árboles, barranca boscosa por pendiente, monumentos de OSM. Torre rehecha (campanario, reloj en gabletes, torrecillas, linterna calada, aguja con buhardillas), óculos, rosetón con tracería, torrecillas de escalera, buhardillas, balaustradas caladas, tracería en todas las ventanas, portadas laterales del crucero, casa parroquial a la mansarda. Interior: columnas más gruesas, arcada y bóvedas más altas, molduras, capiteles con hojas, órgano, escalera caracol, ábside con arquería ciega, Cristo Pascual. Errores en el camino: la tracería flotaba en el cielo (altura sumada dos veces); la vista frontal tapaba la aguja (cámara muy baja); los interiores salían blancos (EEVEE sin GI ilumina adentro con todo el cielo) |
 | 2026-10-18 | Hora del día y clima configurables | `motor/cielo.py` (sol astronómico, paleta por altura del sol, climas con lluvia del post y relámpagos), `hora`/`clima` en `plano.py`, `hacia` y `energia_keys` en las luces, `georef` en `entorno.json`. 4 cuadros con la misma cámara |
+| 2026-10-18 | (iteración 11) Desde el río no se veía agua | El agua sale de OSM (Río de la Plata y espejos), no de SRTM: la costa está a ~1 km. Grilla de 3,4 km, arboleda lejana (copas simples: con dos esferas y tronco el cuadro pasaba de 3 a 14 min), Tribunales con su huella de OSM y 42 m medidos en la foto 45 (la huella de Microsoft juntaba la manzana), ventanas en sacristía, capilla y casa parroquial |

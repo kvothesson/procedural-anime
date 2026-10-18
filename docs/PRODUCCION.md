@@ -166,6 +166,8 @@ raytracing, `light_threshold` en 0.05. Diferencia visual media: 1,9/255.
 - **Las luces de relleno van sin sombra** (`use_shadow = False`). Con sombra, 12 luces llenan
   el pool; con el pool en 2 GB Blender **se cae sin traceback** (exit 127).
 - El borrador casi no gana: lo que queda es CPU (escena + Line Art).
+- **Line Art cobra por cara visible**: 7 mil árboles más (dos esferas y tronco cada uno) llevaron
+  un cuadro de 3 a 14 min. De lejos, una copa sola de pocas caras y sin tronco: vuelve a ~3 min.
 - El primer frame tras cambiar un ajuste de render tarda ~35 s (EEVEE recompila shaders).
 - **Nunca dos renders de Blender a la vez**: con 2 GB de VRAM, se cuelga.
 - **Iterar con frames sueltos** (`render.py --frames 1 40 66`, ~30-60 s) y tirar el plano

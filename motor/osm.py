@@ -480,6 +480,66 @@ class Dem:
                 + (at(x0, y0 + 1) * (1 - fx) + at(x0 + 1, y0 + 1) * fx) * fy)
 
 
+def _anillos(ways):
+    """Une los tramos de una relacion multipoligono en anillos cerrados."""
+    ways = [w[:] for w in ways if len(w) > 1]
+    out = []
+    while ways:
+        r = ways.pop(0)
+        unio = True
+        while r[0] != r[-1] and unio:
+            unio = False
+            for i, w in enumerate(ways):
+                if w[0] == r[-1]:
+                    r += w[1:]
+                elif w[-1] == r[-1]:
+                    r += w[-2::-1]
+                elif w[-1] == r[0]:
+                    r = w[:-1] + r
+                elif w[0] == r[0]:
+                    r = w[:0:-1] + r
+                else:
+                    continue
+                ways.pop(i)
+                unio = True
+                break
+        out.append(r)
+    return out
+
+
+def agua_osm(spec, M, data):
+    """El rio y los espejos de agua de OSM (multipoligonos natural=water, el
+    Rio de la Plata incluido) como anillos en metros: [(rol, puntos)]."""
+    A = spec["agua"]
+    dst = data / "agua_raw.json"
+    if not dst.exists():
+        la, lo = spec["origen"]
+        r = A.get("radio", 3000)
+        q = f"""[out:json][timeout:120];
+(relation["natural"="water"](around:{r},{la},{lo});way["natural"="water"](around:{r},{la},{lo}););
+out geom;"""
+        body = urllib.parse.urlencode({"data": q}).encode()
+        for url in SERVERS:
+            try:
+                req = urllib.request.Request(url, data=body, headers={"User-Agent": "procedural-anime/1"})
+                dst.write_bytes(urllib.request.urlopen(req, timeout=180).read())
+                break
+            except Exception as ex:
+                print(f"  {url}: {ex}")
+    raw = json.loads(dst.read_text(encoding="utf-8"))
+    out = []
+    for e in raw["elements"]:
+        if e["type"] == "way" and e.get("geometry"):
+            out.append(("outer", [M(p) for p in e["geometry"]]))
+            continue
+        for rol in ("outer", "inner"):
+            ws = [[(p["lat"], p["lon"]) for p in m["geometry"]] for m in e.get("members", [])
+                  if m.get("role") == rol and m.get("geometry")]
+            for r in _anillos(ws):
+                out.append((rol, [M({"lat": la, "lon": lo}) for la, lo in r]))
+    return out
+
+
 def terreno(spec, M, cache):
     T = spec["terreno"]
     paso, lado = T.get("paso", 5.0), T.get("lado", 1400.0)
@@ -508,6 +568,16 @@ def terreno(spec, M, cache):
         w = np.clip(1 - d / pl.get("borde", 20.0), 0, 1)
         w = w * w * (3 - 2 * w)
         z = z * (1 - w) + pl["z"] * w
+    # el agua de OSM: SRTM no ve bien la costa; adentro del rio el terreno
+    # baja bajo el nivel del agua (osm.json -> agua.cota_m)
+    if spec.get("agua"):
+        img = Image.new("L", (n, n), 0)
+        dr = ImageDraw.Draw(img)
+        for rol, pts in agua_osm(spec, M, Path(cache).parent):
+            dr.polygon([((x - x0) / paso, (y - y0) / paso) for x, y in pts], fill=255 if rol == "outer" else 0)
+        mask = np.array(img) > 0
+        z = np.where(mask, np.minimum(z, spec["agua"]["cota_m"] - T["ref_m"] - spec["agua"].get("fondo", 1.5)), z)
+        print(f"agua de OSM: {mask.mean():.1%} de la grilla")
     print(f"terreno {n}x{n} cada {paso} m: z de {z.min():.1f} a {z.max():.1f} (escena)")
     return {"x0": x0, "y0": y0, "paso": paso, "n": n, "z": [round(float(v), 2) for v in z.ravel()]}
 
@@ -572,7 +642,34 @@ def bosque_barranca(out, spec, R):
             xx += d
         yy += d
     print(f"bosque de la barranca: {k} arboles (pendiente > {B.get('pendiente', 0.12):.0%})")
+    # mas alla del barrio modelado: San Isidro visto de lejos es una arboleda
+    # continua (foto 45); copas grandes y ralas en tierra firme, sin edificios
+    L = B.get("lejos")
+    if L:
+        agua_z = spec["agua"]["cota_m"] - spec["terreno"]["ref_m"] if spec.get("agua") else -1e9
+        k2, d = 0, L.get("paso", 22.0)
+        yy = -L["hasta"]
+        while yy < L["hasta"]:
+            xx = -L["hasta"]
+            while xx < L["hasta"]:
+                x, y = xx + rnd.uniform(-d * 0.45, d * 0.45), yy + rnd.uniform(-d * 0.45, d * 0.45)
+                i, j = int((x - x0) / paso), int((y - y0) / paso)
+                if R + 10 < math.hypot(x, y) < L["hasta"] and 0 <= i < n and 0 <= j < n and z[j, i] > agua_z + 0.3:
+                    out["arboles"].append([round(x, 2), round(y, 2), round(rnd.uniform(1.6, 2.4), 2), "lejos"])
+                    k2 += 1
+                xx += d
+            yy += d
+        print(f"arboleda lejana: {k2} arboles hasta {L['hasta']} m")
     return k
+
+
+def _adentro(x, y, poly):
+    dentro = False
+    for i in range(len(poly)):
+        (x0, y0), (x1, y1) = poly[i - 1], poly[i]
+        if (y0 > y) != (y1 > y) and x < x0 + (y - y0) * (x1 - x0) / (y1 - y0):
+            dentro = not dentro
+    return dentro
 
 
 def main():
@@ -591,8 +688,26 @@ def main():
         out["terreno"] = terreno(spec, Marco(spec), data / "dem")
         _SIN_ARBOLES[:] = spec.get("zonas_sin_arboles", [])
         bosque_barranca(out, spec, spec.get("radio", 450))
+    if spec.get("agua") and spec.get("terreno"):
+        # nivel del agua en metros de escena (cota sobre el mar - ref)
+        out["agua_z"] = round(spec["agua"]["cota_m"] - spec["terreno"]["ref_m"], 2)
     # monumentos (puntos de OSM: fuentes, bustos, estatuas)
     M = Marco(spec)
+    # alturas medidas a mano (fotos): el edificio que contiene el punto
+    for al in spec.get("alturas", []):
+        if "huella" in al:
+            # la huella propia (una relacion de OSM que convertir no arma): un
+            # edificio nuevo, aunque quede adentro de una huella de Microsoft
+            # que junta toda la manzana
+            out["edificios"].append({"p": [list(M({"lat": la, "lon": lo})) for la, lo in al["huella"]],
+                                     "h": al["h"], "k": "medido", "src": "osm+medida"})
+            print(f"altura {al.get('nombre', '?')}: {al['h']} m con su huella")
+            continue
+        x, y = M({"lat": al["lat"], "lon": al["lon"]})
+        hit = [b for b in out["edificios"] if _adentro(x, y, b["p"])]
+        for b in hit:
+            b["h"], b["src"] = al["h"], b["src"] + "+medida"
+        print(f"altura {al.get('nombre', '?')}: {al['h']} m en {len(hit)} edificio(s)")
     out["monumentos"] = [dict(m, at=M({"lat": m["lat"], "lon": m["lon"]})) for m in spec.get("monumentos", [])]
     for m in out["monumentos"]:
         if m["tipo"] == "parada":

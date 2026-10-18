@@ -47,8 +47,8 @@
   "seed": 11,
   "terreno": {
     "ref_m": 29.0,
-    "paso": 5.0,
-    "lado": 1400.0,
+    "paso": 10.0,
+    "lado": 3400.0,
     "suavizado_m": 10.0,
     "plataformas": [
       {
@@ -91,7 +91,11 @@
   ],
   "bosque": {
     "pendiente": 0.12,
-    "paso": 7.0
+    "paso": 7.0,
+    "lejos": {
+      "hasta": 1150,
+      "paso": 28.0
+    }
   },
   "monumentos": [
     {
@@ -184,6 +188,39 @@
       "lat": -34.46739,
       "lon": -58.5093482,
       "nombre": "Sagrado Corazon (1940), Plazoleta Obispo Aguirre: folleto de la parroquia"
+    }
+  ],
+  "agua": {
+    "cota_m": 2.4,
+    "radio": 3000,
+    "fondo": 1.5,
+    "_fuente": "OSM relation/3474227 (Rio de la Plata) y espejos natural=water; cota del agua de SRTM"
+  },
+  "alturas": [
+    {
+      "nombre": "Tribunales de San Isidro (relation/6630572, 1977)",
+      "lat": -34.46894,
+      "lon": -58.51245,
+      "h": 42.0,
+      "_fuente": "huella: OSM way/446019471 (outer de relation/6630572); altura: foto 45, ~0,4 de la torre sobre el rio",
+      "huella": [
+        [
+          -34.4687162,
+          -58.512528
+        ],
+        [
+          -34.4689982,
+          -58.5127202
+        ],
+        [
+          -34.4691595,
+          -58.5123719
+        ],
+        [
+          -34.4688775,
+          -58.5121797
+        ]
+      ]
     }
   ]
 }

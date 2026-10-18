@@ -939,6 +939,40 @@ def _floor(pc, ground):
         pc.box(-g, g, 20 - g, 20 + g, zg - 0.2, zg)
 
 
+def _ventanas_anexos(pc):
+    """Ventanas de los anexos (fotos 39 y 61): lancetas en la sacristia y la
+    capilla, dos plantas de ventanas rectas en la casa parroquial. Marco en
+    relieve; devuelve los contornos para el vidrio."""
+    out = []
+
+    def poner(O, U, N, u, hole):
+        O, U, N = Vector(O), Vector(U), Vector(N)
+        full = hole + [(2 * u - a, b) for a, b in reversed(hole[1:-1])] if hole[0][0] == u else hole
+        out.append([O + U * a + Vector((0, 0, b)) + N * 0.04 for a, b in full])
+        pc.tube([O + U * a + Vector((0, 0, b)) + N * 0.1 for a, b in full + full[:1]], 0.14, 0.12)
+
+    def lancetas(x, nx, ys):
+        for y in ys:
+            poner((x, 0, 0), (0, 1, 0), (nx, 0, 0), y, arch_chain(y, 0.55, 5.4, 1.3, sill=2.4))
+
+    def rectas(O, U, N, us):
+        for u in us:
+            for z0, z1 in ((1.0, 3.4), (5.6, 8.0)):
+                poner(O, U, N, u, [(u - 0.55, z0), (u + 0.55, z0), (u + 0.55, z1), (u - 0.55, z1)])
+            # cornisa entre plantas
+        pc.tube([Vector(O) + Vector(U) * (us[0] - 1.4) + Vector((0, 0, 4.6)) + Vector(N) * 0.12,
+                 Vector(O) + Vector(U) * (us[-1] + 1.4) + Vector((0, 0, 4.6)) + Vector(N) * 0.12], 0.24, 0.3)
+
+    lancetas(11.6, 1, (43.6, 46.6, 49.6))
+    lancetas(-12.9, -1, (43.6, 46.6, 49.6))
+    lancetas(11.6, 1, (54.45,))
+    lancetas(-12.9, -1, (54.45,))
+    rectas((11.6, 0, 0), (0, 1, 0), (1, 0, 0), (58.4, 60.5, 62.6))
+    rectas((-12.9, 0, 0), (0, 1, 0), (-1, 0, 0), (58.4, 60.5, 62.6))
+    rectas((0, 64.3, 0), (1, 0, 0), (0, 1, 0), [-10.6 + 2.45 * k for k in range(10)])
+    return out
+
+
 def _annexes(pc, roof):
     """Sacristia, capilla del Santisimo y casa parroquial, alrededor del
     abside (bloques simples a dos aguas, como en el plano de OSM)."""
@@ -1309,7 +1343,13 @@ def build_catedral(e, colls):
         pc = Pieza("catedral_anexos")
         rf = Pieza("catedral_anexos_techo")
         _annexes(pc, rf)
+        vid_a = _ventanas_anexos(pc)
         pc.done(m_stone, main)
+        if vid_a:
+            hv = Pieza("_va")
+            hv.vidrios = vid_a
+            hv.bm.free()
+            _vidrios([hv], mat_toon("catedral_anexos_vidrio", col.get("ventana", "#2c3540")), main)                 .name = "catedral_anexos_vidrios"
         if techo:
             rf.done(m_roof, main)
         else:
