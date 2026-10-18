@@ -56,8 +56,31 @@ encendido mientras ella habla.
 
 Puertas de dos hojas en la portada (`catedral.puertas.abre`: se abren en el plano 3, abiertas
 adentro). Latido de los leds (`servidores.latido`): en el plano 8, cuadros 85-95, todos los leds de
-todos los racks se encienden juntos en blanco frío y el núcleo sube. Pendiente: el loop del último
-cuadro al primero, subtítulos y banda.
+todos los racks se encienden juntos en blanco frío y el núcleo sube. 
+
+## Sonido (`banda.py`) y subtítulos
+
+Síntesis pura, eventos anclados a (plano, frame). Afuera (cálido): viento, grillos, el Tren de la
+Costa lejos a la izquierda (abajo de la barranca), los pasos de los dos (de las claves reales de la
+nena; él más grave y desfasado) y un pad de Re add9 con arpegio pulsado; la puerta cruje en el
+plano 3. El corte al plano 4 calla la calle: zumbido de los racks (50 Hz + ventiladores), pad frío
+de Si sus2, campanitas de vidrio y pasos con la reverb larga de la nave. Un blip por línea (agudo
+ella, grave él). El latido: una vocal de coro de muchas voces al mismo tiempo que los leds.
+
+Curva medida: arranque −27,6 dB → afuera −23,5 → al entrar −22,4 → nave −20 → **latido −16,1** (lo
+más fuerte; el short corta ahí). Corte: −12,7 LUFS, pico −1,0 dBTP.
+
+Subtítulos: `planos.py` escribe `shots/subs.json` desde el `"dialogo"` de cada plano (tiempo
+absoluto, palabra por palabra), ella en cian (su visor), él en ámbar.
+
+```bash
+python episodios/nunca_se_apagan/planos.py         # planos, subs.json y timeline
+python motor/render.py episodios/nunca_se_apagan <plano>
+python episodios/nunca_se_apagan/banda.py
+python motor/montaje.py episodios/nunca_se_apagan  # -> out/nunca_se_apagan.mp4
+```
+
+No es loop (el montaje avisa: el empalme 08 → 01 difiere); el short termina en el latido.
 
 ## Estilo
 
@@ -88,3 +111,4 @@ Pieza `nena` en `piezas.py` (con el brazo del papá, `papa_brazo`). Criterio:
 | 2026-10-17 | Pasar al estilo | Hora azul con gradiente térmico. Señalando a 80 m la torre no se veía (árbol, y de noche sin luz propia) → reflectores fríos y el gesto a ~40 m; reflectores al 60 % (quemaban). Adentro salía lavado con la niebla de afuera → estilo `cyberpunk_adentro` (los estilos ahora heredan con `extends`). Charcos de luz de los racks gigantes → energía 12. Paredes del barrio menos rosas |
 | 2026-10-17 | Corregir el exterior del storyboard: la nena visible en 1 y 3, plano 2 distinto, fachada sin quemar, árboles que no tapen la torre | Objetivo de mira `encuadre` (la cabeza de la nena en un lugar de la pantalla). Plano 2 desde el borde del atrio: nena → torre → nena. 5 árboles de relleno cortaban la vista a la torre: se quitan. Reflectores puntuales a ras del piso pintaban un cuadrado magenta → conos apuntados; subirles energía no cambiaba nada (el toon topea) → `brillos` en la piedra, chico en la base (quemaba la escalinata) |
 | 2026-10-17 | Puertas, latido de leds y render de los planos | Puertas que se abren y latido. En el 8 la cámara miraba la bóveda en el latido (no se veía) → baja a los racks del brazo derecho. Borradores: ella miraba al papá un instante (se interpolaba la posición entre "papá" y un punto lejano) → sostiene la mirada durante su línea; el papá la miraba desde arriba en picada → `encuadre` con la nave adelante; luz del núcleo pintaba un disco cian en el piso → 150 |
+| 2026-10-18 | Subtítulos y banda | `subs.json` desde el diálogo; `banda.py` con el gradiente también en el sonido; montaje verificado: 1080×1920, 24 fps, 54,0 s, estéreo 48 kHz |

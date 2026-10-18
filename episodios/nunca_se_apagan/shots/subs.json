@@ -1,0 +1,506 @@
+[
+ {
+  "t0": 2.417,
+  "t1": 5.917,
+  "fade_s": 0.2,
+  "items": [
+   {
+    "font": "texto",
+    "size": 50,
+    "outline": 7,
+    "glow": 0.35,
+    "max_w": 0.82,
+    "color": "#8ff7ff",
+    "pos": [
+     0.5,
+     0.13
+    ],
+    "reveal": [
+     [
+      2.467,
+      "Papá,"
+     ],
+     [
+      2.687,
+      "Papá, ¿qué"
+     ],
+     [
+      2.907,
+      "Papá, ¿qué es"
+     ],
+     [
+      3.127,
+      "Papá, ¿qué es eso?"
+     ]
+    ]
+   }
+  ]
+ },
+ {
+  "t0": 6.417,
+  "t1": 10.417,
+  "fade_s": 0.2,
+  "items": [
+   {
+    "font": "texto",
+    "size": 50,
+    "outline": 7,
+    "glow": 0.35,
+    "max_w": 0.82,
+    "color": "#ffc98a",
+    "pos": [
+     0.5,
+     0.13
+    ],
+    "reveal": [
+     [
+      6.467,
+      "Una"
+     ],
+     [
+      6.687,
+      "Una catedral."
+     ],
+     [
+      6.907,
+      "Una catedral. ¿Querés"
+     ],
+     [
+      7.127,
+      "Una catedral. ¿Querés entrar?"
+     ]
+    ]
+   }
+  ]
+ },
+ {
+  "t0": 18.583,
+  "t1": 20.75,
+  "fade_s": 0.2,
+  "items": [
+   {
+    "font": "texto",
+    "size": 50,
+    "outline": 7,
+    "glow": 0.35,
+    "max_w": 0.82,
+    "color": "#8ff7ff",
+    "pos": [
+     0.5,
+     0.13
+    ],
+    "reveal": [
+     [
+      18.633,
+      "¡Qué"
+     ],
+     [
+      18.853,
+      "¡Qué frío!"
+     ]
+    ]
+   }
+  ]
+ },
+ {
+  "t0": 20.917,
+  "t1": 23.917,
+  "fade_s": 0.2,
+  "items": [
+   {
+    "font": "texto",
+    "size": 50,
+    "outline": 7,
+    "glow": 0.35,
+    "max_w": 0.82,
+    "color": "#ffc98a",
+    "pos": [
+     0.5,
+     0.13
+    ],
+    "reveal": [
+     [
+      20.967,
+      "Las"
+     ],
+     [
+      21.187,
+      "Las iglesias"
+     ],
+     [
+      21.407,
+      "Las iglesias siempre"
+     ],
+     [
+      21.627,
+      "Las iglesias siempre fueron"
+     ],
+     [
+      21.847,
+      "Las iglesias siempre fueron frías."
+     ]
+    ]
+   }
+  ]
+ },
+ {
+  "t0": 24.417,
+  "t1": 27.917,
+  "fade_s": 0.2,
+  "items": [
+   {
+    "font": "texto",
+    "size": 50,
+    "outline": 7,
+    "glow": 0.35,
+    "max_w": 0.82,
+    "color": "#8ff7ff",
+    "pos": [
+     0.5,
+     0.13
+    ],
+    "reveal": [
+     [
+      24.467,
+      "¿Es"
+     ],
+     [
+      24.687,
+      "¿Es una"
+     ],
+     [
+      24.907,
+      "¿Es una iglesia"
+     ],
+     [
+      25.127,
+      "¿Es una iglesia o"
+     ],
+     [
+      25.347,
+      "¿Es una iglesia o una"
+     ],
+     [
+      25.567,
+      "¿Es una iglesia o una computadora?"
+     ]
+    ]
+   }
+  ]
+ },
+ {
+  "t0": 28.25,
+  "t1": 30.917,
+  "fade_s": 0.2,
+  "items": [
+   {
+    "font": "texto",
+    "size": 50,
+    "outline": 7,
+    "glow": 0.35,
+    "max_w": 0.82,
+    "color": "#ffc98a",
+    "pos": [
+     0.5,
+     0.13
+    ],
+    "reveal": [
+     [
+      28.3,
+      "Las"
+     ],
+     [
+      28.52,
+      "Las dos."
+     ]
+    ]
+   }
+  ]
+ },
+ {
+  "t0": 31.25,
+  "t1": 33.417,
+  "fade_s": 0.2,
+  "items": [
+   {
+    "font": "texto",
+    "size": 50,
+    "outline": 7,
+    "glow": 0.35,
+    "max_w": 0.82,
+    "color": "#8ff7ff",
+    "pos": [
+     0.5,
+     0.13
+    ],
+    "reveal": [
+     [
+      31.3,
+      "¿Para"
+     ],
+     [
+      31.52,
+      "¿Para qué"
+     ],
+     [
+      31.74,
+      "¿Para qué la"
+     ],
+     [
+      31.96,
+      "¿Para qué la usan?"
+     ]
+    ]
+   }
+  ]
+ },
+ {
+  "t0": 33.75,
+  "t1": 37.917,
+  "fade_s": 0.2,
+  "items": [
+   {
+    "font": "texto",
+    "size": 50,
+    "outline": 7,
+    "glow": 0.35,
+    "max_w": 0.82,
+    "color": "#ffc98a",
+    "pos": [
+     0.5,
+     0.13
+    ],
+    "reveal": [
+     [
+      33.8,
+      "Los"
+     ],
+     [
+      34.02,
+      "Los domingos"
+     ],
+     [
+      34.24,
+      "Los domingos hay"
+     ],
+     [
+      34.46,
+      "Los domingos hay misa."
+     ],
+     [
+      34.68,
+      "Los domingos hay misa. Los"
+     ],
+     [
+      34.9,
+      "Los domingos hay misa. Los otros"
+     ],
+     [
+      35.12,
+      "Los domingos hay misa. Los otros días"
+     ],
+     [
+      35.34,
+      "Los domingos hay misa. Los otros días rezan"
+     ],
+     [
+      35.56,
+      "Los domingos hay misa. Los otros días rezan ellas."
+     ]
+    ]
+   }
+  ]
+ },
+ {
+  "t0": 38.417,
+  "t1": 40.917,
+  "fade_s": 0.2,
+  "items": [
+   {
+    "font": "texto",
+    "size": 50,
+    "outline": 7,
+    "glow": 0.35,
+    "max_w": 0.82,
+    "color": "#8ff7ff",
+    "pos": [
+     0.5,
+     0.13
+    ],
+    "reveal": [
+     [
+      38.467,
+      "¿Por"
+     ],
+     [
+      38.687,
+      "¿Por qué"
+     ],
+     [
+      38.907,
+      "¿Por qué las"
+     ],
+     [
+      39.127,
+      "¿Por qué las pusieron"
+     ],
+     [
+      39.347,
+      "¿Por qué las pusieron acá?"
+     ]
+    ]
+   }
+  ]
+ },
+ {
+  "t0": 41.25,
+  "t1": 45.917,
+  "fade_s": 0.2,
+  "items": [
+   {
+    "font": "texto",
+    "size": 50,
+    "outline": 7,
+    "glow": 0.35,
+    "max_w": 0.82,
+    "color": "#ffc98a",
+    "pos": [
+     0.5,
+     0.13
+    ],
+    "reveal": [
+     [
+      41.3,
+      "Nadie"
+     ],
+     [
+      41.479,
+      "Nadie se"
+     ],
+     [
+      41.659,
+      "Nadie se acuerda."
+     ],
+     [
+      41.838,
+      "Nadie se acuerda. Dicen"
+     ],
+     [
+      42.018,
+      "Nadie se acuerda. Dicen que"
+     ],
+     [
+      42.197,
+      "Nadie se acuerda. Dicen que antes"
+     ],
+     [
+      42.377,
+      "Nadie se acuerda. Dicen que antes la"
+     ],
+     [
+      42.556,
+      "Nadie se acuerda. Dicen que antes la gente"
+     ],
+     [
+      42.736,
+      "Nadie se acuerda. Dicen que antes la gente venía"
+     ],
+     [
+      42.915,
+      "Nadie se acuerda. Dicen que antes la gente venía a"
+     ],
+     [
+      43.095,
+      "Nadie se acuerda. Dicen que antes la gente venía a escuchar"
+     ],
+     [
+      43.274,
+      "Nadie se acuerda. Dicen que antes la gente venía a escuchar una"
+     ],
+     [
+      43.454,
+      "Nadie se acuerda. Dicen que antes la gente venía a escuchar una palabra."
+     ]
+    ]
+   }
+  ]
+ },
+ {
+  "t0": 46.417,
+  "t1": 48.417,
+  "fade_s": 0.2,
+  "items": [
+   {
+    "font": "texto",
+    "size": 50,
+    "outline": 7,
+    "glow": 0.35,
+    "max_w": 0.82,
+    "color": "#8ff7ff",
+    "pos": [
+     0.5,
+     0.13
+    ],
+    "reveal": [
+     [
+      46.467,
+      "¿Qué"
+     ],
+     [
+      46.687,
+      "¿Qué palabra?"
+     ]
+    ]
+   }
+  ]
+ },
+ {
+  "t0": 48.75,
+  "t1": 52.917,
+  "fade_s": 0.2,
+  "items": [
+   {
+    "font": "texto",
+    "size": 50,
+    "outline": 7,
+    "glow": 0.35,
+    "max_w": 0.82,
+    "color": "#ffc98a",
+    "pos": [
+     0.5,
+     0.13
+    ],
+    "reveal": [
+     [
+      48.8,
+      "No"
+     ],
+     [
+      49.02,
+      "No sé."
+     ],
+     [
+      49.24,
+      "No sé. Pero"
+     ],
+     [
+      49.46,
+      "No sé. Pero ellas"
+     ],
+     [
+      49.68,
+      "No sé. Pero ellas la"
+     ],
+     [
+      49.9,
+      "No sé. Pero ellas la siguen"
+     ],
+     [
+      50.12,
+      "No sé. Pero ellas la siguen escuchando."
+     ]
+    ]
+   }
+  ]
+ }
+]

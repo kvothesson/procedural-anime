@@ -11,5 +11,6 @@
     "06_misa",
     "07_nucleo",
     "08_boveda"
-  ]
+  ],
+  "subs": "subs.json"
 }

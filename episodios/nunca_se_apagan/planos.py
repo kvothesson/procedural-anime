@@ -384,6 +384,28 @@ def arboles_que_tapan(planos, objetivos, escala=1.3):
     return out
 
 
+def escribir_subs(out, planos):
+    """subs.json del montaje desde el "dialogo" de cada plano: tiempo absoluto
+    del corte, palabra por palabra. Ella en cian (su visor), el en ambar:
+    el mismo gradiente frio/calido de la imagen. Arriba, donde no tapan a la
+    nena ni la interfaz de Shorts."""
+    color = {"ella": "#8ff7ff", "el": "#ffc98a"}
+    bloques, t_plano = [], 0.0
+    for shot in planos.values():
+        for ln in shot["dialogo"]:
+            t0 = t_plano + (ln["f0"] - 1) / FPS
+            t1 = t_plano + (ln["f1"] - 1) / FPS
+            palabras = ln["texto"].split()
+            paso = min(0.22, (t1 - t0) * 0.5 / max(len(palabras), 1))
+            reveal = [[round(t0 + 0.05 + i * paso, 3), " ".join(palabras[:i + 1])] for i in range(len(palabras))]
+            bloques.append({"t0": round(t0, 3), "t1": round(t1, 3), "fade_s": 0.2, "items": [{
+                "font": "texto", "size": 50, "outline": 7, "glow": 0.35, "max_w": 0.82,
+                "color": color[ln["quien"]], "pos": [0.5, 0.13], "reveal": reveal}]})
+        t_plano += shot["frames"] / FPS
+    (out / "subs.json").write_text(json.dumps(bloques, indent=1, ensure_ascii=False), encoding="utf-8")
+    print(f"subs: {len(bloques)} lineas")
+
+
 def escribir_short(out):
     planos = planos_del_short()
     vista = [planos[k] for k in ("01_libertador", "02_torre", "03_atrio")]
@@ -404,7 +426,8 @@ def escribir_short(out):
             q = en_cuadro(c["pos"], c["aim"], shot["camera"]["lens"], [n["at"][0], n["at"][1], n["at"][2] + 1.0])
             print(f"  {name} f{f}: cabeza de la nena en {q}")
     total = sum(p["frames"] for p in planos.values())
-    tl = {"name": "nunca_se_apagan", "fps_unique": FPS, "fps_out": 24, "shots": list(planos)}
+    escribir_subs(out, planos)
+    tl = {"name": "nunca_se_apagan", "fps_unique": FPS, "fps_out": 24, "shots": list(planos), "subs": "subs.json"}
     (out / "timeline.json").write_text(json.dumps(tl, indent=2, ensure_ascii=False), encoding="utf-8")
     print(f"timeline: {len(planos)} planos, {total} cuadros = {total / FPS:.1f} s")
 
