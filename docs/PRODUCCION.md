@@ -428,6 +428,15 @@ Salieron de cada vez que quien dirigía miró un frame y dijo "esto no". Pesan t
   pantalla (búsqueda de giro e inclinación); si además se exige otro punto en cuadro y no entra,
   aflojar esa exigencia en ese cuadro. Un chico de la mano va al costado, no adelante: adelante, su
   brazo sale de la espalda.
+- **Acercarse a lo real se mide contra fotos:** una ronda fija de cámaras puestas como fotos de
+  referencia, con el render debajo de cada una, en cada iteración (`episodios/catedral/progreso.py`).
+  Para comparar estructura, luz neutra de día y sin lo que tapa (los racks); para el interior, ambiente
+  bajo y un sol sin sombra desde arriba: sin GI, EEVEE ilumina adentro con todo el cielo y sale blanco.
+- **Donde OSM no tiene casas, Microsoft sí:** Global ML Building Footprints (ODbL) trae las huellas
+  reales; se baja el tile en streaming y se filtra por un rectángulo (el tile entero pesa cientos de
+  MB). No traen altura: por tamaño, fija por posición.
+- **Un detalle que sale del contorno de otra cosa (la tracería del vidrio) hereda su altura:** al
+  sumarle la del arco se va al cielo. Ver siempre un primer plano después de agregar piezas chicas.
 - **Árboles de relleno que tapan una vista que el plano necesita se sacan** calculando qué copas
   cortan la línea de vista (no se tocan los de OSM).
 

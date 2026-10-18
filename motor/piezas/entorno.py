@@ -422,6 +422,18 @@ def build_entorno(e, colls):
                                   matrix=Matrix.Translation((x, y, z + 1.3)))
             bmesh.ops.create_cone(mon, cap_ends=True, segments=16, radius1=0.3, radius2=1.1, depth=0.35,
                                   matrix=Matrix.Translation((x, y, z + 2.2)))
+        elif m["tipo"] == "parada":
+            # refugio: techo, panel de fondo del lado de la vereda y dos postes
+            R0 = Matrix.Translation((x, y, z)) @ Matrix.Rotation(math.radians(m.get("rumbo", 0.0)), 4, "Z")
+            bmesh.ops.create_cube(mon, size=1.0, matrix=R0 @ Matrix.Translation((0, -0.6, 2.45))
+                                  @ Matrix.Diagonal((3.2, 1.5, 0.1, 1)))
+            bmesh.ops.create_cube(mon, size=1.0, matrix=R0 @ Matrix.Translation((0, -1.25, 1.3))
+                                  @ Matrix.Diagonal((3.0, 0.06, 2.0, 1)))
+            for dxp in (-1.45, 1.45):
+                bmesh.ops.create_cube(mon, size=1.0, matrix=R0 @ Matrix.Translation((dxp, -1.2, 1.2))
+                                      @ Matrix.Diagonal((0.08, 0.08, 2.4, 1)))
+            bmesh.ops.create_cube(mon, size=1.0, matrix=R0 @ Matrix.Translation((0, -1.0, 0.45))
+                                  @ Matrix.Diagonal((2.2, 0.35, 0.08, 1)))
         else:
             bmesh.ops.create_cube(mon, size=1.0, matrix=Matrix.Translation((x, y, z + 0.9))
                                   @ Matrix.Diagonal((0.9, 0.9, 1.8, 1)))

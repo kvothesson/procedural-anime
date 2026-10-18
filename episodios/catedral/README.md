@@ -42,12 +42,28 @@ más suave que la real.
 
 Datos © colaboradores de OpenStreetMap, licencia ODbL (openstreetmap.org/copyright). Elevación: Mapzen Terrain Tiles (SRTM, NASA/USGS, dominio público).
 
+**Huellas reales.** OSM no tiene casi ninguna casa del barrio: `data/ms_huellas.geojsonl` son los
+edificios de **Microsoft Global ML Building Footprints** (detectados en imágenes satelitales,
+licencia ODbL; tile `210321300`, versión 2026-02-03) alrededor de la catedral. `osm.py` suma los
+que no pisan un edificio de OSM (451 dentro de los 450 m); no traen altura, así que va por tamaño
+(1-2 pisos las chicas, 2 las medianas, 3-4 las grandes, fija por posición) y llevan techo a dos
+aguas si la planta es casi un rectángulo. Donde hay huellas no se inventan casas.
+
+**Barranca, árboles y monumentos.** La barranca es monte: árboles donde la pendiente SRTM supera el
+12 % y no hay edificios, calles ni vías. Tipas de plaza de 15-20 m, árboles de vereda de ~10 m;
+el atrio frente a la escalinata, empedrado y sin árboles (fotos 67 y 74). Monumentos de OSM en sus
+coordenadas (`osm.json` → `monumentos`): la fuente de Plaza Mitre y el busto de Andrés Rolón.
+
 ## Ejes y alturas
 
 x a lo ancho (0 = eje), y a lo largo (0 = frente interior, la torre en y < 0, ábside hacia +y),
-z = piso interior (la vereda está a −1 m, con escalinata). Columnas a x = ±4,7 cada 5,27 m;
-capitel a 7,2; arcos formeros hasta 10,9; triforio 11,15-13; bóveda alta de 13,2 a 19; bóveda
-lateral hasta 11; muro alto a 20,8; cumbrera 28,2; torre 68,65.
+z = piso interior (la vereda está a −1 m, con escalinata). Columnas de ~1,15 m de diámetro a
+x = ±4,7 cada 5,27 m; capitel a 8; arcos formeros hasta 12; triforio 12,25-13,7; bóveda alta de 14
+a 19; bóveda lateral hasta 11,8; muro lateral a 11,2; muro alto a 20,8; cumbrera 28,2.
+Torre (fotos 12 y 74): cuerpo hasta 28 (portada, gablete con tres óculos, rosetón); campanario
+28-41 con tres lancetas con persianas por cara en un arco rehundido; reloj en gabletes 41-47,5;
+cuatro torrecillas de esquina hasta 55; linterna ochavada calada 45,6-52; aguja hasta 68,65 con
+gabletes al pie y buhardillas; contrafuertes escalonados hasta 41 m.
 
 ## Estilos (intercambiables)
 
@@ -88,6 +104,15 @@ del relámpago). La paleta por defecto es natural; un estilo puede traer la suya
 "C:/Program Files/Blender Foundation/Blender 5.2/blender.exe" -b -P motor/escena.py -- episodios/catedral/shots/vistas.json episodios/catedral/render/_blend --blend episodios/catedral/out/catedral.blend
 ```
 
+## Rondas de progreso contra fotos
+
+`python episodios/catedral/progreso.py <n>` arma la ronda: 8 cámaras puestas como fotos de
+Wikimedia Commons (frente desde la plaza, 3/4, costado desde Libertador, hastial del crucero, desde
+el río, nave, presbiterio, nave lateral), render neutro de día (`maqueta`, 15:30) con el interior
+sin servidores, y una hoja con la foto arriba y el render abajo en `out/_progreso_<n>.png`. Las
+fotos van en `ref/` (no se versionan: se bajan de la categoría *San Isidro Cathedral* de Commons,
+numeradas como en `ref/items.json`).
+
 ## Criterio de aceptación (geometría base)
 
 - Nave desde la entrada: columnas redondas con capitel, arcos apuntados, triforio, ventanales
@@ -111,7 +136,10 @@ del relámpago). La paleta por defecto es natural; un estilo puede traer la suya
 | 2026-10-17 | Falta todo lo que rodea a la iglesia, hacerlo con OpenStreetMap | `motor/osm.py` + pieza `entorno`; relleno de casas y árboles donde OSM no tiene. Anexos de la catedral estaban espejados (corregido con OSM). Árboles de plaza a la mitad (tapaban la catedral) |
 | 2026-10-17 | Buscar niveles: esa parte de San Isidro tiene inclinación y alturas | Terreno SRTM en `osm.py` (grilla de 5 m, aplanada bajo la catedral); todo el entorno apoyado en el relieve. Cámaras a 1,6 m sobre el terreno real; desde el bajo los edificios tapaban la barranca → dron bajo |
 
-Pendiente: la barranca es más suave que la real (SRTM de 30 m); el entorno todavía no tiene colores en el estilo cyberpunk. Falta de la referencia: tracería de ventanas y rosetón, bancos y mobiliario,
-torre sin el ahusamiento real, anexos como bloques simples.
+Pendiente: la barranca es más suave que la real (SRTM de 30 m); las huellas no traen altura (va
+por tamaño) y algunas de Microsoft juntan varias casas en un polígono; el frente de la casa
+parroquial y los anexos son bloques; faltan bancos, retablos y el piso calcáreo (es estilo); la
+torre no tiene el leve ahusamiento real.
 
+| 2026-10-18 | Iterar el escenario 5 horas, guiado por datos e imágenes, cada vez más cerca de la realidad | Rondas de progreso contra 8 fotos de Commons. Barrio: 451 huellas reales de Microsoft en vez de casas inventadas, árboles a su tamaño, atrio sin árboles, barranca boscosa por pendiente, monumentos de OSM. Torre rehecha (campanario, reloj en gabletes, torrecillas, linterna calada, aguja con buhardillas), óculos, rosetón con tracería, torrecillas de escalera, buhardillas, balaustradas caladas, tracería en todas las ventanas, portadas laterales del crucero, casa parroquial a la mansarda. Interior: columnas más gruesas, arcada y bóvedas más altas, molduras, capiteles con hojas, órgano, escalera caracol, ábside con arquería ciega, Cristo Pascual. Errores en el camino: la tracería flotaba en el cielo (altura sumada dos veces); la vista frontal tapaba la aguja (cámara muy baja); los interiores salían blancos (EEVEE sin GI ilumina adentro con todo el cielo) |
 | 2026-10-18 | Hora del día y clima configurables | `motor/cielo.py` (sol astronómico, paleta por altura del sol, climas con lluvia del post y relámpagos), `hora`/`clima` en `plano.py`, `hacia` y `energia_keys` en las luces, `georef` en `entorno.json`. 4 cuadros con la misma cámara |

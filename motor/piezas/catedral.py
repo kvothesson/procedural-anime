@@ -284,7 +284,7 @@ def transverse_rib(rb, cx, y, a, zs, H, n=16, along="x"):
     for k in range(n + 1):
         u = -a + 2 * a * k / n
         pts.append((cx + u, y, zs + f(u)) if along == "x" else (y, cx + u, zs + f(u)))
-    rb.tube(pts, 0.32, 0.36)
+    rb.tube(pts, 0.44, 0.48)
 
 
 def _grid(pc, rows):
@@ -349,6 +349,12 @@ def _columns(pc):
         pc.cyl(x, y, Z_CAP - 0.25, Z_CAP, 0.62, 0.62)
         pc.cyl(x, y, Z_CAP, Z_ARC - 0.2, 0.6, 0.9)
         pc.box(x - 0.86, x + 0.86, y - 0.86, y + 0.86, Z_ARC - 0.2, Z_ARC)
+        for k in range(8):
+            a = 2 * math.pi * k / 8 + math.pi / 8
+            for zz, rr, hh in ((Z_CAP + 0.18, 0.66, 0.34), (Z_CAP + 0.5, 0.8, 0.3)):
+                m = Matrix.Translation((x + math.cos(a) * rr, y + math.sin(a) * rr, zz)) @ Matrix.Rotation(a, 4, "Z") \
+                    @ Matrix.Rotation(math.radians(-25), 4, "Y")
+                bmesh.ops.create_cube(pc.bm, size=1.0, matrix=m @ Matrix.Diagonal((0.1, 0.24, hh, 1)))
         if ext:
             sx = -1 if x > 0 else 1
             xs = x + sx * 0.57
@@ -385,6 +391,12 @@ def _nave_walls(pc):
             holes = [arch_chain(ym, hs, Z_ARC, Z_ARC_TOP - Z_ARC),
                      arch_chain(ym, 0.75, 16.9, 1.45, sill=14.2)]
             pc.wall((x, 0, 0), (0, 1, 0), N, y0, y1, Z_ARC, Z_WALL, TN, holes)
+            # moldura del arco formero (fotos 50 y 58), a los dos lados del muro
+            arco = arch_chain(ym, hs, Z_ARC, Z_ARC_TOP - Z_ARC)
+            for cara in (-1, 1):
+                xx = x + cara * (TN / 2 + 0.06)
+                pts = [(xx, u, v) for u, v in arco] + [(xx, 2 * ym - u, v) for u, v in reversed(arco[:-1])]
+                pc.tube(pts, 0.26, 0.3)
         # cornisa del triforio a lo largo, con su antepecho
         xin = x - sx * TN / 2
         x0, x1 = sorted((xin, xin - sx * 0.3))
@@ -466,6 +478,15 @@ def _outer_walls(pc):
         aro = [(xt, 36.1 + 1.0 * math.cos(2 * math.pi * k / 24), 16.4 + 1.0 * math.sin(2 * math.pi * k / 24))
                for k in range(25)]
         pc.tube(aro, 0.14, 0.18)
+        # portada lateral (foto 11): gablete sobre la puerta, columnillas en las
+        # jambas y pinaculos a los lados, todo adelantado del muro
+        xo = xt + sx * (TW / 2 + 0.25)
+        pc.prism([(34.5, 4.5), (37.7, 4.5), (36.1, 7.6)], (xo, 0, 0), (0, 1, 0), (0, 0, 1), (1, 0, 0), 0.4)
+        for dy in (-1.25, 1.25):
+            pc.cyl(xo, 36.1 + dy, 0.0, 4.6, 0.14, segs=8)
+            pc.pinnacle(xo, 36.1 + dy * 1.45, 0.0, 0.5, 6.4, 1.8)
+        ma = arch_chain(36.1, 1.15, 3.3, 1.45)
+        pc.tube([(xo, u, v) for u, v in ma] + [(xo, 72.2 - u, v) for u, v in reversed(ma[:-1])], 0.22, 0.26)
         # cruz en la punta del hastial
         pc.box(xt - 0.08, xt + 0.08, 36.02, 36.18, Z_RIDGE + 0.6, Z_RIDGE + 2.4)
         pc.box(xt - 0.08, xt + 0.08, 35.6, 36.6, Z_RIDGE + 1.6, Z_RIDGE + 1.78)
@@ -832,6 +853,13 @@ def _floor(pc, ground):
     Vi = apse_pts(AI)
     pc.prism([(x, y) for x, y in Vi], (0, 0, 0.27), (1, 0, 0), (0, 1, 0), (0, 0, 1), 0.54)
     pc.box(-1.3, 1.3, 42.0, 43.2, 0.54, 1.5)
+    # Cristo Pascual suspendido sobre el altar (folleto: 1,80 m de alto por
+    # 1,66 m de ancho), colgado de dos cables
+    zc = 8.6
+    pc.box(-0.08, 0.08, 42.55, 42.71, zc - 0.9, zc + 0.9)
+    pc.box(-0.83, 0.83, 42.55, 42.71, zc + 0.3, zc + 0.46)
+    for dx in (-0.5, 0.5):
+        pc.box(dx - 0.012, dx + 0.012, 42.62, 42.64, zc + 0.46, Z_CROWN - 0.3)
     if ground:
         g = ground / 2
         pc.box(-g, g, 20 - g, 20 + g, zg - 0.2, zg)

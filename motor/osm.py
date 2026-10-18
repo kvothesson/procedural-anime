@@ -511,6 +511,30 @@ def terreno(spec, M, cache):
     return {"x0": x0, "y0": y0, "paso": paso, "n": n, "z": [round(float(v), 2) for v in z.ravel()]}
 
 
+def _rumbo_calle(calles, x, y):
+    """Direccion (angulo en grados) del tramo de calle con autos mas cercano y
+    de que lado queda la calle: el refugio le da la espalda a la vereda."""
+    best = None
+    for c in calles:
+        if c["k"] not in AUTOS:
+            continue
+        for (ax, ay), (bx, by) in zip(c["p"], c["p"][1:]):
+            dx, dy = bx - ax, by - ay
+            L2 = dx * dx + dy * dy or 1
+            t = max(0, min(1, ((x - ax) * dx + (y - ay) * dy) / L2))
+            px, py = ax + t * dx, ay + t * dy
+            d = math.hypot(px - x, py - y)
+            if best is None or d < best[0]:
+                best = (d, math.degrees(math.atan2(dy, dx)), px - x, py - y)
+    if best is None:
+        return 0.0
+    d, ang, vx, vy = best
+    # normal hacia la calle
+    a = math.radians(ang)
+    lado = 1 if (-math.sin(a) * vx + math.cos(a) * vy) > 0 else -1
+    return round(ang + (0 if lado > 0 else 180), 1)
+
+
 def bosque_barranca(out, spec, R):
     """La barranca es un monte: arboles donde el terreno (SRTM) tiene mucha
     pendiente y no hay edificios ni calles. El bosque sigue al relieve real."""
@@ -569,6 +593,9 @@ def main():
     # monumentos (puntos de OSM: fuentes, bustos, estatuas)
     M = Marco(spec)
     out["monumentos"] = [dict(m, at=M({"lat": m["lat"], "lon": m["lon"]})) for m in spec.get("monumentos", [])]
+    for m in out["monumentos"]:
+        if m["tipo"] == "parada":
+            m["rumbo"] = _rumbo_calle(out["calles"], *m["at"])
     dst = data / "entorno.json"
     dst.write_text(json.dumps(out, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     src = {}
