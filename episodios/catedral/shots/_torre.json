@@ -1,0 +1,65 @@
+{
+  "extends": "vistas.json",
+  "estilo": "maqueta",
+  "frames": 2,
+  "storyboard": [
+    1,
+    2
+  ],
+  "entorno": {
+    "arboles": false
+  },
+  "line": {
+    "radius": 0.02,
+    "radius_keys": [
+      [
+        1,
+        0.02
+      ],
+      [
+        2,
+        0.02
+      ]
+    ]
+  },
+  "camera": {
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          -75,
+          -3.6,
+          34
+        ],
+        "aim": [
+          0,
+          -3.6,
+          34
+        ]
+      },
+      {
+        "frame": 2,
+        "pos": [
+          -40,
+          -60,
+          40
+        ],
+        "aim": [
+          0,
+          -3.6,
+          40
+        ]
+      }
+    ],
+    "lens_keys": [
+      [
+        1,
+        32
+      ],
+      [
+        2,
+        30
+      ]
+    ]
+  }
+}

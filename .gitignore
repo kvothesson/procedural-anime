@@ -11,3 +11,4 @@ __pycache__/
 client_secret*.json
 .env
 episodios/*/data/dem/
+episodios/catedral/ref/

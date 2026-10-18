@@ -1,0 +1,116 @@
+{
+  "extends": "vistas.json",
+  "estilo": "maqueta",
+  "frames": 3,
+  "storyboard": [
+    1,
+    2,
+    3
+  ],
+  "line": {
+    "radius": 0.006,
+    "radius_keys": [
+      [
+        1,
+        0.006
+      ],
+      [
+        2,
+        0.006
+      ],
+      [
+        3,
+        0.006
+      ]
+    ]
+  },
+  "camera": {
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          0,
+          1.0,
+          1.6
+        ],
+        "aim": [
+          0,
+          46,
+          8.5
+        ]
+      },
+      {
+        "frame": 2,
+        "pos": [
+          0,
+          24.0,
+          1.6
+        ],
+        "aim": [
+          0,
+          48,
+          9.0
+        ]
+      },
+      {
+        "frame": 3,
+        "pos": [
+          -7.4,
+          6.0,
+          1.6
+        ],
+        "aim": [
+          -4.7,
+          20,
+          9.5
+        ]
+      }
+    ],
+    "lens_keys": [
+      [
+        1,
+        16
+      ],
+      [
+        2,
+        18
+      ],
+      [
+        3,
+        16
+      ]
+    ]
+  },
+  "drop": [
+    "servidores"
+  ],
+  "sky": {
+    "horizon": "#8a8f9a",
+    "top": "#5a606c",
+    "ambient": "#6a707c",
+    "ambient_strength": 0.45
+  },
+  "lights": [
+    {
+      "kind": "SUN",
+      "color": "#fff4e6",
+      "energy": 1.7,
+      "rot": [
+        38,
+        0,
+        25
+      ],
+      "shadow": false
+    }
+  ],
+  "catedral": {
+    "puertas": {
+      "abre": [
+        [
+          1,
+          80
+        ]
+      ]
+    }
+  }
+}

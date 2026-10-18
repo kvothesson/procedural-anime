@@ -389,10 +389,13 @@ def build_entorno(e, colls):
         k = rnd.randrange(len(paredes))
         zs = [H(x, y) for x, y in b["p"]]
         z0, z1 = min(zs) - 0.3, max(zs) + b["h"]
-        casa = b["k"] == "casa" and len(b["p"]) == 4 and b["h"] < 8
+        # techo a dos aguas: sobre la planta si es un rectangulo (relleno) o sobre
+        # el rectangulo ajustado de una huella real casi rectangular
+        rect = b.get("rect") or (b["p"] if len(b["p"]) == 4 else None)
+        casa = b["k"] == "casa" and rect is not None and b["h"] < 8
         _prism(paredes[k], b["p"], z0, z1)
         if casa and rnd.random() < 0.8:
-            _gable(tejas, b["p"], z1, rnd.uniform(0.55, 0.8))
+            _gable(tejas, rect, z1, rnd.uniform(0.55, 0.8))
         else:
             # pretil: una franja mas alta en el borde del techo plano
             _prism(techos, b["p"], z1, z1 + 0.12)

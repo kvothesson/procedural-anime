@@ -24,6 +24,11 @@ Mapzen/AWS: SRTM de 30 m en Argentina, el mismo dato que el MDE nacional) y
 se guarda una grilla en metros de escena: z = elevacion - "ref_m" (la cota
 del piso de la pieza modelada). "plataformas" aplana donde la pieza manda.
 
+Huellas: con "huellas" en osm.json se suman los edificios de Microsoft Global
+ML Building Footprints (detectados en imagenes satelitales, licencia ODbL):
+cada uno que no pisa un edificio de OSM entra con altura por tamanio (no traen
+altura) y, donde hay huellas, no se inventan casas.
+
 Datos (c) colaboradores de OpenStreetMap, licencia ODbL. Elevacion: Mapzen
 Terrain Tiles (SRTM, NASA/USGS; dominio publico).
 """
@@ -184,7 +189,8 @@ class Ocupado:
             self.dr.ellipse([x - r, y - r, x + r, y + r], fill=1)
         self.arr = None
 
-    def libre(self, pts):
+    def libre(self, pts, tolerancia=0.0):
+        """Si el poligono cae en lo libre; tolerancia: fraccion que puede pisar."""
         if self.arr is None:
             self.arr = np.array(self.img, dtype=bool)
         tmp = Image.new("1", self.img.size, 0)
@@ -192,7 +198,7 @@ class Ocupado:
         m = np.array(tmp, dtype=bool)
         if not m.any():
             return False
-        return not (m & self.arr).any()
+        return (m & self.arr).sum() <= tolerancia * m.sum()
 
 
 def _rect(c, u, w, d):
@@ -208,6 +214,7 @@ def convertir(spec, raw):
     rnd = random.Random(spec.get("seed", 11))
     R = spec.get("radio", 450)
     excl = set(spec.get("excluir", []))
+    occ_osm = Ocupado(R)      # solo edificios de OSM: las huellas no los pisan
     out = {"_fuente": "(c) colaboradores de OpenStreetMap, ODbL. " + spec.get("_lugar", ""),
            "_fecha_osm": raw.get("osm3s", {}).get("timestamp_osm_base"),
            "georef": {"lat": spec["origen"][0], "lon": spec["origen"][1],
@@ -238,6 +245,7 @@ def convertir(spec, raw):
             h, src = alto(t, rnd)
             out["edificios"].append({"p": pts, "h": round(h, 1), "k": t["building"], "src": src})
             occ.poly(pts, grow=1.0)
+            occ_osm.poly(pts)
         elif "highway" in t and not closed:
             w = ancho(t)
             out["calles"].append({"p": pts, "w": round(w, 1), "k": t["highway"], "n": t.get("name", "")})
@@ -260,12 +268,96 @@ def convertir(spec, raw):
             occ.poly(pts)
         elif closed and (t.get("landuse") in ("railway",) or t.get("amenity") in ("school", "college")):
             occ.poly(pts)        # sin casas inventadas adentro
+    hay_huellas = False
+    if spec.get("huellas"):
+        for z in spec.get("zonas_libres", []):
+            occ_osm.poly([tuple(p) for p in z])
+        hay_huellas = huellas(spec, M, Path(spec["_data"]), out, occ_osm, R) > 0
+        for b in out["edificios"]:
+            if b["src"] == "ms":
+                occ.poly(b["p"])
+    _SIN_ARBOLES[:] = spec.get("zonas_sin_arboles", [])
     if spec.get("relleno", True):
-        _relleno(out, occ, rnd, R)
+        _relleno(out, occ, rnd, R, casas_ok=not hay_huellas)
     return out
 
 
-def _relleno(out, occ, rnd, R):
+def _area(pts):
+    return abs(sum(x0 * y1 - x1 * y0 for (x0, y0), (x1, y1) in zip(pts, pts[1:] + pts[:1]))) / 2
+
+
+def _rect_ajustado(pts):
+    """Rectangulo orientado minimo (por los lados del poligono): si la planta
+    es casi un rectangulo, el techo a dos aguas va sobre el."""
+    best = None
+    n = len(pts)
+    for i in range(n):
+        (x0, y0), (x1, y1) = pts[i], pts[(i + 1) % n]
+        L = math.hypot(x1 - x0, y1 - y0)
+        if L < 0.5:
+            continue
+        ux, uy = (x1 - x0) / L, (y1 - y0) / L
+        us = [x * ux + y * uy for x, y in pts]
+        vs = [-x * uy + y * ux for x, y in pts]
+        a = (max(us) - min(us)) * (max(vs) - min(vs))
+        if best is None or a < best[0]:
+            best = (a, ux, uy, min(us), max(us), min(vs), max(vs))
+    if best is None:
+        return None, 0
+    a, ux, uy, u0, u1, v0, v1 = best
+    rect = [(u * ux - v * uy, u * uy + v * ux) for u, v in ((u0, v0), (u1, v0), (u1, v1), (u0, v1))]
+    return [(round(x, 2), round(y, 2)) for x, y in rect], (_area(pts) / a if a else 0)
+
+
+def huellas(spec, M, data_dir, out, occ_osm, R):
+    """Edificios de Microsoft que no pisan los de OSM; altura por tamanio."""
+    H = spec["huellas"]
+    src = data_dir / H["archivo"]
+    n_in = n_skip = 0
+    for line in src.read_text(encoding="utf-8").splitlines():
+        f = json.loads(line)
+        ring = f["geometry"]["coordinates"][0]
+        pts = [M({"lon": lo, "lat": la}) for lo, la in ring]
+        if pts[0] == pts[-1]:
+            pts = pts[:-1]
+        cx = sum(p[0] for p in pts) / len(pts)
+        cy = sum(p[1] for p in pts) / len(pts)
+        if math.hypot(cx, cy) > R or len(pts) < 3:
+            continue
+        a = _area(pts)
+        if a < 12 or not occ_osm.libre(pts, tolerancia=0.3):
+            n_skip += 1
+            continue
+        h0 = f["properties"].get("height", -1)
+        rnd = random.Random(f"{round(cx)}:{round(cy)}")
+        if h0 and h0 > 0:
+            h = h0
+        elif a < 120:
+            h = 4.6 if rnd.random() < 0.6 else 7.0
+        elif a < 300:
+            h = rnd.uniform(6.5, 7.6)
+        elif a < 800:
+            h = rnd.uniform(7.0, 10.5)
+        else:
+            h = rnd.uniform(9.0, 14.0)
+        b = {"p": pts, "h": round(h, 1), "k": "casa" if a < 300 else "edificio", "src": "ms"}
+        rect, llenado = _rect_ajustado(pts)
+        if rect and llenado > 0.86 and a < 400:
+            b["rect"] = rect
+        out["edificios"].append(b)
+        n_in += 1
+    print(f"huellas: {n_in} edificios de Microsoft (salteados {n_skip} que pisan OSM o son muy chicos)")
+    return n_in
+
+
+def _sin_arbol(x, y):
+    return any(_dentro([tuple(q) for q in z], x, y) for z in _SIN_ARBOLES)
+
+
+_SIN_ARBOLES = []
+
+
+def _relleno(out, occ, rnd, R, casas_ok=True):
     """Casas sobre la linea municipal de las calles con autos, donde no hay
     nada; arboles de vereda; arboles en las areas verdes."""
     casas = 0
@@ -287,7 +379,7 @@ def _relleno(out, occ, rnd, R):
                     off = c["w"] / 2 + 3.0 + rnd.uniform(0.0, 1.5) + d / 2
                     cx = ax + u[0] * (s + lw / 2) + side * n[0] * off
                     cy = ay + u[1] * (s + lw / 2) + side * n[1] * off
-                    if math.hypot(cx, cy) < R - 15:
+                    if casas_ok and math.hypot(cx, cy) < R - 15:
                         q = _rect((cx, cy), u, lw * 0.97, d)
                         if occ.libre(q):
                             r = rnd.random()
@@ -305,8 +397,8 @@ def _relleno(out, occ, rnd, R):
                         off = c["w"] / 2 + 1.4
                         x = ax + u[0] * s + side * n[0] * off
                         y = ay + u[1] * s + side * n[1] * off
-                        if math.hypot(x, y) < R - 5:
-                            out["arboles"].append([round(x, 2), round(y, 2), round(rnd.uniform(0.8, 1.2), 2), "relleno"])
+                        if math.hypot(x, y) < R - 5 and not _sin_arbol(x, y):
+                            out["arboles"].append([round(x, 2), round(y, 2), round(rnd.uniform(1.05, 1.45), 2), "relleno"])
                     s += rnd.uniform(9, 14)
     for a in out["areas"]:
         if a["k"] != "verde":
@@ -316,8 +408,8 @@ def _relleno(out, occ, rnd, R):
         area = (max(xs) - min(xs)) * (max(ys) - min(ys))
         for _ in range(int(area / 230)):
             x, y = rnd.uniform(min(xs), max(xs)), rnd.uniform(min(ys), max(ys))
-            if _dentro(a["p"], x, y) and not _cerca_de_camino(out["calles"], x, y):
-                out["arboles"].append([round(x, 2), round(y, 2), round(rnd.uniform(0.9, 1.4), 2), "relleno"])
+            if _dentro(a["p"], x, y) and not _cerca_de_camino(out["calles"], x, y) and not _sin_arbol(x, y):
+                out["arboles"].append([round(x, 2), round(y, 2), round(rnd.uniform(1.5, 2.15), 2), "relleno"])
     print(f"relleno: {casas} casas, {len(out['arboles'])} arboles")
 
 
@@ -426,6 +518,7 @@ def main():
     a = ap.parse_args()
     data = a.episode / "data"
     spec = json.loads((data / "osm.json").read_text(encoding="utf-8"))
+    spec["_data"] = str(data)
     raw_p = data / "osm_raw.json"
     if a.bajar or not raw_p.exists():
         bajar(spec, raw_p)

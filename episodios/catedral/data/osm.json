@@ -64,5 +64,29 @@
         "borde": 25.0
       }
     ]
-  }
+  },
+  "huellas": {
+    "archivo": "ms_huellas.geojsonl",
+    "fuente": "Microsoft Global ML Building Footprints (ODbL), tile 210321300, 2026-02-03"
+  },
+  "zonas_sin_arboles": [
+    [
+      [
+        -14,
+        -34
+      ],
+      [
+        14,
+        -34
+      ],
+      [
+        14,
+        -8
+      ],
+      [
+        -14,
+        -8
+      ]
+    ]
+  ]
 }

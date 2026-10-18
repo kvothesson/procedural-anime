@@ -39,16 +39,16 @@ XT = 14.6               # cara interior del testero del crucero
 Y_AB = 46.6             # centro del abside (fin del coro recto)
 Y_TO = -7.2             # frente de la torre
 
-Z_CAP = 7.2             # arranque del capitel de las columnas
-Z_ARC = 7.8             # arranque de los arcos formeros y de la boveda lateral
-Z_ARC_TOP = 10.9        # clave de los arcos formeros
-Z_TRI0, Z_TRI1 = 11.15, 13.0        # triforio
-Z_V = 13.2              # arranque de la boveda alta
+Z_CAP = 8.0             # arranque del capitel (foto 50: la arcada es alta)
+Z_ARC = 8.8             # arranque de los arcos formeros y de la boveda lateral
+Z_ARC_TOP = 12.0        # clave de los arcos formeros
+Z_TRI0, Z_TRI1 = 12.25, 13.7        # triforio
+Z_V = 14.0              # arranque de la boveda alta
 Z_CROWN = 19.0          # altura interior (folleto)
-Z_AISLE_CROWN = 11.0
+Z_AISLE_CROWN = 11.8
 Z_WALL = 20.8           # coronamiento del muro alto
 Z_RIDGE = 28.2          # cumbrera
-Z_AISLE_WALL = 10.4     # coronamiento del muro lateral
+Z_AISLE_WALL = 11.2     # coronamiento del muro lateral
 Z_GROUND = -1.0         # vereda: el templo esta sobre un zocalo con escalinata
 TOWER_TOP = 68.65
 
@@ -343,14 +343,15 @@ def _columns(pc):
     """Columnas de la nave: base ochavada, fuste redondo, capitel acampanado
     con abaco; del lado de la nave sube un baquetón hasta la boveda alta."""
     def column(x, y, ext=True):
-        pc.cyl(x, y, 0.0, 0.25, 0.75, segs=8, rot=math.pi / 8)
-        pc.cyl(x, y, 0.25, 0.75, 0.62, 0.5, segs=8, rot=math.pi / 8)
-        pc.cyl(x, y, 0.75, Z_CAP, 0.45)
-        pc.cyl(x, y, Z_CAP, Z_ARC - 0.18, 0.47, 0.72)
-        pc.box(x - 0.68, x + 0.68, y - 0.68, y + 0.68, Z_ARC - 0.18, Z_ARC)
+        pc.cyl(x, y, 0.0, 0.3, 0.92, segs=8, rot=math.pi / 8)
+        pc.cyl(x, y, 0.3, 0.85, 0.76, 0.62, segs=8, rot=math.pi / 8)
+        pc.cyl(x, y, 0.85, Z_CAP, 0.57)
+        pc.cyl(x, y, Z_CAP - 0.25, Z_CAP, 0.62, 0.62)
+        pc.cyl(x, y, Z_CAP, Z_ARC - 0.2, 0.6, 0.9)
+        pc.box(x - 0.86, x + 0.86, y - 0.86, y + 0.86, Z_ARC - 0.2, Z_ARC)
         if ext:
             sx = -1 if x > 0 else 1
-            xs = x + sx * 0.45
+            xs = x + sx * 0.57
             pc.cyl(xs, y, Z_ARC, Z_V - 0.35, 0.13, segs=8)
             pc.cyl(xs, y, Z_V - 0.35, Z_V, 0.14, 0.3, segs=8)
 
@@ -364,8 +365,8 @@ def _columns(pc):
             pc.cyl(x, y, 0.3, Z_V - 0.6, 0.72)
             pc.cyl(x, y, Z_V - 0.6, Z_V, 0.74, 0.95)
         # medias columnas adosadas al frente
-        pc.cyl(sx * XC, 0.15, 0.75, Z_CAP, 0.45)
-        pc.cyl(sx * XC, 0.15, Z_CAP, Z_ARC, 0.47, 0.72)
+        pc.cyl(sx * XC, 0.15, 0.85, Z_CAP, 0.57)
+        pc.cyl(sx * XC, 0.15, Z_CAP, Z_ARC, 0.6, 0.9)
     # columnas del coro alto
     for sx in (-1, 1):
         pc.cyl(sx * 2.6, 2.2, 0.0, 6.0, 0.22, segs=12)
@@ -380,9 +381,9 @@ def _nave_walls(pc):
         for k in range(NB):
             y0, y1 = k * BAY, (k + 1) * BAY
             ym = (y0 + y1) / 2
-            hs = BAY / 2 - 0.45
+            hs = BAY / 2 - 0.6
             holes = [arch_chain(ym, hs, Z_ARC, Z_ARC_TOP - Z_ARC),
-                     arch_chain(ym, 0.75, 16.2, 1.45, sill=13.9)]
+                     arch_chain(ym, 0.75, 16.9, 1.45, sill=14.2)]
             pc.wall((x, 0, 0), (0, 1, 0), N, y0, y1, Z_ARC, Z_WALL, TN, holes)
         # cornisa del triforio a lo largo, con su antepecho
         xin = x - sx * TN / 2
@@ -405,8 +406,8 @@ def _choir_walls(pc):
     """Coro recto (dos muros altos con ventana baja y ventanal) y abside."""
     for sx in (-1, 1):
         x = sx * XC
-        holes = [arch_chain((Y_CR1 + Y_AB) / 2, 0.75, 6.0, 1.3, sill=2.4),
-                 arch_chain((Y_CR1 + Y_AB) / 2, 0.75, 16.2, 1.45, sill=13.9)]
+        holes = [arch_chain((Y_CR1 + Y_AB) / 2, 0.75, 6.8, 1.3, sill=2.4),
+                 arch_chain((Y_CR1 + Y_AB) / 2, 0.75, 16.9, 1.45, sill=14.2)]
         pc.wall((x, 0, 0), (0, 1, 0), (1, 0, 0), Y_CR1, Y_AB, 0.0, Z_WALL, TN, holes)
     Vc = apse_pts(XC)
     for i in range(len(Vc) - 1):
@@ -415,8 +416,8 @@ def _choir_walls(pc):
         L = U.length
         U.normalize()
         N = U.cross(Vector((0, 0, 1)))
-        holes = [arch_chain(L / 2, 0.55, 6.2, 1.2, sill=2.2),
-                 arch_chain(L / 2, 0.6, 16.0, 1.4, sill=13.6)]
+        holes = [arch_chain(L / 2, 0.55, 7.0, 1.2, sill=2.2),
+                 arch_chain(L / 2, 0.6, 16.8, 1.4, sill=14.3)]
         # se estira un poco para cerrar las juntas del poligono
         pc.wall(A - U * 0.25, U, N, 0.0, L + 0.5, 0.0, Z_WALL, TN,
                 [[(u + 0.25, v) for u, v in h] for h in holes])
@@ -431,7 +432,7 @@ def _outer_walls(pc):
             y0, y1 = k * BAY, (k + 1) * BAY
             ym = (y0 + y1) / 2
             pc.wall((x, 0, 0), (0, 1, 0), (1, 0, 0), y0, y1, 0.0, Z_AISLE_WALL, TW,
-                    [arch_chain(ym, 0.7, 7.3, 1.25, sill=2.3)])
+                    [arch_chain(ym, 0.7, 8.2, 1.25, sill=2.3)])
         # testero del crucero: puerta, ventanal grande y hastial
         xt = sx * (XT + TW / 2)
         holes = [arch_chain(36.1, 1.0, 3.3, 1.3, foot=0.0),
@@ -439,6 +440,19 @@ def _outer_walls(pc):
         pc.wall((xt, 0, 0), (0, 1, 0), (1, 0, 0), Y_CR0 - 0.3, Y_CR1 + 0.3, 0.0, Z_WALL, TW, holes)
         pc.prism([(Y_CR0 - 0.3, Z_WALL), (Y_CR1 + 0.3, Z_WALL), (36.1, Z_RIDGE + 0.6)],
                  (xt, 0, 0), (0, 1, 0), (0, 0, 1), (1, 0, 0), TW)
+        # traceria (foto 5): dos parteluces, tres lancetas y una rosa arriba
+        for dy in (-0.72, 0.72):
+            pc.box(xt - 0.1, xt + 0.1, 36.1 + dy - 0.09, 36.1 + dy + 0.09, 8.8, 14.6)
+        for dy in (-1.42, 0.0, 1.42):
+            lanc = arch_chain(36.1 + dy, 0.62, 14.0, 1.1)
+            pts = [(xt, u, v) for u, v in lanc] + [(xt, 2 * (36.1 + dy) - u, v) for u, v in reversed(lanc[:-1])]
+            pc.tube(pts, 0.14, 0.18)
+        aro = [(xt, 36.1 + 1.0 * math.cos(2 * math.pi * k / 24), 16.4 + 1.0 * math.sin(2 * math.pi * k / 24))
+               for k in range(25)]
+        pc.tube(aro, 0.14, 0.18)
+        # cruz en la punta del hastial
+        pc.box(xt - 0.08, xt + 0.08, 36.02, 36.18, Z_RIDGE + 0.6, Z_RIDGE + 2.4)
+        pc.box(xt - 0.08, xt + 0.08, 35.6, 36.6, Z_RIDGE + 1.6, Z_RIDGE + 1.78)
         # brazos: muro oeste (sobre la nave lateral, y entero mas alla) y este
         xa0, xa1 = sx * (XW + TW), sx * (XT + TW)
         lo, hi = min(xa0, xa1), max(xa0, xa1)
@@ -451,7 +465,7 @@ def _outer_walls(pc):
         lo, hi = sorted((sx * (XC + TN / 2), sx * (XW + TW)))
         um = (lo + hi) / 2
         pc.wall((0, Y_CR0, 0), (1, 0, 0), (0, 1, 0), lo, hi, Z_ARC, Z_WALL, TN,
-                [arch_chain(um, (hi - lo) / 2 - 0.3, Z_ARC, 2.4)])
+                [arch_chain(um, (hi - lo) / 2 - 0.3, Z_ARC, 2.8)])
         # del lado del coro el brazo cierra entero (detras estan los anexos)
         lo, hi = sorted((sx * (XC + TN / 2), sx * (XW + TW)))
         um = (lo + hi) / 2
@@ -461,8 +475,8 @@ def _outer_walls(pc):
         lo, hi = sorted((sx * 5.0, sx * (XW + TW)))
         um = (lo + hi) / 2
         pc.wall((0, -TW / 2, 0), (1, 0, 0), (0, 1, 0), lo, hi, 0.0, Z_AISLE_WALL + 1.0, TW,
-                [arch_chain(um, 0.65, 8.0, 1.2, sill=2.6)])
-        top_out, top_in = Z_AISLE_WALL + 1.0, 13.8
+                [arch_chain(um, 0.65, 8.8, 1.2, sill=2.6)])
+        top_out, top_in = Z_AISLE_WALL + 1.0, 14.6
         pts = [(sx * 5.0, Z_AISLE_WALL + 1.0), (sx * (XW + TW), Z_AISLE_WALL + 1.0),
                (sx * (XW + TW), top_out), (sx * 5.0, top_in)]
         if sx < 0:
@@ -499,6 +513,22 @@ def _tower(pc):
     # coro alto (sobre el vestibulo, asoma a la nave) con antepecho
     pc.box(-AI, AI, yf + 1.2, 2.4, 5.8, 6.2)
     pc.box(-AI, AI, 2.25, 2.4, 6.2, 7.2)
+    # organo sobre el coro alto, contra el fondo de la torre (se ve por el arco)
+    for k, (xx, hh, rr) in enumerate([(-3.0, 3.2, 0.11), (-2.5, 4.0, 0.12), (-2.0, 4.8, 0.13), (-1.4, 3.6, 0.11),
+                                      (-0.9, 4.4, 0.12), (-0.45, 5.4, 0.14), (0.0, 6.0, 0.15), (0.45, 5.4, 0.14),
+                                      (0.9, 4.4, 0.12), (1.4, 3.6, 0.11), (2.0, 4.8, 0.13), (2.5, 4.0, 0.12),
+                                      (3.0, 3.2, 0.11)]):
+        pc.cyl(xx, yf + 2.4, 7.6, 7.6 + hh, rr, segs=8)
+        pc.cyl(xx, yf + 2.4, 7.6 + hh, 7.6 + hh + 0.35, rr, 0.0, segs=8)
+    pc.box(-3.5, 3.5, yf + 2.0, yf + 3.2, 6.2, 7.6)
+    # escalera caracol (foto 56): poste central y escalones en helice hasta el coro
+    cx_e, cy_e = 3.0, yf + 1.8
+    pc.cyl(cx_e, cy_e, 0.0, 7.2, 0.09, segs=8)
+    for k in range(28):
+        a = 2 * math.pi * k / 12
+        z = 0.22 * (k + 1)
+        m = Matrix.Translation((cx_e + math.cos(a) * 0.45, cy_e + math.sin(a) * 0.45, z)) @ Matrix.Rotation(a, 4, "Z")
+        bmesh.ops.create_cube(pc.bm, size=1.0, matrix=m @ Matrix.Diagonal((0.85, 0.32, 0.06, 1)))
     # entrepisos de la torre
     for z in (BODY - 0.4,):
         pc.box(-W, W, yf, yb, z, z + 0.4)
@@ -507,7 +537,8 @@ def _tower(pc):
     for sx in (-1, 1):
         pc.box(sx * (W + 0.3) - 0.15, sx * (W + 0.3) + 0.15, yf - 0.3, yb, BODY + 0.4, BODY + 1.3)
     pc.box(-W - 0.3, W + 0.3, yf - 0.3, yf - 0.0, BODY + 0.4, BODY + 1.3)
-    # campanario: cuatro caras con tres lancetas
+    # campanario (28-41 m, fotos de Commons): en cada cara un arco grande
+    # rehundido con tres lancetas altas con persianas
     Wb, z0, z1 = 4.2, BODY + 0.4, 41.0
     yc = ym
     for face in range(4):
@@ -518,43 +549,128 @@ def _tower(pc):
         w = 2 * Wb / 3
         for j in range(3):
             a = -Wb + j * w
-            pc.wall(O, U, N, a, a + w, z0, z1, 0.6, [arch_chain(a + w / 2, 0.5, 37.0, 1.4, sill=30.0)],
+            pc.wall(O, U, N, a, a + w, z0, z1, 0.6, [arch_chain(a + w / 2, 0.55, 37.4, 1.6, sill=29.0)],
                     vidrio=False)
-    # reloj
-    pc.box(-3.7, 3.7, yc - 3.7, yc + 3.7, z1, 46.0)
-    pc.box(-4.4, 4.4, yc - 4.4, yc + 4.4, z1, z1 + 0.5)
-    for face in range(4):
-        ang = math.pi / 2 * face
-        d = Vector((math.sin(ang), -math.cos(ang), 0)) * 3.75
-        m = Matrix.Translation((d.x, yc + d.y, 43.6)) @ Matrix.Rotation(ang, 4, "Z") \
-            @ Matrix.Rotation(math.pi / 2, 4, "X")
-        bmesh.ops.create_cone(pc.bm, cap_ends=True, segments=24, radius1=1.25, radius2=1.25,
-                              depth=0.12, matrix=m)
-    # linterna ochavada y aguja
-    pc.cyl(0, yc, 46.0, 52.0, 3.1, 2.9, segs=8, rot=math.pi / 8)
-    pc.cyl(0, yc, 52.0, 52.4, 3.4, 3.4, segs=8, rot=math.pi / 8)
-    pc.cyl(0, yc, 52.4, TOWER_TOP - 1.4, 3.0, 0.15, segs=8, rot=math.pi / 8)
-    # lucarnas al pie de la aguja
+            # persianas: tablillas inclinadas en el vano
+            uc = a + w / 2
+            for zz in [29.4 + 0.55 * k for k in range(15)]:
+                c = O + U * uc + Vector((0, 0, zz)) - N * 0.05
+                m = Matrix.Translation(c) @ Matrix.Rotation(ang, 4, "Z") @ Matrix.Rotation(math.radians(30), 4, "X")
+                bmesh.ops.create_cube(pc.bm, size=1.0, matrix=m @ Matrix.Diagonal((1.0, 0.05, 0.32, 1)))
+        # arco rehundido que enmarca las tres lancetas
+        arco = arch_chain(0.0, Wb - 0.35, 36.6, 3.4)
+        pts = [O + U * u + Vector((0, 0, v)) + N * 0.32 for u, v in arco]
+        pts += [O + U * (-u) + Vector((0, 0, v)) + N * 0.32 for u, v in reversed(arco[:-1])]
+        pc.tube(pts, 0.28, 0.32)
+    # reloj: gablete en cada cara con la esfera adentro (41-47,5 m)
+    pc.box(-3.9, 3.9, yc - 3.9, yc + 3.9, z1, 45.6)
+    pc.box(-4.5, 4.5, yc - 4.5, yc + 4.5, z1, z1 + 0.45)
     for face in range(4):
         ang = math.pi / 2 * face
         U = Vector((math.cos(ang), math.sin(ang), 0))
         N = Vector((math.sin(ang), -math.cos(ang), 0))
-        O = Vector((0, yc, 0)) + N * 2.6
-        pc.prism([(-0.7, 52.4), (0.7, 52.4), (0.7, 54.2), (0.0, 55.6), (-0.7, 54.2)], O, U,
-                 (0, 0, 1), N, 1.0)
+        O = Vector((0, yc, 0)) + N * 3.95
+        pc.prism([(-2.9, 41.4), (2.9, 41.4), (0.0, 47.6)], O, U, (0, 0, 1), N, 0.35)
+        m = Matrix.Translation(O + N * 0.2 + Vector((0, 0, 43.4))) @ Matrix.Rotation(ang, 4, "Z") \
+            @ Matrix.Rotation(math.pi / 2, 4, "X")
+        bmesh.ops.create_cone(pc.bm, cap_ends=True, segments=24, radius1=1.25, radius2=1.25, depth=0.14, matrix=m)
+    # torrecillas de las esquinas: ochavadas, con aguja
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            x, y = sx * 3.95, yc + sy * 3.95
+            pc.cyl(x, y, z1 + 0.45, 50.0, 0.72, 0.62, segs=8, rot=math.pi / 8)
+            pc.cyl(x, y, 46.3, 46.6, 0.85, 0.85, segs=8, rot=math.pi / 8)
+            pc.cyl(x, y, 50.0, 50.4, 0.82, 0.82, segs=8, rot=math.pi / 8)
+            pc.cyl(x, y, 50.4, 55.2, 0.62, 0.0, segs=8, rot=math.pi / 8)
+    # linterna ochavada calada: ocho caras con una lanceta alta cada una
+    R8, zl0, zl1 = 2.95, 45.6, 52.0
+    V8 = [(R8 * math.cos(math.pi / 8 + k * math.pi / 4), yc + R8 * math.sin(math.pi / 8 + k * math.pi / 4))
+          for k in range(8)]
+    for k in range(8):
+        A, B = Vector(V8[k] + (0,)), Vector(V8[(k + 1) % 8] + (0,))
+        U = (B - A)
+        L = U.length
+        U.normalize()
+        N = U.cross(Vector((0, 0, 1)))
+        pc.wall(A - U * 0.12, U, N, 0.0, L + 0.24, zl0, zl1, 0.35,
+                [arch_chain(L / 2 + 0.12, 0.42, 50.0, 1.0, sill=46.4)], vidrio=False)
+    pc.cyl(0, yc, zl1, zl1 + 0.4, 3.35, 3.35, segs=8, rot=math.pi / 8)
+    # aguja de pizarra ochavada
+    pc.cyl(0, yc, zl1 + 0.4, TOWER_TOP - 1.45, 3.0, 0.14, segs=8, rot=math.pi / 8)
+    # gabletes al pie de la aguja (los ocho lados) y buhardillas en dos hileras
+    for k in range(8):
+        ang = math.pi / 4 * k
+        U = Vector((math.cos(ang), math.sin(ang), 0))
+        N = Vector((math.sin(ang), -math.cos(ang), 0))
+        apot = 3.0 * math.cos(math.pi / 8)
+        pc.prism([(-1.05, zl1 + 0.4), (1.05, zl1 + 0.4), (0.0, zl1 + 2.9)], Vector((0, yc, 0)) + N * apot,
+                 U, (0, 0, 1), N, 0.3)
+        for zz, rr, w2 in ((56.0, 2.15, 0.42), (60.5, 1.35, 0.3)):
+            if (k + (zz > 58)) % 2:
+                continue
+            O = Vector((0, yc, 0)) + N * (rr * math.cos(math.pi / 8) + 0.05)
+            pc.prism([(-w2, zz), (w2, zz), (w2, zz + w2 * 1.5), (0.0, zz + w2 * 2.6), (-w2, zz + w2 * 1.5)],
+                     O, U, (0, 0, 1), N, 0.5)
     # cruz
-    pc.box(-0.06, 0.06, yc - 0.06, yc + 0.06, TOWER_TOP - 1.4, TOWER_TOP)
-    pc.box(-0.4, 0.4, yc - 0.06, yc + 0.06, TOWER_TOP - 0.75, TOWER_TOP - 0.6)
-    # contrafuertes escalonados en las esquinas del frente y pinaculos
+    pc.box(-0.06, 0.06, yc - 0.06, yc + 0.06, TOWER_TOP - 1.45, TOWER_TOP)
+    pc.box(-0.42, 0.42, yc - 0.06, yc + 0.06, TOWER_TOP - 0.8, TOWER_TOP - 0.64)
+    # contrafuertes escalonados en las cuatro esquinas, hasta el pie del reloj
     for sx in (-1, 1):
         for front, (y0, y1) in ((True, (yf, yf + 1.4)), (False, (yb - 2.2, yb))):
-            for (z0, z1, g) in ((Z_GROUND, 12, 1.3), (12, 24, 1.0), (24, BODY + 1.3, 0.7)):
+            for (za, zb, g) in ((Z_GROUND, 12, 1.3), (12, 24, 1.05), (24, 33, 0.8), (33, z1, 0.55)):
                 xa = sx * W
-                pc.box(min(xa, xa + sx * g), max(xa, xa + sx * g), y0 - (g if front else 0), y1, z0, z1)
-        for yy in (yf + 0.2, yb - 1.1):
-            pc.pinnacle(sx * (W + 0.35), yy, BODY + 1.3, 0.75, 2.2, 3.0)
-        for yy in (yc - 3.9, yc + 3.9):
-            pc.pinnacle(sx * 3.9, yy, z1 + 0.5, 0.8, 4.2, 4.6)
+                pc.box(min(xa, xa + sx * g), max(xa, xa + sx * g), y0 - (g if front else 0), y1, za, zb)
+                # talud de cada retiro
+                pc.prism([(0, zb), (g, zb), (0, zb + 0.5 * g)], (xa, (y0 + y1) / 2, 0), (sx, 0, 0), (0, 0, 1),
+                         (0, 1, 0), y1 - y0 + (g if front else 0) * 0.0)
+        for yy in (yf + 0.3, yb - 1.1):
+            pc.pinnacle(sx * (W + 0.3), yy, z1, 0.7, 2.6, 3.2)
+    # pinaculos de la balaustrada sobre el roseton
+    for xx in (-3.6, -1.2, 1.2, 3.6):
+        pc.pinnacle(xx, yf - 0.1, BODY + 1.3, 0.35, 0.9, 1.3)
+    # roseton: traceria de doce rayos y un aro interior (en el plano del vidrio)
+    zr, rr = 20.5, 2.6
+    yv = yf + 0.6
+    for k in range(12):
+        a = 2 * math.pi * k / 12
+        m = Matrix.Translation((math.cos(a) * rr * 0.55, yv, zr + math.sin(a) * rr * 0.55)) \
+            @ Matrix.Rotation(-a, 4, "Y")
+        bmesh.ops.create_cube(pc.bm, size=1.0, matrix=m @ Matrix.Diagonal((rr * 0.9, 0.18, 0.09, 1)))
+    ring = [(math.cos(2 * math.pi * k / 24) * rr * 0.36, yv, zr + math.sin(2 * math.pi * k / 24) * rr * 0.36)
+            for k in range(25)]
+    pc.tube(ring, 0.12, 0.2)
+    # gablete de la portada: tres oculos (cuadrilobulo al centro y dos chicos)
+    for xx, zz, rr2 in ((0.0, 14.3, 0.75), (-1.35, 12.6, 0.45), (1.35, 12.6, 0.45)):
+        m = Matrix.Translation((xx, yf - 1.2, zz)) @ Matrix.Rotation(math.pi / 2, 4, "X")
+        bmesh.ops.create_cone(pc.bm, cap_ends=True, segments=20, radius1=rr2, radius2=rr2, depth=0.18, matrix=m)
+        bmesh.ops.create_cone(pc.bm, cap_ends=True, segments=20, radius1=rr2 + 0.16, radius2=rr2 + 0.16,
+                              depth=0.08, matrix=m)
+    # columnillas de las jambas de la portada
+    for sx in (-1, 1):
+        for k, xx in enumerate((1.85, 2.3, 2.75)):
+            pc.cyl(sx * xx, yf - 0.25 - 0.45 * k, 0.0, 7.0, 0.13, segs=8)
+            pc.cyl(sx * xx, yf - 0.25 - 0.45 * k, 7.0, 7.35, 0.2, 0.2, segs=8)
+    # torrecillas de escalera entre la torre y los frentes laterales
+    for sx in (-1, 1):
+        x, y = sx * 6.35, -1.45
+        pc.box(x - 1.0, x + 1.0, y - 1.0, y + 1.0, Z_GROUND, 21.5)
+        for zz in (8.0, 15.0):
+            pc.box(x - 1.12, x + 1.12, y - 1.12, y + 1.12, zz, zz + 0.3)
+        pc.cyl(x, y, 21.5, 22.0, 1.25, 1.25, segs=4, rot=math.pi / 4)
+        pc.cyl(x, y, 22.0, 28.5, 1.15, 0.0, segs=4, rot=math.pi / 4)
+        for dx in (-0.85, 0.85):
+            for dy in (-0.85, 0.85):
+                pc.pinnacle(x + dx, y + dy, 21.5, 0.32, 1.1, 1.6)
+
+
+def _balaustrada(pc, x, y0, y1, z, alto=1.0, paso=0.42):
+    """Balaustrada a lo largo de y: zocalo, pasamanos y balaustres."""
+    pc.box(x - 0.16, x + 0.16, y0, y1, z, z + 0.16)
+    pc.box(x - 0.2, x + 0.2, y0, y1, z + alto - 0.16, z + alto)
+    n = int((y1 - y0) / paso)
+    for k in range(n):
+        y = y0 + (k + 0.5) * (y1 - y0) / n
+        pc.box(x - 0.07, x + 0.07, y - 0.06, y + 0.06, z + 0.16, z + alto - 0.16)
 
 
 def _buttresses(pc):
@@ -583,11 +699,9 @@ def _buttresses(pc):
             # pinaculo sobre el muro alto
             if k < NB:
                 pc.pinnacle(sx * (XC + 0.1), y, Z_WALL + 1.0, 0.6, 1.4, 2.0)
-        # balaustrada de las naves laterales y del muro alto
-        x0, x1 = sorted((sx * (xo - 0.15), sx * (xo - 0.45)))
-        pc.box(x0, x1, -TW, Y_CR0 - 0.3, Z_AISLE_WALL, Z_AISLE_WALL + 1.0)
-        x0, x1 = sorted((sx * (XC + TN / 2), sx * (XC + TN / 2 - 0.3)))
-        pc.box(x0, x1, -0.6, Y_AB, Z_WALL, Z_WALL + 1.0)
+        # balaustradas caladas (fotos): pasamanos, zocalo y balaustres
+        _balaustrada(pc, sx * (xo - 0.3), -TW, Y_CR0 - 0.3, Z_AISLE_WALL)
+        _balaustrada(pc, sx * (XC + TN / 2 - 0.15), -0.6, Y_AB, Z_WALL)
         # torrecillas de las esquinas
         pc.cyl(sx * (xo + 0.1), -TW - 0.1, Z_GROUND, 13.0, 0.7, segs=8, rot=math.pi / 8)
         pc.cyl(sx * (xo + 0.1), -TW - 0.1, 13.0, 16.5, 0.7, 0.0, segs=8, rot=math.pi / 8)
@@ -629,10 +743,23 @@ def _roofs(pc):
         x_out, x_in = sx * (XW + TW), sx * (XC + TN / 2)
         # losa inclinada, no cuna: la boveda lateral sube por encima del
         # coronamiento del muro y una cuna llena la cortaba por dentro
-        pts = [(x_out, Z_AISLE_WALL), (x_in, 13.0), (x_in, 13.35), (x_out, Z_AISLE_WALL + 0.35)]
+        pts = [(x_out, Z_AISLE_WALL), (x_in, 13.8), (x_in, 14.15), (x_out, Z_AISLE_WALL + 0.35)]
         if sx < 0:
             pts.reverse()
         pc.prism(pts, (0, (Y_CR0 - TW) / 2, 0), (1, 0, 0), (0, 0, 1), (0, 1, 0), Y_CR0 + TW)
+
+
+def _buhardillas(pc):
+    """Buhardillas en el techo de la nave (fotos): una por tramo y faldon."""
+    hw = XC + TN / 2 + 0.2
+    pend = (Z_RIDGE - Z_WALL) / hw
+    for k in range(NB):
+        y = (k + 0.5) * BAY
+        for sx in (-1, 1):
+            zf = Z_WALL + (hw - 3.4) * pend
+            sec = [(y - 0.55, zf - 0.3), (y + 0.55, zf - 0.3), (y + 0.55, zf + 1.1), (y, zf + 1.8),
+                   (y - 0.55, zf + 1.1)]
+            pc.prism(sec, (sx * 2.4, 0, 0), (0, 1, 0), (0, 0, 1), (1, 0, 0), 2.0)
 
 
 def _vaults(vb, rb):
@@ -696,8 +823,15 @@ def _annexes(pc, roof):
     abside (bloques simples a dos aguas, como en el plano de OSM)."""
     blocks = [(5.0, 11.6, 41.0, 52.2, 8.5), (-12.9, -5.0, 41.0, 52.2, 8.5),
               (-12.9, 11.6, 52.2, 56.7, 8.5), (-12.9, 11.6, 56.7, 64.3, 11.0)]
-    for x0, x1, y0, y1, h in blocks:
+    for i, (x0, x1, y0, y1, h) in enumerate(blocks):
         pc.box(x0, x1, y0, y1, Z_GROUND, h)
+        if i == 3:
+            # casa parroquial (foto 39): dos plantas con techo a la mansarda
+            roof.prism([(y0, h), (y1, h), (y1 - 1.1, h + 3.2), (y0 + 1.1, h + 3.2)], ((x0 + x1) / 2, 0, 0),
+                       (0, 1, 0), (0, 0, 1), (1, 0, 0), x1 - x0)
+            roof.prism([(x0, h), (x0 + 1.1, h + 3.2), (x1 - 1.1, h + 3.2), (x1, h)], (0, (y0 + y1) / 2, 0),
+                       (1, 0, 0), (0, 0, 1), (0, 1, 0), y1 - y0 - 0.01)
+            continue
         # cumbrera a lo largo del lado mayor
         if (x1 - x0) > (y1 - y0):
             ymid, hy = (y0 + y1) / 2, (y1 - y0) / 2
@@ -1046,6 +1180,7 @@ def build_catedral(e, colls):
         rb.done(m_stone, main, weld=False)
         pc = Pieza("catedral_techos")
         _roofs(pc)
+        _buhardillas(pc)
         pc.done(m_roof, main)
     for ob in bpy.data.objects:
         if ob.name.startswith("catedral_"):

@@ -263,7 +263,7 @@ def _cables(pc, filas, rnd):
         for y_top, y_col in ((f["at"][1], round(f["at"][1] / BAY) * BAY), (y_end, round(y_end / BAY) * BAY)):
             if y_col <= 0 or y_col >= Y_CR0:
                 continue
-            col = (math.copysign(XC, x), y_col, 7.4)
+            col = (math.copysign(XC, x), y_col, 8.2)
             for j in range(3):
                 off = Vector((rnd.uniform(-0.15, 0.15), rnd.uniform(-0.2, 0.2), 0))
                 _cable(pc, _catenary(Vector((x, y_top, RH)) + off, Vector(col) + off * 0.5,
