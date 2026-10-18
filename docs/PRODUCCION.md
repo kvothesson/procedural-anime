@@ -441,6 +441,17 @@ Salieron de cada vez que quien dirigía miró un frame y dijo "esto no". Pesan t
   sumarle la del arco se va al cielo. Ver siempre un primer plano después de agregar piezas chicas.
 - **Árboles de relleno que tapan una vista que el plano necesita se sacan** calculando qué copas
   cortan la línea de vista (no se tocan los de OSM).
+- **La costa no sale de SRTM:** el agua y el bajo miden casi lo mismo (0-3 m). El río va de OSM
+  (multipolígono `natural=water`, anillos armados uniendo tramos) hundiendo el terreno adentro, y
+  un plano a la cota del agua. Una relación grande (el Río de la Plata) baja entera y no pesa.
+- **Una huella de Microsoft puede ser la manzana entera:** un edificio medido (`alturas` en
+  `osm.json`) va con su propia huella de OSM, no con la altura pisada sobre la de Microsoft.
+- **La planta se mide contra una foto aérea** (`episodios/catedral/aerea.py`): una cenital lejana
+  con teleobjetivo, con sus bordes en rojo sobre la foto en el mismo marco. Un corrimiento parejo
+  de calles y edificios es de la imagen; lo que vale es lo relativo. La foto queda en `ref/`, sin
+  commitear.
+- **Cámaras de comparación puestas donde se paró el fotógrafo:** muy cerca y bajo, la perspectiva
+  esconde la aguja detrás de la torre y un árbol de vereda tapa la puerta que se quería ver.
 
 ## 9. Publicar
 
