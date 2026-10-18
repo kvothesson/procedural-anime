@@ -65,7 +65,7 @@ def shot(name, vistas, interior):
             c.pop(k)
         c["sky"] = {"horizon": "#8a8f9a", "top": "#5a606c", "ambient": "#6a707c", "ambient_strength": 0.45}
         c["lights"] = [{"kind": "SUN", "color": "#fff4e6", "energy": 1.7, "rot": [38, 0, 25], "shadow": False}]
-        c["catedral"] = {"puertas": {"abre": [[1, 80]]}}
+        c["catedral"] = {"puertas": {"abre": [[1, 80]]}, "bancos": True}
     (EP / "shots" / f"{name}.json").write_text(json.dumps(c, indent=2, ensure_ascii=False), encoding="utf-8")
 
 

@@ -560,8 +560,8 @@ def _tower(pc):
     pc.box(-3.5, 3.5, yf + 2.0, yf + 3.2, 6.2, 7.6)
     # escalera caracol (foto 56): poste central y escalones en helice hasta el coro
     cx_e, cy_e = 3.0, yf + 1.8
-    pc.cyl(cx_e, cy_e, 0.0, 7.2, 0.09, segs=8)
-    for k in range(28):
+    pc.cyl(cx_e, cy_e, 0.0, 10.5, 0.11, segs=8)        # folleto: tronco macizo de 10,50 m
+    for k in range(46):
         a = 2 * math.pi * k / 12
         z = 0.22 * (k + 1)
         m = Matrix.Translation((cx_e + math.cos(a) * 0.45, cy_e + math.sin(a) * 0.45, z)) @ Matrix.Rotation(a, 4, "Z")
@@ -802,6 +802,63 @@ def _buhardillas(pc):
             pc.prism(sec, (sx * 2.4, 0, 0), (0, 1, 0), (0, 0, 1), (1, 0, 0), 2.0)
 
 
+def _amoblamiento(pc, e):
+    """Lo que el folleto de la parroquia mide y las fotos muestran: el Via
+    Crucis (14 marcos neogoticos de nogal de 2,07 x 0,82 m), dos pilas de agua
+    bendita junto a la puerta, el Sagrado Corazon al fondo a la derecha (2,53 m,
+    con dos angeles de 1,30 m), confesionarios de cedro, lamparas de globo en
+    las columnas y, si se piden, los bancos de cedro."""
+    # Via Crucis: siete marcos por nave lateral, entre las ventanas
+    for sx in (-1, 1):
+        x = sx * (XW - 0.05)
+        for y in [0.9] + [k * BAY for k in range(1, NB)] + [Y_CR0 - 0.9]:
+            pc.box(min(x, x - sx * 0.08), max(x, x - sx * 0.08), y - 0.41, y + 0.41, 1.5, 1.5 + 1.62)
+            pc.prism([(y - 0.41, 3.12), (y + 0.41, 3.12), (y, 3.57)], (x - sx * 0.04, 0, 0), (0, 1, 0), (0, 0, 1),
+                     (1, 0, 0), 0.08)
+    # pilas de agua bendita a los lados de la puerta principal
+    for sx in (-1, 1):
+        pc.cyl(sx * 2.2, 0.7, 0.0, 0.9, 0.12, segs=8)
+        pc.cyl(sx * 2.2, 0.7, 0.9, 1.05, 0.38, 0.28, segs=12)
+    # Sagrado Corazon al fondo, a la derecha, con dos angeles
+    xr, yr = 7.6, 0.45
+    pc.box(xr - 1.4, xr + 1.4, yr - 0.3, yr + 0.3, 0.0, 1.5)
+    pc.cyl(xr, yr, 1.5, 1.5 + 2.2, 0.32, 0.26, segs=12)
+    bmesh.ops.create_icosphere(pc.bm, subdivisions=2, radius=0.17, matrix=Matrix.Translation((xr, yr, 1.5 + 2.4)))
+    for dx in (-1.05, 1.05):
+        pc.cyl(xr + dx, yr, 1.5, 1.5 + 1.1, 0.2, 0.16, segs=10)
+        bmesh.ops.create_icosphere(pc.bm, subdivisions=1, radius=0.11,
+                                   matrix=Matrix.Translation((xr + dx, yr, 1.5 + 1.22)))
+    pc.prism([(xr - 1.5, 4.3), (xr + 1.5, 4.3), (xr, 6.0)], (0, yr - 0.25, 0), (1, 0, 0), (0, 0, 1), (0, 1, 0), 0.12)
+    # confesionarios de cedro (foto 55): dos por nave lateral contra el muro
+    for sx in (-1, 1):
+        for y in (1.5 * BAY, 3.5 * BAY):
+            x0, x1 = sorted((sx * (XW - 1.1), sx * (XW - 0.05)))
+            pc.box(x0, x1, y - 1.1, y + 1.1, 0.0, 2.6)
+            xm = sx * (XW - 0.6)
+            pc.prism([(y - 1.1, 2.6), (y + 1.1, 2.6), (y, 3.4)], (xm, 0, 0), (0, 1, 0), (0, 0, 1), (1, 0, 0), 1.05)
+            for dy in (-1.05, 1.05):
+                pc.pinnacle(sx * (XW - 1.1), y + dy, 2.6, 0.16, 0.5, 0.6)
+    # lamparas de globo en las columnas (foto 50), del lado de la nave
+    for sx in (-1, 1):
+        for k in range(1, NB):
+            x = sx * (XC - 0.57)
+            y = k * BAY
+            pc.box(min(x, x - sx * 0.6), max(x, x - sx * 0.6), y - 0.03, y + 0.03, 5.6, 5.66)
+            bmesh.ops.create_icosphere(pc.bm, subdivisions=2, radius=0.24,
+                                       matrix=Matrix.Translation((x - sx * 0.7, y, 5.4)))
+    if not e.get("bancos"):
+        return
+    # bancos de cedro (folleto): dos bloques en la nave central
+    y = 3.2
+    while y < Y_CR0 - 1.5:
+        for x0, x1 in ((-AI + 0.5, -0.85), (0.85, AI - 0.5)):
+            pc.box(x0, x1, y, y + 0.42, 0.42, 0.47)
+            pc.box(x0, x1, y + 0.42, y + 0.48, 0.42, 0.95)
+            for xx in (x0, x1 - 0.06):
+                pc.box(xx, xx + 0.06, y - 0.05, y + 0.5, 0.0, 1.0)
+        y += 0.95
+
+
 def _vaults(vb, rb):
     H = Z_CROWN - Z_V
     for k in range(NB):
@@ -852,7 +909,7 @@ def _floor(pc, ground):
         pc.box(-AI, AI, y0, Y_AB, 0.0, z1)
     Vi = apse_pts(AI)
     pc.prism([(x, y) for x, y in Vi], (0, 0, 0.27), (1, 0, 0), (0, 1, 0), (0, 0, 1), 0.54)
-    pc.box(-1.3, 1.3, 42.0, 43.2, 0.54, 1.5)
+    pc.box(-1.5, 1.5, 42.0, 43.2, 0.54, 0.54 + 1.03)    # folleto: 3,00 x 1,20 x 1,03 m
     # Cristo Pascual suspendido sobre el altar (folleto: 1,80 m de alto por
     # 1,66 m de ancho), colgado de dos cables
     zc = 8.6
@@ -1171,6 +1228,7 @@ def build_catedral(e, colls):
     "brillos": [{"kind": "point", "at": [x, y, z], "color", "strength", "falloff"}],
     "puertas": {"abre": [[frame, grados], ...]},
     "rayos": {"alpha", "inclinacion", "desde_z"} (de los ventanales altos),
+    "bancos": true (los de cedro; en los planos con servidores van ellos),
     "niebla_piso": {"color", "alpha", "alturas"}}"""
     col = {"piedra": "#d8d4cb", "techo": "#8d949c", "suelo": "#7d8578", "puerta": "#6b5a4e",
            **e.get("colores", {})}
@@ -1222,6 +1280,7 @@ def build_catedral(e, colls):
 
     pc = Pieza("catedral_piso")
     _floor(pc, 0)
+    _amoblamiento(pc, e)
     pc.done(m_stone, main)
     if e.get("suelo", 240):
         pc = Pieza("catedral_vereda")
