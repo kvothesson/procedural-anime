@@ -406,11 +406,18 @@ def _relleno(out, occ, rnd, R, casas_ok=True):
             continue
         xs = [p[0] for p in a["p"]]
         ys = [p[1] for p in a["p"]]
-        area = (max(xs) - min(xs)) * (max(ys) - min(ys))
-        for _ in range(int(area / 230)):
-            x, y = rnd.uniform(min(xs), max(xs)), rnd.uniform(min(ys), max(ys))
-            if _dentro(a["p"], x, y) and not _cerca_de_camino(out["calles"], x, y) and not _sin_arbol(x, y):
-                out["arboles"].append([round(x, 2), round(y, 2), round(rnd.uniform(1.5, 2.15), 2), "relleno"])
+        # plazas: tipas en grilla con jitter, cada ~13 m (copa de ~18 m: en la
+        # foto aerea la copa de las plazas es continua)
+        paso = 13.0
+        gy = min(ys) + rnd.uniform(0, paso)
+        while gy < max(ys):
+            gx = min(xs) + rnd.uniform(0, paso)
+            while gx < max(xs):
+                x, y = gx + rnd.uniform(-4, 4), gy + rnd.uniform(-4, 4)
+                if _dentro(a["p"], x, y) and not _cerca_de_camino(out["calles"], x, y) and not _sin_arbol(x, y):
+                    out["arboles"].append([round(x, 2), round(y, 2), round(rnd.uniform(1.5, 2.15), 2), "relleno"])
+                gx += paso
+            gy += paso
     print(f"relleno: {casas} casas, {len(out['arboles'])} arboles")
 
 

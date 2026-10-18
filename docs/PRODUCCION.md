@@ -166,6 +166,10 @@ raytracing, `light_threshold` en 0.05. Diferencia visual media: 1,9/255.
 - **Las luces de relleno van sin sombra** (`use_shadow = False`). Con sombra, 12 luces llenan
   el pool; con el pool en 2 GB Blender **se cae sin traceback** (exit 127).
 - El borrador casi no gana: lo que queda es CPU (escena + Line Art).
+- **Miles de copias: plantillas y numpy, no operadores de bmesh.** Cada operador recorre la
+  malla entera, así que agregar árbol por árbol a una malla que crece es cuadrático: 2.400
+  árboles de varias ramas tardaban 677 s en armarse. Unas pocas variantes por especie, armadas
+  una vez y copiadas con numpy (`_Lote` en `piezas/entorno.py`): 0,8 s.
 - **Line Art cobra por cara visible**: 7 mil árboles más (dos esferas y tronco cada uno) llevaron
   un cuadro de 3 a 14 min. De lejos, una copa sola de pocas caras y sin tronco: vuelve a ~3 min.
 - El primer frame tras cambiar un ajuste de render tarda ~35 s (EEVEE recompila shaders).

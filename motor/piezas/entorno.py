@@ -16,8 +16,10 @@ casa: son cientos.
 import json
 import math
 import random
+import time
 
 import bmesh
+import numpy as np
 import bpy
 from mathutils import Matrix, Vector
 
@@ -200,14 +202,179 @@ def _gable(bm, pts, z, pitch):
         bm.faces.new(f)
 
 
-def _tree(tronco, copa, x, y, z, s, rnd):
-    """Arbol de anime: tronco fino y copa de dos esferas bajas en poligonos."""
-    bmesh.ops.create_cone(tronco, cap_ends=True, segments=6, radius1=0.16 * s, radius2=0.12 * s,
-                          depth=2.6 * s, matrix=Matrix.Translation((x, y, z + 1.3 * s)))
-    for k in range(2):
-        r = s * rnd.uniform(1.7, 2.4)
-        bmesh.ops.create_icosphere(copa, subdivisions=1, radius=r, matrix=Matrix.Translation(
-            (x + rnd.uniform(-0.8, 0.8) * s, y + rnd.uniform(-0.8, 0.8) * s, z + s * rnd.uniform(3.6, 4.6))))
+# ---------------------------------------------------------------- arboles
+# Especies de la zona. Veredas: censo de arbolado de San Isidro (2026, mas de
+# 100.000 ejemplares): fresno 18 %, luego liquidambar, jacaranda, crespon,
+# tilo, paraiso y platano. Plazas: tipas (foto 44, Plaza Mitre), que se
+# bifurcan bajo y abren una copa alta en paraguas. Barranca: monte nativo.
+VEREDA = [("fresno", 0.36), ("liquidambar", 0.14), ("jacaranda", 0.14), ("platano", 0.12),
+          ("paraiso", 0.12), ("tilo", 0.12)]
+
+
+def _rama(tronco, a, b, r0, r1):
+    """Un tramo de tronco o rama: cono de seis lados de a hasta b."""
+    a, b = Vector(a), Vector(b)
+    d = b - a
+    rot = d.to_track_quat("Z", "Y").to_matrix().to_4x4()
+    bmesh.ops.create_cone(tronco, cap_ends=False, segments=6, radius1=r0, radius2=r1, depth=d.length,
+                          matrix=Matrix.Translation((a + b) / 2) @ rot)
+
+
+def _bola(copa, c, r, sz=1.0, sub=1):
+    bmesh.ops.create_icosphere(copa, subdivisions=sub, radius=r,
+                               matrix=Matrix.Translation(c) @ Matrix.Diagonal((1, 1, sz, 1)))
+
+
+def _ramas_abiertas(tronco, copa, base, H, rnd, n, horqueta, abre, sube, r_copa, achata, fino=True):
+    """Tronco que se bifurca en n ramas sinuosas que suben y se abren; una
+    copa achatada en la punta de cada rama y otra arriba al centro."""
+    horq = base + Vector((0, 0, horqueta * H))
+    _rama(tronco, base, horq, 0.05 * H, 0.04 * H)
+    a0 = rnd.uniform(0, 2 * math.pi)
+    for k in range(n):
+        a = a0 + 2 * math.pi * k / n + rnd.uniform(-0.35, 0.35)
+        d = Vector((math.cos(a), math.sin(a), 0))
+        lado = Vector((-d.y, d.x, 0)) * rnd.uniform(-0.06, 0.06) * H
+        mid = horq + d * abre * 0.45 * H + Vector((0, 0, sube * 0.5 * H)) + lado
+        tip = horq + d * abre * H * rnd.uniform(0.85, 1.1) + Vector((0, 0, sube * H * rnd.uniform(0.9, 1.05)))
+        _rama(tronco, horq, mid, 0.032 * H, 0.024 * H)
+        _rama(tronco, mid, tip, 0.024 * H, 0.014 * H)
+        if not fino:
+            _bola(copa, tip + Vector((0, 0, 0.04 * H)), r_copa * H, achata, 0)
+            continue
+        # cada rama se vuelve a abrir en dos (foto 44): la copa se rompe en
+        # matas mas chicas en vez de una bola por rama
+        for sgn in (-1, 1):
+            b = a + sgn * rnd.uniform(0.35, 0.6)
+            d2 = Vector((math.cos(b), math.sin(b), 0))
+            punta = tip + d2 * rnd.uniform(0.12, 0.2) * H + Vector((0, 0, rnd.uniform(0.04, 0.1) * H))
+            _rama(tronco, tip, punta, 0.013 * H, 0.007 * H)
+            _bola(copa, punta + Vector((0, 0, 0.03 * H)), r_copa * H * rnd.uniform(0.6, 0.8), achata, 0)
+        _bola(copa, tip + Vector((0, 0, 0.06 * H)), r_copa * H * rnd.uniform(0.6, 0.75), achata)
+    _bola(copa, horq + Vector((0, 0, (sube + 0.12) * H)), r_copa * H * 1.1, achata, 1 if fino else 0)
+
+
+def _arbol(tronco, copa, especie, x, y, z, H, rnd, fino=True):
+    """Un arbol de la especie dada, de alto H (m), parado en (x, y, z). Con
+    fino=False (lejos de la camara) menos caras: la tinta cobra por cara."""
+    sub = 1 if fino else 0
+    base = Vector((x, y, z))
+    if especie == "tipa":
+        # foto 44: horqueta baja, 4-5 ramas que se abren mucho, paraguas alto
+        _ramas_abiertas(tronco, copa, base, H, rnd, rnd.choice((4, 5)), 0.18, 0.42, 0.5, 0.26, 0.5, fino)
+    elif especie == "paraiso":
+        _ramas_abiertas(tronco, copa, base, H, rnd, 3, 0.3, 0.3, 0.42, 0.26, 0.6, fino)
+    elif especie == "jacaranda":
+        # copa rala y despareja, mas ancha que alta
+        _ramas_abiertas(tronco, copa, base, H, rnd, 3, 0.28, 0.36, 0.45, 0.2, 0.55, fino)
+    elif especie == "liquidambar":
+        # copa conica (piramidal) sobre fuste recto
+        _rama(tronco, base, base + Vector((0, 0, 0.45 * H)), 0.035 * H, 0.025 * H)
+        bmesh.ops.create_cone(copa, cap_ends=True, segments=7, radius1=0.24 * H, radius2=0.0, depth=0.78 * H,
+                              matrix=Matrix.Translation(base + Vector((0, 0, 0.6 * H)))
+                              @ Matrix.Rotation(rnd.uniform(0, 1), 4, "Z"))
+    elif especie == "monte":
+        # tala, coronillo, ceibo: tronco inclinado y copitas sueltas
+        inc = Vector((rnd.uniform(-0.12, 0.12), rnd.uniform(-0.12, 0.12), 0)) * H
+        top = base + Vector((0, 0, 0.5 * H)) + inc
+        _rama(tronco, base, top, 0.04 * H, 0.025 * H)
+        for k in range(3):
+            c = top + Vector((rnd.uniform(-0.2, 0.2) * H, rnd.uniform(-0.2, 0.2) * H, rnd.uniform(0.0, 0.3) * H))
+            _bola(copa, c, rnd.uniform(0.15, 0.22) * H, 0.75, sub)
+    else:
+        # fresno, tilo y platano: fuste recto y copa ovalada o redonda
+        alto, ancho, sz = {"fresno": (0.36, 0.2, 1.25), "tilo": (0.3, 0.23, 1.1),
+                           "platano": (0.32, 0.27, 1.0)}[especie]
+        top = base + Vector((0, 0, alto * H))
+        _rama(tronco, base, top + Vector((0, 0, 0.15 * H)), 0.04 * H, 0.025 * H)
+        for k, (dz, f) in enumerate(((0.22, 1.0), (0.4, 0.85), (0.3, 0.8))):
+            a = rnd.uniform(0, 2 * math.pi)
+            off = Vector((math.cos(a), math.sin(a), 0)) * (0.08 * H if k else 0.0)
+            _bola(copa, top + off + Vector((0, 0, dz * H)), ancho * H * f, sz, sub)
+
+
+class _Lote:
+    """Muchas copias de unas pocas mallas en un solo objeto, con numpy. Armar
+    miles de arboles con operadores de bmesh sobre una malla que crece tarda
+    minutos (cada operador recorre la malla entera); copiar plantillas, segundos."""
+
+    def __init__(self):
+        self.vs, self.loops, self.sizes, self.n = [], [], [], 0
+
+    def poner(self, plantilla, M):
+        v, loops, sizes = plantilla
+        self.vs.append(v @ M[:3, :3].T + M[:3, 3])
+        self.loops.append(loops + self.n)
+        self.sizes.append(sizes)
+        self.n += len(v)
+
+    def objeto(self, name, mat, coll, smooth=False):
+        me = bpy.data.meshes.new(name)
+        if self.vs:
+            v = np.concatenate(self.vs).astype(np.float32)
+            loops = np.concatenate(self.loops).astype(np.int32)
+            sizes = np.concatenate(self.sizes).astype(np.int32)
+            starts = np.concatenate([[0], np.cumsum(sizes)[:-1]]).astype(np.int32)
+            me.vertices.add(len(v))
+            me.vertices.foreach_set("co", v.ravel())
+            me.loops.add(len(loops))
+            me.loops.foreach_set("vertex_index", loops)
+            me.polygons.add(len(sizes))
+            me.polygons.foreach_set("loop_start", starts)
+            me.polygons.foreach_set("loop_total", sizes)
+            me.update(calc_edges=True)
+            if smooth:
+                me.shade_smooth()
+        ob = bpy.data.objects.new(name, me)
+        ob.data.materials.append(mat)
+        link(ob, coll)
+        return ob
+
+
+def _plantilla(bm):
+    """bmesh -> (vertices Nx3, indices de loops, lados por cara)."""
+    bm.verts.index_update()
+    v = np.array([q.co[:] for q in bm.verts], dtype=np.float64).reshape(-1, 3)
+    caras = [[q.index for q in f.verts] for f in bm.faces]
+    bm.free()
+    loops = np.array([i for c in caras for i in c], dtype=np.int64)
+    return v, loops, np.array([len(c) for c in caras], dtype=np.int64)
+
+
+def _plantillas(rnd, variantes=6):
+    """Cada especie en alto 1, parada en el origen, en unas variantes, en
+    version fina y gruesa: (tronco, copa) por (especie, fino)."""
+    out = {}
+    for esp in ["tipa", "monte"] + [e for e, _ in VEREDA]:
+        for fino in (True, False):
+            out[esp, fino] = []
+            for _ in range(variantes):
+                tr, cp = bmesh.new(), bmesh.new()
+                _arbol(tr, cp, esp, 0.0, 0.0, 0.0, 1.0, rnd, fino)
+                out[esp, fino].append((_plantilla(tr), _plantilla(cp)))
+    cp = bmesh.new()
+    _bola(cp, Vector((0, 0, 1.15)), 1.0, 0.8, 0)
+    out["lejos"] = _plantilla(cp)
+    return out
+
+
+def _ubicar(x, y, z, escala, giro):
+    c, s_ = math.cos(giro), math.sin(giro)
+    return np.array([[c * escala, -s_ * escala, 0, x], [s_ * escala, c * escala, 0, y],
+                     [0, 0, escala, z], [0, 0, 0, 1]])
+
+
+def _especie(src, s, rnd):
+    if src == "barranca":
+        return "monte"
+    if s >= 1.5:          # los de plaza (osm.py los hace de 1,5 a 2,15)
+        return "tipa"
+    t = rnd.random()
+    for esp, w in VEREDA:
+        t -= w
+        if t <= 0:
+            return esp
+    return "fresno"
 
 
 def _faroles(calles, H, f, colls, R):
@@ -476,8 +643,19 @@ def build_entorno(e, colls):
 
     # arboles
     if e.get("arboles", True):
-        copas = [bmesh.new() for _ in col["copa"]]
-        tr = bmesh.new()
+        t0 = time.time()
+        # una malla por color de copa: las especies con color propio en el
+        # estilo ("copa_jacaranda": "#9b7fd1") van aparte; si no, el de siempre
+        copas = {}
+        tpl = _plantillas(random.Random(e.get("seed", 5) + 101))
+
+        def copa_de(esp):
+            cols = col.get(f"copa_{esp}", col["copa"])
+            c = cols[rnd.randrange(len(cols))] if isinstance(cols, list) else cols
+            if c not in copas:
+                copas[c] = _Lote()
+            return copas[c]
+        tr = _Lote()
         # "quitar_arboles": puntos [x, y] de arboles que se sacan (de relleno que
         # tapan una vista que el plano necesita)
         quitar = {(round(q[0], 1), round(q[1], 1)) for q in e.get("quitar_arboles", [])}
@@ -489,12 +667,19 @@ def build_entorno(e, colls):
             if lejos:
                 # de lejos alcanza una copa sola (la tinta cuesta por cara)
                 r = s * rnd.uniform(2.4, 3.0)
-                bmesh.ops.create_icosphere(copas[rnd.randrange(len(copas))], subdivisions=1, radius=r,
-                                           matrix=Matrix.Translation((x, y, H(x, y) + r * 1.15))
-                                           @ Matrix.Diagonal((1, 1, 0.8, 1)))
+                copa_de("lejos").poner(tpl["lejos"], _ubicar(x, y, H(x, y), r, rnd.uniform(0, 6.28)))
                 continue
-            _tree(tr, copas[rnd.randrange(len(copas))], x, y, H(x, y) - 0.2,
-                  s * e.get("escala_arboles", 1.3), rnd)
-        _obj("entorno_troncos", tr, mat_toon("entorno_tronco_m", col["tronco"]), main)
-        for i, bm in enumerate(copas):
-            _obj(f"entorno_arboles{i}", bm, mat_toon(f"entorno_copa{i}_m", col["copa"][i]), main, smooth=True)
+            esp = _especie(src, s, rnd)
+            # alto en metros: s viene de osm.py (calle 1,05-1,45, plaza 1,5-2,15);
+            # con escala_arboles 1,3 una tipa de plaza queda en ~12-18 m y uno de
+            # vereda en ~9-13 m (fresnos maduros)
+            alto = s * e.get("escala_arboles", 1.3) * (6.3 if esp == "tipa" else 6.8)
+            fino = math.hypot(x, y) < e.get("arboles_finos", 200)
+            t_tr, t_cp = rnd.choice(tpl[esp, fino])
+            M = _ubicar(x, y, H(x, y) - 0.2, alto, rnd.uniform(0, 6.28))
+            tr.poner(t_tr, M)
+            copa_de(esp).poner(t_cp, M)
+        tr.objeto("entorno_troncos", mat_toon("entorno_tronco_m", col["tronco"]), main)
+        for i, (c, lote) in enumerate(copas.items()):
+            lote.objeto(f"entorno_arboles{i}", mat_toon(f"entorno_copa{i}_m", c), main, smooth=True)
+        print(f"entorno: arboles en {time.time() - t0:.1f} s", flush=True)

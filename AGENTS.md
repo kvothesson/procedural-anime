@@ -121,7 +121,7 @@ la vez se cuelgan).
 | `camera` | `from`/`to` lineal o `keys` con `ease`; `lens_keys` [[frame, mm]] cambia la lente |
 | `catedral` | Catedral de San Isidro (`techo`, `anexos`, `suelo`, `colores`, `vidrios` con `luz`, `traceria`, `reflectores` puntuales o en cono, `brillos`, `puertas`, `rayos`, `niebla_piso`) |
 | `servidores` | Racks, cables y núcleo dentro de la catedral (`colores`, `leds`, `nucleo`, `luces`, `filas`) |
-| `entorno` | Alrededores de OSM sobre el relieve (`datos`, `terreno`, `piso`, `radio`, `relleno`, `arboles`, `escala_arboles`, `quitar_arboles`, `lejos`, `agua`, `colores`, `ventanas`, `faroles` con cables) |
+| `entorno` | Alrededores de OSM sobre el relieve (`datos`, `terreno`, `piso`, `radio`, `relleno`, `arboles`, `escala_arboles`, `arboles_finos`, `quitar_arboles`, `lejos`, `agua`, `colores` (con `copa_<especie>`: tipa, fresno, liquidambar, jacaranda, platano, paraiso, tilo, monte, lejos), `ventanas`, `faroles` con cables) |
 | `post` | `glow`, `rain` (`false` la apaga), `rain_dim`, `ripples`, `speedlines`, `glitch`, `grain`, `textos`, ... |
 | `camino`, `terreno`, `cordillera`, `puente`, `tambos`, `apacheta`, `luna` | Andes (ver `piezas/andes.py`): todo se ubica por `s`, metros sobre la ruta |
 | `mensaje`, `relevo` | Mensaje de luz (o lista de mensajes) con `keys` [[frame, s]], `colors` por tramo, `from_frame`/`to_frame`, `frac`; `relevo` lo enciende todo a su paso (`lead`, `delay`, `off`) |
