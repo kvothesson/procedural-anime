@@ -5,8 +5,10 @@ Shorts verticales estilo anime (cel-shading, línea de tinta, color plano, neón
 genere imagen o video, sin samples de audio. Un agente de código (o una persona) corre todo el
 pipeline; quien dirige lo hace con instrucciones.
 
-**Al empezar:** leé este archivo y `docs/PRODUCCION.md` (reglas, trampas de Blender 5.2,
-rendimiento, sonido y criterio de dirección).
+**Al empezar:** leé este archivo, `docs/CAPAS.md` (qué va en cada capa: motor, piezas, datos de
+un lugar, escenario, estilo, hora y clima, episodio; con recetas para crear y modificar cada
+una) y `docs/PRODUCCION.md` (reglas, trampas de Blender 5.2, rendimiento, sonido y criterio de
+dirección).
 **Al terminar una sesión:** corregí `docs/PRODUCCION.md` si algo de lo que dice dejó de ser cierto.
 
 ---
@@ -15,6 +17,8 @@ rendimiento, sonido y criterio de dirección).
 
 | Archivo | Para qué |
 |---|---|
+| [docs/CAPAS.md](docs/CAPAS.md) | **Cómo está organizado**: las capas, dónde vive cada una, recetas (nuevo lugar real, estilo, pieza, episodio que reusa un escenario) y propuestas pendientes |
+| [episodios/README.md](episodios/README.md) | Índice de episodios y escenarios: qué es cada uno, estado, qué reusa de quién |
 | [docs/PRODUCCION.md](docs/PRODUCCION.md) | **Todo lo aprendido**: look, reflejos, animación, post, rendimiento, trampas de Blender 5.2, sonido, criterio de dirección |
 | [docs/AUSTRAL.md](docs/AUSTRAL.md) | Canon de la serie UNIVERSO AUSTRAL (el mundo, el Verbo, Rendous, reglas, personajes) |
 | [motor/escena.py](motor/escena.py) | Entrada de Blender: lee el JSON, arma las piezas en orden (`PIEZAS`) y renderiza |
