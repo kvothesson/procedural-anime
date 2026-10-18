@@ -408,6 +408,14 @@ def _nave_walls(pc):
                 xx = x + cara * (TN / 2 + 0.06)
                 pts = [(xx, u, v) for u, v in arco] + [(xx, 2 * ym - u, v) for u, v in reversed(arco[:-1])]
                 pc.tube(pts, 0.26, 0.3)
+        # enjutas (foto 57): un triangulo enmarcado entre arco y arco, con la
+        # punta hacia abajo sobre la columna, en las dos caras
+        for k in range(1, NB):
+            y = k * BAY
+            for cara in (-1, 1):
+                xx = x + cara * (TN / 2 + 0.05)
+                pc.tube([(xx, y - 1.35, Z_TRI0 - 0.4), (xx, y + 1.35, Z_TRI0 - 0.4), (xx, y, Z_ARC + 1.5),
+                         (xx, y - 1.35, Z_TRI0 - 0.4)], 0.12, 0.16)
         # cornisa del triforio a lo largo, con su antepecho
         xin = x - sx * TN / 2
         x0, x1 = sorted((xin, xin - sx * 0.3))
