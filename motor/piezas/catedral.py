@@ -745,17 +745,15 @@ def _buttresses(pc):
             # gablete en la cara de afuera del pinaculo (foto 7)
             pc.prism([(y - 0.45, Z_AISLE_WALL + 1.6), (y + 0.45, Z_AISLE_WALL + 1.6), (y, Z_AISLE_WALL + 2.7)],
                      (sx * (xo + 0.55 + 0.45), 0, 0), (0, 1, 0), (0, 0, 1), (1, 0, 0), 0.12)
-            # arbotante: un arco rampante del contrafuerte al muro alto
+            # arbotante macizo (foto 31): un muro en cuña del contrafuerte al
+            # muro alto, con albardilla y pinaculito al pie
             if 0 < k < NB:
-                a = Vector((sx * (xo + 0.2), y, Z_AISLE_WALL + 2.4))
-                b = Vector((sx * (XC + TN / 2), y, 17.2))
-                pts = []
-                for i in range(11):
-                    t = i / 10
-                    p = a.lerp(b, t)
-                    p.z += math.sin(math.pi * t) * 0.9
-                    pts.append(tuple(p))
-                pc.tube(pts, 0.45, 0.7)
+                xa, xb = sx * (xo + 0.1), sx * (XC + TN / 2)
+                sec = [(xa, Z_AISLE_WALL + 0.4), (xa, Z_AISLE_WALL + 1.9), (xb, 18.6), (xb, 14.0)]
+                if sx < 0:
+                    sec.reverse()
+                pc.prism(sec, (0, y, 0), (1, 0, 0), (0, 0, 1), (0, 1, 0), 0.55)
+                pc.tube([(xa, y, Z_AISLE_WALL + 2.0), (xb, y, 18.7)], 0.75, 0.22)
             # pinaculo sobre el muro alto
             if k < NB:
                 pc.pinnacle(sx * (XC + 0.1), y, Z_WALL + 1.0, 0.6, 1.4, 2.0)
@@ -807,6 +805,16 @@ def _roofs(pc):
         if sx < 0:
             pts.reverse()
         pc.prism(pts, (0, (Y_CR0 - TW) / 2, 0), (1, 0, 0), (0, 0, 1), (0, 1, 0), Y_CR0 + TW)
+        # un techito a dos aguas por tramo, con la cumbrera de traves (foto
+        # aerea: una hilera de cumbreras cortas sobre cada nave lateral)
+        zo, zi, hc = Z_AISLE_WALL + 0.35, 14.15, 1.25
+        for k in range(NB):
+            y0, y1 = k * BAY + 0.3, (k + 1) * BAY - 0.3
+            ym = (y0 + y1) / 2
+            v = [pc.bm.verts.new(q) for q in ((x_out, y0, zo), (x_out, ym, zo + hc), (x_out, y1, zo),
+                                               (x_in, y0, zi), (x_in, ym, zi + hc), (x_in, y1, zi))]
+            for f in ([v[0], v[1], v[4], v[3]], [v[1], v[2], v[5], v[4]], [v[0], v[2], v[1]]):
+                pc.bm.faces.new(f if sx > 0 else list(reversed(f)))
 
 
 def _buhardillas(pc):
