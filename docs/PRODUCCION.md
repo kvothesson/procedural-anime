@@ -478,6 +478,14 @@ Salieron de cada vez que quien dirigía miró un frame y dijo "esto no". Pesan t
   (`reflectores: []`). Y la palidez de una nave "en penumbra" suele ser el escalón bajo del toon
   (normaliza la luz a ese valor), no el ambiente: bajar el primer escalón, no la luz.
 
+- **Árboles de fondo de anime por shader:** la luz del toon multiplicada por celdas de Voronoi (una
+  mata por celda) corta la sombra en grumos; del lado del sol no alcanza (no cambia de escalón) y
+  hace falta el borde de cada mata pintado más oscuro. Abollar solo las plantillas (6 por especie)
+  da silueta en matas sin multiplicar el costo por árbol.
+- **Un piso deja de ser plano con lo pintado, no con relieve:** juntas de baldosa en x, y, línea
+  central desde un UV a lo largo de la cinta, y charcos que muestran un color de reflejo sin recibir
+  luz. Charcos grandes y saturados se leen como pintura derramada: chicos y del tono del cielo.
+
 ## 9. Publicar
 
 El motor no sube nada: `montaje.py` deja `episodios/<ep>/out/<ep>.mp4` (H.264 + AAC a 48 kHz,

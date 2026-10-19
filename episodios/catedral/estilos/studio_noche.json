@@ -273,6 +273,49 @@
         "cables": true,
         "poste": "#1a1826",
         "cable": "#0b0a14"
+      },
+      "follaje": {
+        "escala": 0.9,
+        "fuerza": 0.75,
+        "bultos": 0.28,
+        "borde": 0.12,
+        "borde_tono": 0.6
+      },
+      "dibujo": {
+        "asfalto": {
+          "marcas": {
+            "color": "#e8e2c8",
+            "ancho": 0.14,
+            "paso": 6.0,
+            "lleno": 0.5
+          },
+          "charcos": {
+            "color": "#5a3a8c",
+            "escala": 2.5,
+            "umbral": 0.66,
+            "fuerza": 0.6
+          }
+        },
+        "adoquin": {
+          "baldosas": {
+            "paso": 0.25,
+            "junta": 0.025,
+            "color": "#14132a"
+          },
+          "charcos": {
+            "color": "#5a3a8c",
+            "escala": 2.5,
+            "umbral": 0.66,
+            "fuerza": 0.6
+          }
+        },
+        "vereda": {
+          "baldosas": {
+            "paso": 0.4,
+            "junta": 0.025,
+            "color": "#2c2c48"
+          }
+        }
       }
     }
   },

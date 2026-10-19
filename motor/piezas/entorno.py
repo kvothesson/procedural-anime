@@ -22,6 +22,7 @@ import bmesh
 import numpy as np
 import bpy
 from mathutils import Matrix, Vector
+from mathutils import noise as mnoise
 
 from . import ctx
 from .base import collection, link
@@ -81,11 +82,17 @@ def _densify(pts, step=3.0):
     return out
 
 
-def _ribbon(bm, pts, w, H, off):
+def _ribbon(bm, pts, w, H, off, uv=False):
     """Cinta de ancho w por la polilinea, apoyada en el terreno H (+off), con
-    un disco en cada quiebre para que esquinas y curvas queden cerradas."""
+    un disco en cada quiebre para que esquinas y curvas queden cerradas.
+    uv=True: UV "calle" con u = metros a lo largo y v = metros desde el eje
+    (para pintar la linea central; las de menos de 7 m y los discos de las
+    esquinas llevan v lejos: sin linea)."""
     corners = pts
     pts = _densify(pts)
+    lay = (bm.loops.layers.uv.get("calle") or bm.loops.layers.uv.new("calle")) if uv else None
+    u0 = 0.0
+    sin_linea = w < 7.0
     for (ax, ay), (bx, by) in zip(pts, pts[1:]):
         dx, dy = bx - ax, by - ay
         L = math.hypot(dx, dy)
@@ -98,12 +105,21 @@ def _ribbon(bm, pts, w, H, off):
         f = bm.faces.new(vs)
         if f.normal.z < 0:
             f.normal_flip()
+        if lay:
+            v = 99.0 if sin_linea else w / 2
+            m = {vs[0]: (u0, v), vs[1]: (u0 + L, v), vs[2]: (u0 + L, -v), vs[3]: (u0, -v)}
+            for lp in f.loops:
+                lp[lay].uv = m[lp.vert]
+        u0 += L
     if w > 3:
         for x, y in corners:
             n = 10
             vs = [bm.verts.new((x + w / 2 * math.cos(2 * math.pi * k / n),
                                 y + w / 2 * math.sin(2 * math.pi * k / n), H(x, y) + off)) for k in range(n)]
-            bm.faces.new(vs)
+            f = bm.faces.new(vs)
+            if lay:
+                for lp in f.loops:
+                    lp[lay].uv = (0.0, 99.0)
 
 
 def _dentro(poly, bb, x, y):
@@ -341,16 +357,48 @@ def _plantilla(bm):
     return v, loops, np.array([len(c) for c in caras], dtype=np.int64)
 
 
-def _plantillas(rnd, variantes=6):
+def _bultos(bm, amp, semilla):
+    """Copa de fondo de anime: cada bola (una isla de la malla) se subdivide
+    una vez y se abolla con ruido suave hacia afuera y hacia adentro, para
+    que la silueta salga en matas y no en un poliedro."""
+    bmesh.ops.subdivide_edges(bm, edges=bm.edges[:], cuts=1, use_grid_fill=True)
+    bm.verts.index_update()
+    visto = set()
+    off = Vector((semilla * 7.31, semilla * 3.17, semilla * 5.53))
+    for v0 in bm.verts:
+        if v0.index in visto:
+            continue
+        isla, pila = [], [v0]
+        visto.add(v0.index)
+        while pila:
+            v = pila.pop()
+            isla.append(v)
+            for e in v.link_edges:
+                w = e.other_vert(v)
+                if w.index not in visto:
+                    visto.add(w.index)
+                    pila.append(w)
+        c = sum((v.co for v in isla), Vector()) / len(isla)
+        r = max((v.co - c).length for v in isla) or 1.0
+        for v in isla:
+            d = v.co - c
+            k = mnoise.noise((v.co + off) * (2.2 / r))
+            v.co = c + d * (1.0 + amp * k)
+
+
+def _plantillas(rnd, variantes=6, bultos=0.0):
     """Cada especie en alto 1, parada en el origen, en unas variantes, en
-    version fina y gruesa: (tronco, copa) por (especie, fino)."""
+    version fina y gruesa: (tronco, copa) por (especie, fino). bultos > 0:
+    las copas finas abolladas (ver _bultos)."""
     out = {}
     for esp in ["tipa", "monte"] + [e for e, _ in VEREDA]:
         for fino in (True, False):
             out[esp, fino] = []
-            for _ in range(variantes):
+            for k in range(variantes):
                 tr, cp = bmesh.new(), bmesh.new()
                 _arbol(tr, cp, esp, 0.0, 0.0, 0.0, 1.0, rnd, fino)
+                if bultos and fino:
+                    _bultos(cp, bultos, k + 1)
                 out[esp, fino].append((_plantilla(tr), _plantilla(cp)))
     cp = bmesh.new()
     _bola(cp, Vector((0, 0, 1.15)), 1.0, 0.8, 0)
@@ -489,7 +537,11 @@ def build_entorno(e, colls):
 
     m_piso = mat_toon("entorno_piso_m", col["piso"])
     m_pasto = mat_toon("entorno_pasto_m", col["pasto"])
-    m_asf = mat_toon("entorno_asfalto_m", col["asfalto"])
+    # "dibujo": lo pintado en el piso por material ({"asfalto": {"marcas",
+    # "charcos"}, "vereda": {"baldosas"}, ...}, ver materiales._dibujo);
+    # "follaje": las copas en matas ({"escala", "fuerza"}, ver _matas)
+    dib = e.get("dibujo", {})
+    m_asf = mat_toon("entorno_asfalto_m", col["asfalto"], dibujo=dib.get("asfalto"))
     m_playa = mat_toon("entorno_playa_m", col["playa"])
     if T:
         _terreno(T, [a for a in data["areas"] if near(a["p"])], [m_piso, m_pasto, m_playa], sc,
@@ -519,14 +571,15 @@ def build_entorno(e, colls):
     for c in calles:
         if c["k"] in AUTOS:
             _ribbon(bm, c["p"], c["w"] + 6.0, H, 0.08)
-    _obj("entorno_veredas", bm, mat_toon("entorno_vereda_m", col["vereda"]), sc)
+    _obj("entorno_veredas", bm, mat_toon("entorno_vereda_m", col["vereda"], dibujo=dib.get("vereda")), sc)
     # calzadas: asfalto o adoquin ("sett" en OSM: las calles del casco son de adoquin)
     bm, bm_ad = bmesh.new(), bmesh.new()
     for c in calles:
         if c["k"] in AUTOS or c["k"] == "service":
-            _ribbon(bm_ad if c.get("s") == "sett" else bm, c["p"], c["w"], H, 0.12)
+            _ribbon(bm_ad if c.get("s") == "sett" else bm, c["p"], c["w"], H, 0.12, uv=True)
     _obj("entorno_calzadas", bm, m_asf, sc)
-    _obj("entorno_adoquines", bm_ad, mat_toon("entorno_adoquin_m", col.get("adoquin", "#6d6862")), sc)
+    _obj("entorno_adoquines", bm_ad, mat_toon("entorno_adoquin_m", col.get("adoquin", "#6d6862"),
+                                              dibujo=dib.get("adoquin")), sc)
     bm = bmesh.new()
     for c in calles:
         if c["k"] not in AUTOS and c["k"] != "service":
@@ -647,7 +700,7 @@ def build_entorno(e, colls):
         # una malla por color de copa: las especies con color propio en el
         # estilo ("copa_jacaranda": "#9b7fd1") van aparte; si no, el de siempre
         copas = {}
-        tpl = _plantillas(random.Random(e.get("seed", 5) + 101))
+        tpl = _plantillas(random.Random(e.get("seed", 5) + 101), bultos=(e.get("follaje") or {}).get("bultos", 0.0))
 
         def copa_de(esp):
             cols = col.get(f"copa_{esp}", col["copa"])
@@ -681,5 +734,6 @@ def build_entorno(e, colls):
             copa_de(esp).poner(t_cp, M)
         tr.objeto("entorno_troncos", mat_toon("entorno_tronco_m", col["tronco"]), main)
         for i, (c, lote) in enumerate(copas.items()):
-            lote.objeto(f"entorno_arboles{i}", mat_toon(f"entorno_copa{i}_m", c), main, smooth=True)
+            lote.objeto(f"entorno_arboles{i}", mat_toon(f"entorno_copa{i}_m", c, matas=e.get("follaje")),
+                        main, smooth=True)
         print(f"entorno: arboles en {time.time() - t0:.1f} s", flush=True)

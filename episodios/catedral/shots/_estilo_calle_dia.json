@@ -1,0 +1,4 @@
+{
+  "extends": "_estilo_calle_noche.json",
+  "estilo": "studio_dia"
+}

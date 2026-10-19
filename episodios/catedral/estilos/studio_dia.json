@@ -127,6 +127,37 @@
         "cables": true,
         "poste": "#2c2a3a",
         "cable": "#15131c"
+      },
+      "follaje": {
+        "escala": 0.9,
+        "fuerza": 0.75,
+        "bultos": 0.28,
+        "borde": 0.12,
+        "borde_tono": 0.72
+      },
+      "dibujo": {
+        "asfalto": {
+          "marcas": {
+            "color": "#f4f0e0",
+            "ancho": 0.14,
+            "paso": 6.0,
+            "lleno": 0.5
+          }
+        },
+        "adoquin": {
+          "baldosas": {
+            "paso": 0.25,
+            "junta": 0.025,
+            "color": "#5a544c"
+          }
+        },
+        "vereda": {
+          "baldosas": {
+            "paso": 0.4,
+            "junta": 0.025,
+            "color": "#bdb4a2"
+          }
+        }
       }
     }
   }

@@ -51,10 +51,62 @@ def _power(nt):
     return at.outputs["Fac"]
 
 
-def _toon_light(nt):
+def _matas(nt, lum, F):
+    """Follaje de fondo de anime: la luz se perturba con celdas de Voronoi
+    (una mata por celda, mas iluminada en el centro), asi el corte de sombra
+    de la copa sale en grumos y no en una curva lisa. F: {"escala": m,
+    "fuerza": 0..1}."""
+    n = nt.nodes
+    geo = n.new("ShaderNodeNewGeometry")
+    vo = n.new("ShaderNodeTexVoronoi")
+    vo.feature = "F1"
+    vo.inputs["Scale"].default_value = 1.0 / F.get("escala", 1.6)
+    nt.links.new(geo.outputs["Position"], vo.inputs["Vector"])
+    # 1 en el centro de la mata, ~0 en el borde
+    k = n.new("ShaderNodeMapRange")
+    k.inputs["From Min"].default_value = 0.0
+    k.inputs["From Max"].default_value = 1.0
+    k.inputs["To Min"].default_value = 1.0 + F.get("fuerza", 0.6)
+    k.inputs["To Max"].default_value = 1.0 - F.get("fuerza", 0.6)
+    nt.links.new(vo.outputs["Distance"], k.inputs["Value"])
+    mul = n.new("ShaderNodeMath")
+    mul.operation = "MULTIPLY"
+    nt.links.new(lum, mul.inputs[0])
+    nt.links.new(k.outputs["Result"], mul.inputs[1])
+    return mul.outputs[0]
+
+
+def _borde_matas(nt, col, F):
+    """El borde de cada mata pintado mas oscuro (las mismas celdas que
+    _matas): del lado del sol la copa no cambia de escalon, y sin esto se ve
+    plana. F["borde"]: ancho del borde en m; F["borde_tono"]: cuanto oscurece."""
+    n = nt.nodes
+    geo = n.new("ShaderNodeNewGeometry")
+    vo = n.new("ShaderNodeTexVoronoi")
+    vo.feature = "DISTANCE_TO_EDGE"
+    vo.inputs["Scale"].default_value = 1.0 / F.get("escala", 1.6)
+    nt.links.new(geo.outputs["Position"], vo.inputs["Vector"])
+    lt = n.new("ShaderNodeMath")
+    lt.operation = "LESS_THAN"
+    nt.links.new(vo.outputs["Distance"], lt.inputs[0])
+    lt.inputs[1].default_value = F["borde"] / F.get("escala", 1.6)
+    k = n.new("ShaderNodeMapRange")
+    k.inputs["From Min"].default_value = 0.0
+    k.inputs["From Max"].default_value = 1.0
+    k.inputs["To Min"].default_value = 1.0
+    k.inputs["To Max"].default_value = F.get("borde_tono", 0.72)
+    nt.links.new(lt.outputs[0], k.inputs["Value"])
+    sc = n.new("ShaderNodeVectorMath")
+    sc.operation = "SCALE"
+    nt.links.new(col, sc.inputs[0])
+    nt.links.new(k.outputs["Result"], sc.inputs["Scale"])
+    return sc.outputs[0]
+
+
+def _toon_light(nt, matas=None):
     """Luz que recibe la superficie, cuantizada en escalones de luminancia
     pero conservando el tono (cuantizar por canal mete colores fuera de
-    paleta: ver shaders/README.md)."""
+    paleta: ver shaders/README.md). matas: follaje en grumos (ver _matas)."""
     n = nt.nodes
     dif = n.new("ShaderNodeBsdfDiffuse")
     dif.inputs["Color"].default_value = (1, 1, 1, 1)
@@ -62,6 +114,7 @@ def _toon_light(nt):
     nt.links.new(dif.outputs[0], s2r.inputs[0])
     bw = n.new("ShaderNodeRGBToBW")
     nt.links.new(s2r.outputs["Color"], bw.inputs[0])
+    lum = _matas(nt, bw.outputs[0], matas) if matas else bw.outputs[0]
     ramp = n.new("ShaderNodeValToRGB")
     ramp.color_ramp.interpolation = "CONSTANT"
     els = ramp.color_ramp.elements
@@ -71,7 +124,7 @@ def _toon_light(nt):
     for el, (pos, val) in zip(els, steps):
         el.position = pos
         el.color = (val, val, val, 1)
-    nt.links.new(bw.outputs[0], ramp.inputs["Fac"])
+    nt.links.new(lum, ramp.inputs["Fac"])
     q = n.new("ShaderNodeRGBToBW")
     nt.links.new(ramp.outputs["Color"], q.inputs[0])
     mx = n.new("ShaderNodeMath")
@@ -300,27 +353,35 @@ def _franjas(nt, color, F):
     return out
 
 
-def mat_toon(name, color, windows=None, glows=None, franjas=None):
+def mat_toon(name, color, windows=None, glows=None, franjas=None, matas=None, dibujo=None):
     """Superficie opaca con sombreado toon. windows: dict opcional para
     grilla de ventanas por shader (sin geometria, sin linea). glows: lista de
     resplandores suaves que se suman encima del cel (ver _glow). franjas:
-    paños de ladrillo con bandas del color base (ver _franjas)."""
+    paños de ladrillo con bandas del color base (ver _franjas). matas:
+    follaje en grumos (ver _matas). dibujo: lo pintado en el piso (ver
+    _dibujo: baldosas, marcas de la calle, charcos)."""
     mat = bpy.data.materials.new(name)
     mat.use_nodes = True
     nt = mat.node_tree
     nt.nodes.clear()
     n = nt.nodes
-    light = _toon_light(nt)
+    light = _toon_light(nt, matas)
     mul = n.new("ShaderNodeMix")
     mul.data_type = "RGBA"
     mul.blend_type = "MULTIPLY"
     mul.inputs["Factor"].default_value = 1.0
     if franjas:
         nt.links.new(_franjas(nt, color, franjas), mul.inputs[6])
+    elif dibujo and ("baldosas" in dibujo or "marcas" in dibujo):
+        nt.links.new(_dibujo(nt, color, dibujo), mul.inputs[6])
     else:
         mul.inputs[6].default_value = lin(color)
     nt.links.new(light, mul.inputs[7])
     col = mul.outputs[2]
+    if dibujo and dibujo.get("charcos"):
+        col = _charcos(nt, col, dibujo["charcos"])
+    if matas and matas.get("borde"):
+        col = _borde_matas(nt, col, matas)
     if windows:
         col = _windows(nt, col, windows)
     for g in glows or []:
@@ -331,6 +392,90 @@ def mat_toon(name, color, windows=None, glows=None, franjas=None):
         col = add.outputs[0]
     _emit_out(nt, _fog(nt, col))
     return mat
+
+
+def _dibujo(nt, color, D):
+    """Color base de un piso con lo pintado encima, sin geometria:
+    "baldosas": {"paso", "junta", "color"}: juntas en grilla (en x, y);
+    "marcas": {"color", "ancho", "paso", "lleno"}: linea central discontinua
+    de la calle, leida del UV "calle" (u = metros a lo largo, v = metros
+    desde el eje; las calles angostas traen v lejos y no la llevan)."""
+    n = nt.nodes
+    L = nt.links
+
+    def m(op, a, b=0.0):
+        node = n.new("ShaderNodeMath")
+        node.operation = op
+        for i, x in enumerate((a, b)):
+            if isinstance(x, (int, float)):
+                node.inputs[i].default_value = x
+            else:
+                L.new(x, node.inputs[i])
+        return node.outputs[0]
+
+    def mezcla(base, c, k):
+        mx = n.new("ShaderNodeMix")
+        mx.data_type = "RGBA"
+        L.new(k, mx.inputs["Factor"])
+        if isinstance(base, tuple):
+            mx.inputs[6].default_value = base
+        else:
+            L.new(base, mx.inputs[6])
+        mx.inputs[7].default_value = lin(c)
+        return mx.outputs[2]
+
+    out = lin(color)
+    if "baldosas" in D:
+        B = D["baldosas"]
+        geo = n.new("ShaderNodeNewGeometry")
+        sp = n.new("ShaderNodeSeparateXYZ")
+        L.new(geo.outputs["Position"], sp.inputs[0])
+        j = B.get("junta", 0.06) / B.get("paso", 0.8)
+        jx = m("LESS_THAN", m("FRACT", m("DIVIDE", sp.outputs[0], B.get("paso", 0.8))), j)
+        jy = m("LESS_THAN", m("FRACT", m("DIVIDE", sp.outputs[1], B.get("paso", 0.8))), j)
+        out = mezcla(out, B["color"], m("MAXIMUM", jx, jy))
+    if "marcas" in D:
+        M = D["marcas"]
+        uv = n.new("ShaderNodeUVMap")
+        uv.uv_map = "calle"
+        sp = n.new("ShaderNodeSeparateXYZ")
+        L.new(uv.outputs["UV"], sp.inputs[0])
+        enlinea = m("LESS_THAN", m("ABSOLUTE", sp.outputs[1]), M.get("ancho", 0.12) / 2)
+        trazo = m("LESS_THAN", m("FRACT", m("DIVIDE", sp.outputs[0], M.get("paso", 6.0))), M.get("lleno", 0.5))
+        out = mezcla(out, M["color"], m("MULTIPLY", enlinea, trazo))
+    return out
+
+
+def _charcos(nt, col, C):
+    """Piso mojado pintado: manchas (ruido en x, y) que no reciben luz sino
+    que muestran el reflejo, del color del cielo o del neon.
+    C: {"color", "escala", "umbral", "fuerza"}."""
+    n = nt.nodes
+    L = nt.links
+    geo = n.new("ShaderNodeNewGeometry")
+    sp = n.new("ShaderNodeSeparateXYZ")
+    L.new(geo.outputs["Position"], sp.inputs[0])
+    xy = n.new("ShaderNodeCombineXYZ")
+    L.new(sp.outputs[0], xy.inputs[0])
+    L.new(sp.outputs[1], xy.inputs[1])
+    no = n.new("ShaderNodeTexNoise")
+    no.inputs["Scale"].default_value = 1.0 / C.get("escala", 6.0)
+    no.inputs["Detail"].default_value = 3.0
+    L.new(xy.outputs[0], no.inputs["Vector"])
+    gt = n.new("ShaderNodeMath")
+    gt.operation = "GREATER_THAN"
+    L.new(no.outputs["Fac"], gt.inputs[0])
+    gt.inputs[1].default_value = C.get("umbral", 0.6)
+    k = n.new("ShaderNodeMath")
+    k.operation = "MULTIPLY"
+    L.new(gt.outputs[0], k.inputs[0])
+    k.inputs[1].default_value = C.get("fuerza", 0.8)
+    mx = n.new("ShaderNodeMix")
+    mx.data_type = "RGBA"
+    L.new(k.outputs[0], mx.inputs["Factor"])
+    L.new(col, mx.inputs[6])
+    mx.inputs[7].default_value = lin(C["color"])
+    return mx.outputs[2]
 
 
 def _windows(nt, base_socket, w):
