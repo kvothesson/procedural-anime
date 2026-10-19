@@ -486,6 +486,13 @@ Salieron de cada vez que quien dirigía miró un frame y dijo "esto no". Pesan t
   central desde un UV a lo largo de la cinta, y charcos que muestran un color de reflejo sin recibir
   luz. Charcos grandes y saturados se leen como pintura derramada: chicos y del tono del cielo.
 
+- **Charcos de noche sin raytracing:** el reflejo de las luces de la ciudad en un fondo de anime son
+  trazos verticales de color; por shader, barras por la x de pantalla (`TexCoord > Window`) con un
+  azar por barra, onduladas con ruido del piso, solo dentro del charco. No coinciden con las luces
+  reales: las estelas del post ponen las que sí.
+- **Borde de neón en el follaje:** `Layer Weight > Facing` en escalón; fino (0,1). Grueso, cada bola
+  de la copa queda contorneada como un tubo y los árboles lejanos se vuelven una alfombra de color.
+
 ## 9. Publicar
 
 El motor no sube nada: `montaje.py` deja `episodios/<ep>/out/<ep>.mp4` (H.264 + AAC a 48 kHz,

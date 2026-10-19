@@ -103,6 +103,28 @@ def _borde_matas(nt, col, F):
     return sc.outputs[0]
 
 
+def _borde_neon(nt, col, N):
+    """Borde de luz de neon (rim): lo que la camara ve de canto se enciende
+    de un color, en un escalon duro como el cel. N: {"color", "ancho", "fuerza"}."""
+    n = nt.nodes
+    lw = n.new("ShaderNodeLayerWeight")
+    lw.inputs["Blend"].default_value = 0.5
+    gt = n.new("ShaderNodeMath")
+    gt.operation = "GREATER_THAN"
+    nt.links.new(lw.outputs["Facing"], gt.inputs[0])
+    gt.inputs[1].default_value = 1.0 - N.get("ancho", 0.22)
+    mx = n.new("ShaderNodeMix")
+    mx.data_type = "RGBA"
+    k = n.new("ShaderNodeMath")
+    k.operation = "MULTIPLY"
+    nt.links.new(gt.outputs[0], k.inputs[0])
+    k.inputs[1].default_value = N.get("fuerza", 0.85)
+    nt.links.new(k.outputs[0], mx.inputs["Factor"])
+    nt.links.new(col, mx.inputs[6])
+    mx.inputs[7].default_value = lin(N["color"])
+    return mx.outputs[2]
+
+
 def _toon_light(nt, matas=None):
     """Luz que recibe la superficie, cuantizada en escalones de luminancia
     pero conservando el tono (cuantizar por canal mete colores fuera de
@@ -382,6 +404,8 @@ def mat_toon(name, color, windows=None, glows=None, franjas=None, matas=None, di
         col = _charcos(nt, col, dibujo["charcos"])
     if matas and matas.get("borde"):
         col = _borde_matas(nt, col, matas)
+    if matas and matas.get("neon"):
+        col = _borde_neon(nt, col, matas["neon"])
     if windows:
         col = _windows(nt, col, windows)
     for g in glows or []:
@@ -475,7 +499,62 @@ def _charcos(nt, col, C):
     L.new(k.outputs[0], mx.inputs["Factor"])
     L.new(col, mx.inputs[6])
     mx.inputs[7].default_value = lin(C["color"])
-    return mx.outputs[2]
+    out = mx.outputs[2]
+    R = C.get("reflejos")
+    if not R:
+        return out
+    # reflejos de las luces de la ciudad: trazos verticales de color en el
+    # charco, ubicados por la x de pantalla (el reflejo de una luz cae debajo
+    # de ella) y ondulados por el agua
+    tc = n.new("ShaderNodeTexCoord")
+    sw = n.new("ShaderNodeSeparateXYZ")
+    L.new(tc.outputs["Window"], sw.inputs[0])
+    on = n.new("ShaderNodeTexNoise")
+    on.inputs["Scale"].default_value = 1.2
+    L.new(xy.outputs[0], on.inputs["Vector"])
+
+    def m(op, a, b=0.0):
+        node = n.new("ShaderNodeMath")
+        node.operation = op
+        for i, x in enumerate((a, b)):
+            if isinstance(x, (int, float)):
+                node.inputs[i].default_value = x
+            else:
+                L.new(x, node.inputs[i])
+        return node.outputs[0]
+    xw = m("ADD", sw.outputs[0], m("MULTIPLY", m("SUBTRACT", on.outputs["Fac"], 0.5), R.get("onda", 0.012)))
+    barra = m("FLOOR", m("MULTIPLY", xw, R.get("barras", 90)))
+    wn = n.new("ShaderNodeTexWhiteNoise")
+    wn.noise_dimensions = "1D"
+    L.new(barra, wn.inputs["W"])
+    hay = m("GREATER_THAN", wn.outputs["Value"], 1.0 - R.get("densidad", 0.3))
+    # color de la barra: uno de la paleta, elegido por otro azar de la barra
+    wn2 = n.new("ShaderNodeTexWhiteNoise")
+    wn2.noise_dimensions = "1D"
+    L.new(m("ADD", barra, 17.3), wn2.inputs["W"])
+    cols = R.get("colores", ["#ffb347", "#3ee8ff", "#ff3fb0"])
+    cb = lin(cols[0])
+    cur = None
+    for i, c in enumerate(cols[1:], 1):
+        sel = m("GREATER_THAN", wn2.outputs["Value"], i / len(cols))
+        mxc = n.new("ShaderNodeMix")
+        mxc.data_type = "RGBA"
+        L.new(sel, mxc.inputs["Factor"])
+        if cur is None:
+            mxc.inputs[6].default_value = cb
+        else:
+            L.new(cur, mxc.inputs[6])
+        mxc.inputs[7].default_value = lin(c)
+        cur = mxc.outputs[2]
+    fin = n.new("ShaderNodeMix")
+    fin.data_type = "RGBA"
+    L.new(m("MULTIPLY", m("MULTIPLY", hay, gt.outputs[0]), R.get("fuerza", 0.9)), fin.inputs["Factor"])
+    L.new(out, fin.inputs[6])
+    if cur is None:
+        fin.inputs[7].default_value = cb
+    else:
+        L.new(cur, fin.inputs[7])
+    return fin.outputs[2]
 
 
 def _windows(nt, base_socket, w):
