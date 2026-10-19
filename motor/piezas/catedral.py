@@ -24,7 +24,7 @@ import bpy
 from mathutils import Matrix, Vector
 
 from .base import lin, link, tint_light
-from .materiales import _fog, mat_toon
+from .materiales import _fog, mat_toon, sol_dir
 
 # ---------------------------------------------------------------- medidas
 BAY = 31.6 / 6          # tramo de la nave: 6 tramos hasta el crucero
@@ -1332,6 +1332,7 @@ def _rayos(vidrios, r, v, coll):
     colors = v.get("colores", ["#ffffff"])
     mats = [_mat_velo(f"catedral_rayo{i}", c, r.get("alpha", 0.14), "rayo") for i, c in enumerate(colors)]
     bms = [bmesh.new() for _ in mats]
+    sol = sol_dir() if r.get("sol") else None
     k = 0
     for pts in vidrios:
         c = sum(pts, Vector()) / len(pts)
@@ -1345,6 +1346,11 @@ def _rayos(vidrios, r, v, coll):
         ancho = max((p - c).length for p in pts) * 1.1
         tang = inward.cross(Vector((0, 0, 1))).normalized()
         dirr = (inward * r.get("inclinacion", 0.55) - Vector((0, 0, 1))).normalized()
+        if sol is not None:
+            # de dia el rayo es el sol: solo por las ventanas del lado del sol
+            if inward.dot(Vector((sol.x, sol.y, 0))) <= 0.05:
+                continue
+            dirr = sol
         largo = c.z / -dirr.z
         abajo = c + dirr * largo
         otro = tang.cross(dirr).normalized()
@@ -1390,12 +1396,14 @@ def _niebla_piso(nb, coll):
 
 def build_catedral(e, colls):
     """e: {"techo": true, "anexos": true, "suelo": 240, "colores": {...},
-    "vidrios": {...} (ver mat_vitral; false = vanos abiertos),
+    "vidrios": {...} (ver mat_vitral; false = vanos abiertos; "sombra": false
+    deja pasar el sol, para el gobo de dia),
     "reflectores": [{"at": [x, y, z], "color": "#...", "energia": W,
     "apunta": [x, y, z] (cono; sin esto, luz puntual), "abre": grados}],
     "brillos": [{"kind": "point", "at": [x, y, z], "color", "strength", "falloff"}],
     "puertas": {"abre": [[frame, grados], ...]},
-    "rayos": {"alpha", "inclinacion", "desde_z"} (de los ventanales altos),
+    "rayos": {"alpha", "inclinacion", "desde_z", "sol"} (de los ventanales
+    altos; "sol": true los tira en la direccion del sol, solo de su lado),
     "bancos": true (los de cedro; en los planos con servidores van ellos),
     "niebla_piso": {"color", "alpha", "alturas"},
     "franjas", "franjas_torre": {"paso", "banda"} (con "ladrillo" en colores)}"""
@@ -1443,7 +1451,11 @@ def build_catedral(e, colls):
         holder = Pieza("_v")
         holder.vidrios = vid + vid_t
         holder.bm.free()
-        _vidrios([holder], mat_vitral("catedral_vitral", e.get("vidrios") or {}), main)
+        ob = _vidrios([holder], mat_vitral("catedral_vitral", e.get("vidrios") or {}), main)
+        if (e.get("vidrios") or {}).get("sombra", True) is False:
+            # de dia el sol cruza el vitral; el color lo pone el gobo del toon
+            # (materiales._gobo) y el contorno, los muros y la traceria
+            ob.visible_shadow = False
         luz = (e.get("vidrios") or {}).get("luz")
         if luz:
             _luz_vitrales(holder.vidrios, e["vidrios"], luz, colls)

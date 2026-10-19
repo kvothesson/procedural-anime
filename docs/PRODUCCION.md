@@ -469,6 +469,14 @@ Salieron de cada vez que quien dirigía miró un frame y dijo "esto no". Pesan t
   bandas en z solo en caras verticales. Franjas cada 1,1 m hacen cebra desde un dron; cada ~2 m.
 - **La lámina de `--frames` sale sin post:** para juzgar un estilo copiar los cuadros a
   `render/<plano>/` y correr `post.py --frames`; el brillo cambia mucho el cuadro (de día lo lavaba).
+- **Sol de día que entra por los vitrales** (`gobo` en el estilo + `vidrios.sombra: false`): el
+  vidrio no hace sombra y el toon tiñe lo que recibe sol con un mosaico proyectado contra la
+  dirección del sol (`materiales._gobo`); el contorno lo ponen muros y tracería. Antes de elegir el
+  ángulo, raycast desde el piso que la cámara ve hacia el sol: en la catedral real solo ~5 % del
+  pasillo central recibe sol, y solo con el sol bajo y de costado (`rot [20, 0, 80]`).
+- **Adentro, los reflectores de afuera sin sombra cruzan los muros:** un estilo interior los vacía
+  (`reflectores: []`). Y la palidez de una nave "en penumbra" suele ser el escalón bajo del toon
+  (normaliza la luz a ese valor), no el ambiente: bajar el primer escalón, no la luz.
 
 ## 9. Publicar
 

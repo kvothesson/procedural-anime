@@ -1,7 +1,10 @@
 """Materiales: todo termina en Emission. Toon por nodos, neon, pantallas,
 piso mojado con charcos, velos y conos de luz."""
 
+import math
+
 import bpy
+from mathutils import Euler, Vector
 
 from . import ctx
 from .base import lin, set_interp
@@ -83,7 +86,102 @@ def _toon_light(nt):
     sc.operation = "SCALE"
     nt.links.new(s2r.outputs["Color"], sc.inputs[0])
     nt.links.new(div.outputs[0], sc.inputs["Scale"])
+    if ctx.CFG.get("gobo") and sol_dir():
+        return _gobo(nt, sc.outputs[0], bw.outputs[0], ctx.CFG["gobo"])
     return sc.outputs[0]
+
+
+def sol_dir():
+    """Direccion en que viaja la luz del primer sol con sombra (unitaria), o
+    None si no hay. Lee "rot" (grados) o "hacia" como build_lights."""
+    for i, l in enumerate(ctx.CFG.get("lights", [])):
+        if l.get("kind") != "SUN" or not l.get("shadow", i == 0):
+            continue
+        if "hacia" in l:
+            return -Vector(l["hacia"]).normalized()
+        d = Vector((0, 0, -1))
+        d.rotate(Euler([math.radians(a) for a in l.get("rot", (0, 0, 0))]))
+        return d
+    return None
+
+
+def _gobo(nt, light, lum, g):
+    """Sol que cruza un vitral: donde la superficie recibe el sol (luz por
+    encima de g["umbral"]: el ambiente no llega), la luz se tine con un
+    mosaico de celdas de color y plomo oscuro. Cada punto se proyecta contra
+    la direccion del sol sobre el plano x=0, asi una columna de luz conserva
+    su color de punta a punta (en el piso, en un rack, en el aire). Sin
+    sombra en los vidrios (vidrios.sombra=false) es lo que pinta las manchas;
+    el contorno lo dan los muros y la traceria, que si hacen sombra.
+    g: {"colores", "celda": [ancho, alto], "plomo", "plomo_ancho", "umbral":
+    [desde, hasta], "fuerza"}."""
+    n, L = nt.nodes, nt.links
+    d = sol_dir()
+
+    def m(op, a, b=None):
+        node = n.new("ShaderNodeMath")
+        node.operation = op
+        for i, x in enumerate((a, b)):
+            if x is None:
+                continue
+            if isinstance(x, (int, float)):
+                node.inputs[i].default_value = x
+            else:
+                L.new(x, node.inputs[i])
+        return node.outputs[0]
+
+    geo = n.new("ShaderNodeNewGeometry")
+    sep = n.new("ShaderNodeSeparateXYZ")
+    L.new(geo.outputs["Position"], sep.inputs[0])
+    t = m("DIVIDE", sep.outputs[0], d.x if abs(d.x) > 1e-3 else 1e-3)
+    qy = m("SUBTRACT", sep.outputs[1], m("MULTIPLY", t, d.y))
+    qz = m("SUBTRACT", sep.outputs[2], m("MULTIPLY", t, d.z))
+    cw, ch = g.get("celda", [0.9, 1.2])
+    a = m("DIVIDE", qy, cw)
+    b = m("DIVIDE", qz, ch)
+    cell = n.new("ShaderNodeCombineXYZ")
+    L.new(m("FLOOR", a), cell.inputs[0])
+    L.new(m("FLOOR", b), cell.inputs[1])
+    noise = n.new("ShaderNodeTexWhiteNoise")
+    noise.noise_dimensions = "3D"
+    L.new(cell.outputs[0], noise.inputs["Vector"])
+    colors = g.get("colores", ["#ffffff"])
+    ramp = n.new("ShaderNodeValToRGB")
+    ramp.color_ramp.interpolation = "CONSTANT"
+    els = ramp.color_ramp.elements
+    while len(els) < len(colors):
+        els.new(0.5)
+    for k, (el, c) in enumerate(zip(els, colors)):
+        el.position = k / len(colors)
+        el.color = lin(c)
+    L.new(noise.outputs["Value"], ramp.inputs["Fac"])
+    lead = g.get("plomo_ancho", 0.08)
+    plomo = m("MAXIMUM", m("LESS_THAN", m("FRACT", a), lead), m("LESS_THAN", m("FRACT", b), lead))
+    vid = n.new("ShaderNodeMix")
+    vid.data_type = "RGBA"
+    L.new(plomo, vid.inputs["Factor"])
+    L.new(ramp.outputs["Color"], vid.inputs[6])
+    vid.inputs[7].default_value = lin(g.get("plomo", "#3a3040"))
+    sc = n.new("ShaderNodeVectorMath")
+    sc.operation = "SCALE"
+    L.new(vid.outputs[2], sc.inputs[0])
+    sc.inputs["Scale"].default_value = g.get("fuerza", 1.0)
+    u0, u1 = g.get("umbral", [0.25, 0.4])
+    sol = n.new("ShaderNodeMapRange")
+    sol.interpolation_type = "SMOOTHSTEP"
+    sol.inputs["From Min"].default_value = u0
+    sol.inputs["From Max"].default_value = u1
+    L.new(lum, sol.inputs["Value"])
+    tint = n.new("ShaderNodeMix")
+    tint.data_type = "RGBA"
+    L.new(sol.outputs["Result"], tint.inputs["Factor"])
+    tint.inputs[6].default_value = (1, 1, 1, 1)
+    L.new(sc.outputs[0], tint.inputs[7])
+    mul = n.new("ShaderNodeVectorMath")
+    mul.operation = "MULTIPLY"
+    L.new(light, mul.inputs[0])
+    L.new(tint.outputs[2], mul.inputs[1])
+    return mul.outputs[0]
 
 
 def _glow(nt, g, albedo):
