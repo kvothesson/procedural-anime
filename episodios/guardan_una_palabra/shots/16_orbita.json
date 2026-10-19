@@ -209,8 +209,8 @@
   "entorno"
  ],
  "_desc": "Orbita rapida al nucleo (sakuga, 24 fps); late en cada pulso",
- "width": 1080,
- "height": 1920,
+ "width": 1920,
+ "height": 1080,
  "fps": 24,
  "frames": 192,
  "samples": 8,
@@ -344,15 +344,15 @@
     ]
    }
   ],
-  "lens": 18,
+  "lens": 14,
   "lens_keys": [
    [
     1,
-    18
+    14
    ],
    [
     192,
-    18
+    14
    ]
   ],
   "ease": false,

@@ -14,8 +14,8 @@
   "radio": 450
  },
  "_desc": "Cenital sin techo, bajando hacia el nucleo",
- "width": 1080,
- "height": 1920,
+ "width": 1920,
+ "height": 1080,
  "fps": 12,
  "frames": 72,
  "samples": 8,
@@ -59,15 +59,15 @@
     ]
    }
   ],
-  "lens": 24,
+  "lens": 18.0,
   "lens_keys": [
    [
     1,
-    24
+    18.0
    ],
    [
     72,
-    24
+    18.0
    ]
   ],
   "ease": true,

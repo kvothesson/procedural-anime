@@ -1,6 +1,6 @@
 # GUARDAN UNA PALABRA (video de la canción)
 
-Video vertical de 3:00 para la canción "Guardan una palabra" (Suno, de Kvothesson, hecha a partir
+Video horizontal (1920×1080) de 3:00 para la canción "Guardan una palabra" (Suno, de Kvothesson, hecha a partir
 del short `nunca_se_apagan`). Escenario: la Catedral de San Isidro llena de servidores
 (`episodios/catedral`). La idea: **mostrar el motor mientras suena la canción**: cada sección
 enseña una capa (lugar real, relieve, río, árboles por especie, servidores, hora, clima, estilo,
@@ -59,10 +59,11 @@ timeline va a 24 únicos: `montaje.py` repite cuadros según el `fps` de cada pl
 - Cada capa del motor se ve al menos una vez y se entiende sin explicación: lugar real, hora,
   clima, estilo, adentro y afuera.
 - El último cuadro es el primero (loop medido, diferencia media 0,0).
-- 1080×1920, 3:00, audio presente (ffprobe).
+- 1920×1080, 3:00, audio presente (ffprobe).
 
 ## Bitácora
 
 | Fecha | Qué se pidió | Qué se cambió |
 |---|---|---|
 | 2026-10-19 | Video de la canción mostrando el motor, letra solo en las frases cantadas | Análisis de la canción, 48 planos por compás, letra con `reveal`. Motor: `relampagos` [cuadros] en un plano pone los relámpagos de la tormenta donde se pidan (antes, al azar) |
+| 2026-10-19 | ¿Por qué vertical? | Pasa a horizontal 1920×1080 (videoclip para YouTube; un Short vertical se recorta después del estribillo). Lentes abiertas ×0,75 (×0,62 en la torre y la fachada): el sensor cubre el lado largo. Motor: post y textos escalan con el lado corto, no con el ancho |

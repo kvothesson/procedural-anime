@@ -113,8 +113,8 @@
   "entorno"
  ],
  "_desc": "Dolly rapido y bajo por el pasillo, lineas de velocidad",
- "width": 1080,
- "height": 1920,
+ "width": 1920,
+ "height": 1080,
  "fps": 12,
  "frames": 48,
  "samples": 8,
@@ -157,15 +157,15 @@
     ]
    }
   ],
-  "lens": 14,
+  "lens": 10.5,
   "lens_keys": [
    [
     1,
-    14
+    10.5
    ],
    [
     48,
-    14
+    10.5
    ]
   ],
   "ease": false,

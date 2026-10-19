@@ -14,8 +14,8 @@
   "radio": 450
  },
  "_desc": "Campanas: el dron se aleja hasta el rio; termina en el primer cuadro",
- "width": 1080,
- "height": 1920,
+ "width": 1920,
+ "height": 1080,
  "fps": 12,
  "frames": 94,
  "samples": 8,
@@ -59,15 +59,15 @@
     ]
    }
   ],
-  "lens": 40,
+  "lens": 30.0,
   "lens_keys": [
    [
     1,
-    40
+    30.0
    ],
    [
     94,
-    140
+    105.0
    ]
   ],
   "ease": true,

@@ -14,8 +14,8 @@
   "radio": 450
  },
  "_desc": "\"Nunca se apagan\": la misma toma a las 03:00",
- "width": 1080,
- "height": 1920,
+ "width": 1920,
+ "height": 1080,
  "fps": 6,
  "frames": 12,
  "samples": 8,
@@ -59,15 +59,15 @@
     ]
    }
   ],
-  "lens": 26,
+  "lens": 19.5,
   "lens_keys": [
    [
     1,
-    26
+    19.5
    ],
    [
     12,
-    26
+    19.5
    ]
   ],
   "ease": false,

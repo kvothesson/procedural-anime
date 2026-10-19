@@ -14,8 +14,8 @@
   "radio": 450
  },
  "_desc": "\"La catedral no duerme mas\": la fachada con los vitrales encendidos",
- "width": 1080,
- "height": 1920,
+ "width": 1920,
+ "height": 1080,
  "fps": 6,
  "frames": 24,
  "samples": 8,
@@ -59,15 +59,15 @@
     ]
    }
   ],
-  "lens": 18,
+  "lens": 11.2,
   "lens_keys": [
    [
     1,
-    18
+    11.2
    ],
    [
     24,
-    18
+    11.2
    ]
   ],
   "ease": true,

@@ -65,8 +65,8 @@
   "entorno"
  ],
  "_desc": "Desde el coro alto: la nave llena de racks",
- "width": 1080,
- "height": 1920,
+ "width": 1920,
+ "height": 1080,
  "fps": 12,
  "frames": 24,
  "samples": 8,
@@ -109,15 +109,15 @@
     ]
    }
   ],
-  "lens": 20,
+  "lens": 15.0,
   "lens_keys": [
    [
     1,
-    20
+    15.0
    ],
    [
     24,
-    20
+    15.0
    ]
   ],
   "ease": true,

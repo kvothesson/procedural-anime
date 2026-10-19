@@ -65,8 +65,8 @@
   "entorno"
  ],
  "_desc": "Los vitrales de la nave lateral sobre los racks",
- "width": 1080,
- "height": 1920,
+ "width": 1920,
+ "height": 1080,
  "fps": 12,
  "frames": 24,
  "samples": 8,
@@ -109,15 +109,15 @@
     ]
    }
   ],
-  "lens": 16,
+  "lens": 12.0,
   "lens_keys": [
    [
     1,
-    16
+    12.0
    ],
    [
     24,
-    16
+    12.0
    ]
   ],
   "ease": true,

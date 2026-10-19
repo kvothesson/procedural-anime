@@ -14,8 +14,8 @@
   "radio": 450
  },
  "_desc": "Aereo sobre el rio hacia la barranca",
- "width": 1080,
- "height": 1920,
+ "width": 1920,
+ "height": 1080,
  "fps": 12,
  "frames": 24,
  "samples": 8,
@@ -59,15 +59,15 @@
     ]
    }
   ],
-  "lens": 40,
+  "lens": 30.0,
   "lens_keys": [
    [
     1,
-    40
+    30.0
    ],
    [
     24,
-    40
+    30.0
    ]
   ],
   "ease": true,

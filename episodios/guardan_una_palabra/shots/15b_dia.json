@@ -14,8 +14,8 @@
   "radio": 450
  },
  "_desc": "El estilo de dia",
- "width": 1080,
- "height": 1920,
+ "width": 1920,
+ "height": 1080,
  "fps": 6,
  "frames": 12,
  "samples": 8,
@@ -60,15 +60,15 @@
     ]
    }
   ],
-  "lens": 24,
+  "lens": 18.0,
   "lens_keys": [
    [
     1,
-    24
+    18.0
    ],
    [
     12,
-    24
+    18.0
    ]
   ],
   "ease": false,

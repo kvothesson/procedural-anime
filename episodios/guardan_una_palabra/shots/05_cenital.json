@@ -14,8 +14,8 @@
   "radio": 450
  },
  "_desc": "Cenital sin techo: la catedral llena de racks vista desde arriba, bajando",
- "width": 1080,
- "height": 1920,
+ "width": 1920,
+ "height": 1080,
  "fps": 6,
  "frames": 48,
  "samples": 8,
@@ -59,15 +59,15 @@
     ]
    }
   ],
-  "lens": 30,
+  "lens": 22.5,
   "lens_keys": [
    [
     1,
-    30
+    22.5
    ],
    [
     48,
-    30
+    22.5
    ]
   ],
   "ease": true,

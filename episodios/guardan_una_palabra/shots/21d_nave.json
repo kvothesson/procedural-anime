@@ -65,8 +65,8 @@
   "entorno"
  ],
  "_desc": "La nave con los racks",
- "width": 1080,
- "height": 1920,
+ "width": 1920,
+ "height": 1080,
  "fps": 12,
  "frames": 24,
  "samples": 8,
@@ -109,15 +109,15 @@
     ]
    }
   ],
-  "lens": 15,
+  "lens": 11.2,
   "lens_keys": [
    [
     1,
-    15
+    11.2
    ],
    [
     24,
-    15
+    11.2
    ]
   ],
   "ease": true,

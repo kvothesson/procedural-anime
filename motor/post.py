@@ -58,7 +58,7 @@ def glow(img, g):
     src = img * mask
     h, w = img.shape[:2]
     acc = np.zeros_like(img)
-    scale = w / 1080.0
+    scale = min(w, h) / 1080.0
     for r, wt in zip(g["radii"], g["weights"]):
         # blur sobre una version reducida: mismo resultado, 10x mas rapido
         k = max(1, int(r * scale / 4))
@@ -82,7 +82,7 @@ def resplandor(img, R):
     mask = np.clip((dom - R.get("umbral", 0.12)) / 0.5, 0, 1)[..., None]
     src = mask * hex_rgb(R.get("tinte", "#ff2a3a"))
     acc = np.zeros_like(img)
-    scale = w / 1080.0
+    scale = min(w, h) / 1080.0
     small = cv2.resize(src, (w // 8, h // 8), interpolation=cv2.INTER_AREA)
     for rad, wt in zip(R.get("radios", [60, 160, 320]), R.get("pesos", [0.5, 0.45, 0.35])):
         k = max(1, int(rad * scale / 8))
@@ -224,7 +224,7 @@ def datamosh(img, i, raw_dir, D, w, h):
     if key.shape[1] != w:
         key = cv2.resize(key, (w, h), interpolation=cv2.INTER_LANCZOS4)
     key = cv2.cvtColor(key, cv2.COLOR_BGR2RGB).astype(np.float32) / 255.0
-    B = int(24 * w / 1080)
+    B = int(24 * min(w, h) / 1080)
     s = 4
     g_cur = cv2.cvtColor((img * 255).astype(np.uint8), cv2.COLOR_RGB2GRAY)[::s, ::s]
     g_key = cv2.cvtColor((key * 255).astype(np.uint8), cv2.COLOR_RGB2GRAY)[::s, ::s]
@@ -233,7 +233,7 @@ def datamosh(img, i, raw_dir, D, w, h):
     blk = cv2.resize(flow, (bw, bh), interpolation=cv2.INTER_AREA) * (1 + 2 * amt)
     rnd = np.random.default_rng(404 + f0)
     resolve = rnd.random((bh, bw))
-    bleed = (rnd.random((bh, bw)) < 0.12 * amt) * rnd.uniform(4, 14, (bh, bw)) * (i - f0 + 1) * w / 1080
+    bleed = (rnd.random((bh, bw)) < 0.12 * amt) * rnd.uniform(4, 14, (bh, bw)) * (i - f0 + 1) * min(w, h) / 1080
     blk[..., 1] -= bleed
     big = cv2.resize(blk, (bw * B, bh * B), interpolation=cv2.INTER_NEAREST)
     big = cv2.copyMakeBorder(big, 0, h - bh * B, 0, w - bw * B, cv2.BORDER_REPLICATE)
@@ -271,7 +271,7 @@ def mascara(raw_dir, i, w, h):
     a = m[..., 3]
     if a.shape[1] != w:
         a = cv2.resize(a, (w, h), interpolation=cv2.INTER_LINEAR)
-    k = max(3, int(5 * w / 1080)) | 1
+    k = max(3, int(5 * min(w, h) / 1080)) | 1
     a = cv2.dilate(a, np.ones((k, k), np.uint8))
     return (a.astype(np.float32) / 255.0)[..., None]
 
@@ -336,7 +336,7 @@ class Ripples:
 
     def __init__(self, R, w, h):
         self.R, self.w, self.h = R, w, h
-        self.k = w / 1080.0
+        self.k = min(w, h) / 1080.0
         self.color = hex_rgb(R.get("color", "#e8f4ff"))
         yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
         self.xx, self.yy = xx, yy
@@ -440,7 +440,7 @@ def speedlines(img, f, S, w, h):
     rnd = np.random.default_rng(S.get("seed", 7) * 1000 + f)
     layer = np.zeros((h, w), np.float32)
     b0, b1 = S.get("band", [0.0, 1.0])
-    k = w / 1080.0
+    k = min(w, h) / 1080.0
     for _ in range(S.get("count", 40)):
         y = int(rnd.uniform(b0, b1) * h)
         L = rnd.uniform(0.25, 0.9) * w

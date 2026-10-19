@@ -14,8 +14,8 @@
   "radio": 450
  },
  "_desc": "Plaza Mitre bajo las tipas, avanzando hacia la fachada; faroles prendidos",
- "width": 1080,
- "height": 1920,
+ "width": 1920,
+ "height": 1080,
  "fps": 6,
  "frames": 48,
  "samples": 8,
@@ -59,15 +59,15 @@
     ]
    }
   ],
-  "lens": 15,
+  "lens": 11.2,
   "lens_keys": [
    [
     1,
-    15
+    11.2
    ],
    [
     48,
-    15
+    11.2
    ]
   ],
   "ease": true,

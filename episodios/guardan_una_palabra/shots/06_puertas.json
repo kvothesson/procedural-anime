@@ -29,8 +29,8 @@
   "radio": 450
  },
  "_desc": "Desde adentro, las puertas se abren a la plaza de noche",
- "width": 1080,
- "height": 1920,
+ "width": 1920,
+ "height": 1080,
  "fps": 12,
  "frames": 96,
  "samples": 8,
@@ -73,15 +73,15 @@
     ]
    }
   ],
-  "lens": 18,
+  "lens": 13.5,
   "lens_keys": [
    [
     1,
-    18
+    13.5
    ],
    [
     96,
-    18
+    13.5
    ]
   ],
   "ease": true,

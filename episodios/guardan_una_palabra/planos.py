@@ -21,6 +21,11 @@ PULSO0, PULSO = 0.19, 0.5       # primer tiempo y pulso (s)
 TORRE = [0.0, -3.6, 62.0]
 NUCLEO = [0.0, 35.6, 3.0]
 FECHA = "2026-10-17"
+ANCHO, ALTO = 1920, 1080        # horizontal: videoclip para YouTube
+# El sensor de 36 mm cubre el lado largo: en horizontal, el mismo lente que en
+# vertical ve el mismo ancho pero mucho menos alto. Las lentes de abajo estan
+# pensadas como en vertical y se abren con este factor (mas, en lo alto: torre)
+LENTE_K, LENTE_ALTO = 0.75, 0.62
 
 
 def H(x, y):
@@ -43,7 +48,7 @@ def corte(compas):
     return 0 if compas == 0 else min(FIN, 4 + 48 * compas)
 
 
-def cam(pos, aim, lens, n, ease=True, mid=None):
+def cam(pos, aim, lens, n, ease=True, mid=None, k=LENTE_K):
     """Camara de pos[0]->pos[1] mirando aim[0]->aim[1], lente lens (o
     [l0, l1]) a lo largo de n cuadros; mid: (frac, pos, aim) intermedio."""
     keys = [{"frame": 1, "pos": pos[0], "aim": aim[0]}]
@@ -51,6 +56,7 @@ def cam(pos, aim, lens, n, ease=True, mid=None):
         keys.append({"frame": max(2, round(1 + mid[0] * (n - 1))), "pos": mid[1], "aim": mid[2]})
     keys.append({"frame": n, "pos": pos[-1], "aim": aim[-1]})
     l0, l1 = (lens, lens) if not isinstance(lens, list) else lens
+    l0, l1 = round(l0 * k, 1), round(l1 * k, 1)
     return {"keys": keys, "lens": l0, "lens_keys": [[1, l0], [n, l1]], "ease": ease, "clip_start": 0.05,
             "clip_end": 3200}
 
@@ -102,7 +108,7 @@ plano("03_plaza", 8, 12, 6, EXT, "Plaza Mitre bajo las tipas, avanzando hacia la
       camara=lambda n: cam([ojo(-14, -80), ojo(-9, -63)], [[0, -7, 22], [0, -6, 24]], 15, n))
 plano("04_torre", 12, 16, 6, EXT, "La torre de la base a la aguja: portada, roseton, campanario, relojes",
       hora="21:00", line=0.025,
-      camara=lambda n: cam([ojo(6, -42), ojo(5, -39)], [[0, -7, 6], TORRE], 18, n))
+      camara=lambda n: cam([ojo(6, -42), ojo(5, -39)], [[0, -7, 6], TORRE], 18, n, k=LENTE_ALTO))
 plano("05_cenital", 16, 20, 6, dict(EXT, catedral={"techo": False, "anexos": True, "suelo": 0}),
       "Cenital sin techo: la catedral llena de racks vista desde arriba, bajando", hora="21:30", line=0.05,
       camara=lambda n: cam([[-3.0, 20.0, 150.0], [3.0, 28.0, 95.0]], [[0, 24.6, 0], [0, 24.4, 0]], 30, n))
@@ -130,7 +136,7 @@ plano("08_barranca_rio", 31, 33, 6, EXT, "\"En la barranca, sobre el rio\": aere
       camara=lambda n: cam([[-330.0, -60.0, 25.0], [-300.0, 60.0, 28.0]], [[0, 10, 20], [0, 10, 20]], 35, n))
 plano("09_fachada", 33, 35, 6, EXT, "\"La catedral no duerme mas\": la fachada con los vitrales encendidos",
       hora="23:10", line=0.02,
-      camara=lambda n: cam([ojo(3, -34), ojo(2, -28)], [[0, -7, 16], [0, -6, 22]], 18, n))
+      camara=lambda n: cam([ojo(3, -34), ojo(2, -28)], [[0, -7, 16], [0, -6, 22]], 18, n, k=LENTE_ALTO))
 plano("10_tipas_niebla", 35, 37, 6, EXT, "\"Bajo las tipas, el frio\": Plaza Mitre con niebla",
       hora="23:20", clima="niebla", line=0.02,
       camara=lambda n: cam([ojo(-30, -62), ojo(-26, -58)], [[0, -7, 20], [0, -7, 22]], 15, n))
@@ -182,7 +188,7 @@ plano("18_cenital_baja", 69, 72, 12, dict(EXT, catedral={"techo": False, "anexos
 plano("19_tormenta", 72, 74, 12, EXT, "Tormenta sobre la torre; relampagos en los truenos; \"Una palabra\"",
       hora="00:30", clima="tormenta", line=0.02, relampagos_t=[144.35, 145.4, 146.5, 147.75],
       impacto_t=(146.5, 147.1), glitch_t=[(147.8, 148.2, 0.6)],
-      camara=lambda n: cam([ojo(8, -44), ojo(6, -40)], [[0, -3.6, 40], [0, -3.6, 44]], 16, n))
+      camara=lambda n: cam([ojo(8, -44), ojo(6, -40)], [[0, -3.6, 40], [0, -3.6, 44]], 16, n, k=LENTE_ALTO))
 plano("20_palabra", 74, 76, 12, dict(INT, drop=["entorno"]), "\"(Una palabra)\": el nucleo de frente, impacto y congelado",
       line=0.012, latido_cada=1, impacto_t=(150.5, 151.2), datamosh_t=(151.3, 152.1),
       camara=lambda n: cam([[0, 30.5, 2.4], [0, 32.5, 2.6]], [[0, 35.6, 3.2], [0, 35.6, 3.2]], 22, n))
@@ -193,7 +199,7 @@ FINAL = [
     ("21b_plaza", EXT, "Bajo las tipas de Plaza Mitre", dict(hora="00:40", line=0.02),
      lambda n: cam([ojo(-5, -46), ojo(-3, -40)], [[0, -7, 24], [0, -6, 26]], 15, n)),
     ("21c_fachada", EXT, "La fachada y la torre", dict(hora="00:40", line=0.02),
-     lambda n: cam([ojo(2, -30), ojo(1, -27)], [[0, -7, 14], [0, -4, 40]], 16, n)),
+     lambda n: cam([ojo(2, -30), ojo(1, -27)], [[0, -7, 14], [0, -4, 40]], 16, n, k=LENTE_ALTO)),
     ("21d_nave", dict(INT, drop=["entorno"]), "La nave con los racks", dict(line=0.012, latido_cada=1),
      lambda n: cam([[0, 8, 1.6], [0, 12, 1.6]], [[0, 46, 6], [0, 46, 6]], 15, n)),
     ("21e_nucleo", dict(INT, drop=["entorno"]), "El nucleo latiendo", dict(line=0.012, latido_cada=1),
@@ -202,7 +208,7 @@ FINAL = [
      dict(hora="00:40", line=0.05),
      lambda n: cam([[3.0, 26.0, 110.0], [-3.0, 22.0, 100.0]], [[0, 24.5, 0], [0, 24.5, 0]], 30, n)),
     ("21g_aguja", EXT, "La aguja de cerca, desde el aire", dict(hora="00:40", line=0.02),
-     lambda n: cam([[14.0, -20.0, 56.0], [10.0, -22.0, 60.0]], [TORRE, TORRE], 24, n)),
+     lambda n: cam([[14.0, -20.0, 56.0], [10.0, -22.0, 60.0]], [TORRE, TORRE], 24, n, k=LENTE_ALTO)),
     ("21h_libertador", EXT, "Desde Libertador", dict(hora="00:40", line=0.02),
      lambda n: cam([ojo(31, 22), ojo(30, 18)], [[8, 6, 18], [8, 6, 18]], 15, n)),
     ("21i_boveda", dict(INT, drop=["entorno"]), "Las bovedas y los vitrales", dict(line=0.012, latido_cada=1),
@@ -248,7 +254,7 @@ def subs():
         clave = "palabra" in txt
         out.append({"t0": round(t0, 3), "t1": round(t1 + 0.25, 3), "fade_s": 0.18, "items": [{
             "font": "texto", "size": 60 if clave else 54, "outline": 8, "glow": 0.55 if clave else 0.4,
-            "max_w": 0.86, "color": "#ff7ad9" if clave else "#e9fbff", "pos": [0.5, 0.80], "reveal": reveal}]})
+            "max_w": 0.86, "color": "#ff7ad9" if clave else "#e9fbff", "pos": [0.5, 0.87], "reveal": reveal}]})
     return out
 
 
@@ -260,7 +266,7 @@ def armar(p):
     assert (f1 - f0) % paso == 0, (p["nombre"], f1 - f0, paso)
     n = (f1 - f0) // paso
     j = json.loads(json.dumps(p["base"]))
-    j.update({"_desc": p["desc"], "width": 1080, "height": 1920, "fps": p["fps"], "frames": n, "samples": 8,
+    j.update({"_desc": p["desc"], "width": ANCHO, "height": ALTO, "fps": p["fps"], "frames": n, "samples": 8,
               "storyboard": [max(1, n // 2)], "_t": [round(t0, 3), round(f1 / 24, 3)]})
     if "hora" in p:
         j["hora"] = p["hora"]
@@ -276,7 +282,7 @@ def armar(p):
             keys.append({"frame": 1 + round((n - 1) * k / 8),
                          "pos": [round(4.6 * math.cos(a), 3), round(35.6 + 4.6 * math.sin(a), 3), 2.2 + 0.6 * math.sin(2 * a)],
                          "aim": NUCLEO})
-        j["camera"] = {"keys": keys, "lens": 18, "lens_keys": [[1, 18], [n, 18]], "ease": False, "clip_start": 0.05,
+        j["camera"] = {"keys": keys, "lens": 14, "lens_keys": [[1, 14], [n, 14]], "ease": False, "clip_start": 0.05,
                        "clip_end": 3200}
     else:
         j["camera"] = p["camara"](n)

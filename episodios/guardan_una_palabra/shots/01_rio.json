@@ -14,8 +14,8 @@
   "radio": 450
  },
  "_desc": "Desde el Rio de la Plata al atardecer: la barranca, la arboleda y la torre",
- "width": 1080,
- "height": 1920,
+ "width": 1920,
+ "height": 1080,
  "fps": 6,
  "frames": 49,
  "samples": 8,
@@ -59,15 +59,15 @@
     ]
    }
   ],
-  "lens": 140,
+  "lens": 105.0,
   "lens_keys": [
    [
     1,
-    140
+    105.0
    ],
    [
     49,
-    150
+    112.5
    ]
   ],
   "ease": true,

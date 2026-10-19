@@ -65,8 +65,8 @@
   "entorno"
  ],
  "_desc": "Desde el crucero hacia la boveda",
- "width": 1080,
- "height": 1920,
+ "width": 1920,
+ "height": 1080,
  "fps": 12,
  "frames": 24,
  "samples": 8,
@@ -109,15 +109,15 @@
     ]
    }
   ],
-  "lens": 14,
+  "lens": 10.5,
   "lens_keys": [
    [
     1,
-    14
+    10.5
    ],
    [
     24,
-    14
+    10.5
    ]
   ],
   "ease": true,

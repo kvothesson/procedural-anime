@@ -14,8 +14,8 @@
   "radio": 450
  },
  "_desc": "La fachada y la torre",
- "width": 1080,
- "height": 1920,
+ "width": 1920,
+ "height": 1080,
  "fps": 12,
  "frames": 24,
  "samples": 8,
@@ -59,15 +59,15 @@
     ]
    }
   ],
-  "lens": 16,
+  "lens": 9.9,
   "lens_keys": [
    [
     1,
-    16
+    9.9
    ],
    [
     24,
-    16
+    9.9
    ]
   ],
   "ease": true,

@@ -14,8 +14,8 @@
   "radio": 450
  },
  "_desc": "\"En la barranca, sobre el rio\": aereo sobre el bajo, la barranca y la catedral",
- "width": 1080,
- "height": 1920,
+ "width": 1920,
+ "height": 1080,
  "fps": 6,
  "frames": 24,
  "samples": 8,
@@ -59,15 +59,15 @@
     ]
    }
   ],
-  "lens": 35,
+  "lens": 26.2,
   "lens_keys": [
    [
     1,
-    35
+    26.2
    ],
    [
     24,
-    35
+    26.2
    ]
   ],
   "ease": true,

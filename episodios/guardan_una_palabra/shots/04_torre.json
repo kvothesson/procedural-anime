@@ -14,8 +14,8 @@
   "radio": 450
  },
  "_desc": "La torre de la base a la aguja: portada, roseton, campanario, relojes",
- "width": 1080,
- "height": 1920,
+ "width": 1920,
+ "height": 1080,
  "fps": 6,
  "frames": 48,
  "samples": 8,
@@ -59,15 +59,15 @@
     ]
    }
   ],
-  "lens": 18,
+  "lens": 11.2,
   "lens_keys": [
    [
     1,
-    18
+    11.2
    ],
    [
     48,
-    18
+    11.2
    ]
   ],
   "ease": true,

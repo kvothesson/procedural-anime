@@ -65,8 +65,8 @@
   "entorno"
  ],
  "_desc": "La nave lateral, lento, hacia una columna con su lampara",
- "width": 1080,
- "height": 1920,
+ "width": 1920,
+ "height": 1080,
  "fps": 6,
  "frames": 48,
  "samples": 8,
@@ -109,15 +109,15 @@
     ]
    }
   ],
-  "lens": 16,
+  "lens": 12.0,
   "lens_keys": [
    [
     1,
-    16
+    12.0
    ],
    [
     48,
-    16
+    12.0
    ]
   ],
   "ease": true,

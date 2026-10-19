@@ -65,8 +65,8 @@
   "entorno"
  ],
  "_desc": "Los cables suben a los capiteles",
- "width": 1080,
- "height": 1920,
+ "width": 1920,
+ "height": 1080,
  "fps": 12,
  "frames": 24,
  "samples": 8,
@@ -109,15 +109,15 @@
     ]
    }
   ],
-  "lens": 18,
+  "lens": 13.5,
   "lens_keys": [
    [
     1,
-    18
+    13.5
    ],
    [
     24,
-    18
+    13.5
    ]
   ],
   "ease": true,
