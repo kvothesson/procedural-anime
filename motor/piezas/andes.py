@@ -482,7 +482,6 @@ def build_tambos(e, colls):
     trapezoidal mirando al camino y, al lado, un poste de piedra con la baliza
     hexagonal que el mensaje enciende al pasar (propiedad relevo_s)."""
     R = ruta()
-    rnd = random.Random(e.get("seed", 12))
     wall_m = mat_toon("tambo_pirca", e["wall"])
     roof_m = mat_toon("tambo_paja", e["roof"])
     # el vano deja ver un fuego adentro: lo unico calido de la noche

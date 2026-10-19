@@ -2,7 +2,7 @@
 referencia, render neutro de dia (maqueta, 15:30, despejado) y una hoja con
 la foto arriba y el render abajo.
 
-    python progreso.py <iteracion>   # -> episodios/catedral/out/_progreso_<it>.png
+    python episodios/catedral/progreso.py <iteracion>   # -> episodios/catedral/out/_progreso_<it>.png
 """
 import json
 import subprocess
@@ -11,7 +11,7 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw
 
-ROOT = Path(r"D:\repos\procedural-anime")
+ROOT = Path(__file__).resolve().parents[2]
 EP = ROOT / "episodios" / "catedral"
 # fotos de referencia (Wikimedia Commons, CC): se bajan aparte, no van al repo
 REF = Path(__file__).resolve().parent / "ref"

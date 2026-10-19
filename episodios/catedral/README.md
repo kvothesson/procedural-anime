@@ -7,6 +7,9 @@ usar de escenario en los shorts. En el futuro se llenó de servidores; por qué,
 Por qué una pieza nueva: el motor no tenía interiores; las piezas existentes son calles,
 plazas y paisajes abiertos.
 
+Para usarlo en un short sin tocar esta carpeta: receta "Nuevo episodio que reusa un escenario"
+en [docs/CAPAS.md](../../docs/CAPAS.md) (así lo hace `nunca_se_apagan`).
+
 ## Fuentes
 
 - Planta: OpenStreetMap, way 129970084 (nave), 434818620/621 (naves laterales), 434818618

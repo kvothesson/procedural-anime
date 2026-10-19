@@ -18,7 +18,6 @@ import textwrap
 from pathlib import Path
 
 import cv2
-import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 MOTOR = Path(__file__).resolve().parent

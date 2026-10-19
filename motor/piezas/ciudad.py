@@ -41,10 +41,10 @@ def build_street(e, colls):
     link(veil, colls["veil"])
 
 
-def _bandera(name, text, color, size, at, facing, colls, rnd, frame_color):
+def _bandera(name, label, color, size, at, facing, colls, rnd, frame_color):
     """Cartel horizontal que sale perpendicular de la fachada (tipo Corrientes):
     el que se lee de frente desde la calle. facing: +1 si sale hacia +x."""
-    wdt = size * CHAR_W * len(text) + size * 0.9
+    wdt = size * CHAR_W * len(label) + size * 0.9
     h = size * 1.7
     depth = 0.25
     x, y, z = at
@@ -65,18 +65,18 @@ def _bandera(name, text, color, size, at, facing, colls, rnd, frame_color):
             bar.location = (cx, y + dy * (depth / 2 + 0.02), z + zz)
             bar.data.materials.append(neon)
             link(bar, colls["neon"])
-        text(name + "_txt", text, size, neon,
+        text(name + "_txt", label, size, neon,
               (cx, y + dy * (depth / 2 + 0.03), z + h / 2),
               (math.pi / 2, 0, 0 if dy < 0 else math.pi), colls["neon"])
     tint_light(name + "_luz", color, rnd.uniform(0.8, 1.2) * size * 700,
                 (x + facing * (wdt + 1.2), y, z + h / 2), colls)
 
 
-def _frente(name, text, color, size, at, facing, length, colls, rnd, frame_color):
+def _frente(name, label, color, size, at, facing, length, colls, rnd, frame_color):
     """Marquesina pegada a la fachada, sobre la vidriera. Se ve en escorzo:
     da textura de calle comercial mas que lectura."""
     x, y, z = at
-    size = min(size, length * 0.9 / (CHAR_W * len(text) + 0.6))
+    size = min(size, length * 0.9 / (CHAR_W * len(label) + 0.6))
     h = size * 1.6
     body = bpy.data.objects.new(name + "_caja", box_mesh(name, 0.2, length, h))
     body.location = (x + facing * 0.1, y, z)
@@ -84,7 +84,7 @@ def _frente(name, text, color, size, at, facing, length, colls, rnd, frame_color
     link(body, colls["main"])
     neon = mat_neon(name + "_n", color, 1.0)
     # el texto mira a la calle: (90, 0, +-90) lo gira de -y a +-x
-    text(name + "_txt", text, size, neon,
+    text(name + "_txt", label, size, neon,
           (x + facing * 0.23, y, z + h / 2),
           (math.pi / 2, 0, math.pi / 2 * facing), colls["neon"])
     tint_light(name + "_luz", color, size * 500,
