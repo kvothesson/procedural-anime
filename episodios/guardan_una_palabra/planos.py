@@ -22,10 +22,13 @@ TORRE = [0.0, -3.6, 62.0]
 NUCLEO = [0.0, 35.6, 3.0]
 FECHA = "2026-10-17"
 ANCHO, ALTO = 1920, 1080        # horizontal: videoclip para YouTube
-# El sensor de 36 mm cubre el lado largo: en horizontal, el mismo lente que en
-# vertical ve el mismo ancho pero mucho menos alto. Las lentes de abajo estan
-# pensadas como en vertical y se abren con este factor (mas, en lo alto: torre)
-LENTE_K, LENTE_ALTO = 0.75, 0.62
+# El motor fija el sensor de 36 mm al ALTO de la imagen (sensor_fit VERTICAL):
+# en horizontal, el mismo lente ve el mismo alto y 1,78 veces mas ancho. Las
+# lentes de abajo estan pensadas como en vertical; se cierran con este factor
+# para no caer en gran angulares de 120 grados que tuercen los bordes
+# (menos en lo alto: torre, fachada). Las camaras van con "verticales":
+# niveladas y con descentramiento, como un fotografo de arquitectura.
+LENTE_K, LENTE_ALTO, LENTE_RIO = 1.4, 1.1, 1.6
 
 
 def H(x, y):
@@ -58,7 +61,7 @@ def cam(pos, aim, lens, n, ease=True, mid=None, k=LENTE_K):
     l0, l1 = (lens, lens) if not isinstance(lens, list) else lens
     l0, l1 = round(l0 * k, 1), round(l1 * k, 1)
     return {"keys": keys, "lens": l0, "lens_keys": [[1, l0], [n, l1]], "ease": ease, "clip_start": 0.05,
-            "clip_end": 3200}
+            "clip_end": 3200, "verticales": True}
 
 
 def latido(t0, n, fps, cada=1, fuerza=1.0, base=0.12):
@@ -98,7 +101,7 @@ def plano(nombre, c0, c1, fps, base, desc, **kw):
 # INTRO: campanas y organo
 plano("01_rio", 0, 4, 6, EXT, "Desde el Rio de la Plata al atardecer: la barranca, la arboleda y la torre",
       hora="19:40", line=0.2,
-      camara=lambda n: cam([[-2300.0, 480.0, -24.0], [-2050.0, 445.0, -23.6]], [[0, 20, 30], [0, 20, 30]], [140, 150], n, k=1.2))
+      camara=lambda n: cam([[-2300.0, 480.0, -24.0], [-2050.0, 445.0, -23.6]], [[0, 20, 30], [0, 20, 30]], [140, 150], n, k=LENTE_RIO))
 plano("02_barranca", 4, 8, 6, EXT, "Dron que sube la barranca boscosa y revela la catedral; anochece",
       hora="20:05", line=0.04,
       camara=lambda n: cam([[-260.0, 40.0, -15.0], [-140.0, 22.0, 26.0]], [[0, -3.6, 40], [0, 2, 26]], 24, n))
@@ -108,7 +111,7 @@ plano("03_plaza", 8, 12, 6, EXT, "Plaza Mitre bajo las tipas, avanzando hacia la
       camara=lambda n: cam([ojo(-14, -80), ojo(-9, -63)], [[0, -7, 22], [0, -6, 24]], 15, n))
 plano("04_torre", 12, 16, 6, EXT, "La torre de la base a la aguja: portada, roseton, campanario, relojes",
       hora="21:00", line=0.025,
-      camara=lambda n: cam([ojo(6, -42), ojo(5, -39)], [[0, -7, 6], TORRE], 18, n, k=0.85))
+      camara=lambda n: cam([ojo(6, -42), ojo(5, -39)], [[0, -7, 6], TORRE], 18, n, k=LENTE_ALTO))
 plano("05_cenital", 16, 20, 6, dict(EXT, catedral={"techo": False, "anexos": True, "suelo": 0}),
       "Cenital sin techo: la catedral llena de racks vista desde arriba, bajando", hora="21:30", line=0.05,
       camara=lambda n: cam([[-3.0, 20.0, 150.0], [3.0, 28.0, 95.0]], [[0, 24.6, 0], [0, 24.4, 0]], 30, n))
@@ -136,7 +139,7 @@ plano("08_barranca_rio", 31, 33, 6, EXT, "\"En la barranca, sobre el rio\": aere
       camara=lambda n: cam([[-330.0, -60.0, 25.0], [-300.0, 60.0, 28.0]], [[0, 10, 20], [0, 10, 20]], 35, n))
 plano("09_fachada", 33, 35, 6, EXT, "\"La catedral no duerme mas\": la fachada con los vitrales encendidos",
       hora="23:10", line=0.02,
-      camara=lambda n: cam([ojo(3, -34), ojo(2, -28)], [[0, -7, 13], [0, -6, 18]], 18, n, k=0.9))
+      camara=lambda n: cam([ojo(3, -34), ojo(2, -28)], [[0, -7, 13], [0, -6, 18]], 18, n, k=LENTE_ALTO))
 plano("10_tipas_niebla", 35, 37, 6, EXT, "\"Bajo las tipas, el frio\": Plaza Mitre con niebla",
       hora="23:20", clima="niebla", line=0.02,
       camara=lambda n: cam([ojo(-30, -62), ojo(-26, -58)], [[0, -7, 20], [0, -7, 22]], 15, n))
@@ -221,7 +224,7 @@ for i, (nom, base, desc, kw, camf) in enumerate(FINAL):
 # SALIDA: vuelve al primer cuadro (loop)
 plano("22_salida", 86, 90, 12, EXT, "Campanas: el dron se aleja hasta el rio; termina en el primer cuadro",
       hora="19:40", line=0.2,
-      camara=lambda n: cam([[-650.0, 190.0, 30.0], [-2300.0, 480.0, -24.0]], [[0, 20, 30], [0, 20, 30]], [40, 140], n, k=1.2))
+      camara=lambda n: cam([[-650.0, 190.0, 30.0], [-2300.0, 480.0, -24.0]], [[0, 20, 30], [0, 20, 30]], [40, 140], n, k=LENTE_RIO))
 
 
 # ------------------------------------------------------------------ letra
@@ -282,7 +285,7 @@ def armar(p):
             keys.append({"frame": 1 + round((n - 1) * k / 8),
                          "pos": [round(4.6 * math.cos(a), 3), round(35.6 + 4.6 * math.sin(a), 3), 2.2 + 0.6 * math.sin(2 * a)],
                          "aim": NUCLEO})
-        j["camera"] = {"keys": keys, "lens": 14, "lens_keys": [[1, 14], [n, 14]], "ease": False, "clip_start": 0.05,
+        j["camera"] = {"keys": keys, "lens": 22, "lens_keys": [[1, 22], [n, 22]], "ease": False, "clip_start": 0.05,
                        "clip_end": 3200}
     else:
         j["camera"] = p["camara"](n)

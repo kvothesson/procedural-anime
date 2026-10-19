@@ -170,6 +170,13 @@ raytracing, `light_threshold` en 0.05. Diferencia visual media: 1,9/255.
   malla entera, así que agregar árbol por árbol a una malla que crece es cuadrático: 2.400
   árboles de varias ramas tardaban 677 s en armarse. Unas pocas variantes por especie, armadas
   una vez y copiadas con numpy (`_Lote` en `piezas/entorno.py`): 0,8 s.
+- **El sensor de 36 mm va al ALTO de la imagen** (`sensor_fit` VERTICAL en `mundo.build_camera`):
+  en horizontal, el mismo lente ve el mismo alto y 1,78 veces más ancho. Pasar un plano de
+  vertical a horizontal pide cerrar la lente (×1,4), no abrirla: con 11 mm el cuadro mide 120° y
+  tuerce todo lo que está cerca de los bordes.
+- **Edificios derechos: `camera.verticales`.** Con la mira hacia arriba, las verticales
+  convergen y los edificios se ven chuecos. La cámara de arquitecto queda nivelada y corre el
+  encuadre con `shift_y` (hasta 35° de inclinación; más que eso, inclina como siempre).
 - **Line Art cobra por cara visible**: 7 mil árboles más (dos esferas y tronco cada uno) llevaron
   un cuadro de 3 a 14 min. De lejos, una copa sola de pocas caras y sin tronco: vuelve a ~3 min.
 - El primer frame tras cambiar un ajuste de render tarda ~35 s (EEVEE recompila shaders).

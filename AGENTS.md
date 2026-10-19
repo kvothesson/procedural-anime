@@ -122,7 +122,7 @@ la vez se cuelgan).
 | `engranajes` | Engranajes de relojería (`list` con `r`, `teeth`, `step`/`spin`, `stop`, `strain`, `free`, `salta`, `axle`, `ghost`) |
 | `luz_mala` | Destello verde en frames dados |
 | `blackout` | Apagón en cascada o reencendido (`mode: "on"`), latido del cristal |
-| `camera` | `from`/`to` lineal o `keys` con `ease`; `lens_keys` [[frame, mm]] cambia la lente |
+| `camera` | `from`/`to` lineal o `keys` con `ease`; `lens_keys` [[frame, mm]] cambia la lente; `verticales`: nivelada con descentramiento (edificios derechos). El sensor de 36 mm va al alto de la imagen |
 | `catedral` | Catedral de San Isidro (`techo`, `anexos`, `suelo`, `colores`, `vidrios` con `luz`, `traceria`, `reflectores` puntuales o en cono, `brillos`, `puertas`, `rayos`, `niebla_piso`) |
 | `servidores` | Racks, cables y núcleo dentro de la catedral (`colores`, `leds`, `nucleo`, `luces`, `filas`) |
 | `entorno` | Alrededores de OSM sobre el relieve (`datos`, `terreno`, `piso`, `radio`, `relleno`, `arboles`, `escala_arboles`, `arboles_finos`, `quitar_arboles`, `lejos`, `agua`, `colores` (con `copa_<especie>`: tipa, fresno, liquidambar, jacaranda, platano, paraiso, tilo, monte, lejos), `ventanas`, `faroles` con cables) |

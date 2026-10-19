@@ -165,13 +165,40 @@ def build_camera(c):
         {"frame": 1, "pos": c["from"], "aim": c.get("from_aim")},
         {"frame": frames, "pos": c["to"], "aim": c.get("to_aim")},
     ]
+    # "verticales": true = camara de arquitecto: si la mira sube o baja menos de
+    # 35 grados, la camara queda nivelada y el encuadre se corre con shift_y
+    # (descentramiento): las verticales salen derechas en vez de converger
+    vert = c.get("verticales", False)
+    lk = sorted(c.get("lens_keys", [])) or [[1, c["lens"]]]
+
+    def lente(f):
+        if f <= lk[0][0]:
+            return lk[0][1]
+        for (f0, l0), (f1, l1) in zip(lk, lk[1:]):
+            if f0 <= f <= f1:
+                return l0 + (l1 - l0) * (f - f0) / max(1, f1 - f0)
+        return lk[-1][1]
+    w, h = ctx.CFG["width"], ctx.CFG["height"]
     for k in keys:
         p = Vector(k["pos"])
         cam.location = p
         cam.keyframe_insert("location", frame=k["frame"])
         aim = Vector(k.get("aim") or (p.x, p.y + 20, p.z + c.get("rise", 4.0)))
+        shift = 0.0
+        if vert:
+            d = aim - p
+            horiz = (d.x ** 2 + d.y ** 2) ** 0.5
+            pitch = math.atan2(d.z, horiz) if horiz > 1e-6 else math.pi / 2
+            if abs(pitch) < math.radians(35):
+                # el sensor de 36 mm es el alto; shift va en unidades del lado
+                # mas largo de la imagen
+                shift = lente(k["frame"]) * math.tan(pitch) / (36.0 * max(w, h) / h)
+                aim = Vector((aim.x, aim.y, p.z))
         target.location = aim
         target.keyframe_insert("location", frame=k["frame"])
+        if vert:
+            cam_data.shift_y = shift
+            cam_data.keyframe_insert("shift_y", frame=k["frame"])
     if c.get("ease"):
         # sin grilla de pixeles que proteger: el easing le da peso a la camara
         for ob in (cam, target):

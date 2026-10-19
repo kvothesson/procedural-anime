@@ -157,20 +157,21 @@
     ]
    }
   ],
-  "lens": 16.5,
+  "lens": 30.8,
   "lens_keys": [
    [
     1,
-    16.5
+    30.8
    ],
    [
     48,
-    16.5
+    30.8
    ]
   ],
   "ease": true,
   "clip_start": 0.05,
-  "clip_end": 3200
+  "clip_end": 3200,
+  "verticales": true
  },
  "post": {
   "impacto": {

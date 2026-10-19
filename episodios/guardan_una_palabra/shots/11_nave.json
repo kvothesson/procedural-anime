@@ -109,19 +109,20 @@
     ]
    }
   ],
-  "lens": 11.2,
+  "lens": 21.0,
   "lens_keys": [
    [
     1,
-    11.2
+    21.0
    ],
    [
     48,
-    11.2
+    21.0
    ]
   ],
   "ease": true,
   "clip_start": 0.05,
-  "clip_end": 3200
+  "clip_end": 3200,
+  "verticales": true
  }
 }
