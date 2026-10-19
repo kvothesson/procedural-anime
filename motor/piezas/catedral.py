@@ -818,8 +818,11 @@ def _roofs(pc):
              (0, 0, 1), (0, 1, 0), Y_AB + 0.6)
     yc = (Y_CR0 + Y_CR1) / 2
     hy = (Y_CR1 - Y_CR0) / 2 + 0.5
+    # la punta del techo termina dentro del hastial (a mitad de su espesor):
+    # en el mismo plano que la cara de afuera del hastial titilaba entre techo
+    # y piedra (z-fighting)
     pc.prism([(yc - hy, Z_WALL), (yc + hy, Z_WALL), (yc, Z_RIDGE)], (0, 0, 0), (0, 1, 0),
-             (0, 0, 1), (1, 0, 0), 2 * (XT + TW))
+             (0, 0, 1), (1, 0, 0), 2 * XT + TW)
     # abside
     Vo = apse_pts(hw)
     apex = pc.bm.verts.new((0, Y_AB, Z_RIDGE))
