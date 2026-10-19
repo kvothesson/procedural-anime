@@ -470,6 +470,42 @@ def _dibujo(nt, color, D):
     return out
 
 
+def _mancha_charco(nt, C):
+    """1 dentro de un charco, 0 afuera (ruido en x, y del piso)."""
+    n = nt.nodes
+    L = nt.links
+    geo = n.new("ShaderNodeNewGeometry")
+    sp = n.new("ShaderNodeSeparateXYZ")
+    L.new(geo.outputs["Position"], sp.inputs[0])
+    xy = n.new("ShaderNodeCombineXYZ")
+    L.new(sp.outputs[0], xy.inputs[0])
+    L.new(sp.outputs[1], xy.inputs[1])
+    no = n.new("ShaderNodeTexNoise")
+    no.inputs["Scale"].default_value = 1.0 / C.get("escala", 6.0)
+    no.inputs["Detail"].default_value = 3.0
+    L.new(xy.outputs[0], no.inputs["Vector"])
+    gt = n.new("ShaderNodeMath")
+    gt.operation = "GREATER_THAN"
+    L.new(no.outputs["Fac"], gt.inputs[0])
+    gt.inputs[1].default_value = C.get("umbral", 0.6)
+    return gt.outputs[0]
+
+
+def mat_mascara_charcos(name, C):
+    """Para la pasada de mascara de charcos (escena.render_charcos): blanco
+    en el charco, negro en el resto del piso. El post pinta ahi el reflejo de
+    lo que brilla arriba (post.reflejos)."""
+    mat = bpy.data.materials.new(name)
+    mat.use_nodes = True
+    nt = mat.node_tree
+    nt.nodes.clear()
+    em = nt.nodes.new("ShaderNodeEmission")
+    nt.links.new(_mancha_charco(nt, C), em.inputs["Color"])
+    out = nt.nodes.new("ShaderNodeOutputMaterial")
+    nt.links.new(em.outputs[0], out.inputs["Surface"])
+    return mat
+
+
 def _charcos(nt, col, C):
     """Piso mojado pintado: manchas (ruido en x, y) que no reciben luz sino
     que muestran el reflejo, del color del cielo o del neon.

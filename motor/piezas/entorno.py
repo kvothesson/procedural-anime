@@ -36,7 +36,12 @@ _SUELO = None
 def _suelo_coll():
     global _SUELO
     if _SUELO is None:
-        _SUELO = collection("entorno_suelo", "EXCLUDE")
+        # el piso no lleva tinta pero si la tapa: sin esto, la parte enterrada
+        # de troncos y cimientos se dibujaba encima del pasto
+        _SUELO = collection("entorno_suelo", "OCCLUSION_ONLY")
+        if "main" in bpy.data.collections:
+            # la tinta solo mira "main" y sus hijas
+            bpy.data.collections["main"].children.link(_SUELO)
     return _SUELO
 
 
@@ -232,7 +237,8 @@ def _rama(tronco, a, b, r0, r1):
     a, b = Vector(a), Vector(b)
     d = b - a
     rot = d.to_track_quat("Z", "Y").to_matrix().to_4x4()
-    bmesh.ops.create_cone(tronco, cap_ends=False, segments=6, radius1=r0, radius2=r1, depth=d.length,
+    # con tapa: el borde de un tubo abierto se dibujaba como un trazo en cada junta
+    bmesh.ops.create_cone(tronco, cap_ends=True, segments=6, radius1=r0, radius2=r1, depth=d.length,
                           matrix=Matrix.Translation((a + b) / 2) @ rot)
 
 
@@ -732,8 +738,14 @@ def build_entorno(e, colls):
             M = _ubicar(x, y, H(x, y) - 0.2, alto, rnd.uniform(0, 6.28))
             tr.poner(t_tr, M)
             copa_de(esp).poner(t_cp, M)
-        tr.objeto("entorno_troncos", mat_toon("entorno_tronco_m", col["tronco"]), main)
+        obs = [tr.objeto("entorno_troncos", mat_toon("entorno_tronco_m", col["tronco"]), main)]
         for i, (c, lote) in enumerate(copas.items()):
-            lote.objeto(f"entorno_arboles{i}", mat_toon(f"entorno_copa{i}_m", c, matas=e.get("follaje")),
-                        main, smooth=True)
+            obs.append(lote.objeto(f"entorno_arboles{i}", mat_toon(f"entorno_copa{i}_m", c, matas=e.get("follaje")),
+                                   main, smooth=True))
+        # tramos de tronco y bolas de la copa son mallas que se cruzan: sin
+        # esto la tinta dibuja una linea en cada junta. Pliegue solo si es agudo.
+        for ob in obs:
+            ob.lineart.usage = "NO_INTERSECTION"
+            ob.lineart.use_crease_override = True
+            ob.lineart.crease_threshold = math.radians(70)
         print(f"entorno: arboles en {time.time() - t0:.1f} s", flush=True)

@@ -493,6 +493,14 @@ Salieron de cada vez que quien dirigía miró un frame y dijo "esto no". Pesan t
 - **Borde de neón en el follaje:** `Layer Weight > Facing` en escalón; fino (0,1). Grueso, cada bola
   de la copa queda contorneada como un tubo y los árboles lejanos se vuelven una alfombra de color.
 
+- **Reflejos alineados sin raytracing:** una pasada de máscara barata (todo en negro plano, el piso
+  con la mancha de charco en blanco, mitad de resolución, una muestra) y en el post lo que brilla se
+  estira hacia abajo solo dentro de la máscara: cada reflejo cae debajo de su luz.
+- **Lo que no está en la tinta no tapa líneas:** con el piso fuera de la colección de Line Art, el
+  contorno de la parte enterrada de un tronco se dibujaba sobre el pasto. El piso va dentro de
+  `main` con `OCCLUSION_ONLY` (y no costó tiempo). Mallas que se cruzan a propósito (bolas de una
+  copa, tramos de rama) van con `lineart.usage = "NO_INTERSECTION"`; los tubos, con tapa.
+
 ## 9. Publicar
 
 El motor no sube nada: `montaje.py` deja `episodios/<ep>/out/<ep>.mp4` (H.264 + AAC a 48 kHz,

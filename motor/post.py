@@ -115,6 +115,38 @@ def estelas(img, E):
     return 1 - (1 - img) * (1 - acc)
 
 
+def reflejos(img, mask, E):
+    """Piso mojado: en los charcos (mask, de la pasada c_####.png de
+    escena.py) se pinta lo que brilla justo arriba, estirado hacia abajo y
+    ondulado en el ancho, como el reflejo de una luz en el agua de un fondo de
+    anime. Cae debajo de cada luz real. E: {"umbral": 0.5, "largo": 0.4,
+    "fuerza": 0.9, "onda": 3}"""
+    h, w = img.shape[:2]
+    lum = img.max(axis=2)
+    th = E.get("umbral", 0.5)
+    src = img * np.clip((lum - th) / (1 - th), 0, 1)[..., None]
+    q = 4
+    small = cv2.resize(src, (w // q, h // q), interpolation=cv2.INTER_AREA)
+    L = max(2, int(E.get("largo", 0.4) * h / q))
+    wts = np.exp(-np.arange(L + 1) / (L / 2.5)).astype(np.float32)
+    k = wts[::-1].reshape(-1, 1) / wts.max()
+    acc = cv2.filter2D(small, -1, k, anchor=(0, L), borderType=cv2.BORDER_CONSTANT)
+    acc = cv2.GaussianBlur(acc, (0, 0), sigmaX=E.get("onda", 3) / q * 2, sigmaY=0.1)
+    acc = cv2.resize(acc, (w, h), interpolation=cv2.INTER_LINEAR)
+    acc = np.clip(acc * E.get("fuerza", 0.9), 0, 1) * mask
+    return 1 - (1 - img) * (1 - acc)
+
+
+def mascara_charcos(raw_dir, i, w, h):
+    """Mascara de charcos del frame i (c_####.png de escena.py), o None."""
+    p = raw_dir / f"c_{i:04d}.png"
+    if not p.exists():
+        return None
+    m = cv2.imread(str(p), cv2.IMREAD_GRAYSCALE)
+    m = cv2.resize(m, (w, h), interpolation=cv2.INTER_LINEAR).astype(np.float32) / 255.0
+    return cv2.GaussianBlur(m, (0, 0), 1.0)[..., None]
+
+
 class Rain:
     """Gotas con posicion y velocidad fijas: el frame t es una funcion pura
     de t. Repetir un frame da exactamente la misma lluvia."""
@@ -482,6 +514,10 @@ def _frame(f):
     img = glow(img, P["glow"])
     if P.get("resplandor"):
         img = resplandor(img, P["resplandor"])
+    if P.get("reflejos"):
+        mc = mascara_charcos(f.parent, i, w, h)
+        if mc is not None:
+            img = reflejos(img, mc, P["reflejos"])
     if P.get("estelas"):
         img = estelas(img, P["estelas"])
     C = P.get("congelar")

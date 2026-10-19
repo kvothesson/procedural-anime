@@ -202,6 +202,51 @@ def render_mascaras(cfg, scene, out):
         bpy.ops.render.render(animation=True)
 
 
+def render_charcos(cfg, scene, out):
+    """Pasada barata de la mascara de charcos (<salida>/c_####.png): todo en
+    negro plano, las calzadas con la mancha de charco en blanco, sin tinta,
+    a mitad de resolucion y una muestra. Con eso el post pinta en el charco
+    el reflejo de lo que brilla justo arriba (post.reflejos): alineado con las
+    luces reales, sin raytracing."""
+    from piezas.materiales import mat_mascara_charcos
+    dib = cfg.get("entorno", {}).get("dibujo", {})
+    # negro sin niebla (mat_flat la lleva y el negro saldria del color de la niebla)
+    negro = bpy.data.materials.new("_mascara_negro")
+    negro.use_nodes = True
+    negro.node_tree.nodes.clear()
+    em = negro.node_tree.nodes.new("ShaderNodeEmission")
+    em.inputs["Color"].default_value = (0, 0, 0, 1)
+    mo = negro.node_tree.nodes.new("ShaderNodeOutputMaterial")
+    negro.node_tree.links.new(em.outputs[0], mo.inputs["Surface"])
+    calles = {"entorno_calzadas": dib.get("asfalto", {}).get("charcos"),
+              "entorno_adoquines": dib.get("adoquin", {}).get("charcos")}
+    fuera = set()
+    for c in ("neon", "velo", "luces", "reflejo"):
+        if c in bpy.data.collections:
+            fuera.update(bpy.data.collections[c].all_objects)
+    for ob in bpy.data.objects:
+        if ob.type in ("GREASEPENCIL", "GPENCIL") or ob in fuera:
+            ob.hide_render = True
+            continue
+        if ob.type not in ("MESH", "CURVE", "FONT"):
+            continue
+        C = calles.get(ob.name)
+        m = mat_mascara_charcos("_mascara_charcos", C) if C else negro
+        ob.data.materials.clear()
+        ob.data.materials.append(m)
+    world = scene.world
+    if world and world.use_nodes:
+        for nd in world.node_tree.nodes:
+            if nd.type == "BACKGROUND":
+                nd.inputs["Strength"].default_value = 0.0
+    scene.render.resolution_percentage = 50
+    scene.eevee.taa_render_samples = 1
+    for f in cfg.get("render_list") or range(1, cfg["frames"] + 1):
+        scene.frame_set(f)
+        scene.render.filepath = str(out) + f"/c_{f:04d}.png"
+        bpy.ops.render.render(write_still=True)
+
+
 def main():
     argv = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
     cfg = load_shot(argv[0])
@@ -277,6 +322,8 @@ def main():
         bpy.ops.render.render(animation=True)
     if cfg.get("mascara_anclas") and not cfg.get("still"):
         render_mascaras(cfg, scene, out.resolve())
+    if cfg.get("post", {}).get("reflejos") and not cfg.get("still"):
+        render_charcos(cfg, scene, out.resolve())
     print("render terminado", flush=True)
 
 
