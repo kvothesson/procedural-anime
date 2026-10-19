@@ -1,0 +1,33 @@
+{
+  "titulo_youtube": "GUARDAN UNA PALABRA: la Catedral de San Isidro hecha 100% con código (videoclip anime cyberpunk)",
+  "descripcion_youtube": "San Isidro, en el futuro. La catedral se llenó de servidores y nunca se apagan. Nadie sabe por qué. Dicen que guardan una palabra.\n\nUn videoclip para mostrar el motor de PROCEDURAL ANIME: nada de lo que ves está dibujado ni generado con IA de imagen. Cada cuadro sale de código: Blender + Python.\n\n00:00 Desde el río\n00:16 Plaza Mitre, la torre y la catedral sin techo\n00:48 Adentro: los servidores\n01:02 En la barranca, sobre el río\n01:18 Nadie sabe por qué\n01:34 Nunca se apagan: la misma toma a ocho horas del día\n01:50 La misma toma: maqueta, día, noche, lluvia, niebla\n02:06 El núcleo\n02:24 Una palabra\n02:32 Final\n\nCÓMO SE HIZO\n• La catedral, a escala real: planta de OpenStreetMap, medidas del folleto de la parroquia y más de 80 fotos de referencia. Torre de 68,65 m, nave de 19 m de alto.\n• El barrio, real: calles de OpenStreetMap, 450 edificios de Microsoft Building Footprints, la barranca con el relieve satelital SRTM y el Río de la Plata en su costa real.\n• Los árboles son los de la zona: tipas en Plaza Mitre y en las veredas las especies del censo de arbolado de San Isidro (fresno, liquidámbar, jacarandá, plátano, paraíso, tilo).\n• El sol está donde estaría a esa hora en San Isidro; el clima (lluvia, niebla, tormenta) y el estilo se cambian con una palabra.\n• Los cortes caen en el compás: la canción va a 120 bpm y los leds de los servidores laten con cada pulso.\n\nEN NÚMEROS\n• 48 planos, 1.655 cuadros únicos, 3 minutos a 24 fps, 1920×1080.\n• ~12 horas de render en una PC de 2011: Intel i5-2500K, GTX 960 de 2 GB, 16 GB de RAM.\n• ~10.000 líneas de Python en el motor. Lo dirigió una persona y lo programó un agente de código (Claude Code); la última sesión de trabajo ocupó ~700.000 tokens de contexto.\n\nCanción: \"Guardan una palabra\", de Kvothesson, hecha con Suno.\nMapas y calles © colaboradores de OpenStreetMap (ODbL). Edificios: Microsoft Global ML Building Footprints (ODbL). Relieve: SRTM (NASA), tiles de Mapzen/AWS Terrain.\nCódigo: https://github.com/kvothesson/procedural-anime\n\n━━━━━━━━━━━━━━━━━━━━━━━━\n🌐 Universo Austral: Argentina después de la singularidad, donde el folklore guarda los datos.",
+  "tags": [
+    "kvothesson",
+    "videoclip",
+    "anime",
+    "cyberpunk",
+    "san isidro",
+    "catedral de san isidro",
+    "servidores",
+    "blender",
+    "procedural",
+    "hecho con código",
+    "openstreetmap",
+    "argentina",
+    "buenos aires",
+    "universo austral",
+    "suno",
+    "claude code"
+  ],
+  "categoria": "10",
+  "idioma": "es",
+  "privacidad": "public",
+  "video_final": "out/guardan_una_palabra.mp4",
+  "duracion_segundos": 180,
+  "resolucion": "1920x1080",
+  "fps": 24,
+  "herramientas": "Blender 5.2 (EEVEE, Line Art) + Python (numpy, scipy, OpenCV, PIL) + ffmpeg; OpenStreetMap, Microsoft Building Footprints, SRTM; audio: Suno; análisis: demucs + faster-whisper",
+  "youtube_id": "FrYzefJaznI",
+  "youtube_url": "https://youtu.be/FrYzefJaznI",
+  "fecha_publicacion": "2026-10-19T21:51:03Z"
+}
