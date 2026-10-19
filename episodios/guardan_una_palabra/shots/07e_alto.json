@@ -64,7 +64,7 @@
  "drop": [
   "entorno"
  ],
- "_desc": "Desde el coro alto: la nave llena de racks",
+ "_desc": "Desde el triforio: la nave llena de racks",
  "width": 1920,
  "height": 1080,
  "fps": 12,
@@ -85,39 +85,39 @@
    {
     "frame": 1,
     "pos": [
-     0,
-     -1.5,
-     7.4
+     3.4,
+     5,
+     12.4
     ],
     "aim": [
      0,
      30,
-     1.5
+     1
     ]
    },
    {
     "frame": 24,
     "pos": [
-     0,
-     0.5,
-     7.4
+     3.4,
+     8,
+     12.4
     ],
     "aim": [
      0,
-     30,
-     2
+     32,
+     1
     ]
    }
   ],
-  "lens": 15.0,
+  "lens": 13.5,
   "lens_keys": [
    [
     1,
-    15.0
+    13.5
    ],
    [
     24,
-    15.0
+    13.5
    ]
   ],
   "ease": true,

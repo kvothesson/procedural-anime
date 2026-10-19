@@ -98,7 +98,7 @@ def plano(nombre, c0, c1, fps, base, desc, **kw):
 # INTRO: campanas y organo
 plano("01_rio", 0, 4, 6, EXT, "Desde el Rio de la Plata al atardecer: la barranca, la arboleda y la torre",
       hora="19:40", line=0.2,
-      camara=lambda n: cam([[-2300.0, 480.0, -24.0], [-2050.0, 445.0, -23.6]], [[0, 20, 30], [0, 20, 30]], [140, 150], n))
+      camara=lambda n: cam([[-2300.0, 480.0, -24.0], [-2050.0, 445.0, -23.6]], [[0, 20, 30], [0, 20, 30]], [140, 150], n, k=1.2))
 plano("02_barranca", 4, 8, 6, EXT, "Dron que sube la barranca boscosa y revela la catedral; anochece",
       hora="20:05", line=0.04,
       camara=lambda n: cam([[-260.0, 40.0, -15.0], [-140.0, 22.0, 26.0]], [[0, -3.6, 40], [0, 2, 26]], 24, n))
@@ -108,7 +108,7 @@ plano("03_plaza", 8, 12, 6, EXT, "Plaza Mitre bajo las tipas, avanzando hacia la
       camara=lambda n: cam([ojo(-14, -80), ojo(-9, -63)], [[0, -7, 22], [0, -6, 24]], 15, n))
 plano("04_torre", 12, 16, 6, EXT, "La torre de la base a la aguja: portada, roseton, campanario, relojes",
       hora="21:00", line=0.025,
-      camara=lambda n: cam([ojo(6, -42), ojo(5, -39)], [[0, -7, 6], TORRE], 18, n, k=LENTE_ALTO))
+      camara=lambda n: cam([ojo(6, -42), ojo(5, -39)], [[0, -7, 6], TORRE], 18, n, k=0.85))
 plano("05_cenital", 16, 20, 6, dict(EXT, catedral={"techo": False, "anexos": True, "suelo": 0}),
       "Cenital sin techo: la catedral llena de racks vista desde arriba, bajando", hora="21:30", line=0.05,
       camara=lambda n: cam([[-3.0, 20.0, 150.0], [3.0, 28.0, 95.0]], [[0, 24.6, 0], [0, 24.4, 0]], 30, n))
@@ -123,7 +123,7 @@ ADENTRO_PICO = [
     ("07b_cables", "Los cables suben a los capiteles", [[0.4, 12, 1.5], [0.2, 13, 1.6]], [[-4.7, 15.8, 8.2], [-4.7, 15.8, 8.6]], 18),
     ("07c_vitrales", "Los vitrales de la nave lateral sobre los racks", [[-5.6, 9, 1.4], [-5.6, 11, 1.5]], [[-9.4, 14, 6], [-9.4, 16, 6.5]], 16),
     ("07d_nucleo", "El nucleo del crucero, girando", [[2.5, 31.5, 2.0], [-2.5, 31.5, 2.3]], [NUCLEO, NUCLEO], 20),
-    ("07e_coro", "Desde el coro alto: la nave llena de racks", [[0, -1.5, 7.4], [0, 0.5, 7.4]], [[0, 30, 1.5], [0, 30, 2]], 20),
+    ("07e_alto", "Desde el triforio: la nave llena de racks", [[3.4, 5, 12.4], [3.4, 8, 12.4]], [[0, 30, 1], [0, 32, 1]], 18),
     ("07f_lateral", "La nave lateral con sus racks", [[-6.8, 2, 1.6], [-6.8, 8, 1.6]], [[-6.8, 40, 4], [-6.8, 40, 4]], 16),
     ("07g_boveda", "Desde el crucero hacia la boveda", [[0.5, 33, 1.5], [-0.5, 33, 1.5]], [[0.6, 36.5, 19], [-0.6, 36.5, 19]], 14),
 ]
@@ -136,7 +136,7 @@ plano("08_barranca_rio", 31, 33, 6, EXT, "\"En la barranca, sobre el rio\": aere
       camara=lambda n: cam([[-330.0, -60.0, 25.0], [-300.0, 60.0, 28.0]], [[0, 10, 20], [0, 10, 20]], 35, n))
 plano("09_fachada", 33, 35, 6, EXT, "\"La catedral no duerme mas\": la fachada con los vitrales encendidos",
       hora="23:10", line=0.02,
-      camara=lambda n: cam([ojo(3, -34), ojo(2, -28)], [[0, -7, 16], [0, -6, 22]], 18, n, k=LENTE_ALTO))
+      camara=lambda n: cam([ojo(3, -34), ojo(2, -28)], [[0, -7, 13], [0, -6, 18]], 18, n, k=0.9))
 plano("10_tipas_niebla", 35, 37, 6, EXT, "\"Bajo las tipas, el frio\": Plaza Mitre con niebla",
       hora="23:20", clima="niebla", line=0.02,
       camara=lambda n: cam([ojo(-30, -62), ojo(-26, -58)], [[0, -7, 20], [0, -7, 22]], 15, n))
@@ -221,7 +221,7 @@ for i, (nom, base, desc, kw, camf) in enumerate(FINAL):
 # SALIDA: vuelve al primer cuadro (loop)
 plano("22_salida", 86, 90, 12, EXT, "Campanas: el dron se aleja hasta el rio; termina en el primer cuadro",
       hora="19:40", line=0.2,
-      camara=lambda n: cam([[-650.0, 190.0, 30.0], [-2300.0, 480.0, -24.0]], [[0, 20, 30], [0, 20, 30]], [40, 140], n))
+      camara=lambda n: cam([[-650.0, 190.0, 30.0], [-2300.0, 480.0, -24.0]], [[0, 20, 30], [0, 20, 30]], [40, 140], n, k=1.2))
 
 
 # ------------------------------------------------------------------ letra
