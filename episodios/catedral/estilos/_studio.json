@@ -131,11 +131,35 @@
       },
       "franjas": {
         "paso": 2.2,
-        "banda": 0.4
+        "banda": 0.4,
+        "z": [
+          1.4,
+          100
+        ]
       },
       "franjas_torre": {
-        "paso": 1.6,
-        "banda": 1.15
+        "paso": 1.0,
+        "banda": 0.45,
+        "z": [
+          10.5,
+          41.0
+        ],
+        "esquinas": {
+          "centro": [
+            0.0,
+            -3.6
+          ],
+          "desde": 3.3
+        },
+        "aguja": {
+          "centro": [
+            0.0,
+            -3.6
+          ],
+          "radio": 3.2,
+          "z": 52.4,
+          "color": "#6f7c80"
+        }
       }
     },
     "servidores": {

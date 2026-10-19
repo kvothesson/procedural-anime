@@ -142,7 +142,8 @@ def _franjas(nt, color, F):
     """Paños de ladrillo con franjas de piedra cada tanto en altura (la fabrica
     de la catedral de San Isidro): en las caras verticales el color es el
     ladrillo salvo una banda de piedra cada "paso" metros; las horizontales
-    (cornisas, albardillas) quedan de piedra. F: {"color", "paso", "banda"}."""
+    (cornisas, albardillas) quedan de piedra. F: {"color", "paso", "banda",
+    "z", "esquinas", "aguja"} (ver abajo)."""
     n = nt.nodes
     L = nt.links
     geo = n.new("ShaderNodeNewGeometry")
@@ -160,15 +161,45 @@ def _franjas(nt, color, F):
             else:
                 L.new(x, node.inputs[i])
         return node.outputs[0]
-    fr = m("FRACT", m("DIVIDE", sp.outputs[2], F.get("paso", 1.2)), 0.0)
+    x, y, z = sp.outputs[0], sp.outputs[1], sp.outputs[2]
+    fr = m("FRACT", m("DIVIDE", z, F.get("paso", 1.2)), 0.0)
     ladrillo = m("GREATER_THAN", fr, F.get("banda", 0.22) / F.get("paso", 1.2))
-    vertical = m("LESS_THAN", m("ABSOLUTE", sn.outputs[2], 0.0), 0.5)
+    k = m("MULTIPLY", ladrillo, m("LESS_THAN", m("ABSOLUTE", sn.outputs[2], 0.0), 0.5))
+    # "z": [desde, hasta]: el zocalo y lo alto van lisos, de piedra
+    if "z" in F:
+        z0, z1 = F["z"]
+        k = m("MULTIPLY", k, m("MULTIPLY", m("GREATER_THAN", z, z0), m("LESS_THAN", z, z1)))
+    # "esquinas": {"centro": [x, y], "desde": d}: solo los paños cerca de las
+    # esquinas (foto 74: portada, gablete y rosetón son de piedra). La distancia
+    # se mide sobre la cara: |y - cy| en las que miran a x, |x - cx| en las otras
+    if "esquinas" in F:
+        cx, cy = F["esquinas"]["centro"]
+        dx = m("ABSOLUTE", m("SUBTRACT", x, cx), 0.0)
+        dy = m("ABSOLUTE", m("SUBTRACT", y, cy), 0.0)
+        u = m("ADD", m("MULTIPLY", m("ABSOLUTE", sn.outputs[0], 0.0), dy),
+              m("MULTIPLY", m("ABSOLUTE", sn.outputs[1], 0.0), dx))
+        k = m("MULTIPLY", k, m("GREATER_THAN", u, F["esquinas"]["desde"]))
     mix = n.new("ShaderNodeMix")
     mix.data_type = "RGBA"
-    L.new(m("MULTIPLY", ladrillo, vertical), mix.inputs["Factor"])
+    L.new(k, mix.inputs["Factor"])
     mix.inputs[6].default_value = lin(color)
     mix.inputs[7].default_value = lin(F["color"])
-    return mix.outputs[2]
+    out = mix.outputs[2]
+    # "aguja": {"centro": [x, y], "radio": r, "z": z, "color"}: lo que esta
+    # arriba de z y cerca del eje (la aguja de pizarra) va de ese color
+    if "aguja" in F:
+        A = F["aguja"]
+        vx = m("SUBTRACT", x, A["centro"][0])
+        vy = m("SUBTRACT", y, A["centro"][1])
+        r = m("SQRT", m("ADD", m("MULTIPLY", vx, vx), m("MULTIPLY", vy, vy)), 0.0)
+        ka = m("MULTIPLY", m("GREATER_THAN", z, A["z"]), m("LESS_THAN", r, A["radio"]))
+        mx2 = n.new("ShaderNodeMix")
+        mx2.data_type = "RGBA"
+        L.new(ka, mx2.inputs["Factor"])
+        L.new(out, mx2.inputs[6])
+        mx2.inputs[7].default_value = lin(A["color"])
+        out = mx2.outputs[2]
+    return out
 
 
 def mat_toon(name, color, windows=None, glows=None, franjas=None):
