@@ -169,11 +169,20 @@ def aplicar(cfg, raw, lugar):
         if "color" in fog:
             fog["color"] = _gris(fog["color"], clima["gris"])
     if clima.get("relampagos") and not interior and lights:
+        # "relampagos": [frames] en el plano los pone donde se pidan (en el
+        # trueno de la musica); si no, al azar cada 30-70 cuadros
+        pedidos = raw.get("relampagos")
         rnd = random.Random(cfg.get("frames", 72))
-        keys, f = [], rnd.randint(8, 30)
-        while f < cfg.get("frames", 72):
+        if pedidos:
+            fs = list(pedidos)
+        else:
+            fs, f = [], rnd.randint(8, 30)
+            while f < cfg.get("frames", 72):
+                fs.append(f)
+                f += rnd.randint(30, 70)
+        keys = []
+        for f in fs:
             keys += [[f - 1, 0.0], [f, 9.0], [f + 1, 2.0], [f + 2, 7.0], [f + 4, 0.0]]
-            f += rnd.randint(30, 70)
         lights.append({"kind": "SUN", "color": "#cfd8ff", "energy": 0.0, "energia_keys": keys,
                        "hacia": [0.2, -0.3, 0.93], "shadow": False})
     for k, v in (("sky", sky), ("lights", lights), ("fog", fog)):

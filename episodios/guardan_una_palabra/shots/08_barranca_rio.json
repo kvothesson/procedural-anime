@@ -1,0 +1,77 @@
+{
+ "estilo": "studio_noche",
+ "fecha": "2026-10-17",
+ "catedral": {
+  "techo": true,
+  "anexos": true,
+  "suelo": 0
+ },
+ "servidores": {},
+ "entorno": {
+  "datos": "../catedral/data/entorno.json",
+  "z": -1.0,
+  "piso": 6000,
+  "radio": 450
+ },
+ "_desc": "\"En la barranca, sobre el rio\": aereo sobre el bajo, la barranca y la catedral",
+ "width": 1080,
+ "height": 1920,
+ "fps": 6,
+ "frames": 24,
+ "samples": 8,
+ "storyboard": [
+  12
+ ],
+ "_t": [
+  62.167,
+  66.167
+ ],
+ "hora": "23:00",
+ "line": {
+  "radius": 0.06
+ },
+ "camera": {
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     -330.0,
+     -60.0,
+     25.0
+    ],
+    "aim": [
+     0,
+     10,
+     20
+    ]
+   },
+   {
+    "frame": 24,
+    "pos": [
+     -300.0,
+     60.0,
+     28.0
+    ],
+    "aim": [
+     0,
+     10,
+     20
+    ]
+   }
+  ],
+  "lens": 35,
+  "lens_keys": [
+   [
+    1,
+    35
+   ],
+   [
+    24,
+    35
+   ]
+  ],
+  "ease": true,
+  "clip_start": 0.05,
+  "clip_end": 3200
+ }
+}

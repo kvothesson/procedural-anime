@@ -106,7 +106,7 @@ la vez se cuelgan).
 | `width`, `height`, `fps`, `frames`, `samples` | Render (1080×1920, 12 fps únicos → 24 fps en doses, 8 muestras) |
 | `extends`, `drop` | Hereda otro plano; `drop` borra claves heredadas |
 | `estilo` | Nombre de `<ep>/estilos/<nombre>.json`: el look entero (cielo, luces, tinta, toon, post y colores de cada pieza en `piezas`). Va debajo del plano; un estilo puede heredar de otro (`extends`); cambiar el look = cambiar una palabra |
-| `hora`, `fecha`, `clima`, `lugar`, `interior` | Hora del día y clima (ver `motor/cielo.py`): van encima del estilo y debajo de lo que el plano fija. `lugar` {lat, lon, rumbo_deg, utc} o la `georef` de los datos del entorno; un plano o estilo con `"interior": true` no recibe lluvia ni cambia de cielo. Un estilo puede traer su paleta por altura del sol en `horas` |
+| `hora`, `fecha`, `clima`, `lugar`, `interior` | Hora del día y clima (ver `motor/cielo.py`): van encima del estilo y debajo de lo que el plano fija. `lugar` {lat, lon, rumbo_deg, utc} o la `georef` de los datos del entorno; un plano o estilo con `"interior": true` no recibe lluvia ni cambia de cielo. En tormenta, `"relampagos": [cuadros]` los pone donde se pidan (si no, al azar) Un estilo puede traer su paleta por altura del sol en `horas` |
 | `storyboard` | Cuadros clave del plano para `motor/storyboard.py` (si no está, el del medio) |
 | `mascara_anclas` | Segunda pasada solo con los objetos `ancla`: máscara exacta para que el post (congelar, glitch) no los toque |
 | `render_list`, `render_frames`, `still` | Frames sueltos / rango / un solo frame copiado |

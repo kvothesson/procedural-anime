@@ -1,0 +1,77 @@
+{
+ "estilo": "studio_noche",
+ "fecha": "2026-10-17",
+ "catedral": {
+  "techo": true,
+  "anexos": true,
+  "suelo": 0
+ },
+ "servidores": {},
+ "entorno": {
+  "datos": "../catedral/data/entorno.json",
+  "z": -1.0,
+  "piso": 6000,
+  "radio": 450
+ },
+ "_desc": "La fachada y la torre",
+ "width": 1080,
+ "height": 1920,
+ "fps": 12,
+ "frames": 24,
+ "samples": 8,
+ "storyboard": [
+  12
+ ],
+ "_t": [
+  156.167,
+  158.167
+ ],
+ "hora": "00:40",
+ "line": {
+  "radius": 0.02
+ },
+ "camera": {
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     2,
+     -30,
+     0.03
+    ],
+    "aim": [
+     0,
+     -7,
+     14
+    ]
+   },
+   {
+    "frame": 24,
+    "pos": [
+     1,
+     -27,
+     0.16
+    ],
+    "aim": [
+     0,
+     -4,
+     40
+    ]
+   }
+  ],
+  "lens": 16,
+  "lens_keys": [
+   [
+    1,
+    16
+   ],
+   [
+    24,
+    16
+   ]
+  ],
+  "ease": true,
+  "clip_start": 0.05,
+  "clip_end": 3200
+ }
+}

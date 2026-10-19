@@ -1,0 +1,127 @@
+{
+ "estilo": "studio_adentro",
+ "catedral": {
+  "techo": true,
+  "anexos": true,
+  "suelo": 0
+ },
+ "servidores": {
+  "latido": [
+   [
+    1,
+    0.12
+   ],
+   [
+    1,
+    0.12
+   ],
+   [
+    1,
+    0.7
+   ],
+   [
+    4,
+    0.12
+   ],
+   [
+    12,
+    0.12
+   ],
+   [
+    13,
+    0.7
+   ],
+   [
+    16,
+    0.12
+   ],
+   [
+    24,
+    0.12
+   ],
+   [
+    25,
+    0.7
+   ],
+   [
+    28,
+    0.12
+   ],
+   [
+    36,
+    0.12
+   ],
+   [
+    37,
+    0.7
+   ],
+   [
+    40,
+    0.12
+   ]
+  ]
+ },
+ "drop": [
+  "entorno"
+ ],
+ "_desc": "\"Mil luces rezan sin parar\": travelling por la nave",
+ "width": 1080,
+ "height": 1920,
+ "fps": 12,
+ "frames": 48,
+ "samples": 8,
+ "storyboard": [
+  24
+ ],
+ "_t": [
+  74.167,
+  78.167
+ ],
+ "line": {
+  "radius": 0.012
+ },
+ "camera": {
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     0,
+     4,
+     1.6
+    ],
+    "aim": [
+     0,
+     46,
+     6
+    ]
+   },
+   {
+    "frame": 48,
+    "pos": [
+     0,
+     16,
+     1.6
+    ],
+    "aim": [
+     0,
+     46,
+     6
+    ]
+   }
+  ],
+  "lens": 15,
+  "lens_keys": [
+   [
+    1,
+    15
+   ],
+   [
+    48,
+    15
+   ]
+  ],
+  "ease": true,
+  "clip_start": 0.05,
+  "clip_end": 3200
+ }
+}

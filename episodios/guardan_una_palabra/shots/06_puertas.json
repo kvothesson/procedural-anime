@@ -1,0 +1,91 @@
+{
+ "estilo": "studio_adentro",
+ "catedral": {
+  "techo": true,
+  "anexos": true,
+  "suelo": 0,
+  "puertas": {
+   "abre": [
+    [
+     1,
+     0
+    ],
+    [
+     18,
+     0
+    ],
+    [
+     80,
+     82
+    ]
+   ]
+  }
+ },
+ "servidores": {},
+ "entorno": {
+  "datos": "../catedral/data/entorno.json",
+  "z": -1.0,
+  "piso": 6000,
+  "radio": 450
+ },
+ "_desc": "Desde adentro, las puertas se abren a la plaza de noche",
+ "width": 1080,
+ "height": 1920,
+ "fps": 12,
+ "frames": 96,
+ "samples": 8,
+ "storyboard": [
+  48
+ ],
+ "_t": [
+  40.167,
+  48.167
+ ],
+ "line": {
+  "radius": 0.012
+ },
+ "camera": {
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     0.0,
+     10.0,
+     1.7
+    ],
+    "aim": [
+     0,
+     -20,
+     3
+    ]
+   },
+   {
+    "frame": 96,
+    "pos": [
+     0.0,
+     5.0,
+     1.7
+    ],
+    "aim": [
+     0,
+     -20,
+     3.5
+    ]
+   }
+  ],
+  "lens": 18,
+  "lens_keys": [
+   [
+    1,
+    18
+   ],
+   [
+    96,
+    18
+   ]
+  ],
+  "ease": true,
+  "clip_start": 0.05,
+  "clip_end": 3200
+ }
+}

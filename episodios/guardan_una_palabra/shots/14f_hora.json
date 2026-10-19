@@ -1,0 +1,77 @@
+{
+ "estilo": "studio_noche",
+ "fecha": "2026-10-17",
+ "catedral": {
+  "techo": true,
+  "anexos": true,
+  "suelo": 0
+ },
+ "servidores": {},
+ "entorno": {
+  "datos": "../catedral/data/entorno.json",
+  "z": -1.0,
+  "piso": 6000,
+  "radio": 450
+ },
+ "_desc": "\"Nunca se apagan\": la misma toma a las 00:00",
+ "width": 1080,
+ "height": 1920,
+ "fps": 6,
+ "frames": 12,
+ "samples": 8,
+ "storyboard": [
+  6
+ ],
+ "_t": [
+  104.167,
+  106.167
+ ],
+ "hora": "00:00",
+ "line": {
+  "radius": 0.04
+ },
+ "camera": {
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     -47.0,
+     -50.5,
+     37.5
+    ],
+    "aim": [
+     0,
+     20,
+     12
+    ]
+   },
+   {
+    "frame": 12,
+    "pos": [
+     -46.0,
+     -49.0,
+     37.0
+    ],
+    "aim": [
+     0,
+     20,
+     12
+    ]
+   }
+  ],
+  "lens": 26,
+  "lens_keys": [
+   [
+    1,
+    26
+   ],
+   [
+    12,
+    26
+   ]
+  ],
+  "ease": false,
+  "clip_start": 0.05,
+  "clip_end": 3200
+ }
+}

@@ -1,0 +1,120 @@
+{
+ "estilo": "studio_noche",
+ "fecha": "2026-10-17",
+ "catedral": {
+  "techo": true,
+  "anexos": true,
+  "suelo": 0
+ },
+ "servidores": {},
+ "entorno": {
+  "datos": "../catedral/data/entorno.json",
+  "z": -1.0,
+  "piso": 6000,
+  "radio": 450
+ },
+ "_desc": "Tormenta sobre la torre; relampagos en los truenos; \"Una palabra\"",
+ "width": 1080,
+ "height": 1920,
+ "fps": 12,
+ "frames": 48,
+ "samples": 8,
+ "storyboard": [
+  24
+ ],
+ "_t": [
+  144.167,
+  148.167
+ ],
+ "hora": "00:30",
+ "clima": "tormenta",
+ "line": {
+  "radius": 0.02
+ },
+ "camera": {
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     8,
+     -44,
+     -0.23
+    ],
+    "aim": [
+     0,
+     -3.6,
+     40
+    ]
+   },
+   {
+    "frame": 48,
+    "pos": [
+     6,
+     -40,
+     -0.14
+    ],
+    "aim": [
+     0,
+     -3.6,
+     44
+    ]
+   }
+  ],
+  "lens": 16,
+  "lens_keys": [
+   [
+    1,
+    16
+   ],
+   [
+    48,
+    16
+   ]
+  ],
+  "ease": true,
+  "clip_start": 0.05,
+  "clip_end": 3200
+ },
+ "relampagos": [
+  3,
+  16,
+  29,
+  44
+ ],
+ "post": {
+  "impacto": {
+   "frames": [
+    29,
+    36
+   ],
+   "centro": [
+    0.5,
+    0.42
+   ],
+   "cada": 1
+  },
+  "congelar": {
+   "keys": [
+    [
+     28,
+     0.0
+    ],
+    [
+     37,
+     0.8
+    ],
+    [
+     40,
+     0.0
+    ]
+   ]
+  },
+  "glitch": [
+   [
+    45,
+    48,
+    0.6
+   ]
+  ]
+ }
+}

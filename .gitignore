@@ -12,3 +12,8 @@ client_secret*.json
 .env
 episodios/*/data/dem/
 episodios/catedral/ref/
+
+# audio de trabajo de la cancion (se regenera con audio/analizar.py desde el mp3)
+episodios/guardan_una_palabra/audio/*.wav
+episodios/guardan_una_palabra/audio/sep/
+episodios/guardan_una_palabra/audio/*.log

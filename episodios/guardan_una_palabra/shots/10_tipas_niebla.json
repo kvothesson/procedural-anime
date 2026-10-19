@@ -1,0 +1,78 @@
+{
+ "estilo": "studio_noche",
+ "fecha": "2026-10-17",
+ "catedral": {
+  "techo": true,
+  "anexos": true,
+  "suelo": 0
+ },
+ "servidores": {},
+ "entorno": {
+  "datos": "../catedral/data/entorno.json",
+  "z": -1.0,
+  "piso": 6000,
+  "radio": 450
+ },
+ "_desc": "\"Bajo las tipas, el frio\": Plaza Mitre con niebla",
+ "width": 1080,
+ "height": 1920,
+ "fps": 6,
+ "frames": 24,
+ "samples": 8,
+ "storyboard": [
+  12
+ ],
+ "_t": [
+  70.167,
+  74.167
+ ],
+ "hora": "23:20",
+ "clima": "niebla",
+ "line": {
+  "radius": 0.02
+ },
+ "camera": {
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     -30,
+     -62,
+     -0.6
+    ],
+    "aim": [
+     0,
+     -7,
+     20
+    ]
+   },
+   {
+    "frame": 24,
+    "pos": [
+     -26,
+     -58,
+     -0.3
+    ],
+    "aim": [
+     0,
+     -7,
+     22
+    ]
+   }
+  ],
+  "lens": 15,
+  "lens_keys": [
+   [
+    1,
+    15
+   ],
+   [
+    24,
+    15
+   ]
+  ],
+  "ease": true,
+  "clip_start": 0.05,
+  "clip_end": 3200
+ }
+}

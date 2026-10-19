@@ -1,0 +1,77 @@
+{
+ "estilo": "studio_noche",
+ "fecha": "2026-10-17",
+ "catedral": {
+  "techo": true,
+  "anexos": true,
+  "suelo": 0
+ },
+ "servidores": {},
+ "entorno": {
+  "datos": "../catedral/data/entorno.json",
+  "z": -1.0,
+  "piso": 6000,
+  "radio": 450
+ },
+ "_desc": "\"La catedral no duerme mas\": la fachada con los vitrales encendidos",
+ "width": 1080,
+ "height": 1920,
+ "fps": 6,
+ "frames": 24,
+ "samples": 8,
+ "storyboard": [
+  12
+ ],
+ "_t": [
+  66.167,
+  70.167
+ ],
+ "hora": "23:10",
+ "line": {
+  "radius": 0.02
+ },
+ "camera": {
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     3,
+     -34,
+     -0.02
+    ],
+    "aim": [
+     0,
+     -7,
+     16
+    ]
+   },
+   {
+    "frame": 24,
+    "pos": [
+     2,
+     -28,
+     0.11
+    ],
+    "aim": [
+     0,
+     -6,
+     22
+    ]
+   }
+  ],
+  "lens": 18,
+  "lens_keys": [
+   [
+    1,
+    18
+   ],
+   [
+    24,
+    18
+   ]
+  ],
+  "ease": true,
+  "clip_start": 0.05,
+  "clip_end": 3200
+ }
+}

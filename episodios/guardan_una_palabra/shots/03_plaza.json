@@ -1,0 +1,77 @@
+{
+ "estilo": "studio_noche",
+ "fecha": "2026-10-17",
+ "catedral": {
+  "techo": true,
+  "anexos": true,
+  "suelo": 0
+ },
+ "servidores": {},
+ "entorno": {
+  "datos": "../catedral/data/entorno.json",
+  "z": -1.0,
+  "piso": 6000,
+  "radio": 450
+ },
+ "_desc": "Plaza Mitre bajo las tipas, avanzando hacia la fachada; faroles prendidos",
+ "width": 1080,
+ "height": 1920,
+ "fps": 6,
+ "frames": 48,
+ "samples": 8,
+ "storyboard": [
+  24
+ ],
+ "_t": [
+  16.167,
+  24.167
+ ],
+ "hora": "20:30",
+ "line": {
+  "radius": 0.02
+ },
+ "camera": {
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     -14,
+     -80,
+     -1.65
+    ],
+    "aim": [
+     0,
+     -7,
+     22
+    ]
+   },
+   {
+    "frame": 48,
+    "pos": [
+     -9,
+     -63,
+     -0.37
+    ],
+    "aim": [
+     0,
+     -6,
+     24
+    ]
+   }
+  ],
+  "lens": 15,
+  "lens_keys": [
+   [
+    1,
+    15
+   ],
+   [
+    48,
+    15
+   ]
+  ],
+  "ease": true,
+  "clip_start": 0.05,
+  "clip_end": 3200
+ }
+}

@@ -1,0 +1,118 @@
+{
+  "extends": "studio_adentro",
+  "_desc": "Adentro de dia: la nave en penumbra (sin GI el cielo no entra) y el sol cruza los vitrales: los vidrios no hacen sombra y el gobo del toon tine la luz con el mosaico del vitral, manchas de color sobre racks y piso; rayos en la direccion del sol desde las ventanas de su lado.",
+  "sky": {
+    "horizon": "#1c2c50",
+    "mid": "#101a34",
+    "top": "#060a16",
+    "ambient": "#4a5a80",
+    "ambient_strength": 0.15
+  },
+  "fog": {
+    "color": "#2a3450",
+    "dist": 160
+  },
+  "toon": {
+    "steps": [
+      [
+        0.0,
+        0.11
+      ],
+      [
+        0.35,
+        1.0
+      ]
+    ]
+  },
+  "lights": [
+    {
+      "kind": "SUN",
+      "color": "#fff0d8",
+      "energy": 3.0,
+      "rot": [
+        20,
+        0,
+        80
+      ],
+      "shadow": true
+    }
+  ],
+  "post": {
+    "resplandor": {
+      "tinte": "#ffb347",
+      "umbral": 0.12,
+      "fuerza": 0.25,
+      "radios": [
+        60,
+        160,
+        320
+      ]
+    },
+    "estelas": {
+      "umbral": 0.6,
+      "largo": 0.12,
+      "fuerza": 0.5,
+      "desde": 0.6
+    },
+    "glow": {
+      "threshold": 0.85,
+      "strength": 0.6
+    }
+  },
+  "piezas": {
+    "catedral": {
+      "colores": {
+        "piedra": "#d6c9aa",
+        "ladrillo": "#d6c9aa"
+      },
+      "vidrios": {
+        "fuerza": 2.2,
+        "sombra": false,
+        "luz": {
+          "energia": 40,
+          "desde_z": 10.0,
+          "adentro": 2.0
+        }
+      },
+      "niebla_piso": {
+        "color": "#ffe2b0",
+        "alpha": 0.05,
+        "alturas": [
+          0.12,
+          0.35,
+          0.65
+        ]
+      },
+      "rayos": {
+        "alpha": 0.3,
+        "sol": true,
+        "desde_z": 4.0
+      },
+      "reflectores": []
+    },
+    "servidores": {
+      "nucleo_fuerza": 2.6
+    }
+  },
+  "gobo": {
+    "colores": [
+      "#ff2a8a",
+      "#2de2ff",
+      "#8a4dff",
+      "#ffb347",
+      "#2de2ff",
+      "#ff2a8a"
+    ],
+    "celda": [
+      0.9,
+      1.2
+    ],
+    "plomo": "#3a3040",
+    "plomo_ancho": 0.08,
+    "umbral": [
+      0.4,
+      0.7
+    ],
+    "fuerza": 2.6
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "_desc": "Maqueta: solo forma. Grises por familia, sin estetica, para revisar geometria.",
+  "sky": {
+    "horizon": "#c9ccd1",
+    "top": "#a7b0bb",
+    "ambient": "#9a9ea6",
+    "ambient_strength": 1.0
+  },
+  "fog": {
+    "color": "#c9ccd1",
+    "dist": 5000
+  },
+  "toon": {
+    "steps": [
+      [
+        0.0,
+        0.5
+      ],
+      [
+        0.3,
+        0.75
+      ],
+      [
+        0.65,
+        1.0
+      ]
+    ]
+  },
+  "lights": [
+    {
+      "kind": "SUN",
+      "color": "#ffffff",
+      "energy": 2.2,
+      "rot": [
+        50,
+        0,
+        35
+      ],
+      "shadow": false
+    }
+  ],
+  "line": {
+    "color": "#1d1d22",
+    "crease_deg": 135,
+    "intersection": true
+  },
+  "post": {
+    "glow": {
+      "threshold": 0.98,
+      "strength": 0.0
+    },
+    "rain": false,
+    "aberration": 0.0,
+    "vignette": 0.0,
+    "grain": 0.0
+  },
+  "piezas": {
+    "catedral": {
+      "colores": {
+        "piedra": "#d8d4cb",
+        "techo": "#8d949c",
+        "suelo": "#7d8578"
+      },
+      "vidrios": {
+        "modo": "toon",
+        "colores": [
+          "#b9c3cc"
+        ]
+      }
+    },
+    "servidores": {
+      "colores": {
+        "cuerpo": "#9a9da3",
+        "frente": "#6e7178",
+        "cable": "#55585e"
+      },
+      "leds": {
+        "modo": "toon",
+        "colores": [
+          "#c8ccd2"
+        ]
+      },
+      "luces": false
+    }
+  }
+}
