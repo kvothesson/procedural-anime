@@ -406,6 +406,170 @@
   ]
  },
  {
+  "t0": 123.0,
+  "t1": 126.25,
+  "fade_s": 0.18,
+  "items": [
+   {
+    "font": "texto",
+    "size": 54,
+    "outline": 8,
+    "glow": 0.4,
+    "max_w": 0.86,
+    "color": "#e9fbff",
+    "pos": [
+     0.5,
+     0.87
+    ],
+    "reveal": [
+     [
+      123.0,
+      "Nunca"
+     ],
+     [
+      123.35,
+      "Nunca se"
+     ],
+     [
+      123.7,
+      "Nunca se apagan,"
+     ],
+     [
+      124.05,
+      "Nunca se apagan, nunca"
+     ],
+     [
+      124.4,
+      "Nunca se apagan, nunca se"
+     ],
+     [
+      124.75,
+      "Nunca se apagan, nunca se apagan,"
+     ]
+    ]
+   }
+  ]
+ },
+ {
+  "t0": 126.0,
+  "t1": 129.45,
+  "fade_s": 0.18,
+  "items": [
+   {
+    "font": "texto",
+    "size": 60,
+    "outline": 8,
+    "glow": 0.55,
+    "max_w": 0.86,
+    "color": "#ff7ad9",
+    "pos": [
+     0.5,
+     0.87
+    ],
+    "reveal": [
+     [
+      126.0,
+      "guardan"
+     ],
+     [
+      126.747,
+      "guardan una"
+     ],
+     [
+      127.493,
+      "guardan una palabra."
+     ]
+    ]
+   }
+  ]
+ },
+ {
+  "t0": 131.3,
+  "t1": 134.65,
+  "fade_s": 0.18,
+  "items": [
+   {
+    "font": "texto",
+    "size": 54,
+    "outline": 8,
+    "glow": 0.4,
+    "max_w": 0.86,
+    "color": "#e9fbff",
+    "pos": [
+     0.5,
+     0.87
+    ],
+    "reveal": [
+     [
+      131.3,
+      "Nunca"
+     ],
+     [
+      131.662,
+      "Nunca se"
+     ],
+     [
+      132.023,
+      "Nunca se apagan,"
+     ],
+     [
+      132.385,
+      "Nunca se apagan, nunca"
+     ],
+     [
+      132.747,
+      "Nunca se apagan, nunca se"
+     ],
+     [
+      133.108,
+      "Nunca se apagan, nunca se apagan,"
+     ]
+    ]
+   }
+  ]
+ },
+ {
+  "t0": 134.4,
+  "t1": 138.05,
+  "fade_s": 0.18,
+  "items": [
+   {
+    "font": "texto",
+    "size": 54,
+    "outline": 8,
+    "glow": 0.4,
+    "max_w": 0.86,
+    "color": "#e9fbff",
+    "pos": [
+     0.5,
+     0.87
+    ],
+    "reveal": [
+     [
+      134.4,
+      "la"
+     ],
+     [
+      134.876,
+      "la noche"
+     ],
+     [
+      135.352,
+      "la noche no"
+     ],
+     [
+      135.828,
+      "la noche no les"
+     ],
+     [
+      136.304,
+      "la noche no les gana."
+     ]
+    ]
+   }
+  ]
+ },
+ {
   "t0": 146.4,
   "t1": 148.85,
   "fade_s": 0.18,
@@ -458,170 +622,6 @@
      [
       151.065,
       "(una palabra)"
-     ]
-    ]
-   }
-  ]
- },
- {
-  "t0": 152.5,
-  "t1": 156.25,
-  "fade_s": 0.18,
-  "items": [
-   {
-    "font": "texto",
-    "size": 54,
-    "outline": 8,
-    "glow": 0.4,
-    "max_w": 0.86,
-    "color": "#e9fbff",
-    "pos": [
-     0.5,
-     0.87
-    ],
-    "reveal": [
-     [
-      152.5,
-      "Nunca"
-     ],
-     [
-      152.908,
-      "Nunca se"
-     ],
-     [
-      153.317,
-      "Nunca se apagan,"
-     ],
-     [
-      153.725,
-      "Nunca se apagan, nunca"
-     ],
-     [
-      154.133,
-      "Nunca se apagan, nunca se"
-     ],
-     [
-      154.542,
-      "Nunca se apagan, nunca se apagan,"
-     ]
-    ]
-   }
-  ]
- },
- {
-  "t0": 156.0,
-  "t1": 160.45,
-  "fade_s": 0.18,
-  "items": [
-   {
-    "font": "texto",
-    "size": 60,
-    "outline": 8,
-    "glow": 0.55,
-    "max_w": 0.86,
-    "color": "#ff7ad9",
-    "pos": [
-     0.5,
-     0.87
-    ],
-    "reveal": [
-     [
-      156.0,
-      "guardan"
-     ],
-     [
-      156.98,
-      "guardan una"
-     ],
-     [
-      157.96,
-      "guardan una palabra."
-     ]
-    ]
-   }
-  ]
- },
- {
-  "t0": 161.2,
-  "t1": 166.25,
-  "fade_s": 0.18,
-  "items": [
-   {
-    "font": "texto",
-    "size": 54,
-    "outline": 8,
-    "glow": 0.4,
-    "max_w": 0.86,
-    "color": "#e9fbff",
-    "pos": [
-     0.5,
-     0.87
-    ],
-    "reveal": [
-     [
-      161.2,
-      "Nunca"
-     ],
-     [
-      161.76,
-      "Nunca se"
-     ],
-     [
-      162.32,
-      "Nunca se apagan,"
-     ],
-     [
-      162.88,
-      "Nunca se apagan, nunca"
-     ],
-     [
-      163.44,
-      "Nunca se apagan, nunca se"
-     ],
-     [
-      164.0,
-      "Nunca se apagan, nunca se apagan,"
-     ]
-    ]
-   }
-  ]
- },
- {
-  "t0": 166.2,
-  "t1": 171.75,
-  "fade_s": 0.18,
-  "items": [
-   {
-    "font": "texto",
-    "size": 54,
-    "outline": 8,
-    "glow": 0.4,
-    "max_w": 0.86,
-    "color": "#e9fbff",
-    "pos": [
-     0.5,
-     0.87
-    ],
-    "reveal": [
-     [
-      166.2,
-      "la"
-     ],
-     [
-      166.942,
-      "la noche"
-     ],
-     [
-      167.684,
-      "la noche no"
-     ],
-     [
-      168.426,
-      "la noche no les"
-     ],
-     [
-      169.168,
-      "la noche no les gana."
      ]
     ]
    }

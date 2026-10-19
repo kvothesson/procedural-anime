@@ -228,7 +228,8 @@ plano("22_salida", 86, 90, 12, EXT, "Campanas: el dron se aleja hasta el rio; te
 
 
 # ------------------------------------------------------------------ letra
-LETRA = [  # (t0, t1, texto), de audio/letra_tiempos.json y de la escucha por tramos
+LETRA = [  # (t0, t1, texto), de audio/letra_tiempos.json y de la escucha por tramos.
+    # Despues de "(una palabra)" no se canta nada (lo corrigio quien escucho el corte)
     (62.4, 65.6, "En la barranca, sobre el río,"),
     (66.4, 69.4, "la catedral no duerme más."),
     (70.2, 74.0, "Bajo las tipas, el frío,"),
@@ -239,12 +240,12 @@ LETRA = [  # (t0, t1, texto), de audio/letra_tiempos.json y de la escucha por tr
     (98.4, 101.6, "guardan una palabra."),
     (103.7, 106.8, "Nunca se apagan, nunca se apagan,"),
     (106.8, 110.2, "la noche no les gana."),
+    (123.0, 126.0, "Nunca se apagan, nunca se apagan,"),
+    (126.0, 129.2, "guardan una palabra."),
+    (131.3, 134.4, "Nunca se apagan, nunca se apagan,"),
+    (134.4, 137.8, "la noche no les gana."),
     (146.4, 148.6, "Una palabra..."),
     (150.4, 152.3, "(una palabra)"),
-    (152.5, 156.0, "Nunca se apagan, nunca se apagan,"),
-    (156.0, 160.2, "guardan una palabra."),
-    (161.2, 166.0, "Nunca se apagan, nunca se apagan,"),
-    (166.2, 171.5, "la noche no les gana."),
 ]
 
 
