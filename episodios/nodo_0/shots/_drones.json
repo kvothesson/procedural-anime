@@ -1,0 +1,11 @@
+{
+  "_desc": "Prueba de diseno (no entra al montaje): Vesper, Aegis y Nyx de frente, al sol, en el galpon. Aegis teje el telar.",
+  "extends": "galpon_base.json",
+  "frames": 36,
+  "aegis": {"keys": [[1, [2.3, -0.45, 2.75], -90], [36, [2.3, -0.45, 2.75], -90]],
+            "escudo": {"desde": 6, "hilo": 1, "lado": 0.9, "hilos": 7, "dist": 0.45}},
+  "vesper": {"keys": [[1, [2.4, 0.2, 2.85], -90], [36, [2.4, 0.2, 2.85], -90]]},
+  "nyx": {"keys": [[1, [2.3, -1.05, 2.7], -90, 0.3], [36, [2.3, -1.05, 2.7], -90, 0.3]]},
+  "camera": {"lens": 30, "from": [-0.6, -0.45, 2.55], "from_aim": [2.3, -0.45, 2.7],
+             "to": [-0.6, -0.45, 2.55], "to_aim": [2.3, -0.45, 2.7]}
+}

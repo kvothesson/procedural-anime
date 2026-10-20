@@ -1,0 +1,128 @@
+{
+ "estilo": "studio_adentro",
+ "catedral": {
+  "techo": true,
+  "anexos": true,
+  "suelo": 0
+ },
+ "servidores": {
+  "latido": [
+   [
+    1,
+    0.12
+   ],
+   [
+    1,
+    0.12
+   ],
+   [
+    1,
+    1.0
+   ],
+   [
+    4,
+    0.12
+   ],
+   [
+    6,
+    0.12
+   ],
+   [
+    7,
+    1.0
+   ],
+   [
+    10,
+    0.12
+   ],
+   [
+    12,
+    0.12
+   ],
+   [
+    13,
+    1.0
+   ],
+   [
+    16,
+    0.12
+   ],
+   [
+    18,
+    0.12
+   ],
+   [
+    19,
+    1.0
+   ],
+   [
+    22,
+    0.12
+   ]
+  ]
+ },
+ "drop": [
+  "entorno"
+ ],
+ "_desc": "El nucleo del crucero, girando",
+ "width": 1920,
+ "height": 1080,
+ "fps": 12,
+ "frames": 24,
+ "samples": 8,
+ "storyboard": [
+  12
+ ],
+ "_t": [
+  54.167,
+  56.167
+ ],
+ "line": {
+  "radius": 0.012
+ },
+ "camera": {
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     2.5,
+     31.5,
+     2.0
+    ],
+    "aim": [
+     0.0,
+     35.6,
+     3.0
+    ]
+   },
+   {
+    "frame": 24,
+    "pos": [
+     -2.5,
+     31.5,
+     2.3
+    ],
+    "aim": [
+     0.0,
+     35.6,
+     3.0
+    ]
+   }
+  ],
+  "lens": 28.0,
+  "lens_keys": [
+   [
+    1,
+    28.0
+   ],
+   [
+    24,
+    28.0
+   ]
+  ],
+  "ease": true,
+  "clip_start": 0.05,
+  "clip_end": 3200,
+  "verticales": true
+ }
+}

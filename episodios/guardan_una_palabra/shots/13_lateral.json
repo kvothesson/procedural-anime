@@ -1,0 +1,128 @@
+{
+ "estilo": "studio_adentro",
+ "catedral": {
+  "techo": true,
+  "anexos": true,
+  "suelo": 0
+ },
+ "servidores": {
+  "latido": [
+   [
+    1,
+    0.12
+   ],
+   [
+    1,
+    0.12
+   ],
+   [
+    1,
+    0.6
+   ],
+   [
+    2,
+    0.12
+   ],
+   [
+    12,
+    0.12
+   ],
+   [
+    13,
+    0.6
+   ],
+   [
+    14,
+    0.12
+   ],
+   [
+    24,
+    0.12
+   ],
+   [
+    25,
+    0.6
+   ],
+   [
+    26,
+    0.12
+   ],
+   [
+    36,
+    0.12
+   ],
+   [
+    37,
+    0.6
+   ],
+   [
+    38,
+    0.12
+   ]
+  ]
+ },
+ "drop": [
+  "entorno"
+ ],
+ "_desc": "La nave lateral, lento, hacia una columna con su lampara",
+ "width": 1920,
+ "height": 1080,
+ "fps": 6,
+ "frames": 48,
+ "samples": 8,
+ "storyboard": [
+  24
+ ],
+ "_t": [
+  86.167,
+  94.167
+ ],
+ "line": {
+  "radius": 0.012
+ },
+ "camera": {
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     6.8,
+     3,
+     1.6
+    ],
+    "aim": [
+     4.7,
+     20,
+     8
+    ]
+   },
+   {
+    "frame": 48,
+    "pos": [
+     6.8,
+     7,
+     1.6
+    ],
+    "aim": [
+     4.7,
+     20,
+     8
+    ]
+   }
+  ],
+  "lens": 22.4,
+  "lens_keys": [
+   [
+    1,
+    22.4
+   ],
+   [
+    48,
+    22.4
+   ]
+  ],
+  "ease": true,
+  "clip_start": 0.05,
+  "clip_end": 3200,
+  "verticales": true
+ }
+}

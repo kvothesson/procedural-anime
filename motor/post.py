@@ -8,13 +8,14 @@ post.py - Composicion anime sobre los frames crudos de Blender.
 El render 3D es lo unico caro. Todo lo de aca tarda segundos, asi que probar
 brillo, lluvia o grano NUNCA requiere volver a renderizar.
 
-Orden: ondas -> brillo (solo lo que emite) -> lluvia -> lineas de velocidad ->
+Orden: ondas -> datamosh -> brillo (solo lo que emite) -> lluvia -> lineas de velocidad ->
 glitch -> aberracion -> vineta -> textos ("textos", ver textos.py) -> grano.
 Nada aleatorio por frame: la lluvia es una lista fija de gotas que se mueve
 con el tiempo, y el grano cicla entre 3 patrones fijos.
 """
 
 import argparse
+import math
 import subprocess
 from pathlib import Path
 
@@ -57,7 +58,7 @@ def glow(img, g):
     src = img * mask
     h, w = img.shape[:2]
     acc = np.zeros_like(img)
-    scale = w / 1080.0
+    scale = min(w, h) / 1080.0
     for r, wt in zip(g["radii"], g["weights"]):
         # blur sobre una version reducida: mismo resultado, 10x mas rapido
         k = max(1, int(r * scale / 4))
@@ -66,6 +67,84 @@ def glow(img, g):
         acc += wt * cv2.resize(small, (w, h), interpolation=cv2.INTER_LINEAR)
     acc *= g["strength"]
     return 1 - (1 - img) * (1 - np.clip(acc, 0, 1))
+
+
+def resplandor(img, R):
+    """El aire que se tine alrededor de una fuente de color: toma solo lo que
+    tiene ese color dominante (por defecto rojo: r por encima de g y b), lo
+    difumina en radios muy grandes y lo suma (screen) tenido. El halo sigue la
+    forma real de la fuente y no tiene borde: no es una forma pegada al cielo.
+    R: {"radios": [60, 160, 320], "pesos": [...], "fuerza": 1.0, "tinte": "#ff2a3a",
+    "umbral": 0.12}"""
+    h, w = img.shape[:2]
+    r, g, b = img[..., 0], img[..., 1], img[..., 2]
+    dom = r - np.maximum(g, b) * R.get("cruce", 0.85)
+    mask = np.clip((dom - R.get("umbral", 0.12)) / 0.5, 0, 1)[..., None]
+    src = mask * hex_rgb(R.get("tinte", "#ff2a3a"))
+    acc = np.zeros_like(img)
+    scale = min(w, h) / 1080.0
+    small = cv2.resize(src, (w // 8, h // 8), interpolation=cv2.INTER_AREA)
+    for rad, wt in zip(R.get("radios", [60, 160, 320]), R.get("pesos", [0.5, 0.45, 0.35])):
+        k = max(1, int(rad * scale / 8))
+        acc += wt * cv2.resize(cv2.GaussianBlur(small, (0, 0), k), (w, h), interpolation=cv2.INTER_LINEAR)
+    acc *= R.get("fuerza", 1.0)
+    return 1 - (1 - img) * (1 - np.clip(acc, 0, 1))
+
+
+def estelas(img, E):
+    """Piso mojado o pulido pintado: lo que brilla deja hacia abajo una estela
+    vertical que se desvanece, como en los fondos de anime. Solo en la parte de
+    abajo del cuadro (donde esta el piso). E: {"umbral": 0.55, "largo": 0.14,
+    "fuerza": 0.55, "desde": 0.45}"""
+    h, w = img.shape[:2]
+    lum = img.max(axis=2)
+    th = E.get("umbral", 0.55)
+    src = img * np.clip((lum - th) / (1 - th), 0, 1)[..., None]
+    q = 4
+    small = cv2.resize(src, (w // q, h // q), interpolation=cv2.INTER_AREA)
+    L = max(2, int(E.get("largo", 0.14) * h / q))
+    wts = np.exp(-np.arange(L + 1) / (L / 3.0)).astype(np.float32)
+    # correlacion con ancla abajo: el pixel y recibe de y-k (lo que esta arriba)
+    k = wts[::-1].reshape(-1, 1) / wts.sum() * 3.0
+    acc = cv2.filter2D(small, -1, k, anchor=(0, L), borderType=cv2.BORDER_CONSTANT)
+    acc = cv2.GaussianBlur(acc, (0, 0), sigmaX=1.2, sigmaY=0.1)
+    acc = cv2.resize(acc, (w, h), interpolation=cv2.INTER_LINEAR)
+    y = np.linspace(0, 1, h, dtype=np.float32)[:, None, None]
+    ramp = np.clip((y - E.get("desde", 0.45)) / 0.15, 0, 1)
+    acc = np.clip(acc * ramp * E.get("fuerza", 0.55), 0, 1)
+    return 1 - (1 - img) * (1 - acc)
+
+
+def reflejos(img, mask, E):
+    """Piso mojado: en los charcos (mask, de la pasada c_####.png de
+    escena.py) se pinta lo que brilla justo arriba, estirado hacia abajo y
+    ondulado en el ancho, como el reflejo de una luz en el agua de un fondo de
+    anime. Cae debajo de cada luz real. E: {"umbral": 0.5, "largo": 0.4,
+    "fuerza": 0.9, "onda": 3}"""
+    h, w = img.shape[:2]
+    lum = img.max(axis=2)
+    th = E.get("umbral", 0.5)
+    src = img * np.clip((lum - th) / (1 - th), 0, 1)[..., None]
+    q = 4
+    small = cv2.resize(src, (w // q, h // q), interpolation=cv2.INTER_AREA)
+    L = max(2, int(E.get("largo", 0.4) * h / q))
+    wts = np.exp(-np.arange(L + 1) / (L / 2.5)).astype(np.float32)
+    k = wts[::-1].reshape(-1, 1) / wts.max()
+    acc = cv2.filter2D(small, -1, k, anchor=(0, L), borderType=cv2.BORDER_CONSTANT)
+    acc = cv2.GaussianBlur(acc, (0, 0), sigmaX=E.get("onda", 3) / q * 2, sigmaY=0.1)
+    acc = cv2.resize(acc, (w, h), interpolation=cv2.INTER_LINEAR)
+    acc = np.clip(acc * E.get("fuerza", 0.9), 0, 1) * mask
+    return 1 - (1 - img) * (1 - acc)
+
+
+def mascara_charcos(raw_dir, i, w, h):
+    """Mascara de charcos del frame i (c_####.png de escena.py), o None."""
+    p = raw_dir / f"c_{i:04d}.png"
+    if not p.exists():
+        return None
+    m = cv2.imread(str(p), cv2.IMREAD_GRAYSCALE)
+    m = cv2.resize(m, (w, h), interpolation=cv2.INTER_LINEAR).astype(np.float32) / 255.0
+    return cv2.GaussianBlur(m, (0, 0), 1.0)[..., None]
 
 
 class Rain:
@@ -131,6 +210,123 @@ def glitch(img, f, amt, seed=404):
     return out
 
 
+def datamosh(img, i, raw_dir, D, w, h):
+    """Datamosh: como un video al que se le perdio el cuadro clave. La imagen
+    vieja (el cuadro anterior a f0) se arrastra con el movimiento del cuadro
+    actual, en macrobloques; algunos bloques "sangran" hacia abajo. Los bloques
+    se van resolviendo (llega el cuadro clave) hacia el final del tramo.
+    D: [f0, f1, amt]. Sin estado: cada frame lee el cuadro clave del disco."""
+    f0, f1, amt = D
+    key_path = raw_dir / f"f_{max(1, f0 - 1):04d}.png"
+    key = cv2.imread(str(key_path))
+    if key is None:
+        return img
+    if key.shape[1] != w:
+        key = cv2.resize(key, (w, h), interpolation=cv2.INTER_LANCZOS4)
+    key = cv2.cvtColor(key, cv2.COLOR_BGR2RGB).astype(np.float32) / 255.0
+    B = int(24 * min(w, h) / 1080)
+    s = 4
+    g_cur = cv2.cvtColor((img * 255).astype(np.uint8), cv2.COLOR_RGB2GRAY)[::s, ::s]
+    g_key = cv2.cvtColor((key * 255).astype(np.uint8), cv2.COLOR_RGB2GRAY)[::s, ::s]
+    flow = cv2.calcOpticalFlowFarneback(g_cur, g_key, None, 0.5, 3, 15, 3, 5, 1.2, 0) * s
+    bw, bh = w // B, h // B
+    blk = cv2.resize(flow, (bw, bh), interpolation=cv2.INTER_AREA) * (1 + 2 * amt)
+    rnd = np.random.default_rng(404 + f0)
+    resolve = rnd.random((bh, bw))
+    bleed = (rnd.random((bh, bw)) < 0.12 * amt) * rnd.uniform(4, 14, (bh, bw)) * (i - f0 + 1) * min(w, h) / 1080
+    blk[..., 1] -= bleed
+    big = cv2.resize(blk, (bw * B, bh * B), interpolation=cv2.INTER_NEAREST)
+    big = cv2.copyMakeBorder(big, 0, h - bh * B, 0, w - bw * B, cv2.BORDER_REPLICATE)
+    yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
+    warped = cv2.remap(key, xx + big[..., 0], yy + big[..., 1], cv2.INTER_NEAREST,
+                       borderMode=cv2.BORDER_REFLECT)
+    # cuanto del cuadro sigue "moshed": todo al principio, nada al final
+    p = amt * (1 - (i - f0) / max(1, f1 - f0 + 1)) ** 0.6
+    m = cv2.resize((resolve < p).astype(np.float32), (bw * B, bh * B), interpolation=cv2.INTER_NEAREST)
+    m = cv2.copyMakeBorder(m, 0, h - bh * B, 0, w - bw * B, cv2.BORDER_REPLICATE)[..., None]
+    return img * (1 - m) + warped * m
+
+
+def anclas(raw_dir, i, w, h):
+    """Rectangulos en pixeles de los personajes ancla en el frame i (los
+    escribe escena.py en render/<plano>/anclas.json)."""
+    cache = _W.setdefault("anclas", {})
+    if raw_dir not in cache:
+        import json
+        p = raw_dir / "anclas.json"
+        cache[raw_dir] = json.loads(p.read_text(encoding="utf-8")) if p.exists() else {}
+    return [(max(0, int(x0 * w)), max(0, int(y0 * h)), min(w, int(x1 * w)), min(h, int(y1 * h)))
+            for x0, y0, x1, y1 in cache[raw_dir].get(str(i), [])]
+
+
+def mascara(raw_dir, i, w, h):
+    """Alfa de los anclas (m_####.png, de escena.py con "mascara_anclas"), un
+    poco dilatado para que entre la tinta del contorno. None si no hay."""
+    path = raw_dir / f"m_{i:04d}.png"
+    if not path.exists():
+        return None
+    m = cv2.imread(str(path), cv2.IMREAD_UNCHANGED)
+    if m is None or m.ndim < 3 or m.shape[2] < 4:
+        return None
+    a = m[..., 3]
+    if a.shape[1] != w:
+        a = cv2.resize(a, (w, h), interpolation=cv2.INTER_LINEAR)
+    k = max(3, int(5 * min(w, h) / 1080)) | 1
+    a = cv2.dilate(a, np.ones((k, k), np.uint8))
+    return (a.astype(np.float32) / 255.0)[..., None]
+
+
+def keep(img, clean, rects, mask=None):
+    """El glitch no toca a los anclas: se restaura su mascara exacta si la hay
+    y si no, su rectangulo."""
+    if mask is not None:
+        return img * (1 - mask) + clean * mask
+    for x0, y0, x1, y1 in rects:
+        img[y0:y1, x0:x1] = clean[y0:y1, x0:x1]
+    return img
+
+
+def congelar(img, a, tint):
+    """El tiempo detenido: el mundo pierde el color, se enfria y baja un poco."""
+    lum = img @ np.array([0.299, 0.587, 0.114], np.float32)
+    cold = lum[..., None] * np.array(tint, np.float32) * 0.85
+    return img * (1 - a) + cold * a
+
+
+def impacto(img, i, I, w, h):
+    """Impact frames de anime: el cuadro pasa a dos tonos (la tinta = lo
+    oscuro de la imagen) con fondo de color, alternando cada dos cuadros
+    rojo/negro, negro/rojo y blanco/negro, mas lineas de foco radiales hacia
+    "centro". I: {"frames": [f0, f1], "modos": [...], "centro": [x, y],
+    "umbral": 0.35, "lineas": 90, "cada": 2}. Determinista por frame."""
+    f0, f1 = I["frames"]
+    modos = I.get("modos", ["rojo", "negro", "blanco"])
+    m = modos[((i - f0) // I.get("cada", 2)) % len(modos)]
+    pal = {"rojo": ("#e0142a", "#0a0608"), "negro": ("#0a0608", "#ff2a3a"), "blanco": ("#f4efe6", "#0a0608")}
+    fondo, tinta = (hex_rgb(c) for c in pal[m])
+    lum = img @ np.array([0.299, 0.587, 0.114], np.float32)
+    ink = (lum < I.get("umbral", 0.35)).astype(np.float32)
+    # lo que brilla (el duende) va en tinta invertida: es el centro del golpe
+    ink = np.where(lum > I.get("brillo", 0.75), 0.0, ink)
+    out = fondo * (1 - ink[..., None]) + tinta * ink[..., None]
+    # lineas de foco: triangulos finos desde el borde hacia un radio interior
+    rnd = np.random.default_rng(1000 + i)
+    cx, cy = I.get("centro", [0.5, 0.35])
+    cx, cy = cx * w, cy * h
+    capa = np.zeros((h, w), np.uint8)
+    R = math.hypot(w, h)
+    for _ in range(I.get("lineas", 90)):
+        a = rnd.uniform(0, 2 * math.pi)
+        r_in = rnd.uniform(0.28, 0.5) * min(w, h)
+        anc = rnd.uniform(0.004, 0.014)
+        p0 = (cx + math.cos(a) * r_in, cy + math.sin(a) * r_in)
+        pa = (cx + math.cos(a - anc) * R, cy + math.sin(a - anc) * R)
+        pb = (cx + math.cos(a + anc) * R, cy + math.sin(a + anc) * R)
+        cv2.fillPoly(capa, [np.array([p0, pa, pb], np.int32)], 255)
+    L = (capa > 0)[..., None]
+    return np.where(L, tinta, out)
+
+
 class Ripples:
     """Gota + ondas en un charco visto en perspectiva. Las ondas son elipses
     (el circulo en el piso se aplasta por el angulo de camara: 'aspect') que
@@ -140,7 +336,7 @@ class Ripples:
 
     def __init__(self, R, w, h):
         self.R, self.w, self.h = R, w, h
-        self.k = w / 1080.0
+        self.k = min(w, h) / 1080.0
         self.color = hex_rgb(R.get("color", "#e8f4ff"))
         yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
         self.xx, self.yy = xx, yy
@@ -244,7 +440,7 @@ def speedlines(img, f, S, w, h):
     rnd = np.random.default_rng(S.get("seed", 7) * 1000 + f)
     layer = np.zeros((h, w), np.float32)
     b0, b1 = S.get("band", [0.0, 1.0])
-    k = w / 1080.0
+    k = min(w, h) / 1080.0
     for _ in range(S.get("count", 40)):
         y = int(rnd.uniform(b0, b1) * h)
         L = rnd.uniform(0.25, 0.9) * w
@@ -310,14 +506,36 @@ def _frame(f):
     if _W["ripples"]:
         # antes del brillo: la onda deforma el reflejo y su halo la acompana
         img = _W["ripples"].apply(img, i)
+    rects = anclas(f.parent, i, w, h)
+    mask = mascara(f.parent, i, w, h)
+    for D in P.get("datamosh", []):
+        if D[0] <= i <= D[1]:
+            img = keep(datamosh(img, i, f.parent, D, w, h), img, rects, mask)
     img = glow(img, P["glow"])
+    if P.get("resplandor"):
+        img = resplandor(img, P["resplandor"])
+    if P.get("reflejos"):
+        mc = mascara_charcos(f.parent, i, w, h)
+        if mc is not None:
+            img = reflejos(img, mc, P["reflejos"])
+    if P.get("estelas"):
+        img = estelas(img, P["estelas"])
+    C = P.get("congelar")
+    if C:
+        # [[frame, intensidad], ...]: el mundo detenido; los anclas, a color
+        a = keyed(C["keys"], i, 0.0)
+        if a > 0:
+            img = keep(congelar(img, a, hex_rgb(C.get("tint", "#b4c6e8"))), img, rects, mask)
     if _W["rain"]:
         img = _W["rain"].draw(img, t, keyed(P.get("rain_dim"), i))
     if P.get("speedlines"):
         img = speedlines(img, i, P["speedlines"], w, h)
     for g0, g1, ga in P.get("glitch", []):
         if g0 <= i <= g1:
-            img = glitch(img, i, ga)
+            img = keep(glitch(img, i, ga), img, rects, mask)
+    I = P.get("impacto")
+    if I and I["frames"][0] <= i <= I["frames"][1]:
+        img = impacto(img, i, I, w, h)
     img = aberration(img, P["aberration"])
     img = img * _W["vig"]
     if P.get("textos"):

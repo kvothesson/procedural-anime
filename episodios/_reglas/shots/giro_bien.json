@@ -1,0 +1,161 @@
+{
+  "_desc": "Generado por planos.py. Demo de la regla 'Giro continuo y cadencia'.",
+  "width": 1080,
+  "height": 1920,
+  "fps": 12,
+  "frames": 36,
+  "samples": 8,
+  "storyboard": [
+    1,
+    18,
+    36
+  ],
+  "sky": {
+    "horizon": "#140f24",
+    "top": "#0a0814",
+    "ambient": "#1a1530",
+    "ambient_strength": 0.5
+  },
+  "fog": {
+    "color": "#120e1e",
+    "dist": 40.0
+  },
+  "toon": {
+    "steps": [
+      [
+        0.0,
+        0.07
+      ],
+      [
+        0.04,
+        0.32
+      ],
+      [
+        0.4,
+        1.0
+      ]
+    ]
+  },
+  "lights": [
+    {
+      "kind": "SUN",
+      "color": "#ffd9a0",
+      "energy": 2.2,
+      "rot": [
+        50,
+        0,
+        -35
+      ],
+      "angle": 0.3
+    },
+    {
+      "kind": "SUN",
+      "color": "#7fd6ff",
+      "energy": 1.4,
+      "rot": [
+        -70,
+        0,
+        0
+      ],
+      "shadow": false
+    }
+  ],
+  "line": {
+    "color": "#0d0b24",
+    "radius": 0.006,
+    "crease_deg": 140
+  },
+  "engranajes": {
+    "color": "#b08a3e",
+    "list": [
+      {
+        "name": "rueda",
+        "at": [
+          0,
+          0,
+          1.95
+        ],
+        "rot": [
+          90,
+          0,
+          0
+        ],
+        "r": 0.6,
+        "teeth": 24,
+        "depth": 0.06,
+        "thick": 0.08,
+        "r_in": 0.46,
+        "spokes": 0,
+        "hub": 0.09,
+        "phase": 265.125,
+        "spin": 48
+      },
+      {
+        "name": "pinon",
+        "at": [
+          0,
+          0,
+          1.104
+        ],
+        "rot": [
+          90,
+          0,
+          0
+        ],
+        "r": 0.3,
+        "teeth": 12,
+        "depth": 0.06,
+        "thick": 0.08,
+        "r_in": 0.17,
+        "spokes": 0,
+        "hub": 0.06,
+        "phase": 65.25,
+        "spin": -96.0
+      }
+    ]
+  },
+  "camera": {
+    "lens": 50,
+    "clip_end": 100,
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          0,
+          -3.9,
+          1.62
+        ],
+        "aim": [
+          0,
+          0,
+          1.62
+        ]
+      }
+    ]
+  },
+  "post": {
+    "rain": false,
+    "glow": {
+      "threshold": 0.9
+    },
+    "textos": [
+      {
+        "text": "BIEN\n4 grados por cuadro, menos de medio paso",
+        "font": "texto",
+        "size": 46,
+        "color": "#8dffb0",
+        "pos": [
+          0.5,
+          0.82
+        ],
+        "frames": [
+          1,
+          36
+        ],
+        "outline": 6,
+        "glow": 0.15,
+        "max_w": 0.9
+      }
+    ]
+  }
+}

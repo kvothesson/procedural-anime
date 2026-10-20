@@ -102,7 +102,7 @@ def _raster(text, font, size, color, outline, outline_color, glow, tracking, max
 
 def layer(t, w, h):
     """Devuelve (rgba, x0, y0) para componer el texto t en una imagen w x h."""
-    k = w / 1080.0
+    k = min(w, h) / 1080.0
     size = int(t.get("size", 48) * k)
     rgba = _raster(t["text"], t.get("font", "texto"), size, t.get("color", "#dfe6ef"),
                    int(t.get("outline", 6) * k), t.get("outline_color", "#05070f"),

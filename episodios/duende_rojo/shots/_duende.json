@@ -1,0 +1,216 @@
+{
+  "_desc": "Prototipo del duende rojo sobre el Uritorco, visto desde la calle techada de Capilla del Monte, de noche sin luna. Frames de prueba: 6 (halo), 24 (cabezas bajando), 48 (tentaculos abiertos).",
+  "width": 1080,
+  "height": 1920,
+  "fps": 24,
+  "frames": 48,
+  "samples": 8,
+  "sky": {
+    "horizon": "#141a33",
+    "top": "#03060f",
+    "ambient": "#141a30",
+    "ambient_strength": 0.5,
+    "zenith_at": 0.35
+  },
+  "estrellas": {
+    "scale": 90,
+    "size": 0.08,
+    "density": 0.55,
+    "strength": 1.5
+  },
+  "fog": {
+    "color": "#10152a",
+    "dist": 40000.0
+  },
+  "toon": {
+    "steps": [
+      [
+        0.0,
+        0.08
+      ],
+      [
+        0.02,
+        0.22
+      ],
+      [
+        0.25,
+        0.55
+      ],
+      [
+        0.6,
+        0.85
+      ]
+    ]
+  },
+  "lights": [
+    {
+      "kind": "SUN",
+      "color": "#8fa6d8",
+      "energy": 0.25,
+      "rot": [
+        70,
+        0,
+        150
+      ],
+      "angle": 0.5
+    }
+  ],
+  "line": {
+    "color": "#0d0b24",
+    "radius": 3.0,
+    "crease_deg": 120
+  },
+  "uritorco": {
+    "az": 61,
+    "dist": 5700,
+    "alto": 1000
+  },
+  "duende": {
+    "az": 61,
+    "dist": 30000,
+    "elev": [
+      14,
+      30.5
+    ],
+    "ancho_deg": 20,
+    "seed": 3,
+    "fase": [
+      [
+        1,
+        0.0
+      ],
+      [
+        6,
+        0.1
+      ],
+      [
+        24,
+        0.45
+      ],
+      [
+        48,
+        1.0
+      ]
+    ],
+    "luz": {
+      "energia": 2.5,
+      "color": "#ff2a3a"
+    },
+    "grupo": [
+      {
+        "daz": 0,
+        "seed": 3,
+        "retardo": 0.0
+      },
+      {
+        "daz": -17,
+        "seed": 8,
+        "retardo": 0.07,
+        "ancho_deg": 15,
+        "elev": [
+          15,
+          28
+        ],
+        "columnas": 16,
+        "fuerza": 2.6
+      },
+      {
+        "daz": 16,
+        "seed": 13,
+        "retardo": 0.12,
+        "ancho_deg": 16,
+        "elev": [
+          14.5,
+          29
+        ],
+        "columnas": 18,
+        "fuerza": 2.8
+      },
+      {
+        "daz": -31,
+        "seed": 21,
+        "retardo": 0.2,
+        "ancho_deg": 11,
+        "elev": [
+          16,
+          26
+        ],
+        "columnas": 10,
+        "fuerza": 2.0
+      }
+    ]
+  },
+  "camera": {
+    "lens": 70,
+    "clip_end": 60000,
+    "clip_start": 1.0,
+    "from": [
+      0,
+      0,
+      1.7
+    ],
+    "from_aim": [
+      874.6,
+      484.8,
+      260.3
+    ],
+    "to": [
+      0,
+      0,
+      1.7
+    ],
+    "to_aim": [
+      874.6,
+      484.8,
+      260.3
+    ]
+  },
+  "post": {
+    "rain": false,
+    "glow": {
+      "threshold": 0.42,
+      "radii": [
+        4,
+        16,
+        60,
+        160
+      ],
+      "weights": [
+        0.8,
+        0.55,
+        0.4,
+        0.3
+      ],
+      "strength": 1.15
+    },
+    "vignette": 0.32,
+    "resplandor": {
+      "radios": [
+        50,
+        140,
+        300
+      ],
+      "pesos": [
+        0.45,
+        0.4,
+        0.3
+      ],
+      "fuerza": 0.9,
+      "tinte": "#ff2438"
+    }
+  },
+  "tormenta": {
+    "az": 61,
+    "dist": 30000,
+    "elev": 9.0,
+    "ancho_deg": 28,
+    "alto_deg": 9,
+    "rayos": [
+      3,
+      14,
+      30,
+      41
+    ],
+    "dispara": 1
+  }
+}

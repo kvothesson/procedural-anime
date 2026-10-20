@@ -26,6 +26,7 @@ import sys
 from pathlib import Path
 
 import bpy
+from mathutils import Vector
 
 MOTOR = Path(__file__).resolve().parent
 sys.path.insert(0, str(MOTOR))
@@ -47,6 +48,9 @@ from piezas.andes import (build_apacheta, build_camino, build_cordillera,  # noq
                           build_luna, build_puente, build_tambos, build_terreno)
 from piezas.viaje import build_mensaje  # noqa: E402
 from piezas.tokio import build_chochin, build_expendedoras, build_farol_hex, build_viaducto  # noqa: E402
+from piezas.catedral import build_catedral  # noqa: E402
+from piezas.servidores import build_servidores  # noqa: E402
+from piezas.entorno import build_entorno  # noqa: E402
 
 SKY = {"horizon": "#2a1f4a", "top": "#070814", "ambient": "#1b2a4a"}
 LINE = {"color": "#0d0b24"}
@@ -114,6 +118,11 @@ PIEZAS = [
     ("chochin", build_chochin, None),
     ("expendedoras", build_expendedoras, None),
     ("farol_hex", build_farol_hex, None),
+    # Catedral de San Isidro: escenario recorrible a escala real
+    ("catedral", build_catedral, None),
+    ("servidores", build_servidores, None),
+    # alrededores reales desde OpenStreetMap (motor/osm.py -> <ep>/data/entorno.json)
+    ("entorno", build_entorno, None),
 ]
 
 
@@ -129,12 +138,123 @@ def episode_pieces(shot_path):
     return list(getattr(mod, "PIEZAS", []))
 
 
+def write_anclas(cfg, scene, out):
+    """Rectangulos en pantalla (0..1, y hacia abajo) de los objetos marcados
+    con ob["ancla"], frame por frame, en <salida>/anclas.json. El post deja
+    esos rectangulos sin glitch ni datamosh (en el canon, el glitch del mundo
+    no toca a los personajes ancla). Solo si el plano tiene glitch o datamosh."""
+    import json
+    from bpy_extras.object_utils import world_to_camera_view
+    post = cfg.get("post", {})
+    roots = [ob for ob in bpy.data.objects if ob.get("ancla")]
+    if not roots or not (post.get("glitch") or post.get("datamosh")):
+        return
+    frames = cfg.get("render_list") or range(scene.frame_start, scene.frame_end + 1)
+    # Line Art se recalcula en cada frame_set: apagarlo mientras se mide
+    mods = [m for ob in bpy.data.objects if ob.type in ("GREASEPENCIL", "GPENCIL")
+            for m in ob.modifiers if m.show_viewport]
+    for m in mods:
+        m.show_viewport = False
+    data = {}
+    for f in frames:
+        scene.frame_set(f)
+        rects = []
+        for r in roots:
+            xs, ys = [], []
+            for ob in [r] + list(r.children_recursive):
+                if ob.type != "MESH":
+                    continue
+                for c in ob.bound_box:
+                    v = world_to_camera_view(scene, scene.camera, ob.matrix_world @ Vector(c))
+                    if v.z > 0:
+                        xs.append(v.x)
+                        ys.append(1 - v.y)
+            if xs:
+                rects.append([min(xs) - 0.01, min(ys) - 0.01, max(xs) + 0.01, max(ys) + 0.01])
+        data[str(f)] = rects
+    for m in mods:
+        m.show_viewport = True
+    scene.frame_set(scene.frame_start)
+    (out / "anclas.json").write_text(json.dumps(data), encoding="utf-8")
+
+
+def render_mascaras(cfg, scene, out):
+    """Segunda pasada, solo con los anclas (ob["ancla"] y sus hijos) sobre
+    fondo transparente: <salida>/m_####.png. El alfa es la mascara exacta que
+    usa el post para dejar a los anclas fuera de un efecto que tine todo el
+    cuadro (congelar): con el rectangulo de anclas.json se veria la caja."""
+    keep = set()
+    for r in (ob for ob in bpy.data.objects if ob.get("ancla")):
+        keep.add(r)
+        keep.update(r.children_recursive)
+    for ob in bpy.data.objects:
+        if ob.type != "LIGHT" and ob not in keep:
+            ob.hide_render = True
+    scene.render.film_transparent = True
+    scene.render.image_settings.color_mode = "RGBA"
+    if cfg.get("render_list"):
+        for f in cfg["render_list"]:
+            scene.frame_set(f)
+            scene.render.filepath = str(out) + f"/m_{f:04d}.png"
+            bpy.ops.render.render(write_still=True)
+    else:
+        scene.render.filepath = str(out) + "/m_"
+        bpy.ops.render.render(animation=True)
+
+
+def render_charcos(cfg, scene, out):
+    """Pasada barata de la mascara de charcos (<salida>/c_####.png): todo en
+    negro plano, las calzadas con la mancha de charco en blanco, sin tinta,
+    a mitad de resolucion y una muestra. Con eso el post pinta en el charco
+    el reflejo de lo que brilla justo arriba (post.reflejos): alineado con las
+    luces reales, sin raytracing."""
+    from piezas.materiales import mat_mascara_charcos
+    dib = cfg.get("entorno", {}).get("dibujo", {})
+    # negro sin niebla (mat_flat la lleva y el negro saldria del color de la niebla)
+    negro = bpy.data.materials.new("_mascara_negro")
+    negro.use_nodes = True
+    negro.node_tree.nodes.clear()
+    em = negro.node_tree.nodes.new("ShaderNodeEmission")
+    em.inputs["Color"].default_value = (0, 0, 0, 1)
+    mo = negro.node_tree.nodes.new("ShaderNodeOutputMaterial")
+    negro.node_tree.links.new(em.outputs[0], mo.inputs["Surface"])
+    calles = {"entorno_calzadas": dib.get("asfalto", {}).get("charcos"),
+              "entorno_adoquines": dib.get("adoquin", {}).get("charcos")}
+    fuera = set()
+    for c in ("neon", "velo", "luces", "reflejo"):
+        if c in bpy.data.collections:
+            fuera.update(bpy.data.collections[c].all_objects)
+    for ob in bpy.data.objects:
+        if ob.type in ("GREASEPENCIL", "GPENCIL") or ob in fuera:
+            ob.hide_render = True
+            continue
+        if ob.type not in ("MESH", "CURVE", "FONT"):
+            continue
+        C = calles.get(ob.name)
+        m = mat_mascara_charcos("_mascara_charcos", C) if C else negro
+        ob.data.materials.clear()
+        ob.data.materials.append(m)
+    world = scene.world
+    if world and world.use_nodes:
+        for nd in world.node_tree.nodes:
+            if nd.type == "BACKGROUND":
+                nd.inputs["Strength"].default_value = 0.0
+    scene.render.resolution_percentage = 50
+    scene.eevee.taa_render_samples = 1
+    for f in cfg.get("render_list") or range(1, cfg["frames"] + 1):
+        scene.frame_set(f)
+        scene.render.filepath = str(out) + f"/c_{f:04d}.png"
+        bpy.ops.render.render(write_still=True)
+
+
 def main():
     argv = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
     cfg = load_shot(argv[0])
     out = Path(argv[1]) if len(argv) > 1 else Path("render/out")
     # --draft: mitad de resolucion y 4 muestras, para iterar. El post reescala.
     ctx.configurar(cfg, draft="--draft" in argv)
+    # el JSON vive en <ep>/shots/ (o en <ep>/render/ para las pruebas)
+    ctx.EPISODIO = Path(argv[0]).resolve().parent.parent
 
     bpy.ops.wm.read_factory_settings(use_empty=True)
     scene = bpy.context.scene
@@ -171,10 +291,18 @@ def main():
     build_lineart(cfg.get("line", LINE), colls)
     build_camera(cfg["camera"])
     print("escena armada", flush=True)
+    if "--blend" in argv:
+        # el escenario armado como .blend, para recorrerlo a mano en Blender
+        dst = Path(argv[argv.index("--blend") + 1]).resolve()
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        bpy.ops.wm.save_as_mainfile(filepath=str(dst))
+        print(f"blend -> {dst}", flush=True)
+        return
     if "--sin-render" in argv:
         return      # colision.py y otros chequeos: solo la escena
 
     out.mkdir(parents=True, exist_ok=True)
+    write_anclas(cfg, scene, out.resolve())
     if cfg.get("still"):
         # escena 3D quieta (todo el movimiento lo pone el post): un render y copias
         scene.frame_set(1)
@@ -192,6 +320,10 @@ def main():
     else:
         scene.render.filepath = str(out.resolve()) + "/f_"
         bpy.ops.render.render(animation=True)
+    if cfg.get("mascara_anclas") and not cfg.get("still"):
+        render_mascaras(cfg, scene, out.resolve())
+    if cfg.get("post", {}).get("reflejos") and not cfg.get("still"):
+        render_charcos(cfg, scene, out.resolve())
     print("render terminado", flush=True)
 
 

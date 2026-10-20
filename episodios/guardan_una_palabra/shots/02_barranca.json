@@ -1,0 +1,78 @@
+{
+ "estilo": "studio_noche",
+ "fecha": "2026-10-17",
+ "catedral": {
+  "techo": true,
+  "anexos": true,
+  "suelo": 0
+ },
+ "servidores": {},
+ "entorno": {
+  "datos": "../catedral/data/entorno.json",
+  "z": -1.0,
+  "piso": 6000,
+  "radio": 450
+ },
+ "_desc": "Dron que sube la barranca boscosa y revela la catedral; anochece",
+ "width": 1920,
+ "height": 1080,
+ "fps": 6,
+ "frames": 48,
+ "samples": 8,
+ "storyboard": [
+  24
+ ],
+ "_t": [
+  8.167,
+  16.167
+ ],
+ "hora": "20:05",
+ "line": {
+  "radius": 0.04
+ },
+ "camera": {
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     -260.0,
+     40.0,
+     -15.0
+    ],
+    "aim": [
+     0,
+     -3.6,
+     40
+    ]
+   },
+   {
+    "frame": 48,
+    "pos": [
+     -140.0,
+     22.0,
+     26.0
+    ],
+    "aim": [
+     0,
+     2,
+     26
+    ]
+   }
+  ],
+  "lens": 33.6,
+  "lens_keys": [
+   [
+    1,
+    33.6
+   ],
+   [
+    48,
+    33.6
+   ]
+  ],
+  "ease": true,
+  "clip_start": 0.05,
+  "clip_end": 3200,
+  "verticales": true
+ }
+}

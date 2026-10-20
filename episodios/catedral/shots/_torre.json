@@ -1,0 +1,71 @@
+{
+  "extends": "vistas.json",
+  "estilo": "maqueta",
+  "hora": "15:30",
+  "fecha": "2026-10-17",
+  "clima": "despejado",
+  "frames": 2,
+  "storyboard": [
+    1,
+    2
+  ],
+  "line": {
+    "radius": 0.012,
+    "radius_keys": [
+      [
+        1,
+        0.012
+      ],
+      [
+        2,
+        0.008
+      ]
+    ]
+  },
+  "drop": [
+    "servidores"
+  ],
+  "catedral": {
+    "bancos": true
+  },
+  "camera": {
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          38.0,
+          12.0,
+          -0.08
+        ],
+        "aim": [
+          20,
+          25,
+          12
+        ]
+      },
+      {
+        "frame": 2,
+        "pos": [
+          -7.4,
+          3.0,
+          1.6
+        ],
+        "aim": [
+          -5.0,
+          18,
+          10
+        ]
+      }
+    ],
+    "lens_keys": [
+      [
+        1,
+        18
+      ],
+      [
+        2,
+        16
+      ]
+    ]
+  }
+}

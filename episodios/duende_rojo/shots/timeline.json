@@ -1,0 +1,18 @@
+{
+  "name": "duende_rojo",
+  "fps_unique": 24,
+  "fps_out": 24,
+  "shots": [
+    "01_lente",
+    "02_antenas",
+    "03_tarde",
+    "04_registro",
+    "05_escucha",
+    "06_antes",
+    "07_duende",
+    "07_lentes",
+    "07_hombro",
+    "08_pausa",
+    "09_mapa"
+  ]
+}

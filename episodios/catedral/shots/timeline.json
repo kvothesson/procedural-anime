@@ -1,0 +1,6 @@
+{
+  "name": "catedral",
+  "fps_unique": 12,
+  "fps_out": 24,
+  "shots": ["vistas", "cenital", "entorno"]
+}

@@ -1,0 +1,157 @@
+{
+  "extends": "vistas.json",
+  "_desc": "El entorno de OSM alrededor de la catedral: vistas amplias.",
+  "frames": 6,
+  "storyboard": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "vistas": [
+    "dron alto desde la plaza",
+    "desde la Plaza Mitre a la altura de los ojos",
+    "Av. del Libertador hacia la catedral",
+    "cenital",
+    "dron bajo desde el bajo, hacia la barranca y la catedral",
+    "la barranca de costado"
+  ],
+  "line": {
+    "radius_keys": [
+      [
+        1,
+        0.06
+      ],
+      [
+        2,
+        0.03
+      ],
+      [
+        3,
+        0.03
+      ],
+      [
+        4,
+        0.12
+      ],
+      [
+        5,
+        0.03
+      ],
+      [
+        6,
+        0.05
+      ]
+    ]
+  },
+  "camera": {
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          -170,
+          -210,
+          130
+        ],
+        "aim": [
+          0,
+          15,
+          0
+        ]
+      },
+      {
+        "frame": 2,
+        "pos": [
+          -45,
+          -60,
+          -1.72
+        ],
+        "aim": [
+          0,
+          8,
+          22
+        ]
+      },
+      {
+        "frame": 3,
+        "pos": [
+          19.8,
+          -92,
+          -2.92
+        ],
+        "aim": [
+          10,
+          15,
+          17
+        ]
+      },
+      {
+        "frame": 4,
+        "pos": [
+          0,
+          20,
+          650
+        ],
+        "aim": [
+          0,
+          20.5,
+          0
+        ]
+      },
+      {
+        "frame": 5,
+        "pos": [
+          -265.0,
+          -45.0,
+          1.0
+        ],
+        "aim": [
+          0,
+          25,
+          12
+        ]
+      },
+      {
+        "frame": 6,
+        "pos": [
+          -150,
+          -230,
+          18
+        ],
+        "aim": [
+          -90,
+          30,
+          -10
+        ]
+      }
+    ],
+    "lens_keys": [
+      [
+        1,
+        30
+      ],
+      [
+        2,
+        20
+      ],
+      [
+        3,
+        22
+      ],
+      [
+        4,
+        30
+      ],
+      [
+        5,
+        24
+      ],
+      [
+        6,
+        26
+      ]
+    ]
+  }
+}

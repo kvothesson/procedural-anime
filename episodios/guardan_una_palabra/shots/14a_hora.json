@@ -1,0 +1,78 @@
+{
+ "estilo": "studio_dia",
+ "fecha": "2026-10-17",
+ "catedral": {
+  "techo": true,
+  "anexos": true,
+  "suelo": 0
+ },
+ "servidores": {},
+ "entorno": {
+  "datos": "../catedral/data/entorno.json",
+  "z": -1.0,
+  "piso": 6000,
+  "radio": 450
+ },
+ "_desc": "\"Nunca se apagan\": la misma toma a las 06:40",
+ "width": 1920,
+ "height": 1080,
+ "fps": 6,
+ "frames": 12,
+ "samples": 8,
+ "storyboard": [
+  6
+ ],
+ "_t": [
+  94.167,
+  96.167
+ ],
+ "hora": "06:40",
+ "line": {
+  "radius": 0.04
+ },
+ "camera": {
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     -52.0,
+     -58.0,
+     40.0
+    ],
+    "aim": [
+     0,
+     20,
+     12
+    ]
+   },
+   {
+    "frame": 12,
+    "pos": [
+     -51.0,
+     -56.5,
+     39.5
+    ],
+    "aim": [
+     0,
+     20,
+     12
+    ]
+   }
+  ],
+  "lens": 36.4,
+  "lens_keys": [
+   [
+    1,
+    36.4
+   ],
+   [
+    12,
+    36.4
+   ]
+  ],
+  "ease": false,
+  "clip_start": 0.05,
+  "clip_end": 3200,
+  "verticales": true
+ }
+}

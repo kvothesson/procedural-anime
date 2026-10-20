@@ -1,0 +1,14 @@
+{
+  "extends": "_estilo_afuera_dia.json",
+  "_desc": "Frente de la torre como la foto 74 (desde la escalinata) y la 67 (desde la plaza), de dia.",
+  "frames": 2,
+  "storyboard": [1, 2],
+  "line": {"radius": 0.025, "radius_keys": [[1, 0.02], [2, 0.03]]},
+  "camera": {
+    "keys": [
+      {"frame": 1, "pos": [-3, -26, 0.6], "aim": [0, -6, 22]},
+      {"frame": 2, "pos": [-8, -55, 0.0], "aim": [0, -4, 28]}
+    ],
+    "lens_keys": [[1, 18], [2, 22]]
+  }
+}

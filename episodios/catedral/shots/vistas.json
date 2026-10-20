@@ -1,0 +1,223 @@
+{
+  "_desc": "Catedral de San Isidro, geometria base: una vista por frame (sin estetica).",
+  "estilo": "maqueta",
+  "width": 1080,
+  "height": 1920,
+  "fps": 12,
+  "frames": 8,
+  "samples": 8,
+  "catedral": {
+    "techo": true,
+    "anexos": true,
+    "suelo": 0
+  },
+  "storyboard": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "vistas": [
+    "nave desde la entrada, a la altura de los ojos",
+    "dron 3/4 desde el frente",
+    "fachada desde la plaza",
+    "costado",
+    "desde el altar hacia el coro alto",
+    "nave lateral",
+    "dron dentro de la nave",
+    "crucero mirando el brazo"
+  ],
+  "camera": {
+    "lens": 16,
+    "ease": false,
+    "clip_end": 3000,
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          0,
+          3.0,
+          1.6
+        ],
+        "aim": [
+          0,
+          45,
+          9.5
+        ]
+      },
+      {
+        "frame": 2,
+        "pos": [
+          -48,
+          -52,
+          38
+        ],
+        "aim": [
+          0,
+          20,
+          12
+        ]
+      },
+      {
+        "frame": 3,
+        "pos": [
+          0,
+          -42,
+          1.6
+        ],
+        "aim": [
+          0,
+          0,
+          30
+        ]
+      },
+      {
+        "frame": 4,
+        "pos": [
+          62,
+          18,
+          6
+        ],
+        "aim": [
+          0,
+          22,
+          16
+        ]
+      },
+      {
+        "frame": 5,
+        "pos": [
+          2.4,
+          47.8,
+          2.3
+        ],
+        "aim": [
+          0,
+          0,
+          8
+        ]
+      },
+      {
+        "frame": 6,
+        "pos": [
+          7.2,
+          1.0,
+          1.6
+        ],
+        "aim": [
+          7.2,
+          30,
+          5
+        ]
+      },
+      {
+        "frame": 7,
+        "pos": [
+          0,
+          2.0,
+          12.0
+        ],
+        "aim": [
+          0,
+          40,
+          13
+        ]
+      },
+      {
+        "frame": 8,
+        "pos": [
+          0,
+          36.1,
+          1.6
+        ],
+        "aim": [
+          14,
+          36.1,
+          10
+        ]
+      }
+    ],
+    "lens_keys": [
+      [
+        1,
+        15
+      ],
+      [
+        2,
+        26
+      ],
+      [
+        3,
+        18
+      ],
+      [
+        4,
+        24
+      ],
+      [
+        5,
+        15
+      ],
+      [
+        6,
+        16
+      ],
+      [
+        7,
+        16
+      ],
+      [
+        8,
+        15
+      ]
+    ]
+  },
+  "line": {
+    "radius": 0.01,
+    "radius_keys": [
+      [
+        1,
+        0.012
+      ],
+      [
+        2,
+        0.045
+      ],
+      [
+        3,
+        0.04
+      ],
+      [
+        4,
+        0.05
+      ],
+      [
+        5,
+        0.012
+      ],
+      [
+        6,
+        0.01
+      ],
+      [
+        7,
+        0.012
+      ],
+      [
+        8,
+        0.012
+      ]
+    ]
+  },
+  "servidores": {},
+  "entorno": {
+    "datos": "data/entorno.json",
+    "z": -1.0,
+    "piso": 6000,
+    "radio": 450
+  }
+}

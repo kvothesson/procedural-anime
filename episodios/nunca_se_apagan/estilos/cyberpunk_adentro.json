@@ -1,0 +1,61 @@
+{
+  "extends": "cyberpunk",
+  "_desc": "Adentro de la catedral: el frio. Niebla violeta oscura y cercana, ambiente bajo; la luz es de los racks, el nucleo y los vitrales.",
+  "sky": {
+    "horizon": "#1a1238",
+    "top": "#05030f",
+    "ambient": "#1e1a40",
+    "ambient_strength": 0.7
+  },
+  "fog": {
+    "color": "#140c2c",
+    "dist": 55
+  },
+  "toon": {
+    "steps": [
+      [
+        0.0,
+        0.14
+      ],
+      [
+        0.08,
+        0.48
+      ],
+      [
+        0.42,
+        1.0
+      ]
+    ]
+  },
+  "lights": [
+    {
+      "kind": "SUN",
+      "color": "#6f7cff",
+      "energy": 0.8,
+      "rot": [
+        55,
+        0,
+        -30
+      ],
+      "shadow": true
+    }
+  ],
+  "post": {
+    "resplandor": {
+      "tinte": "#ff2bd6",
+      "umbral": 0.1,
+      "fuerza": 0.45,
+      "radios": [
+        60,
+        160,
+        320
+      ]
+    }
+  },
+  "piezas": {
+    "catedral": {
+      "brillos": []
+    }
+  },
+  "interior": true
+}

@@ -1,0 +1,289 @@
+{
+  "_lugar": "Alrededores de la Catedral de San Isidro (Plaza Mitre, Av. del Libertador, Tren de la Costa)",
+  "centro": [
+    -34.46725,
+    -58.50905
+  ],
+  "radio": 450,
+  "origen": [
+    -34.4670881,
+    -58.5094402
+  ],
+  "origen_local": [
+    5.0,
+    0.0
+  ],
+  "rumbo_deg": -27.50245657990324,
+  "excluir": [
+    129970084,
+    434818612,
+    434818617,
+    434818618,
+    434818620,
+    434818621,
+    434818622
+  ],
+  "zonas_libres": [
+    [
+      [
+        -18,
+        -16
+      ],
+      [
+        18,
+        -16
+      ],
+      [
+        18,
+        67
+      ],
+      [
+        -18,
+        67
+      ]
+    ]
+  ],
+  "relleno": true,
+  "seed": 11,
+  "terreno": {
+    "ref_m": 29.0,
+    "paso": 10.0,
+    "lado": 3400.0,
+    "suavizado_m": 10.0,
+    "plataformas": [
+      {
+        "min": [
+          -17,
+          -14
+        ],
+        "max": [
+          17,
+          66
+        ],
+        "z": -1.0,
+        "borde": 25.0
+      }
+    ]
+  },
+  "huellas": {
+    "archivo": "ms_huellas.geojsonl",
+    "fuente": "Microsoft Global ML Building Footprints (ODbL), tile 210321300, 2026-02-03"
+  },
+  "zonas_sin_arboles": [
+    [
+      [
+        -14,
+        -34
+      ],
+      [
+        14,
+        -34
+      ],
+      [
+        14,
+        -8
+      ],
+      [
+        -14,
+        -8
+      ]
+    ],
+    [
+      [
+        -30,
+        -34
+      ],
+      [
+        -9,
+        -34
+      ],
+      [
+        -9,
+        45
+      ],
+      [
+        -30,
+        45
+      ]
+    ],
+    [
+      [
+        10,
+        -14
+      ],
+      [
+        24.5,
+        -14
+      ],
+      [
+        25,
+        3
+      ],
+      [
+        35,
+        17
+      ],
+      [
+        40,
+        28
+      ],
+      [
+        10,
+        40
+      ]
+    ],
+    [
+      [
+        -100,
+        -66
+      ],
+      [
+        -52,
+        -66
+      ],
+      [
+        -52,
+        -45
+      ],
+      [
+        -100,
+        -45
+      ]
+    ]
+  ],
+  "bosque": {
+    "pendiente": 0.12,
+    "paso": 7.0,
+    "lejos": {
+      "hasta": 1150,
+      "paso": 28.0
+    }
+  },
+  "monumentos": [
+    {
+      "tipo": "fuente",
+      "osm": "node/4327371444",
+      "lat": -34.4662069,
+      "lon": -58.5095717,
+      "nombre": "fuente de Plaza Mitre"
+    },
+    {
+      "tipo": "busto",
+      "osm": "node/7622861431",
+      "lat": -34.4684849,
+      "lon": -58.5119158,
+      "nombre": "Andres Rolon"
+    },
+    {
+      "tipo": "parada",
+      "osm": "node/4626349575",
+      "lat": -34.4673974,
+      "lon": -58.509407,
+      "nombre": "Catedral De San Isidro"
+    },
+    {
+      "tipo": "parada",
+      "osm": "node/4627649857",
+      "lat": -34.4661837,
+      "lon": -58.5135221,
+      "nombre": "Libertador y Primera Junta"
+    },
+    {
+      "tipo": "parada",
+      "osm": "node/4636651830",
+      "lat": -34.4651823,
+      "lon": -58.5112527,
+      "nombre": "Primera Junta y Lasalle"
+    },
+    {
+      "tipo": "parada",
+      "osm": "node/4636755917",
+      "lat": -34.4637955,
+      "lon": -58.509738,
+      "nombre": "Primera Junta y Gaboto"
+    },
+    {
+      "tipo": "parada",
+      "osm": "node/9980964082",
+      "lat": -34.4673233,
+      "lon": -58.5116291,
+      "nombre": "Brown y 25 de Mayo"
+    },
+    {
+      "tipo": "parada",
+      "osm": "node/10005213906",
+      "lat": -34.4674945,
+      "lon": -58.5043589,
+      "nombre": "Pedro de Mendoza y Martin y Omar"
+    },
+    {
+      "tipo": "parada",
+      "osm": "node/10005239721",
+      "lat": -34.4660203,
+      "lon": -58.5068649,
+      "nombre": "Pedro de Mendoza y Centenera"
+    },
+    {
+      "tipo": "parada",
+      "osm": "node/10005246656",
+      "lat": -34.4658118,
+      "lon": -58.5070529,
+      "nombre": "Pedro de Mendoza y Centenera"
+    },
+    {
+      "tipo": "parada",
+      "osm": "node/10929748594",
+      "lat": -34.4688489,
+      "lon": -58.5086866,
+      "nombre": "Libertador y Belgrano"
+    },
+    {
+      "tipo": "parada",
+      "osm": "node/10962657764",
+      "lat": -34.4636046,
+      "lon": -58.5097342,
+      "nombre": "Primera Junta y Gaboto"
+    },
+    {
+      "tipo": "estatua",
+      "osm": "way/435069143 (centroide)",
+      "lat": -34.46739,
+      "lon": -58.5093482,
+      "nombre": "Sagrado Corazon (1940), Plazoleta Obispo Aguirre: folleto de la parroquia"
+    }
+  ],
+  "agua": {
+    "cota_m": 2.4,
+    "radio": 3000,
+    "fondo": 1.5,
+    "_fuente": "OSM relation/3474227 (Rio de la Plata) y espejos natural=water; cota del agua de SRTM"
+  },
+  "alturas": [
+    {
+      "nombre": "Tribunales de San Isidro (relation/6630572, 1977)",
+      "lat": -34.46894,
+      "lon": -58.51245,
+      "h": 42.0,
+      "_fuente": "huella: OSM way/446019471 (outer de relation/6630572); altura: foto 45, ~0,4 de la torre sobre el rio",
+      "huella": [
+        [
+          -34.4687162,
+          -58.512528
+        ],
+        [
+          -34.4689982,
+          -58.5127202
+        ],
+        [
+          -34.4691595,
+          -58.5123719
+        ],
+        [
+          -34.4688775,
+          -58.5121797
+        ]
+      ]
+    }
+  ],
+  "_zonas_sin_arboles": "atrio (fotos 67 y 74); flanco oeste despejado (foto 70); vereda este sobre Libertador, sin arboles del lado de la catedral (fotos 30 y 31); explanada de la fuente de Plaza Mitre, empedrada y abierta (foto aerea)"
+}

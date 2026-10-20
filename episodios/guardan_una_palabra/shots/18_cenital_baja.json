@@ -1,0 +1,78 @@
+{
+ "estilo": "studio_noche",
+ "fecha": "2026-10-17",
+ "catedral": {
+  "techo": false,
+  "anexos": true,
+  "suelo": 0
+ },
+ "servidores": {},
+ "entorno": {
+  "datos": "../catedral/data/entorno.json",
+  "z": -1.0,
+  "piso": 6000,
+  "radio": 450
+ },
+ "_desc": "Cenital sin techo, bajando hacia el nucleo",
+ "width": 1920,
+ "height": 1080,
+ "fps": 12,
+ "frames": 72,
+ "samples": 8,
+ "storyboard": [
+  36
+ ],
+ "_t": [
+  138.167,
+  144.167
+ ],
+ "hora": "23:50",
+ "line": {
+  "radius": 0.04
+ },
+ "camera": {
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     0,
+     30,
+     120
+    ],
+    "aim": [
+     0,
+     35.6,
+     0
+    ]
+   },
+   {
+    "frame": 72,
+    "pos": [
+     0,
+     34,
+     40
+    ],
+    "aim": [
+     0,
+     35.7,
+     0
+    ]
+   }
+  ],
+  "lens": 33.6,
+  "lens_keys": [
+   [
+    1,
+    33.6
+   ],
+   [
+    72,
+    33.6
+   ]
+  ],
+  "ease": true,
+  "clip_start": 0.05,
+  "clip_end": 3200,
+  "verticales": true
+ }
+}

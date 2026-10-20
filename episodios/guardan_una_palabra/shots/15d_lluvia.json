@@ -1,0 +1,79 @@
+{
+ "estilo": "studio_noche",
+ "fecha": "2026-10-17",
+ "catedral": {
+  "techo": true,
+  "anexos": true,
+  "suelo": 0
+ },
+ "servidores": {},
+ "entorno": {
+  "datos": "../catedral/data/entorno.json",
+  "z": -1.0,
+  "piso": 6000,
+  "radio": 450
+ },
+ "_desc": "Lluvia",
+ "width": 1920,
+ "height": 1080,
+ "fps": 6,
+ "frames": 24,
+ "samples": 8,
+ "storyboard": [
+  12
+ ],
+ "_t": [
+  118.167,
+  122.167
+ ],
+ "hora": "22:00",
+ "clima": "lluvia",
+ "line": {
+  "radius": 0.035
+ },
+ "camera": {
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     50.0,
+     -25.0,
+     28.0
+    ],
+    "aim": [
+     0,
+     15,
+     15
+    ]
+   },
+   {
+    "frame": 24,
+    "pos": [
+     47.5,
+     -22.5,
+     27.0
+    ],
+    "aim": [
+     0,
+     15,
+     15
+    ]
+   }
+  ],
+  "lens": 33.6,
+  "lens_keys": [
+   [
+    1,
+    33.6
+   ],
+   [
+    24,
+    33.6
+   ]
+  ],
+  "ease": false,
+  "clip_start": 0.05,
+  "clip_end": 3200,
+  "verticales": true
+ }
+}

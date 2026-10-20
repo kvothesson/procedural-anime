@@ -1,0 +1,66 @@
+{
+  "extends": "vistas.json",
+  "estilo": "studio_adentro",
+  "_desc": "Banco del estilo studio adentro: nave desde la entrada y el nucleo en el crucero (sin barrio: no se ve y tarda).",
+  "drop": [
+    "entorno"
+  ],
+  "frames": 2,
+  "storyboard": [
+    1,
+    2
+  ],
+  "line": {
+    "radius": 0.016,
+    "radius_keys": [
+      [
+        1,
+        0.016
+      ],
+      [
+        2,
+        0.016
+      ]
+    ]
+  },
+  "camera": {
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          0,
+          3.0,
+          1.6
+        ],
+        "aim": [
+          0,
+          45,
+          9.5
+        ]
+      },
+      {
+        "frame": 2,
+        "pos": [
+          0,
+          27.0,
+          1.7
+        ],
+        "aim": [
+          0,
+          36,
+          9
+        ]
+      }
+    ],
+    "lens_keys": [
+      [
+        1,
+        15
+      ],
+      [
+        2,
+        16
+      ]
+    ]
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "extends": "vistas.json",
+  "estilo": "maqueta",
+  "frames": 4,
+  "storyboard": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "drop": [
+    "servidores"
+  ],
+  "catedral": {
+    "bancos": true,
+    "puertas": {
+      "abre": [
+        [
+          1,
+          80
+        ]
+      ]
+    }
+  },
+  "sky": {
+    "horizon": "#8a8f9a",
+    "top": "#5a606c",
+    "ambient": "#6a707c",
+    "ambient_strength": 0.45
+  },
+  "lights": [
+    {
+      "kind": "SUN",
+      "color": "#fff4e6",
+      "energy": 1.7,
+      "rot": [
+        38,
+        0,
+        25
+      ],
+      "shadow": false
+    }
+  ],
+  "line": {
+    "radius": 0.007,
+    "radius_keys": [
+      [
+        1,
+        0.007
+      ],
+      [
+        2,
+        0.007
+      ],
+      [
+        3,
+        0.007
+      ],
+      [
+        4,
+        0.007
+      ]
+    ]
+  },
+  "camera": {
+    "keys": [
+      {
+        "pos": [
+          2.0,
+          -3.0,
+          7.9
+        ],
+        "aim": [
+          0,
+          40,
+          9
+        ],
+        "frame": 1
+      },
+      {
+        "pos": [
+          0.5,
+          36.1,
+          1.6
+        ],
+        "aim": [
+          0.3,
+          36.3,
+          19
+        ],
+        "frame": 2
+      },
+      {
+        "pos": [
+          0,
+          48.5,
+          1.8
+        ],
+        "aim": [
+          0,
+          20,
+          6
+        ],
+        "frame": 3
+      },
+      {
+        "pos": [
+          13.5,
+          34.0,
+          1.6
+        ],
+        "aim": [
+          -10,
+          37,
+          8
+        ],
+        "frame": 4
+      }
+    ],
+    "lens_keys": [
+      [
+        1,
+        16
+      ],
+      [
+        2,
+        14
+      ],
+      [
+        3,
+        16
+      ],
+      [
+        4,
+        16
+      ]
+    ]
+  }
+}

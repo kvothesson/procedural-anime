@@ -1,0 +1,78 @@
+{
+ "estilo": "studio_noche",
+ "fecha": "2026-10-17",
+ "catedral": {
+  "techo": true,
+  "anexos": true,
+  "suelo": 0
+ },
+ "servidores": {},
+ "entorno": {
+  "datos": "../catedral/data/entorno.json",
+  "z": -1.0,
+  "piso": 6000,
+  "radio": 450
+ },
+ "_desc": "Campanas: el dron se aleja hasta el rio; termina en el primer cuadro",
+ "width": 1920,
+ "height": 1080,
+ "fps": 12,
+ "frames": 94,
+ "samples": 8,
+ "storyboard": [
+  47
+ ],
+ "_t": [
+  172.167,
+  180.0
+ ],
+ "hora": "19:40",
+ "line": {
+  "radius": 0.2
+ },
+ "camera": {
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     -650.0,
+     190.0,
+     30.0
+    ],
+    "aim": [
+     0,
+     20,
+     30
+    ]
+   },
+   {
+    "frame": 94,
+    "pos": [
+     -2300.0,
+     480.0,
+     -24.0
+    ],
+    "aim": [
+     0,
+     20,
+     30
+    ]
+   }
+  ],
+  "lens": 64.0,
+  "lens_keys": [
+   [
+    1,
+    64.0
+   ],
+   [
+    94,
+    224.0
+   ]
+  ],
+  "ease": true,
+  "clip_start": 0.05,
+  "clip_end": 3200,
+  "verticales": true
+ }
+}

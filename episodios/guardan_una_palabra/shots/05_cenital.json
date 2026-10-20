@@ -1,0 +1,78 @@
+{
+ "estilo": "studio_noche",
+ "fecha": "2026-10-17",
+ "catedral": {
+  "techo": false,
+  "anexos": true,
+  "suelo": 0
+ },
+ "servidores": {},
+ "entorno": {
+  "datos": "../catedral/data/entorno.json",
+  "z": -1.0,
+  "piso": 6000,
+  "radio": 450
+ },
+ "_desc": "Cenital sin techo: la catedral llena de racks vista desde arriba, bajando",
+ "width": 1920,
+ "height": 1080,
+ "fps": 6,
+ "frames": 48,
+ "samples": 8,
+ "storyboard": [
+  24
+ ],
+ "_t": [
+  32.167,
+  40.167
+ ],
+ "hora": "21:30",
+ "line": {
+  "radius": 0.05
+ },
+ "camera": {
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     -3.0,
+     20.0,
+     150.0
+    ],
+    "aim": [
+     0,
+     24.6,
+     0
+    ]
+   },
+   {
+    "frame": 48,
+    "pos": [
+     3.0,
+     28.0,
+     95.0
+    ],
+    "aim": [
+     0,
+     24.4,
+     0
+    ]
+   }
+  ],
+  "lens": 42.0,
+  "lens_keys": [
+   [
+    1,
+    42.0
+   ],
+   [
+    48,
+    42.0
+   ]
+  ],
+  "ease": true,
+  "clip_start": 0.05,
+  "clip_end": 3200,
+  "verticales": true
+ }
+}

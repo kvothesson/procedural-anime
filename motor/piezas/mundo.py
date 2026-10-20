@@ -27,6 +27,14 @@ def build_world(sky):
     els[0].color = lin(sky["horizon"])
     els[1].position = sky.get("zenith_at", 0.5)
     els[1].color = lin(sky["top"])
+    # "mid": una banda intermedia (el violeta del crepusculo entre el naranja
+    # y el azul noche) y "interp": "EASE" para que no haya corte: con dos
+    # colores muy distintos y rampa lineal, mirando hacia arriba se ve un
+    # disco con borde duro alrededor del cenit
+    if "mid" in sky:
+        el = els.new(sky.get("mid_at", 0.2))
+        el.color = lin(sky["mid"])
+    ramp.color_ramp.interpolation = sky.get("interp", "LINEAR")
     nt.links.new(sep.outputs[2], ramp.inputs["Fac"])
     world["ramp"] = ramp.name
     bg_cam = n.new("ShaderNodeBackground")
@@ -59,6 +67,15 @@ def build_lights(items, colls):
         ob.location = l.get("at", (0, 0, 10))
         if "rot" in l:
             ob.rotation_euler = [math.radians(a) for a in l["rot"]]
+        if "hacia" in l:
+            # "hacia": vector que apunta a la fuente (el sol de cielo.py); la
+            # luz alumbra en la direccion opuesta, por su -Z
+            ob.rotation_mode = "QUATERNION"
+            ob.rotation_quaternion = Vector((0, 0, 1)).rotation_difference(Vector(l["hacia"]).normalized())
+        # "energia_keys": [[frame, energia], ...] (relampagos)
+        for f, en in l.get("energia_keys", []):
+            li.energy = en
+            li.keyframe_insert("energy", frame=f)
         link(ob, colls["lights"])
 
 
@@ -110,6 +127,11 @@ def build_lineart(e, colls):
     mod.target_layer = "linea"
     mod.target_material = m
     mod.radius = e.get("radius", 0.01)
+    # el radio va en metros: un plano que viaja de lo general al detalle lo
+    # baja en el camino ([[frame, radio], ...]) para que la tinta no engorde
+    for f, r in e.get("radius_keys", []):
+        mod.radius = r
+        mod.keyframe_insert("radius", frame=f)
     mod.use_intersection = e.get("intersection", True)
     mod.use_crease = True
     mod.crease_threshold = math.radians(e.get("crease_deg", 140))
@@ -119,9 +141,15 @@ def build_lineart(e, colls):
 def build_camera(c):
     cam_data = bpy.data.cameras.new("cam")
     cam_data.lens = c["lens"]
+    # "lens_keys": [[frame, mm], ...] cambia la lente en el plano (una hoja
+    # de vistas con una camara distinta por frame, o un zoom)
+    for f, mm in c.get("lens_keys", []):
+        cam_data.lens = mm
+        cam_data.keyframe_insert("lens", frame=f)
     cam_data.sensor_fit = "VERTICAL"
     cam_data.sensor_height = 36.0
     cam_data.clip_end = c.get("clip_end", 500)
+    cam_data.clip_start = c.get("clip_start", 0.1)
     cam = bpy.data.objects.new("cam", cam_data)
     link(cam)
     target = bpy.data.objects.new("mira", None)
@@ -137,13 +165,40 @@ def build_camera(c):
         {"frame": 1, "pos": c["from"], "aim": c.get("from_aim")},
         {"frame": frames, "pos": c["to"], "aim": c.get("to_aim")},
     ]
+    # "verticales": true = camara de arquitecto: si la mira sube o baja menos de
+    # 35 grados, la camara queda nivelada y el encuadre se corre con shift_y
+    # (descentramiento): las verticales salen derechas en vez de converger
+    vert = c.get("verticales", False)
+    lk = sorted(c.get("lens_keys", [])) or [[1, c["lens"]]]
+
+    def lente(f):
+        if f <= lk[0][0]:
+            return lk[0][1]
+        for (f0, l0), (f1, l1) in zip(lk, lk[1:]):
+            if f0 <= f <= f1:
+                return l0 + (l1 - l0) * (f - f0) / max(1, f1 - f0)
+        return lk[-1][1]
+    w, h = ctx.CFG["width"], ctx.CFG["height"]
     for k in keys:
         p = Vector(k["pos"])
         cam.location = p
         cam.keyframe_insert("location", frame=k["frame"])
         aim = Vector(k.get("aim") or (p.x, p.y + 20, p.z + c.get("rise", 4.0)))
+        shift = 0.0
+        if vert:
+            d = aim - p
+            horiz = (d.x ** 2 + d.y ** 2) ** 0.5
+            pitch = math.atan2(d.z, horiz) if horiz > 1e-6 else math.pi / 2
+            if abs(pitch) < math.radians(35):
+                # el sensor de 36 mm es el alto; shift va en unidades del lado
+                # mas largo de la imagen
+                shift = lente(k["frame"]) * math.tan(pitch) / (36.0 * max(w, h) / h)
+                aim = Vector((aim.x, aim.y, p.z))
         target.location = aim
         target.keyframe_insert("location", frame=k["frame"])
+        if vert:
+            cam_data.shift_y = shift
+            cam_data.keyframe_insert("shift_y", frame=k["frame"])
     if c.get("ease"):
         # sin grilla de pixeles que proteger: el easing le da peso a la camara
         for ob in (cam, target):

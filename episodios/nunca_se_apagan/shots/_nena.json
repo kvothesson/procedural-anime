@@ -1,0 +1,213 @@
+{
+  "_desc": "Prototipo de la nena (POV del papa) + primer plano de revision.",
+  "estilo": "maqueta",
+  "width": 1080,
+  "height": 1920,
+  "fps": 12,
+  "frames": 4,
+  "samples": 8,
+  "storyboard": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "catedral": {
+    "techo": true,
+    "anexos": true,
+    "suelo": 0
+  },
+  "servidores": {},
+  "entorno": {
+    "datos": "../catedral/data/entorno.json",
+    "piso": 6000,
+    "radio": 450
+  },
+  "nena": {
+    "keys": [
+      {
+        "rumbo": [
+          0,
+          1
+        ],
+        "at": [
+          20.05,
+          -79.7,
+          -3.838
+        ],
+        "cabeza": [
+          8,
+          5
+        ],
+        "paso": 18,
+        "habla": 1,
+        "frame": 1
+      },
+      {
+        "rumbo": [
+          0,
+          1
+        ],
+        "at": [
+          20.05,
+          -77.65,
+          -3.74
+        ],
+        "cabeza": [
+          150,
+          38
+        ],
+        "paso": 0,
+        "habla": 1,
+        "frame": 2
+      },
+      {
+        "rumbo": [
+          0,
+          1
+        ],
+        "at": [
+          19.8,
+          -75.0,
+          -3.6
+        ],
+        "cabeza": [
+          12,
+          25
+        ],
+        "paso": 0,
+        "habla": 0,
+        "senala": [
+          0.0,
+          -3.6,
+          34.0
+        ],
+        "frame": 3
+      },
+      {
+        "rumbo": [
+          0,
+          1
+        ],
+        "at": [
+          20.05,
+          -70.0,
+          -3.373
+        ],
+        "cabeza": [
+          0,
+          8
+        ],
+        "paso": 0,
+        "habla": 1,
+        "frame": 4
+      }
+    ]
+  },
+  "papa_brazo": {
+    "hombro": [
+      0.24,
+      0.05,
+      0.36
+    ]
+  },
+  "line": {
+    "radius": 0.004,
+    "radius_keys": [
+      [
+        1,
+        0.004
+      ],
+      [
+        2,
+        0.004
+      ],
+      [
+        3,
+        0.006
+      ],
+      [
+        4,
+        0.004
+      ]
+    ]
+  },
+  "camera": {
+    "lens": 18,
+    "ease": false,
+    "clip_start": 0.05,
+    "clip_end": 3000,
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          19.4,
+          -80.0,
+          -2.125
+        ],
+        "aim": [
+          22.862,
+          -77.196,
+          -4.395
+        ]
+      },
+      {
+        "frame": 2,
+        "pos": [
+          19.4,
+          -78.0,
+          -2.027
+        ],
+        "aim": [
+          22.26,
+          -75.922,
+          -5.563
+        ]
+      },
+      {
+        "frame": 3,
+        "pos": [
+          19.4,
+          -76.0,
+          -1.929
+        ],
+        "aim": [
+          19.922,
+          -71.034,
+          -2.191
+        ]
+      },
+      {
+        "frame": 4,
+        "pos": [
+          20.1,
+          -69.25,
+          -2.373
+        ],
+        "aim": [
+          20.05,
+          -70.0,
+          -2.423
+        ]
+      }
+    ],
+    "lens_keys": [
+      [
+        1,
+        18
+      ],
+      [
+        2,
+        20
+      ],
+      [
+        3,
+        13
+      ],
+      [
+        4,
+        40
+      ]
+    ]
+  }
+}

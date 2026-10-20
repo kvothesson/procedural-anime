@@ -1,0 +1,192 @@
+{
+  "_desc": "09 - La luz mala. El parpadeo erratico de la radio se vuelve un latido estable. La camara sube al mapa que proyecta Vesper: en San Antonio de los Cobres el nodo en falla se vuelve una luz mala ambar sobre la Ruta 404.",
+  "extends": "06_sombra.json",
+  "frames": 72,
+  "torre": {
+    "escala": [
+      [
+        1,
+        1.0
+      ]
+    ]
+  },
+  "radio": {
+    "erratico": [
+      1,
+      20
+    ],
+    "latido": {
+      "desde": 22,
+      "bpm": 60,
+      "base": 0.6
+    }
+  },
+  "nyx": {
+    "keys": [
+      [
+        1,
+        [
+          2.0,
+          -1.0,
+          1.65
+        ],
+        -95,
+        0.4
+      ],
+      [
+        72,
+        [
+          2.0,
+          -1.0,
+          1.65
+        ],
+        -95,
+        0.35
+      ]
+    ],
+    "lente": [
+      [
+        1,
+        1.0
+      ]
+    ],
+    "cable2": {
+      "comba": 0.35
+    },
+    "venas": [
+      [
+        1,
+        0.3
+      ]
+    ]
+  },
+  "descarga": {
+    "frame": -20
+  },
+  "aegis": {
+    "keys": [
+      [
+        1,
+        [
+          1.32,
+          -1.83,
+          2.2
+        ],
+        140
+      ],
+      [
+        72,
+        [
+          1.32,
+          -1.83,
+          2.2
+        ],
+        140
+      ]
+    ],
+    "visor_power": [
+      [
+        1,
+        0.6
+      ]
+    ]
+  },
+  "vesper": {
+    "keys": [
+      [
+        1,
+        [
+          2.0,
+          0.4,
+          3.1
+        ],
+        -50
+      ],
+      [
+        72,
+        [
+          2.0,
+          0.4,
+          3.1
+        ],
+        -50
+      ]
+    ]
+  },
+  "mapa": {
+    "at": [
+      1.3,
+      -0.25,
+      2.35
+    ],
+    "mira": [
+      -0.4,
+      -1.1,
+      1.7
+    ],
+    "luz_mala": 34,
+    "de": "vesper"
+  },
+  "camera": {
+    "lens": 24,
+    "ease": true,
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          0.6,
+          -1.3,
+          0.9
+        ],
+        "aim": [
+          3.2,
+          0.2,
+          1.0
+        ]
+      },
+      {
+        "frame": 20,
+        "pos": [
+          0.55,
+          -1.3,
+          0.95
+        ],
+        "aim": [
+          3.2,
+          0.2,
+          1.1
+        ]
+      },
+      {
+        "frame": 40,
+        "pos": [
+          -0.4,
+          -1.1,
+          1.7
+        ],
+        "aim": [
+          1.3,
+          -0.25,
+          2.3
+        ]
+      },
+      {
+        "frame": 72,
+        "pos": [
+          -0.25,
+          -1.0,
+          1.75
+        ],
+        "aim": [
+          1.3,
+          -0.25,
+          2.35
+        ]
+      }
+    ]
+  },
+  "post": {
+    "glitch": [],
+    "datamosh": []
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "extends": "studio_noche",
+  "_desc": "Adentro de noche: casi negro, la luz es de las maquinas. Racks negros con leds cian (pocos magenta y ambar), el nucleo blanco cian en el crucero; las bovedas solo se leen por el color que tiran los vitrales; niebla cian a ras del piso y el piso pulido con estelas de lo que brilla.",
+  "interior": true,
+  "sky": {
+    "horizon": "#0a1430",
+    "mid": "#060a1c",
+    "mid_at": 0.3,
+    "top": "#020308",
+    "zenith_at": 0.78,
+    "interp": "EASE",
+    "ambient": "#0e1a36",
+    "ambient_strength": 0.6
+  },
+  "fog": {
+    "color": "#050a18",
+    "dist": 110
+  },
+  "toon": {
+    "steps": [
+      [
+        0.0,
+        0.1
+      ],
+      [
+        0.25,
+        1.0
+      ]
+    ]
+  },
+  "lights": [
+    {
+      "kind": "SUN",
+      "color": "#4a7cff",
+      "energy": 0.7,
+      "rot": [
+        55,
+        0,
+        -30
+      ],
+      "shadow": true
+    }
+  ],
+  "post": {
+    "resplandor": {
+      "tinte": "#ff2a8a",
+      "umbral": 0.1,
+      "fuerza": 0.4,
+      "radios": [
+        60,
+        160,
+        320
+      ]
+    },
+    "estelas": {
+      "umbral": 0.5,
+      "largo": 0.16,
+      "fuerza": 0.7,
+      "desde": 0.6
+    }
+  },
+  "piezas": {
+    "catedral": {
+      "colores": {
+        "piedra": "#4a5482",
+        "suelo": "#10121e",
+        "ladrillo": "#4a5482"
+      },
+      "brillos": [],
+      "niebla_piso": {
+        "color": "#7ff0ff",
+        "alpha": 0.08,
+        "alturas": [
+          0.12,
+          0.35,
+          0.65
+        ]
+      },
+      "rayos": {
+        "alpha": 0.07,
+        "inclinacion": 0.55,
+        "desde_z": 12.0
+      }
+    }
+  }
+}

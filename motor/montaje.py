@@ -100,10 +100,17 @@ def main():
             else:
                 hint = f"python motor/post.py {sys.argv[1]} {shot}"
             raise SystemExit(f"Falta componer {shot}: {hint}")
+        # cadencias mezcladas: un plano en doses (12 fps) dentro de un corte a
+        # 24 unicos repite cada cuadro; el sakuga va a 24 unicos
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        from plano import load_shot
+        shot_fps = load_shot(ROOT / "shots" / f"{shot}.json").get("fps", tl["fps_unique"])
+        rep = max(1, round(tl["fps_unique"] / shot_fps))
         for fr in frames:
-            n += 1
-            shutil.copyfile(fr, seq / f"m_{n:05d}.png")
-        report.append(f"{shot}: {len(frames)} frames ({len(frames) / tl['fps_unique']:.1f} s)")
+            for _ in range(rep):
+                n += 1
+                shutil.copyfile(fr, seq / f"m_{n:05d}.png")
+        report.append(f"{shot}: {len(frames)} frames a {shot_fps} fps ({len(frames) / shot_fps:.1f} s)")
     if tl.get("subs"):
         burn_subs(seq, ROOT / "shots" / tl["subs"], tl["fps_unique"])
     out = ROOT / "out" / f"{tl['name']}{'_draft' if draft else ''}.mp4"
@@ -116,9 +123,11 @@ def main():
     wav = ROOT / "out" / f"{tl['name']}.wav"
     if wav.exists():
         # banda de audio/banda.py: AAC 320 kbps a 48 kHz (44.1 mete artefactos de resampleo)
+        # sonoridad de YouTube: -14 LUFS integrados, pico real -1 dB. Normalizar
+        # por pico (banda.py) deja cada episodio a un volumen distinto
         subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(video), "-i", str(wav),
-                        "-c:v", "copy", "-c:a", "aac", "-b:a", "320k", "-ar", "48000",
-                        "-shortest", "-movflags", "+faststart", str(out)], check=True)
+                        "-af", "loudnorm=I=-14:TP=-1:LRA=11", "-c:v", "copy", "-c:a", "aac", "-b:a", "320k",
+                        "-ar", "48000", "-shortest", "-movflags", "+faststart", str(out)], check=True)
     else:
         video.replace(out)
     print("\n".join(report))

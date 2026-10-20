@@ -1,0 +1,79 @@
+{
+ "estilo": "studio_dia",
+ "fecha": "2026-10-17",
+ "catedral": {
+  "techo": true,
+  "anexos": true,
+  "suelo": 0
+ },
+ "servidores": {},
+ "entorno": {
+  "datos": "../catedral/data/entorno.json",
+  "z": -1.0,
+  "piso": 6000,
+  "radio": 450
+ },
+ "_desc": "El estilo de dia",
+ "width": 1920,
+ "height": 1080,
+ "fps": 6,
+ "frames": 12,
+ "samples": 8,
+ "storyboard": [
+  6
+ ],
+ "_t": [
+  112.167,
+  114.167
+ ],
+ "hora": "15:30",
+ "clima": "despejado",
+ "line": {
+  "radius": 0.035
+ },
+ "camera": {
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     53.75,
+     -28.75,
+     29.5
+    ],
+    "aim": [
+     0,
+     15,
+     15
+    ]
+   },
+   {
+    "frame": 12,
+    "pos": [
+     52.5,
+     -27.5,
+     29.0
+    ],
+    "aim": [
+     0,
+     15,
+     15
+    ]
+   }
+  ],
+  "lens": 33.6,
+  "lens_keys": [
+   [
+    1,
+    33.6
+   ],
+   [
+    12,
+    33.6
+   ]
+  ],
+  "ease": false,
+  "clip_start": 0.05,
+  "clip_end": 3200,
+  "verticales": true
+ }
+}

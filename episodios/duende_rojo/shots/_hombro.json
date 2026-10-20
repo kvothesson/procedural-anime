@@ -1,0 +1,29 @@
+{
+  "_desc": "Prueba: por encima del hombro de Nyx, arriba del arco, mirando el duende sobre el Uritorco.",
+  "extends": "_calle.json",
+  "camera": {
+    "lens": 38,
+    "clip_end": 60000,
+    "clip_start": 0.05,
+    "from": [
+      32.459,
+      19.307,
+      7.5
+    ],
+    "from_aim": [
+      118.01,
+      66.73,
+      28.29
+    ],
+    "to": [
+      32.459,
+      19.307,
+      7.5
+    ],
+    "to_aim": [
+      118.01,
+      66.73,
+      28.29
+    ]
+  }
+}

@@ -1,0 +1,204 @@
+{
+  "_desc": "BASE del estilo studio (high-end cyberpunk anime, cel-shading, tinta fina, color vivo). No se usa sola: studio_noche, studio_dia, studio_adentro, studio_adentro_dia. Tres luces con dueño: cian = la maquina (racks, nucleo, reflectores), magenta = la senal (vitrales), ambar = la gente (ventanas, faroles). Lo demas es tinta indigo: el neon se lee porque el resto es oscuro. Afuera, la catedral lleva sus colores reales (medidos en las fotos 12, 30, 39 y 67: piedra arenisca crema, paños de ladrillo con franjas, techo de cobre con verdin): no cambian con el estilo ni la hora, la luz hace la noche.",
+  "line": {
+    "color": "#06051a",
+    "crease_deg": 120,
+    "intersection": true
+  },
+  "horas": [
+    {
+      "elev": -18,
+      "horizon": "#3a1c5e",
+      "top": "#04050f",
+      "ambient": "#1a1d40",
+      "amb": 0.6,
+      "sol": "#8a9cff",
+      "energia": 1.2,
+      "ventanas": 0.7,
+      "noche": 1.0
+    },
+    {
+      "elev": -8,
+      "horizon": "#6a2a72",
+      "top": "#0b1036",
+      "ambient": "#272a5c",
+      "amb": 0.75,
+      "sol": "#9a94ff",
+      "energia": 0.9,
+      "ventanas": 0.62,
+      "noche": 1.0
+    },
+    {
+      "elev": -2,
+      "horizon": "#ff5a7a",
+      "top": "#211e5e",
+      "ambient": "#5a3e7e",
+      "amb": 0.85,
+      "sol": "#ff6f7a",
+      "energia": 0.9,
+      "ventanas": 0.45,
+      "noche": 0.75
+    },
+    {
+      "elev": 4,
+      "horizon": "#ffa066",
+      "top": "#2c4caa",
+      "ambient": "#8a6c9e",
+      "amb": 0.95,
+      "sol": "#ff9a5a",
+      "energia": 2.2,
+      "ventanas": 0.25,
+      "noche": 0.25
+    },
+    {
+      "elev": 12,
+      "horizon": "#ffe0b4",
+      "top": "#246cdc",
+      "ambient": "#8fa0dc",
+      "amb": 1.0,
+      "sol": "#ffe2b8",
+      "energia": 3.2,
+      "ventanas": 0.08,
+      "noche": 0.0
+    },
+    {
+      "elev": 35,
+      "horizon": "#c4eeff",
+      "top": "#1a68e8",
+      "ambient": "#8eaaf0",
+      "amb": 1.0,
+      "sol": "#fff4e0",
+      "energia": 3.8,
+      "ventanas": 0.05,
+      "noche": 0.0
+    },
+    {
+      "elev": 90,
+      "horizon": "#c4eeff",
+      "top": "#145fe0",
+      "ambient": "#8eaaf0",
+      "amb": 1.0,
+      "sol": "#ffffff",
+      "energia": 4.0,
+      "ventanas": 0.05,
+      "noche": 0.0
+    }
+  ],
+  "post": {
+    "rain": false,
+    "glow": {
+      "threshold": 0.7,
+      "radii": [
+        5,
+        18,
+        55
+      ],
+      "weights": [
+        0.7,
+        0.55,
+        0.45
+      ],
+      "strength": 1.2
+    },
+    "aberration": 0.0,
+    "vignette": 0.15,
+    "grain": 0.006
+  },
+  "piezas": {
+    "catedral": {
+      "vidrios": {
+        "colores": [
+          "#ff2a8a",
+          "#2de2ff",
+          "#8a4dff",
+          "#ffb347",
+          "#2de2ff",
+          "#ff2a8a"
+        ],
+        "fuerza": 3.0,
+        "plomo": "#08061a",
+        "luz": {
+          "energia": 220,
+          "desde_z": 10.0,
+          "adentro": 1.8
+        }
+      },
+      "colores": {
+        "piedra": "#ecd7b0",
+        "ladrillo": "#b5604a",
+        "techo": "#5f8577",
+        "puerta": "#5a3424"
+      },
+      "franjas": {
+        "paso": 2.2,
+        "banda": 0.4,
+        "z": [
+          1.4,
+          100
+        ]
+      },
+      "franjas_torre": {
+        "paso": 1.0,
+        "banda": 0.45,
+        "z": [
+          10.5,
+          41.0
+        ],
+        "esquinas": {
+          "centro": [
+            0.0,
+            -3.6
+          ],
+          "desde": 3.3
+        },
+        "aguja": {
+          "centro": [
+            0.0,
+            -3.6
+          ],
+          "radio": 3.2,
+          "z": 52.4,
+          "color": "#6f7c80"
+        }
+      }
+    },
+    "servidores": {
+      "colores": {
+        "cuerpo": "#12141f",
+        "frente": "#07080f",
+        "cable": "#1c1a2e"
+      },
+      "leds": {
+        "colores": [
+          "#2de2ff",
+          "#2de2ff",
+          "#ff2a8a",
+          "#2de2ff",
+          "#ffb347",
+          "#8a4dff"
+        ],
+        "fuerza": 4.5,
+        "densidad": 0.5,
+        "parpadeo": 0.3
+      },
+      "nucleo": "#7ff6ff",
+      "nucleo_fuerza": 3.5,
+      "luces": {
+        "energia": 12,
+        "nucleo": 160
+      }
+    }
+  },
+  "toon": {
+    "steps": [
+      [
+        0.0,
+        0.16
+      ],
+      [
+        0.3,
+        1.0
+      ]
+    ]
+  }
+}

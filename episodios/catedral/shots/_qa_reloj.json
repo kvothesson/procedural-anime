@@ -1,0 +1,38 @@
+{
+  "extends": "vistas.json",
+  "estilo": "maqueta",
+  "hora": "15:30",
+  "fecha": "2026-10-17",
+  "clima": "despejado",
+  "frames": 1,
+  "storyboard": [
+    1
+  ],
+  "line": {
+    "radius": 0.015
+  },
+  "camera": {
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          18.0,
+          -40.0,
+          30.0
+        ],
+        "aim": [
+          0.0,
+          -3.6,
+          43.0
+        ]
+      }
+    ],
+    "lens_keys": [
+      [
+        1,
+        50
+      ]
+    ],
+    "clip_end": 3000
+  }
+}

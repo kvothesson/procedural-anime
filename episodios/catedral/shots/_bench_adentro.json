@@ -1,0 +1,62 @@
+{
+  "extends": "vistas.json",
+  "estilo": "cyberpunk_adentro",
+  "frames": 2,
+  "storyboard": [
+    1,
+    2
+  ],
+  "line": {
+    "radius": 0.006,
+    "radius_keys": [
+      [
+        1,
+        0.006
+      ],
+      [
+        2,
+        0.006
+      ]
+    ]
+  },
+  "camera": {
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          0,
+          3,
+          1.6
+        ],
+        "aim": [
+          0,
+          45,
+          9.5
+        ]
+      },
+      {
+        "frame": 2,
+        "pos": [
+          -0.35,
+          28,
+          1.7
+        ],
+        "aim": [
+          0,
+          36,
+          8
+        ]
+      }
+    ],
+    "lens_keys": [
+      [
+        1,
+        15
+      ],
+      [
+        2,
+        15
+      ]
+    ]
+  }
+}

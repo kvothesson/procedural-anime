@@ -1,0 +1,156 @@
+{
+  "_desc": "07b - Las lentes. La cara de Nyx de frente, iluminada de rojo; las pupilas se dilatan y el duende se refleja en las lentes.",
+  "extends": "_calle.json",
+  "frames": 60,
+  "fps": 24,
+  "duende": {
+    "fase": [
+      [
+        1,
+        0.55
+      ],
+      [
+        60,
+        0.75
+      ]
+    ]
+  },
+  "tormenta": {
+    "rayos": [],
+    "dispara": 0
+  },
+  "nyx": {
+    "keys": [
+      [
+        1,
+        [
+          34.548,
+          20.18,
+          7.2
+        ],
+        119,
+        0.9
+      ],
+      [
+        60,
+        [
+          34.548,
+          20.18,
+          7.2
+        ],
+        119,
+        0.9
+      ]
+    ],
+    "vaiven": 0.0
+  },
+  "vesper": {
+    "keys": [
+      [
+        1,
+        [
+          35.47,
+          18.518,
+          7.32
+        ],
+        119
+      ],
+      [
+        60,
+        [
+          35.47,
+          18.518,
+          7.32
+        ],
+        119
+      ]
+    ],
+    "vaiven": 0.0
+  },
+  "reflejo": {
+    "brillo": [
+      [
+        1,
+        0.7
+      ],
+      [
+        60,
+        1.0
+      ]
+    ],
+    "pupila": [
+      [
+        1,
+        0.7
+      ],
+      [
+        18,
+        1.25
+      ],
+      [
+        60,
+        1.32
+      ]
+    ]
+  },
+  "camera": {
+    "lens": 50,
+    "clip_start": 0.02,
+    "clip_end": 60000,
+    "ease": true,
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          35.977,
+          20.8,
+          7.12
+        ],
+        "aim": [
+          34.548,
+          20.18,
+          7.27
+        ]
+      },
+      {
+        "frame": 60,
+        "pos": [
+          35.792,
+          20.72,
+          7.13
+        ],
+        "aim": [
+          34.548,
+          20.18,
+          7.27
+        ]
+      }
+    ]
+  },
+  "post": {
+    "fps_unique": 24,
+    "fps_out": 24,
+    "glow": {
+      "threshold": 0.8,
+      "radii": [
+        4,
+        16,
+        60
+      ],
+      "weights": [
+        0.6,
+        0.4,
+        0.25
+      ],
+      "strength": 1.0
+    }
+  },
+  "line": {
+    "color": "#0d0b24",
+    "radius": 0.0028,
+    "crease_deg": 120
+  },
+  "storyboard": [
+    40
+  ]
+}

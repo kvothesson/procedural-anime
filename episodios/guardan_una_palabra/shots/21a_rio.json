@@ -1,0 +1,78 @@
+{
+ "estilo": "studio_noche",
+ "fecha": "2026-10-17",
+ "catedral": {
+  "techo": true,
+  "anexos": true,
+  "suelo": 0
+ },
+ "servidores": {},
+ "entorno": {
+  "datos": "../catedral/data/entorno.json",
+  "z": -1.0,
+  "piso": 6000,
+  "radio": 450
+ },
+ "_desc": "Aereo sobre el rio hacia la barranca",
+ "width": 1920,
+ "height": 1080,
+ "fps": 12,
+ "frames": 24,
+ "samples": 8,
+ "storyboard": [
+  12
+ ],
+ "_t": [
+  152.167,
+  154.167
+ ],
+ "hora": "00:40",
+ "line": {
+  "radius": 0.1
+ },
+ "camera": {
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     -700.0,
+     200.0,
+     10.0
+    ],
+    "aim": [
+     0,
+     15,
+     25
+    ]
+   },
+   {
+    "frame": 24,
+    "pos": [
+     -600.0,
+     180.0,
+     12.0
+    ],
+    "aim": [
+     0,
+     15,
+     25
+    ]
+   }
+  ],
+  "lens": 56.0,
+  "lens_keys": [
+   [
+    1,
+    56.0
+   ],
+   [
+    24,
+    56.0
+   ]
+  ],
+  "ease": true,
+  "clip_start": 0.05,
+  "clip_end": 3200,
+  "verticales": true
+ }
+}
