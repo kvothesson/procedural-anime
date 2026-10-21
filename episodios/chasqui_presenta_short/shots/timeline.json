@@ -1,0 +1,15 @@
+{
+ "name": "chasqui_presenta_short",
+ "fps_unique": 12,
+ "fps_out": 24,
+ "shots": [
+  "01_apacheta",
+  "02_puente",
+  "03_orbita",
+  "04_tokio",
+  "05_tambos",
+  "06_ida_vuelta",
+  "07_cierre"
+ ],
+ "subs": "subs.json"
+}

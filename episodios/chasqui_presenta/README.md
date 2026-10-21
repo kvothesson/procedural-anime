@@ -40,7 +40,8 @@ ladera. Sin eso la casa quedaba en el aire donde la cresta cae (`_vista_tambo` v
 
 **Copy honesto:** no se dice "funciona en Meet" (esa prueba está pendiente en chasqui), y son
 **12 idiomas**, los que ofrece la app (`LANG_NAMES`), no "más de 70". Los
-turnos de las capturas son salidas reales de chasqui (tomas `ida_c` y `vuelta_f` de El relevo).
+turnos de las capturas son salidas reales de chasqui (tomas `ida_c` y `vuelta_f` de El relevo), con
+la latencia que chasqui midió para cada una (5153 y 7034 ms).
 
 ## Reconstruir todo
 
@@ -56,11 +57,38 @@ python motor/montaje.py episodios/chasqui_presenta # corte + subtitulos + cheque
 
 Corte del 2026-10-20: `out/chasqui_presenta.mp4`, 1920×1080, 63,0 s, con audio; loop 0,00/255.
 
+## Versiones en inglés y japonés
+
+`chasqui_presenta_en/` y `chasqui_presenta_ja/` son el mismo video con los textos traducidos y
+voces inglés ↔ japonés (`voz/ida_en_a`: "Hi, did you get to Tokyo okay? I miss you." → ja;
+`voz/vuelta_en_a`: la respuesta japonesa de El relevo → en). Las dos tomas salieron fieles al
+primer intento. Se graban con `voz/grabar.py` (el grabador de El relevo, con la key de chasqui).
+
+El render 3D no tiene texto, así que las versiones **no se renderizan**: `render/` es un
+junction al de acá, y `versiones.py <en|ja>` arma sus planos (heredan de los de acá y pisan
+`post.textos`), `voces.json` y la carpeta. Las voces se corren para que la traducción entre
+donde entraba la del español (la ida en 4,11 s, la vuelta en 13,28 s); la vuelta en inglés
+termina más tarde, así que sus subtítulos siguen hasta que entra la primera tarjeta (24,15 s).
+
+```bash
+python episodios/chasqui_presenta/voz/grabar.py ida_en ida_en_a      # solo si se rehacen las tomas
+python episodios/chasqui_presenta/voz/grabar.py vuelta_en vuelta_en_a
+python episodios/chasqui_presenta/versiones.py en                    # y ja
+# capturas de la version: capturas/captura_ui.py ... par=en-ja (o par=ja-en) -> chasqui_presenta_<l>/capturas/
+for s in 01_apacheta 02_puente 03_orbita 04_tokio 05_tambos 06_ida_vuelta 07_cierre; do
+  python motor/post.py episodios/chasqui_presenta_en $s --no-video
+done
+python episodios/chasqui_presenta/subs.py  episodios/chasqui_presenta_en
+python episodios/chasqui_presenta/banda.py episodios/chasqui_presenta_en
+python motor/montaje.py episodios/chasqui_presenta_en
+```
+
 ## Capturas
 
-`capturas/captura_ui.py <adapter> <salida.png> [running] [idiomas] [compacta]` abre la ventana real de `chasqui ui`
-(con chasqui instalado), elige el modo, pone es/ja, inyecta los dos turnos reales y captura la
-ventana con su barra de título (DWM, sin la sombra). No guarda las preferencias del usuario.
+`capturas/captura_ui.py <adapter> <salida.png> [running] [idiomas] [compacta] [par=es-ja]` abre la
+ventana real de `chasqui ui` (con chasqui instalado), elige el modo y el par de idiomas, inyecta
+dos turnos leídos de las tomas reales (`eventos.json`: texto y latencia que midió chasqui) y
+captura la ventana con su barra de título (DWM, sin la sombra). No guarda las preferencias del usuario.
 
 ## Criterio de aceptación
 
@@ -82,6 +110,7 @@ ventana con su barra de título (DWM, sin la sombra). No guarda las preferencias
 | 05 | Las casas flotan: tocan el camino pero están en una ladera | `andes.py`: `alturas()` sale de `build_terreno` y los tambos con `terraza` bajan hasta el terreno |
 | 02, 06 | (storyboard) En horizontal el puente quedaba chico y la mira apuntaba al fondo de la quebrada | Lente 38 / 36 y mira subida al tablero del puente |
 | 05 | (revisión propia) "Más de 70 idiomas" no es cierto | "12 idiomas"; se saca "detecta el idioma solo" (no verificado) |
+| 05 | (revisión propia) La captura decía 1600 ms por turno: era la demora hasta que empieza la traducción, no la latencia que muestra la app | `captura_ui.py` lee texto y `latency_ms` de `eventos.json` (5153 / 7034 ms) |
 | 06 | La estela violeta apunta su círculo para el mismo lado que la celeste | `viaje.py`: la estela sigue el sentido del movimiento (un mensaje que vuelve por la ruta la lleva hacia s + trail) |
 
 Ojo: `render.py --frames` arma la lámina **sin post**; para ver textos y capturas, copiar los

@@ -1,0 +1,215 @@
+{
+ "toma": {
+  "src": "ja",
+  "tgt": "en",
+  "text": "もしもし。東京に着いたよ。こっちは雨だけど、元気だよ。",
+  "voice": "sage",
+  "how": "東京に住む若い人の自然な声。ほっとして、少しうれしそうに。"
+ },
+ "pares": [
+  {
+   "t": 12.002754211425781,
+   "src": "もしもし。 東京に着いたよ。 こっちは雨だけど、元気だよ。",
+   "tgt": "Hello—I'm in Tokyo now. It's raining here, but I'm doing fine.",
+   "latency_ms": 9409.137964248657
+  }
+ ],
+ "deltas": [
+  {
+   "t": 2.593600034713745,
+   "type": "session.input_transcript.delta",
+   "text": " "
+  },
+  {
+   "t": 2.5936310291290283,
+   "type": "session.input_transcript.delta",
+   "text": "もし"
+  },
+  {
+   "t": 2.797532081604004,
+   "type": "session.input_transcript.delta",
+   "text": "もし"
+  },
+  {
+   "t": 2.797555446624756,
+   "type": "session.input_transcript.delta",
+   "text": "。"
+  },
+  {
+   "t": 4.3780858516693115,
+   "type": "session.output_transcript.delta",
+   "text": "Hello"
+  },
+  {
+   "t": 4.769408941268921,
+   "type": "session.output_transcript.delta",
+   "text": "—"
+  },
+  {
+   "t": 4.787273406982422,
+   "type": "session.input_transcript.delta",
+   "text": " 東京"
+  },
+  {
+   "t": 4.974304914474487,
+   "type": "session.output_transcript.delta",
+   "text": "I'm"
+  },
+  {
+   "t": 5.175132513046265,
+   "type": "session.output_transcript.delta",
+   "text": " in"
+  },
+  {
+   "t": 5.189663648605347,
+   "type": "session.input_transcript.delta",
+   "text": "に"
+  },
+  {
+   "t": 5.364153146743774,
+   "type": "session.output_transcript.delta",
+   "text": " Tokyo"
+  },
+  {
+   "t": 5.378803491592407,
+   "type": "session.input_transcript.delta",
+   "text": "着"
+  },
+  {
+   "t": 5.564405202865601,
+   "type": "session.input_transcript.delta",
+   "text": "いた"
+  },
+  {
+   "t": 5.789659738540649,
+   "type": "session.input_transcript.delta",
+   "text": "よ"
+  },
+  {
+   "t": 5.803281784057617,
+   "type": "session.input_transcript.delta",
+   "text": "。"
+  },
+  {
+   "t": 5.955123662948608,
+   "type": "session.output_transcript.delta",
+   "text": " now"
+  },
+  {
+   "t": 6.385540962219238,
+   "type": "session.output_transcript.delta",
+   "text": "."
+  },
+  {
+   "t": 7.187812805175781,
+   "type": "session.input_transcript.delta",
+   "text": " "
+  },
+  {
+   "t": 7.19508695602417,
+   "type": "session.input_transcript.delta",
+   "text": "こ"
+  },
+  {
+   "t": 7.387012958526611,
+   "type": "session.input_transcript.delta",
+   "text": "っ"
+  },
+  {
+   "t": 7.39650559425354,
+   "type": "session.input_transcript.delta",
+   "text": "ちは"
+  },
+  {
+   "t": 7.594899415969849,
+   "type": "session.input_transcript.delta",
+   "text": "雨"
+  },
+  {
+   "t": 7.968994140625,
+   "type": "session.output_transcript.delta",
+   "text": " It's"
+  },
+  {
+   "t": 7.984131813049316,
+   "type": "session.input_transcript.delta",
+   "text": "だけ"
+  },
+  {
+   "t": 8.192029237747192,
+   "type": "session.input_transcript.delta",
+   "text": "ど"
+  },
+  {
+   "t": 8.368812799453735,
+   "type": "session.output_transcript.delta",
+   "text": " raining"
+  },
+  {
+   "t": 8.778765439987183,
+   "type": "session.output_transcript.delta",
+   "text": " here"
+  },
+  {
+   "t": 8.789071321487427,
+   "type": "session.input_transcript.delta",
+   "text": "、"
+  },
+  {
+   "t": 8.800358772277832,
+   "type": "session.input_transcript.delta",
+   "text": "元"
+  },
+  {
+   "t": 8.959408283233643,
+   "type": "session.output_transcript.delta",
+   "text": ","
+  },
+  {
+   "t": 8.973708629608154,
+   "type": "session.input_transcript.delta",
+   "text": "気"
+  },
+  {
+   "t": 9.15381407737732,
+   "type": "session.output_transcript.delta",
+   "text": " but"
+  },
+  {
+   "t": 9.171372413635254,
+   "type": "session.input_transcript.delta",
+   "text": "だ"
+  },
+  {
+   "t": 9.352850914001465,
+   "type": "session.output_transcript.delta",
+   "text": " I'm"
+  },
+  {
+   "t": 9.365997552871704,
+   "type": "session.input_transcript.delta",
+   "text": "よ"
+  },
+  {
+   "t": 9.374656915664673,
+   "type": "session.input_transcript.delta",
+   "text": "。"
+  },
+  {
+   "t": 9.551459312438965,
+   "type": "session.output_transcript.delta",
+   "text": " doing"
+  },
+  {
+   "t": 9.949771165847778,
+   "type": "session.output_transcript.delta",
+   "text": " fine"
+  },
+  {
+   "t": 10.557361841201782,
+   "type": "session.output_transcript.delta",
+   "text": "."
+  }
+ ],
+ "audio_parts": 47
+}

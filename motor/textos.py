@@ -46,7 +46,9 @@ def _wrap(draw, text, font, max_px, tracking):
         cur = ""
         for tok in tokens:
             cand = (cur + sep + tok) if cur else tok
-            if width(cand) <= max_px or not cur:
+            # kinsoku: en japones un renglon no empieza con puntuacion de cierre;
+            # se queda pegada al renglon anterior aunque lo pase un poco
+            if width(cand) <= max_px or not cur or (not sep and tok in "。、．，！？!?)）」』…ー"):
                 cur = cand
             else:
                 lines.append(cur)

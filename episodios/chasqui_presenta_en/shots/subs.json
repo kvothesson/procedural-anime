@@ -1,0 +1,378 @@
+[
+ {
+  "t0": 6.391,
+  "t1": 12.954,
+  "fade_s": 0.3,
+  "items": [
+   {
+    "font": "mono",
+    "size": 24,
+    "color": "#8a97ab",
+    "outline": 5,
+    "tracking": 3,
+    "text": "EN · ORIGINAL",
+    "pos": [
+     0.5,
+     0.7
+    ]
+   },
+   {
+    "font": "texto",
+    "size": 42,
+    "outline": 7,
+    "glow": 0.35,
+    "max_w": 0.8,
+    "color": "#5ec5e2",
+    "pos": [
+     0.5,
+     0.725
+    ],
+    "reveal": [
+     [
+      6.541,
+      "Hi"
+     ],
+     [
+      6.946,
+      "Hi,"
+     ],
+     [
+      6.954,
+      "Hi, did"
+     ],
+     [
+      7.143,
+      "Hi, did you"
+     ],
+     [
+      7.344,
+      "Hi, did you get"
+     ],
+     [
+      7.549,
+      "Hi, did you get to"
+     ],
+     [
+      7.745,
+      "Hi, did you get to Tokyo"
+     ],
+     [
+      8.131,
+      "Hi, did you get to Tokyo okay"
+     ],
+     [
+      8.137,
+      "Hi, did you get to Tokyo okay?"
+     ],
+     [
+      8.95,
+      "Hi, did you get to Tokyo okay? I"
+     ],
+     [
+      9.33,
+      "Hi, did you get to Tokyo okay? I miss"
+     ],
+     [
+      9.534,
+      "Hi, did you get to Tokyo okay? I miss you"
+     ]
+    ]
+   },
+   {
+    "font": "mono",
+    "size": 24,
+    "color": "#8a97ab",
+    "outline": 5,
+    "tracking": 3,
+    "text": "JA · CHASQUI, LIVE",
+    "pos": [
+     0.5,
+     0.8049999999999999
+    ],
+    "from": 7.361
+   },
+   {
+    "font": "texto",
+    "size": 42,
+    "outline": 7,
+    "glow": 0.35,
+    "max_w": 0.8,
+    "color": "#a98bf5",
+    "pos": [
+     0.5,
+     0.83
+    ],
+    "reveal": [
+     [
+      7.361,
+      "こんにちは"
+     ],
+     [
+      7.971,
+      "こんにちは、"
+     ],
+     [
+      8.147,
+      "こんにちは、東京"
+     ],
+     [
+      8.767,
+      "こんにちは、東京には"
+     ],
+     [
+      8.962,
+      "こんにちは、東京には無"
+     ],
+     [
+      8.965,
+      "こんにちは、東京には無事"
+     ],
+     [
+      9.165,
+      "こんにちは、東京には無事着"
+     ],
+     [
+      9.345,
+      "こんにちは、東京には無事着いた"
+     ],
+     [
+      9.554,
+      "こんにちは、東京には無事着いた?"
+     ],
+     [
+      9.955,
+      "こんにちは、東京には無事着いた?寂"
+     ],
+     [
+      10.158,
+      "こんにちは、東京には無事着いた?寂しい"
+     ],
+     [
+      10.351,
+      "こんにちは、東京には無事着いた?寂しいよ"
+     ],
+     [
+      10.554,
+      "こんにちは、東京には無事着いた?寂しいよ。"
+     ]
+    ]
+   }
+  ]
+ },
+ {
+  "t0": 15.724,
+  "t1": 24.15,
+  "fade_s": 0.3,
+  "items": [
+   {
+    "font": "mono",
+    "size": 24,
+    "color": "#8a97ab",
+    "outline": 5,
+    "tracking": 3,
+    "text": "JA · ORIGINAL",
+    "pos": [
+     0.5,
+     0.7
+    ]
+   },
+   {
+    "font": "texto",
+    "size": 42,
+    "outline": 7,
+    "glow": 0.35,
+    "max_w": 0.8,
+    "color": "#a98bf5",
+    "pos": [
+     0.5,
+     0.725
+    ],
+    "reveal": [
+     [
+      15.874,
+      ""
+     ],
+     [
+      15.874,
+      "もし"
+     ],
+     [
+      16.078,
+      "もしもし"
+     ],
+     [
+      16.078,
+      "もしもし。"
+     ],
+     [
+      18.067,
+      "もしもし。東京"
+     ],
+     [
+      18.47,
+      "もしもし。東京に"
+     ],
+     [
+      18.659,
+      "もしもし。東京に着"
+     ],
+     [
+      18.844,
+      "もしもし。東京に着いた"
+     ],
+     [
+      19.07,
+      "もしもし。東京に着いたよ"
+     ],
+     [
+      19.083,
+      "もしもし。東京に着いたよ。"
+     ],
+     [
+      20.468,
+      "もしもし。東京に着いたよ。"
+     ],
+     [
+      20.475,
+      "もしもし。東京に着いたよ。こ"
+     ],
+     [
+      20.667,
+      "もしもし。東京に着いたよ。こっ"
+     ],
+     [
+      20.677,
+      "もしもし。東京に着いたよ。こっちは"
+     ],
+     [
+      20.875,
+      "もしもし。東京に着いたよ。こっちは雨"
+     ],
+     [
+      21.264,
+      "もしもし。東京に着いたよ。こっちは雨だけ"
+     ],
+     [
+      21.472,
+      "もしもし。東京に着いたよ。こっちは雨だけど"
+     ],
+     [
+      22.069,
+      "もしもし。東京に着いたよ。こっちは雨だけど、"
+     ],
+     [
+      22.08,
+      "もしもし。東京に着いたよ。こっちは雨だけど、元"
+     ],
+     [
+      22.254,
+      "もしもし。東京に着いたよ。こっちは雨だけど、元気"
+     ],
+     [
+      22.451,
+      "もしもし。東京に着いたよ。こっちは雨だけど、元気だ"
+     ],
+     [
+      22.646,
+      "もしもし。東京に着いたよ。こっちは雨だけど、元気だよ"
+     ],
+     [
+      22.655,
+      "もしもし。東京に着いたよ。こっちは雨だけど、元気だよ。"
+     ]
+    ]
+   },
+   {
+    "font": "mono",
+    "size": 24,
+    "color": "#8a97ab",
+    "outline": 5,
+    "tracking": 3,
+    "text": "EN · CHASQUI, LIVE",
+    "pos": [
+     0.5,
+     0.8049999999999999
+    ],
+    "from": 17.658
+   },
+   {
+    "font": "texto",
+    "size": 42,
+    "outline": 7,
+    "glow": 0.35,
+    "max_w": 0.8,
+    "color": "#5ec5e2",
+    "pos": [
+     0.5,
+     0.83
+    ],
+    "reveal": [
+     [
+      17.658,
+      "Hello"
+     ],
+     [
+      18.049,
+      "Hello—"
+     ],
+     [
+      18.254,
+      "Hello—I'm"
+     ],
+     [
+      18.455,
+      "Hello—I'm in"
+     ],
+     [
+      18.644,
+      "Hello—I'm in Tokyo"
+     ],
+     [
+      19.235,
+      "Hello—I'm in Tokyo now"
+     ],
+     [
+      19.666,
+      "Hello—I'm in Tokyo now."
+     ],
+     [
+      21.249,
+      "Hello—I'm in Tokyo now. It's"
+     ],
+     [
+      21.649,
+      "Hello—I'm in Tokyo now. It's raining"
+     ],
+     [
+      22.059,
+      "Hello—I'm in Tokyo now. It's raining here"
+     ],
+     [
+      22.239,
+      "Hello—I'm in Tokyo now. It's raining here,"
+     ],
+     [
+      22.434,
+      "Hello—I'm in Tokyo now. It's raining here, but"
+     ],
+     [
+      22.633,
+      "Hello—I'm in Tokyo now. It's raining here, but I'm"
+     ],
+     [
+      22.831,
+      "Hello—I'm in Tokyo now. It's raining here, but I'm doing"
+     ],
+     [
+      23.23,
+      "Hello—I'm in Tokyo now. It's raining here, but I'm doing fine"
+     ],
+     [
+      23.837,
+      "Hello—I'm in Tokyo now. It's raining here, but I'm doing fine."
+     ]
+    ]
+   }
+  ]
+ }
+]

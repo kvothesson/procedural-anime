@@ -1,0 +1,25 @@
+{
+  "categoria": "28",
+  "privacidad": "public",
+  "miniatura": null,
+  "duracion_segundos": 53,
+  "resolucion": "1080x1920",
+  "fps": 24,
+  "titulo_youtube": "chasqui：PCでリアルタイム同時通訳 #shorts",
+  "descripcion_youtube": "無料ダウンロード: https://kvothesson.com/chasqui/?lang=en\n\n500年前、チャスキたちはアンデスを走り、知らせを運んだ。いま、言葉を越えて。chasqui は話している声をその場で翻訳します。通話（双方向）でも、PCで流れる動画でも。オープンソースで、自分の OpenAI API キーを使います。\n\n声と字幕は chasqui の実際の出力で、修正していません（日本語 ↔ スペイン語）。\n\n💻 https://github.com/kvothesson/chasqui\n🎬 フル動画: https://youtu.be/frBAmX91HHo",
+  "tags": [
+    "chasqui",
+    "同時通訳",
+    "リアルタイム翻訳",
+    "翻訳アプリ",
+    "オープンソース",
+    "スペイン語",
+    "kvothesson",
+    "shorts"
+  ],
+  "idioma": "ja",
+  "video_final": "out/chasqui_presenta_short_ja.mp4",
+  "youtube_id": "3gEKrd1jbmA",
+  "youtube_url": "https://youtu.be/3gEKrd1jbmA",
+  "fecha_publicacion": "2026-10-21T22:55:14Z"
+}

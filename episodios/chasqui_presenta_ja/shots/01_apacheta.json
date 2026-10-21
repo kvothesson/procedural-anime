@@ -1,0 +1,28 @@
+{
+ "extends": "../../chasqui_presenta/shots/01_apacheta.json",
+ "post": {
+  "textos": [
+   {
+    "font": "texto",
+    "color": "#dfe6ef",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "500年前、チャスキたちは\nアンデスを走り、知らせを運んだ。",
+    "size": 40,
+    "pos": [
+     0.7,
+     0.8
+    ],
+    "max_w": 0.7,
+    "frames": [
+     6,
+     60
+    ],
+    "fade": [
+     8,
+     6
+    ]
+   }
+  ]
+ }
+}

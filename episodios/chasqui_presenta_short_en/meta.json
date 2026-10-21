@@ -1,0 +1,25 @@
+{
+  "categoria": "28",
+  "privacidad": "public",
+  "miniatura": null,
+  "duracion_segundos": 53,
+  "resolucion": "1080x1920",
+  "fps": 24,
+  "titulo_youtube": "chasqui: real-time simultaneous translation on your PC #shorts",
+  "descripcion_youtube": "Download it free: https://kvothesson.com/chasqui/?lang=en\n\n500 years ago, the chasquis ran the Andes carrying messages. Today they cross languages: chasqui translates speech as people talk, in your calls (both ways) or in any video playing on your PC. Open source, with your own OpenAI API key.\n\nThe voices and subtitles are chasqui's real output, uncorrected.\n\n💻 https://github.com/kvothesson/chasqui\n🎬 Full video: https://youtu.be/LcFYSNgHg0Q",
+  "tags": [
+    "chasqui",
+    "real-time translation",
+    "simultaneous translation",
+    "live translator",
+    "open source",
+    "japanese",
+    "kvothesson",
+    "shorts"
+  ],
+  "idioma": "en",
+  "video_final": "out/chasqui_presenta_short_en.mp4",
+  "youtube_id": "vsdIe_2KCZw",
+  "youtube_url": "https://youtu.be/vsdIe_2KCZw",
+  "fecha_publicacion": "2026-10-21T22:54:48Z"
+}

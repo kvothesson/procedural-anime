@@ -155,6 +155,22 @@ cicla 3 patrones, glitch y líneas de velocidad con semilla por frame.
 - **Un mensaje que vuelve por la ruta** (claves con `s` que baja) lleva la estela del otro lado:
   `viaje.py` mira el sentido cuadro a cuadro. Antes la estela iba siempre hacia `s` menor y la
   cabeza de la luz que volvía quedaba atrás.
+- **Shorts: zona segura.** YouTube tapa la franja de abajo (~26%: canal, descripción, suscribirse),
+  la columna de botones a la derecha (~16% de ancho, entre 42% y 74% de alto) y un poco arriba. Lo
+  que se tiene que leer (títulos, capturas, links, subtítulos) va entre 12% y 70% de alto y lejos del
+  borde derecho. Probarlo dibujando esas zonas encima de cuadros del mp4, no a ojo.
+- **Subtítulos en vertical:** el original ocupa dos renglones; el bloque de la traducción tiene que
+  dejar lugar para los dos (`subs_layout.gap` en `voces.json`), o los pisa.
+- **Kinsoku:** en japonés un renglón no empieza con 。、！？」…; `textos._wrap` los deja pegados
+  al renglón anterior aunque lo pase un poco.
+- **Versiones en otro idioma sin renderizar:** si el render 3D no tiene texto (todo va en el post),
+  una versión es una carpeta con planos que heredan (`extends`) y pisan `post.textos`, y `render/`
+  como junction al original (`chasqui_presenta/versiones.py`). Rehacer solo post, subtítulos, banda
+  y montaje: minutos, no horas.
+- **El color de los subtítulos sigue a la luz, no al idioma** (ida: original en hielo, traducción en
+  violeta; vuelta al revés): así cualquier par de idiomas coincide con el render compartido.
+- **Una captura de app muestra solo datos reales:** texto y latencia salen de `eventos.json` de la
+  toma. Un "1600 ms" puesto a mano era otra medida (demora hasta la traducción), no lo que muestra la app.
 - Los borradores (`--draft`) se reescalan a la resolución final **antes** de los efectos.
   Viven en `render/_draft_<plano>/` y `out/_draft_<plano>/`: nunca pisan el plano final
   ni entran al montaje.

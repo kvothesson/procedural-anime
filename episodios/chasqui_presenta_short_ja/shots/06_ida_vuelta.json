@@ -1,0 +1,48 @@
+{
+ "extends": "../../chasqui_presenta_short/shots/06_ida_vuelta.json",
+ "post": {
+  "textos": [
+   {
+    "font": "texto",
+    "text": "ふたつの声を、同時に。",
+    "size": 50,
+    "color": "#dfe6ef",
+    "pos": [
+     0.47,
+     0.2
+    ],
+    "outline": 6,
+    "glow": 0.15,
+    "frames": [
+     10,
+     68
+    ],
+    "fade": [
+     8,
+     6
+    ],
+    "max_w": 0.9
+   },
+   {
+    "font": "mono",
+    "text": "JA → ES      ES → JA",
+    "size": 28,
+    "color": "#8a97ab",
+    "pos": [
+     0.47,
+     0.25
+    ],
+    "outline": 5,
+    "tracking": 3,
+    "frames": [
+     16,
+     68
+    ],
+    "fade": [
+     8,
+     6
+    ]
+   }
+  ]
+ }
+}

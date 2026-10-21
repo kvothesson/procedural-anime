@@ -1,0 +1,228 @@
+{
+ "extends": "andes_base.json",
+ "_desc": "Plano 6 (cierre): la respuesta, ya en espanol (hielo), baja del cielo al cristal de la apacheta; destello; el titulo; la camara se asienta en el primer cuadro del plano 1 (loop).",
+ "frames": 72,
+ "relevo": {
+  "lead": -100000
+ },
+ "apacheta": {
+  "latido": {
+   "beat_frames": 18,
+   "base": 0.6,
+   "amp": 0.8,
+   "phase": 1,
+   "flash": [
+    [
+     30,
+     2.6
+    ],
+    [
+     31,
+     3.2
+    ],
+    [
+     32,
+     2.4
+    ],
+    [
+     33,
+     1.6
+    ]
+   ]
+  }
+ },
+ "mensaje": {
+  "points": [
+   [
+    70,
+    190,
+    150
+   ],
+   [
+    22,
+    62,
+    46
+   ],
+   [
+    3.9,
+    -0.3,
+    2.6
+   ]
+  ],
+  "frac": true,
+  "keys": [
+   [
+    1,
+    0.0
+   ],
+   [
+    30,
+    1.0
+   ]
+  ],
+  "to_frame": 31,
+  "colors": [
+   [
+    0.0,
+    "#5ec5e2"
+   ]
+  ],
+  "trail": 0.4,
+  "height": 0.0,
+  "radius": 0.55,
+  "trail_radius": 0.28,
+  "light": 380
+ },
+ "camera": {
+  "lens": 26,
+  "clip_end": 3000,
+  "ease": true,
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     8.6,
+     -9.5,
+     1.5
+    ],
+    "aim": [
+     4,
+     12,
+     15
+    ]
+   },
+   {
+    "frame": 28,
+    "pos": [
+     7.6,
+     -7.5,
+     1.3
+    ],
+    "aim": [
+     3.2,
+     14,
+     9
+    ]
+   },
+   {
+    "frame": 72,
+    "pos": [
+     6.4,
+     -5.4,
+     1.0
+    ],
+    "aim": [
+     1.5,
+     18,
+     7.0
+    ]
+   }
+  ]
+ },
+ "post": {
+  "textos": [
+   {
+    "text": "Hoy cruzan idiomas.",
+    "font": "texto",
+    "size": 46,
+    "color": "#dfe6ef",
+    "pos": [
+     0.47,
+     0.3
+    ],
+    "frames": [
+     30,
+     69
+    ],
+    "fade": [
+     8,
+     8
+    ],
+    "outline": 6,
+    "glow": 0.15
+   },
+   {
+    "text": "chasqui",
+    "font": "mono",
+    "size": 150,
+    "color": "#5ec5e2",
+    "pos": [
+     0.47,
+     0.335
+    ],
+    "frames": [
+     36,
+     69
+    ],
+    "fade": [
+     6,
+     8
+    ],
+    "outline": 8,
+    "glow": 0.9,
+    "tracking": 4
+   },
+   {
+    "text": "traducción simultánea, en tiempo real",
+    "font": "mono_r",
+    "size": 32,
+    "color": "#dfe6ef",
+    "pos": [
+     0.47,
+     0.49
+    ],
+    "frames": [
+     40,
+     69
+    ],
+    "fade": [
+     6,
+     8
+    ],
+    "outline": 5
+   },
+   {
+    "font": "mono",
+    "text": "kvothesson.com/chasqui",
+    "size": 36,
+    "color": "#5ec5e2",
+    "pos": [
+     0.47,
+     0.53
+    ],
+    "frames": [
+     42,
+     69
+    ],
+    "fade": [
+     6,
+     8
+    ],
+    "outline": 6,
+    "glow": 0.3
+   },
+   {
+    "text": "github.com/kvothesson/chasqui",
+    "font": "mono_r",
+    "size": 28,
+    "color": "#8a97ab",
+    "pos": [
+     0.47,
+     0.565
+    ],
+    "frames": [
+     42,
+     69
+    ],
+    "fade": [
+     6,
+     8
+    ],
+    "outline": 5
+   }
+  ]
+ },
+ "storyboard": [
+  60
+ ]
+}

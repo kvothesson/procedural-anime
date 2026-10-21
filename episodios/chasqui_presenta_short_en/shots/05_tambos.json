@@ -1,0 +1,427 @@
+{
+ "extends": "../../chasqui_presenta_short/shots/05_tambos.json",
+ "post": {
+  "textos": [
+   {
+    "font": "mono",
+    "size": 26,
+    "color": "#5ec5e2",
+    "outline": 5,
+    "tracking": 3,
+    "text": "01 / 05",
+    "pos": [
+     0.47,
+     0.12
+    ],
+    "frames": [
+     13,
+     54
+    ],
+    "fade": [
+     4,
+     4
+    ],
+    "max_w": 0.76
+   },
+   {
+    "font": "texto",
+    "color": "#dfe6ef",
+    "outline": 6,
+    "glow": 0.25,
+    "text": "Video calls, both ways",
+    "size": 60,
+    "pos": [
+     0.47,
+     0.14
+    ],
+    "max_w": 0.76,
+    "frames": [
+     13,
+     54
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "Your voice goes out translated.",
+    "size": 34,
+    "pos": [
+     0.47,
+     0.2
+    ],
+    "max_w": 0.76,
+    "frames": [
+     15,
+     54
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "Theirs comes back translated.",
+    "size": 34,
+    "pos": [
+     0.47,
+     0.226
+    ],
+    "max_w": 0.76,
+    "frames": [
+     15,
+     54
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   },
+   {
+    "font": "mono",
+    "size": 26,
+    "color": "#5ec5e2",
+    "outline": 5,
+    "tracking": 3,
+    "text": "02 / 05",
+    "pos": [
+     0.47,
+     0.12
+    ],
+    "frames": [
+     58,
+     96
+    ],
+    "fade": [
+     4,
+     4
+    ],
+    "max_w": 0.76
+   },
+   {
+    "font": "texto",
+    "color": "#dfe6ef",
+    "outline": 6,
+    "glow": 0.25,
+    "text": "Videos and streams",
+    "size": 60,
+    "pos": [
+     0.47,
+     0.14
+    ],
+    "max_w": 0.76,
+    "frames": [
+     58,
+     96
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "Translates whatever your computer plays:",
+    "size": 34,
+    "pos": [
+     0.47,
+     0.2
+    ],
+    "max_w": 0.76,
+    "frames": [
+     60,
+     96
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "YouTube, podcasts, lectures.",
+    "size": 34,
+    "pos": [
+     0.47,
+     0.226
+    ],
+    "max_w": 0.76,
+    "frames": [
+     60,
+     96
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   },
+   {
+    "font": "mono",
+    "size": 26,
+    "color": "#5ec5e2",
+    "outline": 5,
+    "tracking": 3,
+    "text": "03 / 05",
+    "pos": [
+     0.47,
+     0.12
+    ],
+    "frames": [
+     100,
+     148
+    ],
+    "fade": [
+     4,
+     4
+    ],
+    "max_w": 0.76
+   },
+   {
+    "font": "texto",
+    "color": "#dfe6ef",
+    "outline": 6,
+    "glow": 0.25,
+    "text": "Virtual microphone",
+    "size": 60,
+    "pos": [
+     0.47,
+     0.14
+    ],
+    "max_w": 0.76,
+    "frames": [
+     100,
+     148
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "Your translated voice, in any app",
+    "size": 34,
+    "pos": [
+     0.47,
+     0.2
+    ],
+    "max_w": 0.76,
+    "frames": [
+     102,
+     148
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "that uses a microphone.",
+    "size": 34,
+    "pos": [
+     0.47,
+     0.226
+    ],
+    "max_w": 0.76,
+    "frames": [
+     102,
+     148
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   },
+   {
+    "font": "mono",
+    "size": 26,
+    "color": "#5ec5e2",
+    "outline": 5,
+    "tracking": 3,
+    "text": "04 / 05",
+    "pos": [
+     0.47,
+     0.12
+    ],
+    "frames": [
+     152,
+     199
+    ],
+    "fade": [
+     4,
+     4
+    ],
+    "max_w": 0.76
+   },
+   {
+    "font": "texto",
+    "color": "#dfe6ef",
+    "outline": 6,
+    "glow": 0.25,
+    "text": "12 languages",
+    "size": 60,
+    "pos": [
+     0.47,
+     0.14
+    ],
+    "max_w": 0.76,
+    "frames": [
+     152,
+     199
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "Spanish, English, Japanese, Chinese, Korean...",
+    "size": 34,
+    "pos": [
+     0.47,
+     0.2
+    ],
+    "max_w": 0.76,
+    "frames": [
+     154,
+     199
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "in any combination.",
+    "size": 34,
+    "pos": [
+     0.47,
+     0.226
+    ],
+    "max_w": 0.76,
+    "frames": [
+     154,
+     199
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   },
+   {
+    "font": "mono",
+    "size": 26,
+    "color": "#5ec5e2",
+    "outline": 5,
+    "tracking": 3,
+    "text": "05 / 05",
+    "pos": [
+     0.47,
+     0.12
+    ],
+    "frames": [
+     203,
+     239
+    ],
+    "fade": [
+     4,
+     4
+    ],
+    "max_w": 0.76
+   },
+   {
+    "font": "texto",
+    "color": "#dfe6ef",
+    "outline": 6,
+    "glow": 0.25,
+    "text": "Your key, your cost",
+    "size": 60,
+    "pos": [
+     0.47,
+     0.14
+    ],
+    "max_w": 0.76,
+    "frames": [
+     203,
+     239
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "You use your own OpenAI API key.",
+    "size": 34,
+    "pos": [
+     0.47,
+     0.2
+    ],
+    "max_w": 0.76,
+    "frames": [
+     205,
+     239
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "The app shows what you're spending.",
+    "size": 34,
+    "pos": [
+     0.47,
+     0.226
+    ],
+    "max_w": 0.76,
+    "frames": [
+     205,
+     239
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   }
+  ]
+ }
+}

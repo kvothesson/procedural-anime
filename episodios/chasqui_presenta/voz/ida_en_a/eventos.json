@@ -1,0 +1,145 @@
+{
+ "toma": {
+  "src": "en",
+  "tgt": "ja",
+  "text": "Hi, did you get to Tokyo okay? I miss you.",
+  "voice": "coral",
+  "how": "Warm voice of a young person, asking with affection and a little anxiety. Natural, not acted."
+ },
+ "pares": [
+  {
+   "t": 7.703073978424072,
+   "src": "Hi, did you get to Tokyo okay? I miss you",
+   "tgt": "こんにちは、東京には無事着いた?寂しいよ。",
+   "latency_ms": 5271.876573562622
+  }
+ ],
+ "deltas": [
+  {
+   "t": 2.4311811923980713,
+   "type": "session.input_transcript.delta",
+   "text": " Hi"
+  },
+  {
+   "t": 2.836362361907959,
+   "type": "session.input_transcript.delta",
+   "text": ","
+  },
+  {
+   "t": 2.8435075283050537,
+   "type": "session.input_transcript.delta",
+   "text": " did"
+  },
+  {
+   "t": 3.0331828594207764,
+   "type": "session.input_transcript.delta",
+   "text": " you"
+  },
+  {
+   "t": 3.2336974143981934,
+   "type": "session.input_transcript.delta",
+   "text": " get"
+  },
+  {
+   "t": 3.2511985301971436,
+   "type": "session.output_transcript.delta",
+   "text": "こんにちは"
+  },
+  {
+   "t": 3.4385452270507812,
+   "type": "session.input_transcript.delta",
+   "text": " to"
+  },
+  {
+   "t": 3.6348555088043213,
+   "type": "session.input_transcript.delta",
+   "text": " Tokyo"
+  },
+  {
+   "t": 3.860755681991577,
+   "type": "session.output_transcript.delta",
+   "text": "、"
+  },
+  {
+   "t": 4.0205512046813965,
+   "type": "session.input_transcript.delta",
+   "text": " okay"
+  },
+  {
+   "t": 4.02655291557312,
+   "type": "session.input_transcript.delta",
+   "text": "?"
+  },
+  {
+   "t": 4.037147760391235,
+   "type": "session.output_transcript.delta",
+   "text": "東京"
+  },
+  {
+   "t": 4.656880140304565,
+   "type": "session.output_transcript.delta",
+   "text": "には"
+  },
+  {
+   "t": 4.839633464813232,
+   "type": "session.input_transcript.delta",
+   "text": " I"
+  },
+  {
+   "t": 4.852116584777832,
+   "type": "session.output_transcript.delta",
+   "text": "無"
+  },
+  {
+   "t": 4.855045557022095,
+   "type": "session.output_transcript.delta",
+   "text": "事"
+  },
+  {
+   "t": 5.054808855056763,
+   "type": "session.output_transcript.delta",
+   "text": "着"
+  },
+  {
+   "t": 5.219549655914307,
+   "type": "session.input_transcript.delta",
+   "text": " miss"
+  },
+  {
+   "t": 5.234829664230347,
+   "type": "session.output_transcript.delta",
+   "text": "いた"
+  },
+  {
+   "t": 5.424137115478516,
+   "type": "session.input_transcript.delta",
+   "text": " you"
+  },
+  {
+   "t": 5.443860054016113,
+   "type": "session.output_transcript.delta",
+   "text": "?"
+  },
+  {
+   "t": 5.845447540283203,
+   "type": "session.output_transcript.delta",
+   "text": "寂"
+  },
+  {
+   "t": 6.048188924789429,
+   "type": "session.output_transcript.delta",
+   "text": "しい"
+  },
+  {
+   "t": 6.240762710571289,
+   "type": "session.output_transcript.delta",
+   "text": "よ"
+  },
+  {
+   "t": 6.44378662109375,
+   "type": "session.output_transcript.delta",
+   "text": "。"
+  }
+ ],
+ "audio_parts": 36
+}

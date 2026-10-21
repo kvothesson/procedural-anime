@@ -7,7 +7,9 @@ Cada carpeta es un short, un escenario o una demo. Cómo se organiza todo en cap
 |---|---|---|---|---|
 | [nodo_404](nodo_404/README.md) | Buenos Aires de noche, apagón y el Obelisco. **Plantilla** de episodio chico | Publicado 2026-10-10 | No (todo del motor: `ciudad`, `plaza`, `obelisco`, `eventos`, `colectivo`) | |
 | [chasqui_relevo](chasqui_relevo/README.md) | Mensaje de luz de los Andes a Tokio, con voces reales y subtítulos | Publicado 2026-10-11 | No (`andes`, `viaje`, `tokio`, `espacio` del motor) | |
-| [chasqui_presenta](chasqui_presenta/README.md) | Presentación horizontal de chasqui: cada tambo, una función, con capturas reales de la app | Corte listo 2026-10-20, sin publicar | No (`andes`, `viaje` del motor; `post.imagenes` para las capturas) | Mundo andino: copia de `chasqui_relevo/shots/andes_base.json` |
+| [chasqui_presenta](chasqui_presenta/README.md) | Presentación horizontal de chasqui: cada tambo, una función, con capturas reales de la app | Publicado 2026-10-21 | No (`andes`, `viaje` del motor; `post.imagenes` para las capturas) | Mundo andino: copia de `chasqui_relevo/shots/andes_base.json` |
+| [chasqui_presenta_en](chasqui_presenta/README.md#versiones-en-inglés-y-japonés), [_ja](chasqui_presenta/README.md#versiones-en-inglés-y-japonés) | La presentación en inglés (voces inglés ↔ japonés) y en japonés (voz japonesa ↔ español) | Publicadas 2026-10-21 | No | Generadas por `chasqui_presenta/versiones.py`: planos que heredan de `chasqui_presenta`, `render/` es un junction a su render |
+| [chasqui_presenta_short](chasqui_presenta_short/), [_en, _ja] | Los shorts verticales (53 s) de la presentación, en la zona segura de shorts | Publicados 2026-10-21 | No | Cámaras verticales de `chasqui_relevo`; tambos y capturas de `chasqui_presenta`; versiones con `versiones.py <l> episodios/chasqui_presenta_short` |
 | [nodo_0](nodo_0/README.md) | La Puna, un galpón y tres drones (UNIVERSO AUSTRAL) | Publicado 2026-10-13 | Sí: puna, galpón, drones Nyx, Aegis y Vesper, HUD, mapa | Banda: instrumentos de `nodo_404/banda.py` |
 | [duende_rojo](duende_rojo/README.md) | Un duende rojo sobre el Uritorco (AUSTRAL) | Publicado 2026-10-14 | Sí: Uritorco, tormenta, duende, calle techada | Drones de `nodo_0/piezas.py`; banda de `nodo_0/banda.py` |
 | [el_relojero](el_relojero/README.md) | Un robot relojero en la torre de la catedral de San Isidro | Ver su README | Sí: robot, esfera, escalera, torre y **su propia catedral** (la vieja, no la del motor) | Engranajes y despiece del motor; banda de `nodo_404/banda.py` |
@@ -27,6 +29,7 @@ Tocar un archivo de esta columna puede romper otro episodio:
 | `chasqui_relevo/banda.py`, `subs.py` | `chasqui_presenta/banda.py`, `subs.py` | `importlib` por ruta (instrumentos, `reveal`, colores) |
 | `chasqui_relevo/voz/` | `chasqui_presenta` (banda y subtítulos) | Ruta `../chasqui_relevo/voz` en `voces.json` |
 | `chasqui_relevo/shots/02_puente.json`, `04_orbita`, `05_tokio` | `chasqui_presenta/shots/` | Copia (ya difieren: horizontal, lente ×1,4) |
+| `chasqui_presenta/shots/*.json`, `render/`, `voz/` | `chasqui_presenta_en`, `chasqui_presenta_ja` | `extends` por ruta, junction de `render/`, `voces.json`; se regeneran con `versiones.py` |
 | `catedral/data/entorno.json` | `nunca_se_apagan` (planos y `planos.py`) | Ruta `../catedral/data/entorno.json` |
 | `catedral/estilos/*.json` | `nunca_se_apagan/estilos/` | Copia a mano (ya difieren; `catedral/estilos/_base_cyberpunk.json` es la versión publicada de NUNCA SE APAGAN) |
 

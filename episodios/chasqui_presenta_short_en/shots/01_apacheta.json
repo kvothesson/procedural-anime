@@ -1,0 +1,28 @@
+{
+ "extends": "../../chasqui_presenta_short/shots/01_apacheta.json",
+ "post": {
+  "textos": [
+   {
+    "text": "500 years ago, the chasquis ran\nthe Andes carrying messages.",
+    "font": "texto",
+    "size": 44,
+    "color": "#dfe6ef",
+    "pos": [
+     0.47,
+     0.56
+    ],
+    "outline": 6,
+    "glow": 0.15,
+    "max_w": 0.76,
+    "frames": [
+     4,
+     38
+    ],
+    "fade": [
+     6,
+     6
+    ]
+   }
+  ]
+ }
+}

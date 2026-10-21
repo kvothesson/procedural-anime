@@ -1,0 +1,29 @@
+{
+  "titulo_youtube": "chasqui：PCでリアルタイム同時通訳 · アンデスから東京へ",
+  "descripcion_youtube": "500年前、チャスキたちはアンデスを走り、知らせを運んだ。いま、言葉を越えて。\n\nchasqui は、話している声をその場で翻訳するデスクトップの小さなウィンドウです。どのアプリの通話でも双方向に、PCで流れる動画の音声も翻訳します。オープンソースで、自分の OpenAI API キーを使います。料金は使った分（分単位）だけ。\n\n⬇️ ダウンロード（Windows 10/11、Python 不要）: https://kvothesson.com/chasqui/?lang=en\n💻 コード: https://github.com/kvothesson/chasqui\n🐍 pip でも: pip install chasqui-translate\n\n🎧 通話のテストに協力してください\n動画の翻訳はすでに動きます。双方向の通話はいちばん新しい機能で、本物の相手との本物の通話でしか確かめられません。Meet、Zoom、Teams、Discord で通話があれば、chasqui を試して結果を教えてください（「動かなかった」でも助かります）:\nhttps://github.com/kvothesson/chasqui/issues/new?template=used-it-for.yml\n\n00:00 500年前\n00:10 アンデスから東京へ\n00:23 chasqui でできること\n00:48 双方向で、入手方法\n\n声と字幕は chasqui の実際の出力で、修正していません。日本語の文をアプリでスペイン語に、スペイン語の返事を日本語に翻訳しています。画面のウィンドウはアプリのキャプチャです。\n\nこの動画は 100% コード（Blender + Python）で作られています。画像生成 AI は使っていません: https://github.com/kvothesson/procedural-anime\n\nEspañol: https://youtu.be/TB1ZZUPGsFo\nEnglish: https://youtu.be/LcFYSNgHg0Q",
+  "tags": [
+    "chasqui",
+    "同時通訳",
+    "リアルタイム翻訳",
+    "翻訳アプリ",
+    "ビデオ通話 翻訳",
+    "YouTube 翻訳",
+    "オープンソース",
+    "openai realtime",
+    "スペイン語",
+    "kvothesson",
+    "procedural anime",
+    "blender"
+  ],
+  "categoria": "28",
+  "idioma": "ja",
+  "privacidad": "public",
+  "video_final": "out/chasqui_presenta_ja.mp4",
+  "miniatura": "out/miniatura.jpg",
+  "duracion_segundos": 63,
+  "resolucion": "1920x1080",
+  "fps": 24,
+  "youtube_id": "frBAmX91HHo",
+  "youtube_url": "https://youtu.be/frBAmX91HHo",
+  "fecha_publicacion": "2026-10-21T04:45:53Z"
+}

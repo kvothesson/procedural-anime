@@ -1,0 +1,442 @@
+{
+ "extends": "../../chasqui_presenta/shots/05_tambos.json",
+ "post": {
+  "textos": [
+   {
+    "font": "mono",
+    "size": 24,
+    "color": "#5ec5e2",
+    "outline": 5,
+    "tracking": 3,
+    "text": "01 / 05",
+    "pos": [
+     0.94,
+     0.16
+    ],
+    "align": "right",
+    "frames": [
+     16,
+     67
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#dfe6ef",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "Video calls, both ways",
+    "size": 58,
+    "pos": [
+     0.94,
+     0.2
+    ],
+    "align": "right",
+    "max_w": 0.45,
+    "frames": [
+     16,
+     67
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "Your voice goes out translated.",
+    "size": 30,
+    "pos": [
+     0.94,
+     0.3
+    ],
+    "align": "right",
+    "max_w": 0.45,
+    "frames": [
+     18,
+     67
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "Theirs comes back translated.",
+    "size": 30,
+    "pos": [
+     0.94,
+     0.345
+    ],
+    "align": "right",
+    "max_w": 0.45,
+    "frames": [
+     18,
+     67
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "mono",
+    "size": 24,
+    "color": "#5ec5e2",
+    "outline": 5,
+    "tracking": 3,
+    "text": "02 / 05",
+    "pos": [
+     0.06,
+     0.16
+    ],
+    "align": "left",
+    "frames": [
+     71,
+     121
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#dfe6ef",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "Videos and streams",
+    "size": 58,
+    "pos": [
+     0.06,
+     0.2
+    ],
+    "align": "left",
+    "max_w": 0.45,
+    "frames": [
+     71,
+     121
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "Translates whatever your computer plays:",
+    "size": 30,
+    "pos": [
+     0.06,
+     0.3
+    ],
+    "align": "left",
+    "max_w": 0.45,
+    "frames": [
+     73,
+     121
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "YouTube, podcasts, lectures.",
+    "size": 30,
+    "pos": [
+     0.06,
+     0.345
+    ],
+    "align": "left",
+    "max_w": 0.45,
+    "frames": [
+     73,
+     121
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "mono",
+    "size": 24,
+    "color": "#5ec5e2",
+    "outline": 5,
+    "tracking": 3,
+    "text": "03 / 05",
+    "pos": [
+     0.94,
+     0.16
+    ],
+    "align": "right",
+    "frames": [
+     125,
+     185
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#dfe6ef",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "Virtual microphone",
+    "size": 58,
+    "pos": [
+     0.94,
+     0.2
+    ],
+    "align": "right",
+    "max_w": 0.45,
+    "frames": [
+     125,
+     185
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "Your translated voice, in any app",
+    "size": 30,
+    "pos": [
+     0.94,
+     0.3
+    ],
+    "align": "right",
+    "max_w": 0.45,
+    "frames": [
+     127,
+     185
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "that uses a microphone.",
+    "size": 30,
+    "pos": [
+     0.94,
+     0.345
+    ],
+    "align": "right",
+    "max_w": 0.45,
+    "frames": [
+     127,
+     185
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "mono",
+    "size": 24,
+    "color": "#5ec5e2",
+    "outline": 5,
+    "tracking": 3,
+    "text": "04 / 05",
+    "pos": [
+     0.06,
+     0.16
+    ],
+    "align": "left",
+    "frames": [
+     189,
+     249
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#dfe6ef",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "12 languages",
+    "size": 58,
+    "pos": [
+     0.06,
+     0.2
+    ],
+    "align": "left",
+    "max_w": 0.45,
+    "frames": [
+     189,
+     249
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "Spanish, English, Japanese, Chinese, Korean...",
+    "size": 30,
+    "pos": [
+     0.06,
+     0.3
+    ],
+    "align": "left",
+    "max_w": 0.45,
+    "frames": [
+     191,
+     249
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "in any combination.",
+    "size": 30,
+    "pos": [
+     0.06,
+     0.345
+    ],
+    "align": "left",
+    "max_w": 0.45,
+    "frames": [
+     191,
+     249
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "mono",
+    "size": 24,
+    "color": "#5ec5e2",
+    "outline": 5,
+    "tracking": 3,
+    "text": "05 / 05",
+    "pos": [
+     0.94,
+     0.16
+    ],
+    "align": "right",
+    "frames": [
+     253,
+     299
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#dfe6ef",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "Your key, your cost",
+    "size": 58,
+    "pos": [
+     0.94,
+     0.2
+    ],
+    "align": "right",
+    "max_w": 0.45,
+    "frames": [
+     253,
+     299
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "You use your own OpenAI API key.",
+    "size": 30,
+    "pos": [
+     0.94,
+     0.3
+    ],
+    "align": "right",
+    "max_w": 0.45,
+    "frames": [
+     255,
+     299
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "The app shows what you're spending.",
+    "size": 30,
+    "pos": [
+     0.94,
+     0.345
+    ],
+    "align": "right",
+    "max_w": 0.45,
+    "frames": [
+     255,
+     299
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   }
+  ]
+ }
+}

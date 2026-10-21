@@ -1,0 +1,28 @@
+{
+ "_desc": "Donde cae cada toma en el short (segundos). Mismas tomas de El relevo y mismo desfase respecto de su plano: la ida 0,9 s antes del puente, la vuelta 0,05 s antes de Tokio. subs_layout: el bloque en la zona segura de un short (YouTube tapa abajo y la columna derecha).",
+ "dir": "../chasqui_relevo/voz",
+ "ida": {
+  "take": "ida_c",
+  "at": 3.1,
+  "src": "es",
+  "tgt": "ja"
+ },
+ "vuelta": {
+  "take": "vuelta_f",
+  "at": 12.95,
+  "src": "ja",
+  "tgt": "es"
+ },
+ "subs_layout": {
+  "x": 0.47,
+  "y": 0.47,
+  "gap": [
+   0.022,
+   0.13,
+   0.152
+  ],
+  "size": 44,
+  "tag": 24,
+  "max_w": 0.74
+ }
+}

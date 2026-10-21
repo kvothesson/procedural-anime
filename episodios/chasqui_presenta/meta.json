@@ -1,0 +1,29 @@
+{
+  "titulo_youtube": "chasqui: traducción simultánea en tiempo real, en tu PC · de los Andes a Tokio",
+  "descripcion_youtube": "Hace 500 años, los chasquis corrían los Andes llevando mensajes. Hoy cruzan idiomas.\n\nchasqui es una ventanita de escritorio que traduce la voz mientras la gente habla: tus llamadas en cualquier app, de ida y vuelta, o cualquier video que suene en tu PC. Código abierto, con tu propia API key de OpenAI: pagás por minuto y nada más.\n\n⬇️ Descargar (Windows 10/11, sin Python): https://kvothesson.com/chasqui/?lang=es\n💻 Código: https://github.com/kvothesson/chasqui\n🐍 O con pip: pip install chasqui-translate\n\n🎧 AYUDANOS A PROBAR LAS LLAMADAS\nTraducir videos ya funciona. Las llamadas de ida y vuelta son lo más nuevo y necesitan una llamada de verdad, con una persona del otro lado. Si tenés una en Meet, Zoom, Teams o Discord, probalo y contanos cómo te fue (hasta un \"no anduvo\" sirve):\nhttps://github.com/kvothesson/chasqui/issues/new?template=used-it-for.yml\n\n00:00 Hace 500 años\n00:10 De los Andes a Tokio\n00:23 Qué hace chasqui\n00:48 Ida y vuelta, y cómo instalarlo\n\nLas voces y los subtítulos son la salida REAL de chasqui, sin corregir: una frase en español pasada por la app a japonés, y la respuesta en japonés, de vuelta al español. Las ventanas que aparecen son capturas de la app.\n\nEl video está hecho 100% con código (Blender + Python), sin IA que genere imagen: https://github.com/kvothesson/procedural-anime",
+  "tags": [
+    "chasqui",
+    "traducción simultánea",
+    "traductor en tiempo real",
+    "traducir videollamadas",
+    "traducir youtube",
+    "open source",
+    "código abierto",
+    "openai realtime",
+    "japonés",
+    "kvothesson",
+    "procedural anime",
+    "blender"
+  ],
+  "categoria": "28",
+  "idioma": "es",
+  "privacidad": "public",
+  "video_final": "out/chasqui_presenta.mp4",
+  "miniatura": "out/miniatura.jpg",
+  "duracion_segundos": 63,
+  "resolucion": "1920x1080",
+  "fps": 24,
+  "youtube_id": "TB1ZZUPGsFo",
+  "youtube_url": "https://youtu.be/TB1ZZUPGsFo",
+  "fecha_publicacion": "2026-10-21T03:53:16Z"
+}

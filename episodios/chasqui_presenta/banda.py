@@ -5,6 +5,7 @@ mismas tomas reales (voces.json). Lo nuevo es la partitura de los tambos y de
 la ida y vuelta.
 
     python episodios/chasqui_presenta/banda.py   # -> out/chasqui_presenta.wav (48 kHz, estereo)
+    python episodios/chasqui_presenta/banda.py episodios/chasqui_presenta_en   # otra version
 
   - Andes: quena y charango en re menor pentatonico. Tokio: el mismo motivo en koto.
   - Tambos: un pulso de carrera suave (las tarjetas se leen) y, cuando cada
@@ -24,8 +25,10 @@ from pathlib import Path
 import numpy as np
 from scipy.io import wavfile
 
-ROOT = Path(__file__).resolve().parent
-_spec = importlib.util.spec_from_file_location("banda_relevo", ROOT.parent / "chasqui_relevo" / "banda.py")
+HERE = Path(__file__).resolve().parent
+# una version en otro idioma es otra carpeta con sus planos, voces y salida
+ROOT = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else HERE
+_spec = importlib.util.spec_from_file_location("banda_relevo", HERE.parent / "chasqui_relevo" / "banda.py")
 rel = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(rel)
 
@@ -222,7 +225,8 @@ def main():
     for a, b in zip(names, names[1:] + [None]):
         seg = mix[n_samples(S[a]):n_samples(S[b] if b else T)]
         print(f"  {a:16s} {S[a]:5.1f}s  {20 * np.log10(np.sqrt(np.mean(seg ** 2)) + 1e-9):6.1f}")
-    out = ROOT / "out" / "chasqui_presenta.wav"
+    name = json.loads((ROOT / "shots" / "timeline.json").read_text(encoding="utf-8"))["name"]
+    out = ROOT / "out" / f"{name}.wav"
     out.parent.mkdir(exist_ok=True)
     wavfile.write(out, SR, (mix * 32767).astype(np.int16))
     print(f"-> {out} ({len(mix) / SR:.1f} s)")

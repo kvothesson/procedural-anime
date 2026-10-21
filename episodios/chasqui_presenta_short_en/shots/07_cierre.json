@@ -1,0 +1,106 @@
+{
+ "extends": "../../chasqui_presenta_short/shots/07_cierre.json",
+ "post": {
+  "textos": [
+   {
+    "text": "Today they cross languages.",
+    "font": "texto",
+    "size": 46,
+    "color": "#dfe6ef",
+    "pos": [
+     0.47,
+     0.3
+    ],
+    "frames": [
+     30,
+     69
+    ],
+    "fade": [
+     8,
+     8
+    ],
+    "outline": 6,
+    "glow": 0.15
+   },
+   {
+    "text": "chasqui",
+    "font": "mono",
+    "size": 150,
+    "color": "#5ec5e2",
+    "pos": [
+     0.47,
+     0.335
+    ],
+    "frames": [
+     36,
+     69
+    ],
+    "fade": [
+     6,
+     8
+    ],
+    "outline": 8,
+    "glow": 0.9,
+    "tracking": 4
+   },
+   {
+    "text": "real-time simultaneous translation",
+    "font": "mono_r",
+    "size": 32,
+    "color": "#dfe6ef",
+    "pos": [
+     0.47,
+     0.49
+    ],
+    "frames": [
+     40,
+     69
+    ],
+    "fade": [
+     6,
+     8
+    ],
+    "outline": 5
+   },
+   {
+    "font": "mono",
+    "text": "kvothesson.com/chasqui",
+    "size": 36,
+    "color": "#5ec5e2",
+    "pos": [
+     0.47,
+     0.53
+    ],
+    "frames": [
+     42,
+     69
+    ],
+    "fade": [
+     6,
+     8
+    ],
+    "outline": 6,
+    "glow": 0.3
+   },
+   {
+    "text": "github.com/kvothesson/chasqui",
+    "font": "mono_r",
+    "size": 28,
+    "color": "#8a97ab",
+    "pos": [
+     0.47,
+     0.565
+    ],
+    "frames": [
+     42,
+     69
+    ],
+    "fade": [
+     6,
+     8
+    ],
+    "outline": 5
+   }
+  ]
+ }
+}

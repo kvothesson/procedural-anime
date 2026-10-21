@@ -1,0 +1,76 @@
+{
+ "extends": "andes_base.json",
+ "_desc": "Plano 2: el mensaje cruza el puente de soga sobre la quebrada. A mitad del puente pasa de hielo (espanol) a violeta (japones): el frame 23 es cuando entra la voz japonesa real.",
+ "frames": 48,
+ "mensaje": {
+  "keys": [
+   [
+    1,
+    72.0
+   ],
+   [
+    48,
+    109.1
+   ]
+  ],
+  "colors": [
+   [
+    0,
+    "#5ec5e2"
+   ],
+   [
+    89.4,
+    "#a98bf5"
+   ]
+  ],
+  "height": 1.0,
+  "trail": 14,
+  "radius": 0.26,
+  "trail_radius": 0.085,
+  "light": 420
+ },
+ "camera": {
+  "lens": 20,
+  "clip_end": 3000,
+  "ease": true,
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     28.0,
+     57.5,
+     4.2
+    ],
+    "aim": [
+     0.0,
+     59.0,
+     -1.5
+    ]
+   },
+   {
+    "frame": 48,
+    "pos": [
+     21.5,
+     60.0,
+     3.4
+    ],
+    "aim": [
+     0.0,
+     60.5,
+     -1.0
+    ]
+   }
+  ]
+ },
+ "luna": {
+  "at": [
+   -1500,
+   330,
+   560
+  ],
+  "r": 62
+ },
+ "storyboard": [
+  30
+ ]
+}

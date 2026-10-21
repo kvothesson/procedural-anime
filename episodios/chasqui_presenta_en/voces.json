@@ -1,0 +1,22 @@
+{
+ "_desc": "Version en de chasqui_presenta (generada por versiones.py). Tomas reales en ingles <-> japones, corridas para que la traduccion entre donde entraba la del espanol.",
+ "dir": "../chasqui_presenta/voz",
+ "etiquetas": {
+  "orig": "{src} · ORIGINAL",
+  "vivo": "{tgt} · CHASQUI, LIVE",
+  "font": "mono"
+ },
+ "ida": {
+  "take": "ida_en_a",
+  "at": 4.11,
+  "src": "en",
+  "tgt": "ja"
+ },
+ "vuelta": {
+  "take": "vuelta_en_a",
+  "at": 13.28,
+  "src": "ja",
+  "tgt": "en"
+ },
+ "subs_fin_s": 24.15
+}

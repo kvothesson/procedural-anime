@@ -1,0 +1,576 @@
+{
+ "extends": "andes_base.json",
+ "_desc": "Tambos (vertical): cada tambo que enciende es una funcion; titulo arriba, la captura real debajo y la luz corre por el camino abajo.",
+ "frames": 240,
+ "storyboard": [
+  31,
+  170
+ ],
+ "mensaje": {
+  "keys": [
+   [
+    1,
+    100.0
+   ],
+   [
+    240,
+    240.0
+   ]
+  ],
+  "colors": [
+   [
+    0,
+    "#5ec5e2"
+   ]
+  ],
+  "height": 1.1,
+  "trail": 7.5,
+  "radius": 0.24,
+  "trail_radius": 0.08,
+  "light": 420
+ },
+ "camera": {
+  "lens": 24,
+  "clip_end": 3000,
+  "follow": {
+   "behind": 9,
+   "side": 1.0,
+   "up": 2.1,
+   "ahead": 30,
+   "aim_up": 2.2
+  }
+ },
+ "relevo": {
+  "lead": 14,
+  "delay": 0
+ },
+ "luna": {
+  "at": [
+   260,
+   1500,
+   620
+  ],
+  "r": 60
+ },
+ "post": {
+  "textos": [
+   {
+    "font": "mono",
+    "size": 26,
+    "color": "#5ec5e2",
+    "outline": 5,
+    "tracking": 3,
+    "text": "01 / 05",
+    "pos": [
+     0.47,
+     0.12
+    ],
+    "frames": [
+     13,
+     54
+    ],
+    "fade": [
+     4,
+     4
+    ],
+    "max_w": 0.76
+   },
+   {
+    "font": "texto",
+    "color": "#dfe6ef",
+    "outline": 6,
+    "glow": 0.25,
+    "text": "Videollamadas, ida y vuelta",
+    "size": 60,
+    "pos": [
+     0.47,
+     0.14
+    ],
+    "max_w": 0.76,
+    "frames": [
+     13,
+     54
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "Tu voz sale traducida.",
+    "size": 34,
+    "pos": [
+     0.47,
+     0.2
+    ],
+    "max_w": 0.76,
+    "frames": [
+     15,
+     54
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "La del otro te llega traducida.",
+    "size": 34,
+    "pos": [
+     0.47,
+     0.226
+    ],
+    "max_w": 0.76,
+    "frames": [
+     15,
+     54
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   },
+   {
+    "font": "mono",
+    "size": 26,
+    "color": "#5ec5e2",
+    "outline": 5,
+    "tracking": 3,
+    "text": "02 / 05",
+    "pos": [
+     0.47,
+     0.12
+    ],
+    "frames": [
+     58,
+     96
+    ],
+    "fade": [
+     4,
+     4
+    ],
+    "max_w": 0.76
+   },
+   {
+    "font": "texto",
+    "color": "#dfe6ef",
+    "outline": 6,
+    "glow": 0.25,
+    "text": "Videos y streams",
+    "size": 60,
+    "pos": [
+     0.47,
+     0.14
+    ],
+    "max_w": 0.76,
+    "frames": [
+     58,
+     96
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "Traduce lo que suena en tu compu:",
+    "size": 34,
+    "pos": [
+     0.47,
+     0.2
+    ],
+    "max_w": 0.76,
+    "frames": [
+     60,
+     96
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "YouTube, podcasts, clases.",
+    "size": 34,
+    "pos": [
+     0.47,
+     0.226
+    ],
+    "max_w": 0.76,
+    "frames": [
+     60,
+     96
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   },
+   {
+    "font": "mono",
+    "size": 26,
+    "color": "#5ec5e2",
+    "outline": 5,
+    "tracking": 3,
+    "text": "03 / 05",
+    "pos": [
+     0.47,
+     0.12
+    ],
+    "frames": [
+     100,
+     148
+    ],
+    "fade": [
+     4,
+     4
+    ],
+    "max_w": 0.76
+   },
+   {
+    "font": "texto",
+    "color": "#dfe6ef",
+    "outline": 6,
+    "glow": 0.25,
+    "text": "Micrófono virtual",
+    "size": 60,
+    "pos": [
+     0.47,
+     0.14
+    ],
+    "max_w": 0.76,
+    "frames": [
+     100,
+     148
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "Tu voz traducida, en cualquier app",
+    "size": 34,
+    "pos": [
+     0.47,
+     0.2
+    ],
+    "max_w": 0.76,
+    "frames": [
+     102,
+     148
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "que use micrófono.",
+    "size": 34,
+    "pos": [
+     0.47,
+     0.226
+    ],
+    "max_w": 0.76,
+    "frames": [
+     102,
+     148
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   },
+   {
+    "font": "mono",
+    "size": 26,
+    "color": "#5ec5e2",
+    "outline": 5,
+    "tracking": 3,
+    "text": "04 / 05",
+    "pos": [
+     0.47,
+     0.12
+    ],
+    "frames": [
+     152,
+     199
+    ],
+    "fade": [
+     4,
+     4
+    ],
+    "max_w": 0.76
+   },
+   {
+    "font": "texto",
+    "color": "#dfe6ef",
+    "outline": 6,
+    "glow": 0.25,
+    "text": "12 idiomas",
+    "size": 60,
+    "pos": [
+     0.47,
+     0.14
+    ],
+    "max_w": 0.76,
+    "frames": [
+     152,
+     199
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "Español, inglés, japonés, chino, coreano...",
+    "size": 34,
+    "pos": [
+     0.47,
+     0.2
+    ],
+    "max_w": 0.76,
+    "frames": [
+     154,
+     199
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "en cualquier combinación.",
+    "size": 34,
+    "pos": [
+     0.47,
+     0.226
+    ],
+    "max_w": 0.76,
+    "frames": [
+     154,
+     199
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   },
+   {
+    "font": "mono",
+    "size": 26,
+    "color": "#5ec5e2",
+    "outline": 5,
+    "tracking": 3,
+    "text": "05 / 05",
+    "pos": [
+     0.47,
+     0.12
+    ],
+    "frames": [
+     203,
+     239
+    ],
+    "fade": [
+     4,
+     4
+    ],
+    "max_w": 0.76
+   },
+   {
+    "font": "texto",
+    "color": "#dfe6ef",
+    "outline": 6,
+    "glow": 0.25,
+    "text": "Tu clave, tu costo",
+    "size": 60,
+    "pos": [
+     0.47,
+     0.14
+    ],
+    "max_w": 0.76,
+    "frames": [
+     203,
+     239
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "Usás tu propia API key de OpenAI.",
+    "size": 34,
+    "pos": [
+     0.47,
+     0.2
+    ],
+    "max_w": 0.76,
+    "frames": [
+     205,
+     239
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "La app te muestra cuánto gastás.",
+    "size": 34,
+    "pos": [
+     0.47,
+     0.226
+    ],
+    "max_w": 0.76,
+    "frames": [
+     205,
+     239
+    ],
+    "fade": [
+     4,
+     4
+    ]
+   }
+  ],
+  "imagenes": [
+   {
+    "src": "capturas/ui_headset.png",
+    "pos": [
+     0.47,
+     0.5
+    ],
+    "height": 0.4,
+    "frames": [
+     13,
+     54
+    ],
+    "fade": [
+     5,
+     4
+    ],
+    "slide": 40,
+    "border": "#5ec5e2",
+    "glow": 0.35
+   },
+   {
+    "src": "capturas/ui_media.png",
+    "pos": [
+     0.47,
+     0.5
+    ],
+    "height": 0.4,
+    "frames": [
+     58,
+     96
+    ],
+    "fade": [
+     5,
+     4
+    ],
+    "slide": 40,
+    "border": "#5ec5e2",
+    "glow": 0.35
+   },
+   {
+    "src": "capturas/ui_mic.png",
+    "pos": [
+     0.47,
+     0.5
+    ],
+    "height": 0.4,
+    "frames": [
+     100,
+     148
+    ],
+    "fade": [
+     5,
+     4
+    ],
+    "slide": 40,
+    "border": "#5ec5e2",
+    "glow": 0.35
+   },
+   {
+    "src": "capturas/ui_idiomas.png",
+    "pos": [
+     0.47,
+     0.5
+    ],
+    "height": 0.4,
+    "frames": [
+     152,
+     199
+    ],
+    "fade": [
+     5,
+     4
+    ],
+    "slide": 40,
+    "border": "#5ec5e2",
+    "glow": 0.35
+   },
+   {
+    "src": "capturas/ui_costo.png",
+    "pos": [
+     0.47,
+     0.5
+    ],
+    "height": 0.22,
+    "frames": [
+     203,
+     239
+    ],
+    "fade": [
+     5,
+     4
+    ],
+    "slide": 40,
+    "border": "#5ec5e2",
+    "glow": 0.35
+   }
+  ]
+ }
+}

@@ -1,0 +1,34 @@
+{
+ "_desc": "Version ja de chasqui_presenta_short (generada por versiones.py). Tomas reales de chasqui, corridas para que la traduccion entre donde entraba la del espanol.",
+ "dir": "../chasqui_presenta/voz",
+ "etiquetas": {
+  "orig": "{src} · 原文",
+  "vivo": "{tgt} · CHASQUI リアルタイム翻訳",
+  "font": "texto"
+ },
+ "subs_layout": {
+  "x": 0.47,
+  "y": 0.47,
+  "gap": [
+   0.022,
+   0.13,
+   0.152
+  ],
+  "size": 44,
+  "tag": 24,
+  "max_w": 0.74
+ },
+ "ida": {
+  "take": "ida_ja_c",
+  "at": 0.02,
+  "src": "ja",
+  "tgt": "es"
+ },
+ "vuelta": {
+  "take": "vuelta_es_a",
+  "at": 12.59,
+  "src": "es",
+  "tgt": "ja"
+ },
+ "subs_fin_s": 21.9
+}
