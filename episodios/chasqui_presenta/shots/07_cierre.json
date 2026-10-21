@@ -1,0 +1,229 @@
+{
+ "extends": "andes_base.json",
+ "_desc": "Cierre: la respuesta baja al cristal, titulo y como instalarlo; la camara termina en el primer cuadro del plano 1 (loop).",
+ "frames": 96,
+ "storyboard": [
+  20,
+  70
+ ],
+ "relevo": {
+  "lead": -100000
+ },
+ "apacheta": {
+  "latido": {
+   "beat_frames": 18,
+   "base": 0.6,
+   "amp": 0.8,
+   "phase": 13,
+   "flash": [
+    [
+     30,
+     2.6
+    ],
+    [
+     31,
+     3.2
+    ],
+    [
+     32,
+     2.4
+    ],
+    [
+     33,
+     1.6
+    ]
+   ]
+  }
+ },
+ "mensaje": {
+  "points": [
+   [
+    70,
+    190,
+    150
+   ],
+   [
+    22,
+    62,
+    46
+   ],
+   [
+    3.9,
+    -0.3,
+    2.6
+   ]
+  ],
+  "frac": true,
+  "keys": [
+   [
+    1,
+    0.0
+   ],
+   [
+    30,
+    1.0
+   ]
+  ],
+  "to_frame": 31,
+  "colors": [
+   [
+    0.0,
+    "#5ec5e2"
+   ]
+  ],
+  "trail": 0.4,
+  "height": 0.0,
+  "radius": 0.55,
+  "trail_radius": 0.28,
+  "light": 380
+ },
+ "camera": {
+  "lens": 36,
+  "clip_end": 3000,
+  "ease": true,
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     8.6,
+     -9.5,
+     1.5
+    ],
+    "aim": [
+     4,
+     12,
+     15
+    ]
+   },
+   {
+    "frame": 28,
+    "pos": [
+     7.6,
+     -7.5,
+     1.3
+    ],
+    "aim": [
+     3.2,
+     14,
+     9
+    ]
+   },
+   {
+    "frame": 96,
+    "pos": [
+     6.4,
+     -5.4,
+     1.0
+    ],
+    "aim": [
+     1.5,
+     18,
+     7.0
+    ]
+   }
+  ]
+ },
+ "post": {
+  "textos": [
+   {
+    "font": "texto",
+    "color": "#dfe6ef",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "Hoy cruzan idiomas.",
+    "size": 40,
+    "pos": [
+     0.7,
+     0.3
+    ],
+    "frames": [
+     30,
+     92
+    ],
+    "fade": [
+     8,
+     8
+    ]
+   },
+   {
+    "font": "mono",
+    "text": "chasqui",
+    "size": 140,
+    "color": "#5ec5e2",
+    "pos": [
+     0.7,
+     0.33
+    ],
+    "frames": [
+     36,
+     92
+    ],
+    "fade": [
+     6,
+     8
+    ],
+    "outline": 8,
+    "glow": 0.9,
+    "tracking": 4
+   },
+   {
+    "font": "mono_r",
+    "text": "traducción simultánea, en tiempo real",
+    "size": 30,
+    "color": "#dfe6ef",
+    "pos": [
+     0.7,
+     0.6
+    ],
+    "frames": [
+     40,
+     92
+    ],
+    "fade": [
+     6,
+     8
+    ],
+    "outline": 5
+   },
+   {
+    "font": "mono",
+    "text": "pip install chasqui-translate",
+    "size": 34,
+    "color": "#5ec5e2",
+    "pos": [
+     0.7,
+     0.68
+    ],
+    "frames": [
+     46,
+     92
+    ],
+    "fade": [
+     6,
+     8
+    ],
+    "outline": 6,
+    "glow": 0.3
+   },
+   {
+    "font": "mono_r",
+    "text": "github.com/kvothesson/chasqui",
+    "size": 26,
+    "color": "#8a97ab",
+    "pos": [
+     0.7,
+     0.735
+    ],
+    "frames": [
+     48,
+     92
+    ],
+    "fade": [
+     6,
+     8
+    ],
+    "outline": 5
+   }
+  ]
+ }
+}

@@ -1,0 +1,594 @@
+{
+ "extends": "andes_base.json",
+ "_desc": "Plano de funciones: la luz corre el camino; cada tambo que enciende es una funcion de chasqui, con su tarjeta y la captura real de la ventana.",
+ "frames": 300,
+ "storyboard": [
+  45,
+  100,
+  155,
+  220,
+  285
+ ],
+ "mensaje": {
+  "keys": [
+   [
+    1,
+    100.0
+   ],
+   [
+    300,
+    240.0
+   ]
+  ],
+  "colors": [
+   [
+    0,
+    "#5ec5e2"
+   ]
+  ],
+  "height": 1.1,
+  "trail": 7.5,
+  "radius": 0.24,
+  "trail_radius": 0.08,
+  "light": 420
+ },
+ "camera": {
+  "lens": 34,
+  "clip_end": 3000,
+  "follow": {
+   "behind": 9,
+   "side": 1.0,
+   "up": 2.1,
+   "ahead": 30,
+   "aim_up": 2.2
+  }
+ },
+ "relevo": {
+  "lead": 14,
+  "delay": 0
+ },
+ "luna": {
+  "at": [
+   260,
+   1500,
+   620
+  ],
+  "r": 60
+ },
+ "post": {
+  "textos": [
+   {
+    "font": "mono",
+    "size": 24,
+    "color": "#5ec5e2",
+    "outline": 5,
+    "tracking": 3,
+    "text": "01 / 05",
+    "pos": [
+     0.94,
+     0.16
+    ],
+    "align": "right",
+    "frames": [
+     16,
+     67
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#dfe6ef",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "Videollamadas, ida y vuelta",
+    "size": 58,
+    "pos": [
+     0.94,
+     0.2
+    ],
+    "align": "right",
+    "max_w": 0.45,
+    "frames": [
+     16,
+     67
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "Tu voz sale traducida.",
+    "size": 30,
+    "pos": [
+     0.94,
+     0.3
+    ],
+    "align": "right",
+    "max_w": 0.45,
+    "frames": [
+     18,
+     67
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "La del otro te llega traducida.",
+    "size": 30,
+    "pos": [
+     0.94,
+     0.345
+    ],
+    "align": "right",
+    "max_w": 0.45,
+    "frames": [
+     18,
+     67
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "mono",
+    "size": 24,
+    "color": "#5ec5e2",
+    "outline": 5,
+    "tracking": 3,
+    "text": "02 / 05",
+    "pos": [
+     0.06,
+     0.16
+    ],
+    "align": "left",
+    "frames": [
+     71,
+     121
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#dfe6ef",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "Videos y streams",
+    "size": 58,
+    "pos": [
+     0.06,
+     0.2
+    ],
+    "align": "left",
+    "max_w": 0.45,
+    "frames": [
+     71,
+     121
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "Traduce lo que suena en tu compu:",
+    "size": 30,
+    "pos": [
+     0.06,
+     0.3
+    ],
+    "align": "left",
+    "max_w": 0.45,
+    "frames": [
+     73,
+     121
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "YouTube, podcasts, clases.",
+    "size": 30,
+    "pos": [
+     0.06,
+     0.345
+    ],
+    "align": "left",
+    "max_w": 0.45,
+    "frames": [
+     73,
+     121
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "mono",
+    "size": 24,
+    "color": "#5ec5e2",
+    "outline": 5,
+    "tracking": 3,
+    "text": "03 / 05",
+    "pos": [
+     0.94,
+     0.16
+    ],
+    "align": "right",
+    "frames": [
+     125,
+     185
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#dfe6ef",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "Micrófono virtual",
+    "size": 58,
+    "pos": [
+     0.94,
+     0.2
+    ],
+    "align": "right",
+    "max_w": 0.45,
+    "frames": [
+     125,
+     185
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "Tu voz traducida, en cualquier app",
+    "size": 30,
+    "pos": [
+     0.94,
+     0.3
+    ],
+    "align": "right",
+    "max_w": 0.45,
+    "frames": [
+     127,
+     185
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "que use micrófono.",
+    "size": 30,
+    "pos": [
+     0.94,
+     0.345
+    ],
+    "align": "right",
+    "max_w": 0.45,
+    "frames": [
+     127,
+     185
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "mono",
+    "size": 24,
+    "color": "#5ec5e2",
+    "outline": 5,
+    "tracking": 3,
+    "text": "04 / 05",
+    "pos": [
+     0.06,
+     0.16
+    ],
+    "align": "left",
+    "frames": [
+     189,
+     249
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#dfe6ef",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "12 idiomas",
+    "size": 58,
+    "pos": [
+     0.06,
+     0.2
+    ],
+    "align": "left",
+    "max_w": 0.45,
+    "frames": [
+     189,
+     249
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "Español, inglés, japonés, chino, coreano...",
+    "size": 30,
+    "pos": [
+     0.06,
+     0.3
+    ],
+    "align": "left",
+    "max_w": 0.45,
+    "frames": [
+     191,
+     249
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "en cualquier combinación.",
+    "size": 30,
+    "pos": [
+     0.06,
+     0.345
+    ],
+    "align": "left",
+    "max_w": 0.45,
+    "frames": [
+     191,
+     249
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "mono",
+    "size": 24,
+    "color": "#5ec5e2",
+    "outline": 5,
+    "tracking": 3,
+    "text": "05 / 05",
+    "pos": [
+     0.94,
+     0.16
+    ],
+    "align": "right",
+    "frames": [
+     253,
+     299
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#dfe6ef",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "Tu clave, tu costo",
+    "size": 58,
+    "pos": [
+     0.94,
+     0.2
+    ],
+    "align": "right",
+    "max_w": 0.45,
+    "frames": [
+     253,
+     299
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "Usás tu propia API key de OpenAI.",
+    "size": 30,
+    "pos": [
+     0.94,
+     0.3
+    ],
+    "align": "right",
+    "max_w": 0.45,
+    "frames": [
+     255,
+     299
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   },
+   {
+    "font": "texto",
+    "color": "#aab6c8",
+    "outline": 6,
+    "glow": 0.15,
+    "text": "La app te muestra cuánto gastás.",
+    "size": 30,
+    "pos": [
+     0.94,
+     0.345
+    ],
+    "align": "right",
+    "max_w": 0.45,
+    "frames": [
+     255,
+     299
+    ],
+    "fade": [
+     5,
+     5
+    ]
+   }
+  ],
+  "imagenes": [
+   {
+    "src": "capturas/ui_headset.png",
+    "pos": [
+     0.2,
+     0.5
+    ],
+    "height": 0.74,
+    "frames": [
+     16,
+     67
+    ],
+    "fade": [
+     6,
+     5
+    ],
+    "slide": 40,
+    "border": "#5ec5e2",
+    "glow": 0.35
+   },
+   {
+    "src": "capturas/ui_media.png",
+    "pos": [
+     0.8,
+     0.5
+    ],
+    "height": 0.74,
+    "frames": [
+     71,
+     121
+    ],
+    "fade": [
+     6,
+     5
+    ],
+    "slide": 40,
+    "border": "#5ec5e2",
+    "glow": 0.35
+   },
+   {
+    "src": "capturas/ui_mic.png",
+    "pos": [
+     0.2,
+     0.5
+    ],
+    "height": 0.74,
+    "frames": [
+     125,
+     185
+    ],
+    "fade": [
+     6,
+     5
+    ],
+    "slide": 40,
+    "border": "#5ec5e2",
+    "glow": 0.35
+   },
+   {
+    "src": "capturas/ui_idiomas.png",
+    "pos": [
+     0.8,
+     0.5
+    ],
+    "height": 0.74,
+    "frames": [
+     189,
+     249
+    ],
+    "fade": [
+     6,
+     5
+    ],
+    "slide": 40,
+    "border": "#5ec5e2",
+    "glow": 0.35
+   },
+   {
+    "src": "capturas/ui_costo.png",
+    "pos": [
+     0.2,
+     0.5
+    ],
+    "height": 0.4,
+    "frames": [
+     253,
+     299
+    ],
+    "fade": [
+     6,
+     5
+    ],
+    "slide": 40,
+    "border": "#5ec5e2",
+    "glow": 0.35
+   }
+  ]
+ }
+}

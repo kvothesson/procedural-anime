@@ -1,0 +1,30 @@
+{
+ "extends": "andes_base.json",
+ "_desc": "Prueba: tambo de costado, para ver si apoya en la ladera. No entra al montaje.",
+ "frames": 1,
+ "camera": {
+  "lens": 30,
+  "clip_end": 3000,
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     -34,
+     100,
+     2
+    ],
+    "aim": [
+     -8,
+     116,
+     3
+    ]
+   }
+  ]
+ },
+ "relevo": {
+  "lead": 100000
+ },
+ "tambos": {
+  "terraza": true
+ }
+}

@@ -1,0 +1,6 @@
+{
+  "_desc": "Donde cae cada toma en el corte (segundos). Las tomas son las de El relevo (../chasqui_relevo/voz/), salida real de chasqui. Mismo desfase respecto de su plano: la ida empieza 0,9 s antes del puente (el japones entra en el cuadro 23) y la vuelta 0,05 s antes de Tokio.",
+  "dir": "../chasqui_relevo/voz",
+  "ida": {"take": "ida_c", "at": 5.1, "src": "es", "tgt": "ja"},
+  "vuelta": {"take": "vuelta_f", "at": 14.95, "src": "ja", "tgt": "es"}
+}

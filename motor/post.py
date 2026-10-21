@@ -9,7 +9,8 @@ El render 3D es lo unico caro. Todo lo de aca tarda segundos, asi que probar
 brillo, lluvia o grano NUNCA requiere volver a renderizar.
 
 Orden: ondas -> datamosh -> brillo (solo lo que emite) -> lluvia -> lineas de velocidad ->
-glitch -> aberracion -> vineta -> textos ("textos", ver textos.py) -> grano.
+glitch -> aberracion -> vineta -> imagenes ("imagenes": capturas reales, p. ej. la ventana
+de una app) -> textos ("textos", ver textos.py) -> grano.
 Nada aleatorio por frame: la lluvia es una lista fija de gotas que se mueve
 con el tiempo, y el grano cicla entre 3 patrones fijos.
 """
@@ -480,6 +481,52 @@ def grain_patterns(w, h, amt, n=3, seed=7):
     return pats
 
 
+_IMG = {}   # imagenes ya leidas y escaladas, por (ruta, alto)
+
+
+def imagenes(img, i, items, w, h):
+    """Capturas pegadas encima del cuadro (despues de la vineta: nitidas), con
+    borde de color, halo y sombra. Cada item: src (absoluta, ver main), pos
+    [cx, cy] del centro, height (fraccion del alto), frames, fade, slide (px
+    a 1080 que sube al entrar), border, glow, shadow."""
+    import textos
+    k = min(w, h) / 1080.0
+    for I in items:
+        al = textos.fade_alpha(i, I["frames"], I.get("fade"))
+        if al <= 0:
+            continue
+        H = int(I.get("height", 0.6) * h)
+        key = (I["src"], H)
+        if key not in _IMG:
+            im = cv2.cvtColor(cv2.imread(I["src"]), cv2.COLOR_BGR2RGB).astype(np.float32) / 255.0
+            _IMG[key] = cv2.resize(im, (int(im.shape[1] * H / im.shape[0]), H), interpolation=cv2.INTER_CUBIC)
+        im = _IMG[key]
+        W = im.shape[1]
+        cx, cy = I.get("pos", [0.5, 0.5])
+        # entra subiendo: el desplazamiento se apaga con el fundido
+        dy = int(I.get("slide", 0) * k * (1 - al))
+        x0, y0 = int(cx * w - W / 2), int(cy * h - H / 2) + dy
+        pad = int(40 * k)
+        # sombra y halo: un rectangulo desenfocado debajo de la captura
+        box = np.zeros((h, w), np.float32)
+        cv2.rectangle(box, (x0, y0), (x0 + W, y0 + H), 1.0, -1)
+        soft = cv2.GaussianBlur(box, (0, 0), pad * 0.5)
+        sh = I.get("shadow", 0.6) * al
+        img = img * (1 - soft[..., None] * sh)
+        if I.get("border"):
+            col = np.array(hex_rgb(I["border"]), np.float32)
+            img = img + soft[..., None] * col * I.get("glow", 0.35) * al
+            bw = max(1, int(2 * k))
+            ring = np.zeros((h, w), np.float32)
+            cv2.rectangle(ring, (x0 - bw, y0 - bw), (x0 + W + bw - 1, y0 + H + bw - 1), 1.0, bw)
+            img = img * (1 - ring[..., None] * al) + ring[..., None] * col * al
+        xa, ya, xb, yb = max(0, x0), max(0, y0), min(w, x0 + W), min(h, y0 + H)
+        if xa < xb and ya < yb:
+            sub = im[ya - y0:yb - y0, xa - x0:xb - x0]
+            img[ya:yb, xa:xb] = img[ya:yb, xa:xb] * (1 - al) + sub * al
+    return img
+
+
 # ------------------------------------------------------------------ main
 
 _W = {}   # estado por proceso (lluvia, vineta, grano): se arma una vez por worker
@@ -538,6 +585,8 @@ def _frame(f):
         img = impacto(img, i, I, w, h)
     img = aberration(img, P["aberration"])
     img = img * _W["vig"]
+    if P.get("imagenes"):
+        img = imagenes(img, i, P["imagenes"], w, h)
     if P.get("textos"):
         # titulos del plano: despues de brillo y vineta (nitidos), antes del grano
         import textos
@@ -561,7 +610,9 @@ def main():
     ROOT = args.episode.resolve()
     cfg = load_shot(ROOT / "shots" / f"{args.shot}.json")
     P = merge(DEFAULTS, cfg.get("post", {}))
-    name = f"_draft_{args.shot}" if args.draft else args.shot
+    # las capturas se nombran relativas al episodio; los workers no saben cual es
+    P["imagenes"] = [dict(I, src=str(ROOT / I["src"])) for I in P.get("imagenes", [])]
+    name =f"_draft_{args.shot}" if args.draft else args.shot
     src = ROOT / "render" / name
     dst = ROOT / "out" / name
     dst.mkdir(parents=True, exist_ok=True)

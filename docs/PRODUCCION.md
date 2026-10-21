@@ -141,6 +141,17 @@ cicla 3 patrones, glitch y líneas de velocidad con semilla por frame.
 - `ripples`: gota + ondas en un charco en perspectiva (`aspect` ≈ seno del ángulo de cámara).
   Calcular cada onda solo en su caja; sobre la imagen entera el post tardaba 3 veces más.
 - `speedlines`: trazos horizontales en una banda, durante un rango de frames.
+- `imagenes`: capturas reales (la ventana de una app) pegadas después de la viñeta, nítidas,
+  con borde, halo y entrada que sube. `src` va relativo al episodio. Una tarjeta al costado
+  tapa lo que haya de ese lado: ponerla **del lado contrario** a lo que se enciende.
+- Textos con `align` izquierda/derecha: cada renglón se alinea como el bloque y la letra
+  empieza en `pos` (el margen del halo no cuenta). Antes los renglones salían centrados y corridos.
+- `render.py --frames` arma la lámina **sin post**: para juzgar textos o capturas, usar
+  `storyboard.py` (en horizontal arma miniaturas de 16:9).
+- **Loop con latido:** si un plano de cierre cambia de largo, recalcular `latido.phase` para
+  que `(frames - 1 + phase)` sea múltiplo de `beat_frames`, o el cristal empalma a mitad de un pulso.
+- **Nada apoyado en la cresta flota:** lo que se pone al costado del camino toca la ruta pero
+  la ladera cae. Los tambos tienen `"terraza": true` (andén de pirca hasta `andes.alturas()`).
 - Los borradores (`--draft`) se reescalan a la resolución final **antes** de los efectos.
   Viven en `render/_draft_<plano>/` y `out/_draft_<plano>/`: nunca pisan el plano final
   ni entran al montaje.

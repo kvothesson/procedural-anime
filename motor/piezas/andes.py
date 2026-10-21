@@ -195,17 +195,10 @@ def _colorize(e, z, slope, x, y, seed=3):
 # ------------------------------------------------------------------ terreno
 
 
-def build_terreno(e, colls):
-    """Grilla de alturas alrededor de la ruta: la cresta lleva el camino, los
-    costados caen a valles y vuelven a subir; una quebrada corta la cresta
-    donde va el puente."""
+def alturas(e, X, Y):
+    """Alto del terreno en (X, Y) (arrays): la cresta, los valles y la quebrada.
+    Devuelve (H, zp, gorge). Lo usan el terreno y lo que se apoya en el (tambos)."""
     R = ruta()
-    x0, x1 = e["x"]
-    y0, y1 = e["y"]
-    res = e.get("res", 2.0)
-    xs = np.arange(x0, x1 + res, res)
-    ys = np.arange(y0, y1 + res, res)
-    X, Y = np.meshgrid(xs, ys)
     xp, zp = R.xz_of_y(Y)
     dx = np.abs(X - xp)
     w = e.get("crest", 5.0)
@@ -230,6 +223,20 @@ def build_terreno(e, colls):
             o0, o1 = g["open"]
             cut *= 1 - _smooth(o0, o1, dx)
         H -= g["depth"] * cut
+    return H, zp, g
+
+
+def build_terreno(e, colls):
+    """Grilla de alturas alrededor de la ruta: la cresta lleva el camino, los
+    costados caen a valles y vuelven a subir; una quebrada corta la cresta
+    donde va el puente."""
+    x0, x1 = e["x"]
+    y0, y1 = e["y"]
+    res = e.get("res", 2.0)
+    xs = np.arange(x0, x1 + res, res)
+    ys = np.arange(y0, y1 + res, res)
+    X, Y = np.meshgrid(xs, ys)
+    H, zp, g = alturas(e, X, Y)
     ny, nx = H.shape
     verts = np.stack([X.ravel(), Y.ravel(), H.ravel()], axis=1)
     idx = np.arange(nx * ny).reshape(ny, nx)
@@ -250,6 +257,7 @@ def build_terreno(e, colls):
     link(ob, colls["main"])
     if g and g.get("river"):
         rv = g["river"]
+        gy0, gy1 = g["y"]
         river = bpy.data.objects.new("rio", _strip_mesh("rio", x0, x1, (gy0 + gy1) / 2,
                                                          rv.get("width", 3.0)))
         river.location.z = float(zp.mean()) - g["depth"] + rv.get("z", 0.5)
@@ -499,6 +507,20 @@ def build_tambos(e, colls):
         bm = bmesh.new()
         # casa: el eje largo paralelo al camino
         _box_at(bm, c, d, (Dp, Wd, Hh + 0.3))
+        terr = ctx.CFG.get("terreno") if e.get("terraza") else None
+        if terr:
+            # la cresta cae a los costados y la casa quedaba en el aire: una
+            # terraza de pirca (anden) baja del piso hasta el terreno, un poco
+            # mas ancha que la casa y enterrada en el punto mas bajo de su planta
+            m = e.get("terraza_margen", 0.7)
+            fw0 = Vector((d.x, d.y, 0)).normalized()
+            rr0 = Vector((fw0.y, -fw0.x, 0))
+            pts = [c + rr0 * a * (Dp / 2 + m) + fw0 * b * (Wd / 2 + m)
+                   for a in (-1, 0, 1) for b in (-1, 0, 1)]
+            H, _, _ = alturas(terr, np.array([q.x for q in pts]), np.array([q.y for q in pts]))
+            low = float(H.min()) - 0.6
+            if low < c.z:
+                _box_at(bm, Vector((c.x, c.y, low)), d, (Dp + 2 * m, Wd + 2 * m, c.z - low + 0.05))
         _trapezoid_door(bm, c + face * (Dp / 2 + 0.02) + Vector((0, 0, 0.3)), face,
                         0.95, 0.7, 1.6, 2)
         # techo: prisma a dos aguas que sobresale
@@ -538,6 +560,11 @@ def build_tambos(e, colls):
         ph = e.get("post_h", 2.2)
         pb = bmesh.new()
         _box_at(pb, bp, d, (0.5, 0.5, ph))
+        if terr:
+            # el poste tambien baja hasta el suelo (sin cambiar donde queda la baliza)
+            gz = float(alturas(terr, np.array([bp.x]), np.array([bp.y]))[0][0]) - 0.6
+            if gz < bp.z:
+                _box_at(pb, Vector((bp.x, bp.y, gz)), d, (0.5, 0.5, bp.z - gz + 0.05))
         pmesh = bpy.data.meshes.new(f"poste{i}")
         pb.to_mesh(pmesh)
         pb.free()

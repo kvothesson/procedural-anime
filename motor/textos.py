@@ -56,7 +56,8 @@ def _wrap(draw, text, font, max_px, tracking):
 
 
 @lru_cache(maxsize=256)
-def _raster(text, font, size, color, outline, outline_color, glow, tracking, max_px, line_gap):
+def _raster(text, font, size, color, outline, outline_color, glow, tracking, max_px, line_gap,
+            align="center"):
     """RGBA (float 0..1) recortado al texto, con contorno y halo."""
     f = _font(font, size)
     tmp = ImageDraw.Draw(Image.new("L", (8, 8)))
@@ -71,7 +72,8 @@ def _raster(text, font, size, color, outline, outline_color, glow, tracking, max
     edge = Image.new("L", (W, H), 0)
     dm, de = ImageDraw.Draw(mask), ImageDraw.Draw(edge)
     for k, (ln, wd) in enumerate(zip(lines, widths)):
-        x = pad + (max(widths) - wd) / 2
+        # cada renglon se alinea como el bloque (antes, siempre centrado)
+        x = pad + {"left": 0, "right": max(widths) - wd}.get(align, (max(widths) - wd) / 2)
         y = pad + k * lh
         if tracking:
             for ch in ln:
@@ -107,11 +109,13 @@ def layer(t, w, h):
     rgba = _raster(t["text"], t.get("font", "texto"), size, t.get("color", "#dfe6ef"),
                    int(t.get("outline", 6) * k), t.get("outline_color", "#05070f"),
                    float(t.get("glow", 0.0)), int(t.get("tracking", 0) * k),
-                   int(t.get("max_w", 0.84) * w), float(t.get("line_gap", 1.18)))
+                   int(t.get("max_w", 0.84) * w), float(t.get("line_gap", 1.18)), t.get("align", "center"))
     H, W = rgba.shape[:2]
     cx, top = t.get("pos", [0.5, 0.75])
     align = t.get("align", "center")
-    x0 = int(cx * w - W / 2) if align == "center" else int(cx * w) if align == "left" else int(cx * w - W)
+    # el margen del contorno y el halo no cuenta: la letra empieza (o termina) en cx
+    pad = int(t.get("outline", 6) * k) + int(size * 0.6 * (float(t.get("glow", 0.0)) > 0))
+    x0 = int(cx * w - W / 2) if align == "center" else int(cx * w) - pad if align == "left" else int(cx * w - W) + pad
     y0 = int(top * h)
     return rgba, x0, y0
 

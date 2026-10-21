@@ -25,7 +25,7 @@ sys.path.insert(0, str(MOTOR))
 import post  # noqa: E402
 from plano import load_shot, merge  # noqa: E402
 
-TW, TH = 300, 533          # miniatura 9:16
+TW, TH = 300, 533          # miniatura 9:16 (en horizontal, 480x270: ver main)
 CAP = 150                  # alto del texto debajo
 
 
@@ -33,6 +33,10 @@ def main():
     ep = Path(sys.argv[1]).resolve()
     tl = json.loads((ep / "shots" / "timeline.json").read_text(encoding="utf-8"))
     shots = sys.argv[2:] or tl["shots"]
+    global TW, TH
+    first = load_shot(ep / "shots" / f"{shots[0]}.json")
+    if first["width"] > first["height"]:
+        TW, TH = 480, 270
     celdas = []
     for shot in shots:
         cfg = load_shot(ep / "shots" / f"{shot}.json")
@@ -40,6 +44,7 @@ def main():
         subprocess.run([sys.executable, str(MOTOR / "render.py"), str(ep), shot, "--frames", *map(str, frames)],
                        check=True, stdout=subprocess.DEVNULL)
         P = merge(post.DEFAULTS, cfg.get("post", {}))
+        P["imagenes"] = [dict(I, src=str(ep / I["src"])) for I in P.get("imagenes", [])]
         src = ep / "render" / f"_prueba_{shot}"
         dst = ep / "out" / f"_storyboard_{shot}"
         dst.mkdir(parents=True, exist_ok=True)

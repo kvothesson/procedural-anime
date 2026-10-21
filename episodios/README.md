@@ -7,6 +7,7 @@ Cada carpeta es un short, un escenario o una demo. Cómo se organiza todo en cap
 |---|---|---|---|---|
 | [nodo_404](nodo_404/README.md) | Buenos Aires de noche, apagón y el Obelisco. **Plantilla** de episodio chico | Publicado 2026-10-10 | No (todo del motor: `ciudad`, `plaza`, `obelisco`, `eventos`, `colectivo`) | |
 | [chasqui_relevo](chasqui_relevo/README.md) | Mensaje de luz de los Andes a Tokio, con voces reales y subtítulos | Publicado 2026-10-11 | No (`andes`, `viaje`, `tokio`, `espacio` del motor) | |
+| [chasqui_presenta](chasqui_presenta/README.md) | Presentación horizontal de chasqui: cada tambo, una función, con capturas reales de la app | Corte listo 2026-10-20, sin publicar | No (`andes`, `viaje` del motor; `post.imagenes` para las capturas) | Mundo andino: copia de `chasqui_relevo/shots/andes_base.json` |
 | [nodo_0](nodo_0/README.md) | La Puna, un galpón y tres drones (UNIVERSO AUSTRAL) | Publicado 2026-10-13 | Sí: puna, galpón, drones Nyx, Aegis y Vesper, HUD, mapa | Banda: instrumentos de `nodo_404/banda.py` |
 | [duende_rojo](duende_rojo/README.md) | Un duende rojo sobre el Uritorco (AUSTRAL) | Publicado 2026-10-14 | Sí: Uritorco, tormenta, duende, calle techada | Drones de `nodo_0/piezas.py`; banda de `nodo_0/banda.py` |
 | [el_relojero](el_relojero/README.md) | Un robot relojero en la torre de la catedral de San Isidro | Ver su README | Sí: robot, esfera, escalera, torre y **su propia catedral** (la vieja, no la del motor) | Engranajes y despiece del motor; banda de `nodo_404/banda.py` |
@@ -23,6 +24,9 @@ Tocar un archivo de esta columna puede romper otro episodio:
 | `nodo_0/piezas.py` | `duende_rojo/piezas.py` | `importlib` por ruta: drones (`build_nyx`, `build_vesper`, pisando `mat_dron`), helpers de malla y materiales (`_m`, `_mix`, `_noise`, `_mesh_obj`, `mat_toon_albedo`) |
 | `nodo_0/banda.py` | `duende_rojo/banda.py` | `importlib` por ruta (instrumentos) |
 | `nodo_404/banda.py` | `nodo_0/banda.py`, `el_relojero/banda.py` | `importlib` por ruta (instrumentos) |
+| `chasqui_relevo/banda.py`, `subs.py` | `chasqui_presenta/banda.py`, `subs.py` | `importlib` por ruta (instrumentos, `reveal`, colores) |
+| `chasqui_relevo/voz/` | `chasqui_presenta` (banda y subtítulos) | Ruta `../chasqui_relevo/voz` en `voces.json` |
+| `chasqui_relevo/shots/02_puente.json`, `04_orbita`, `05_tokio` | `chasqui_presenta/shots/` | Copia (ya difieren: horizontal, lente ×1,4) |
 | `catedral/data/entorno.json` | `nunca_se_apagan` (planos y `planos.py`) | Ruta `../catedral/data/entorno.json` |
 | `catedral/estilos/*.json` | `nunca_se_apagan/estilos/` | Copia a mano (ya difieren; `catedral/estilos/_base_cyberpunk.json` es la versión publicada de NUNCA SE APAGAN) |
 
