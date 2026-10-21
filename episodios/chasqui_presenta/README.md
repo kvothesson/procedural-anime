@@ -82,6 +82,7 @@ ventana con su barra de título (DWM, sin la sombra). No guarda las preferencias
 | 05 | Las casas flotan: tocan el camino pero están en una ladera | `andes.py`: `alturas()` sale de `build_terreno` y los tambos con `terraza` bajan hasta el terreno |
 | 02, 06 | (storyboard) En horizontal el puente quedaba chico y la mira apuntaba al fondo de la quebrada | Lente 38 / 36 y mira subida al tablero del puente |
 | 05 | (revisión propia) "Más de 70 idiomas" no es cierto | "12 idiomas"; se saca "detecta el idioma solo" (no verificado) |
+| 06 | La estela violeta apunta su círculo para el mismo lado que la celeste | `viaje.py`: la estela sigue el sentido del movimiento (un mensaje que vuelve por la ruta la lleva hacia s + trail) |
 
 Ojo: `render.py --frames` arma la lámina **sin post**; para ver textos y capturas, copiar los
 `f_*.png` de `render/_prueba_<plano>/` a `render/<plano>/` y correr `post.py --frames N N`,

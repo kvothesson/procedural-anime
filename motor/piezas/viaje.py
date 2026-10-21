@@ -153,11 +153,18 @@ def _build_one(e, colls):
     link(lo, colls["lights"])
     born = e.get("from_frame", 1)      # antes de este frame el mensaje no existe
     dies = e.get("to_frame", 10 ** 6)  # desde este frame ya llego: no se ve
+    back = False
     for f in range(1, frames + 1):
         s = head_s(e, f)
         pos = P.at(s) + lift
+        # la estela va detras de la cabeza segun hacia donde corre: un mensaje
+        # que vuelve por la ruta (s baja) la lleva hacia s + trail. Quieto,
+        # conserva el sentido que traia.
+        ds = head_s(e, min(frames, f + 1)) - head_s(e, max(1, f - 1))
+        if abs(ds) > 1e-6:
+            back = ds < 0
         for s0, s1, col, cur, hd in pieces:
-            a, b = max(s0, s - trail), min(s1, s)
+            a, b = (max(s0, s), min(s1, s + trail)) if back else (max(s0, s - trail), min(s1, s))
             vis = b > a + 1e-3 and born <= f < dies
             span = s1 - s0
             cu = cur.data

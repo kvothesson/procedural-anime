@@ -152,6 +152,9 @@ cicla 3 patrones, glitch y líneas de velocidad con semilla por frame.
   que `(frames - 1 + phase)` sea múltiplo de `beat_frames`, o el cristal empalma a mitad de un pulso.
 - **Nada apoyado en la cresta flota:** lo que se pone al costado del camino toca la ruta pero
   la ladera cae. Los tambos tienen `"terraza": true` (andén de pirca hasta `andes.alturas()`).
+- **Un mensaje que vuelve por la ruta** (claves con `s` que baja) lleva la estela del otro lado:
+  `viaje.py` mira el sentido cuadro a cuadro. Antes la estela iba siempre hacia `s` menor y la
+  cabeza de la luz que volvía quedaba atrás.
 - Los borradores (`--draft`) se reescalan a la resolución final **antes** de los efectos.
   Viven en `render/_draft_<plano>/` y `out/_draft_<plano>/`: nunca pisan el plano final
   ni entran al montaje.
