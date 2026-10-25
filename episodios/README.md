@@ -16,7 +16,7 @@ Cada carpeta es un short, un escenario o una demo. Cómo se organiza todo en cap
 | [catedral](catedral/README.md) | **Escenario**, no un short: Catedral de San Isidro real (OSM, SRTM, fotos), servidores, estilos, hora y clima | Base para shorts | `motor/piezas/catedral.py`, `servidores.py`, `entorno.py` | |
 | [nunca_se_apagan](nunca_se_apagan/README.md) | POV de un papá y su hija que entran a la catedral de servidores (AUSTRAL) | Publicado 2026-10-18 | Sí: la nena y el brazo del papá | Escenario `catedral`: `../catedral/data/entorno.json` y copias de sus estilos |
 | [el_fileteador](el_fileteador/README.md) | Caminito pierde el color y un robot fileteador lo vuelve a pintar (AUSTRAL) | Publicado 2026-10-25 | Sí: chapa y filete que se pinta (`filete.py`, `piezas.py`), conventillos de Caminito sobre la calle real (`calle.py`, `caminito.py`), brazo con codo | Robot de `el_relojero/piezas.py`; instrumentos de `nodo_404/banda.py` |
-| [mariposa_bandera](mariposa_bandera/README.md) | Una Morpho "bandera argentina" mecánica nace en Puerto Madero (AUSTRAL) | Corte con sonido (37,5 s), sin publicar | Sí: mariposa (alas, aleteo, despliegue, estela de escamas), bokeh, cable, crisálida | |
+| [mariposa_bandera](mariposa_bandera/README.md) | Una Morpho "bandera argentina" mecánica nace en Puerto Madero (AUSTRAL) | Publicado 2026-10-25 | Sí: mariposa (alas, aleteo, despliegue, estela de escamas), bokeh, cable, crisálida | |
 | [_reglas](_reglas/README.md) | Demos mal / bien de reglas de PRODUCCION.md | Demo | No | |
 
 ## Dependencias entre carpetas (no se ven en el motor)

@@ -1,0 +1,30 @@
+{
+  "titulo_youtube": "LA BANDERA: la mariposa que gastó su luz en despertar a las demás 🦋🇦🇷",
+  "descripcion_youtube": "Puerto Madero, de noche, bajo la lluvia. Una crisálida se raja en el cable de una grúa y sale una mariposa celeste y blanca. Vuela sola sobre el dique: la ciudad no la mira. En la Reserva encuentra un árbol seco lleno de crisálidas apagadas. Toca una y no pasa nada. Entonces se posa, abre las alas y les da toda su luz.\n\nLa mariposa existe: es la bandera argentina (Morpho epistrophus argentinus), la Morpho blanca y celeste nacarada de la ribera del Río de la Plata. Sus orugas comen hojas de coronillo, y en la costa del Río de la Plata viene desapareciendo de lugar en lugar.\n\nHecho 100 % con código: Blender + Python, sin IA que genere imagen ni video. Cada sonido está sintetizado, sin samples.\n\nUniverso Austral.",
+  "tags": [
+    "kvothesson",
+    "shorts",
+    "anime",
+    "mariposa",
+    "mariposa bandera argentina",
+    "morpho",
+    "puerto madero",
+    "reserva ecologica",
+    "buenos aires",
+    "argentina",
+    "cyberpunk",
+    "blender",
+    "universo austral"
+  ],
+  "categoria": "1",
+  "idioma": "es",
+  "privacidad": "public",
+  "video_final": "out/mariposa_bandera.mp4",
+  "duracion_segundos": 37.458,
+  "resolucion": "1080x1920",
+  "fps": 24,
+  "herramientas": "Blender 5.2 (EEVEE, Line Art) + Python (numpy, scipy, PIL, OpenCV) + ffmpeg",
+  "youtube_id": "k0WxOwlrWTM",
+  "youtube_url": "https://youtube.com/shorts/k0WxOwlrWTM",
+  "fecha_publicacion": "2026-10-25T17:28:40Z"
+}
