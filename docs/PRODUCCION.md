@@ -290,6 +290,11 @@ banda, campanas inarmónicas, pads desafinados, reverb por convolución con IR g
 - **Un hueco de 40 ms antes de un golpe se oye como un corte:** lo que prepara un golpe (una
   raja que crepita) tiene que durar hasta el cuadro del golpe, no hasta donde termina su animación.
   Chequearlo en el wav: buscar tramos de 10 ms que caigan 9 dB bajo los 100 ms anteriores.
+- **Loop exacto para YouTube:** con `"loop": true` en el timeline, `montaje.py` saca el último
+  cuadro del último plano (igual al primero: si no, se ve dos veces) y la banda dura lo mismo
+  (`T - 1/fps`). El AAC va en paquetes de 21 ms y `-shortest` tiraba el último: el audio quedaba
+  19 ms más corto que el video, un hueco en cada vuelta. Ahora `apad` + `-t`. Verificar con
+  `ffprobe` que las dos pistas duren lo mismo.
 - **Lo que suena dentro de un silencio va en otro bus,** que se suma después de la máscara (el de Nyx
   en el 08). Así la máscara también corta las colas de reverb del resto.
 

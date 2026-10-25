@@ -2,6 +2,7 @@
   "name": "mariposa_bandera",
   "fps_unique": 24,
   "fps_out": 24,
+  "loop": true,
   "shots": [
     "01_crisalida",
     "02_despliegue",

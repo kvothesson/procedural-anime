@@ -58,6 +58,9 @@ S, T = {}, 0.0
 for s in TL["shots"]:
     S[s] = T
     T += SHOTS[s]["frames"] / FPS
+# en loop el ultimo cuadro (igual al primero) no entra al corte: la banda dura
+# lo mismo que el video y la cola se suma al principio desde ese punto
+T_CORTE = T - (1 / FPS if TL.get("loop") else 0.0)
 COLA = 6.0          # cola que se renderiza y se suma al principio (loop)
 N = n_samples(T + COLA)
 
@@ -413,15 +416,15 @@ def main():
     lluvia_m = envelope([(0, 1), (sil0 - 0.08, 1), (sil0, 0.35), (sil1, 0.35), (sil1 + 0.3, 1), (T + COLA, 1)])
     mix = 0.8 * amb * lluvia_m[:, None] + (1.0 * mus + 0.9 * gol) * mascara[:, None]
     # loop: la cola despues del final se suma al principio
-    cola = mix[n_samples(T):].copy()
-    mix = mix[:n_samples(T)]
-    mix[:len(cola)] += cola[:n_samples(T)]
+    cola = mix[n_samples(T_CORTE):].copy()
+    mix = mix[:n_samples(T_CORTE)]
+    mix[:len(cola)] += cola[:n_samples(T_CORTE)]
     st = dsp.normalize(dsp.soft_clip(mix * 1.1, 1.2), -1.0)
     dst = ROOT / "out" / f"{TL['name']}.wav"
     dst.parent.mkdir(parents=True, exist_ok=True)
     wavfile.write(dst, SR, (st * 32767).astype(np.int16))
     out = st.mean(axis=1)
-    print(f"-> {dst}  ({len(out) / SR:.2f} s, timeline {T:.2f} s)")
+    print(f"-> {dst}  ({len(out) / SR:.4f} s, corte {T_CORTE:.4f} s)")
 
     def rms(a, b):
         x = out[n_samples(a):n_samples(b)]
@@ -430,7 +433,7 @@ def main():
         fin = S[s] + SHOTS[s]["frames"] / FPS
         print(f"  {s:14s} {rms(S[s], fin):6.1f} dB")
     print(f"  silencio {sil0:.2f}-{sil1:.2f} s (solo lluvia): {rms(sil0, sil1):6.1f} dB")
-    print(f"  empalme del loop: ultimos 0,2 s {rms(T - 0.2, T):6.1f} dB | primeros 0,2 s {rms(0, 0.2):6.1f} dB")
+    print(f"  empalme del loop: ultimos 0,2 s {rms(T_CORTE - 0.2, T_CORTE):6.1f} dB | primeros 0,2 s {rms(0, 0.2):6.1f} dB")
 
 
 if __name__ == "__main__":

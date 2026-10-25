@@ -11,6 +11,11 @@ re-encodear por plano agrega una generacion de perdida por corte.
 Antes de pegar verifica el loop: ultimo frame crudo del ultimo plano contra el
 primero del primer plano (render/, sin post: lluvia y grano cambian por frame).
 Si la diferencia media pasa LOOP_TOL avisa, pero no corta el montaje.
+
+Con "loop": true en el timeline, el ultimo cuadro del ultimo plano (que es igual
+al primero del primero) no entra al corte: si no, al repetirse el video ese
+cuadro se ve dos veces seguidas (una traba de 1/24 s en el loop de YouTube).
+La banda tiene que durar lo mismo (banda.py lee la misma clave).
 """
 
 import json
@@ -92,6 +97,7 @@ def main():
         f.unlink()          # borrar archivos, no el directorio (Windows)
     n = 0
     report = []
+    loop = tl.get("loop", False)
     for shot in tl["shots"]:
         frames = sorted((ROOT / "out" / f"{pre}{shot}").glob("p_*.png"))
         if not frames:
@@ -106,6 +112,8 @@ def main():
         from plano import load_shot
         shot_fps = load_shot(ROOT / "shots" / f"{shot}.json").get("fps", tl["fps_unique"])
         rep = max(1, round(tl["fps_unique"] / shot_fps))
+        if loop and shot == tl["shots"][-1]:
+            frames = frames[:-1]        # el cuadro del empalme ya esta al principio
         for fr in frames:
             for _ in range(rep):
                 n += 1
@@ -126,8 +134,12 @@ def main():
         # sonoridad de YouTube: -14 LUFS integrados, pico real -1 dB. Normalizar
         # por pico (banda.py) deja cada episodio a un volumen distinto
         subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(video), "-i", str(wav),
-                        "-af", "loudnorm=I=-14:TP=-1:LRA=11", "-c:v", "copy", "-c:a", "aac", "-b:a", "320k",
-                        "-ar", "48000", "-shortest", "-movflags", "+faststart", str(out)], check=True)
+                        # -shortest cortaba el ultimo paquete AAC (21 ms) y el audio quedaba
+                        # 19 ms mas corto que el video: un hueco en cada vuelta del loop.
+                        # apad + -t: el audio cubre el video entero
+                        "-af", "loudnorm=I=-14:TP=-1:LRA=11,apad", "-t", f"{n / tl['fps_unique']:.6f}",
+                        "-c:v", "copy", "-c:a", "aac", "-b:a", "320k",
+                        "-ar", "48000", "-movflags", "+faststart", str(out)], check=True)
     else:
         video.replace(out)
     print("\n".join(report))

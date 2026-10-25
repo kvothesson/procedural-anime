@@ -268,7 +268,7 @@ def main():
                  "glow": {"threshold": 0.82, "radii": [5, 18, 55], "weights": [0.7, 0.55, 0.4], "strength": 1.3},
                  "rain_dim": [[1, 0.7]]}})
 
-    tl = {"name": "mariposa_bandera", "fps_unique": 24, "fps_out": 24, "shots": ["01_crisalida", "02_despliegue", "03_puerto", "04_reserva", "05_entrega",
+    tl = {"name": "mariposa_bandera", "fps_unique": 24, "fps_out": 24, "loop": True, "shots": ["01_crisalida", "02_despliegue", "03_puerto", "04_reserva", "05_entrega",
                     "06_enjambre", "06b_gris", "07_loop"]}
     (EP / "shots" / "timeline.json").write_text(json.dumps(tl, indent=2), encoding="utf-8")
     print("intentos", a, b, "posada en", [round(x, 3) for x in pose])
