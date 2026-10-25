@@ -1,0 +1,101 @@
+{
+ "width": 1080,
+ "height": 1920,
+ "fps": 12,
+ "samples": 8,
+ "sky": {
+  "horizon": "#f2c9a2",
+  "top": "#6d9bd2",
+  "ambient": "#8a9cc0",
+  "ambient_strength": 0.55,
+  "zenith_at": 0.55
+ },
+ "fog": {
+  "color": "#d9c8b2",
+  "dist": 260.0
+ },
+ "toon": {
+  "steps": [
+   [
+    0.0,
+    0.42
+   ],
+   [
+    0.1,
+    0.7
+   ],
+   [
+    0.38,
+    1.0
+   ]
+  ]
+ },
+ "lights": [
+  {
+   "kind": "SUN",
+   "color": "#ffdcb0",
+   "energy": 3.2,
+   "hacia": [
+    -0.3,
+    -0.3,
+    0.9
+   ],
+   "angle": 0.8
+  }
+ ],
+ "line": {
+  "color": "#1a1230",
+  "radius": 0.018,
+  "crease_deg": 120
+ },
+ "post": {
+  "rain": false,
+  "glow": {
+   "threshold": 0.97
+  }
+ },
+ "entorno": {
+  "datos": "data/entorno_caminito.json",
+  "terreno": false,
+  "z": 0.0,
+  "radio": 300,
+  "colores": {
+   "piso": "#9c9488",
+   "vereda": "#b9b0a2",
+   "asfalto": "#6f6a66",
+   "camino": "#a89a86",
+   "pasto": "#8fa77f",
+   "playa": "#7f8a90",
+   "edificio": [
+    "#c9b9a0",
+    "#b8a58e",
+    "#d4c4ab",
+    "#bfae9a"
+   ],
+   "techo": "#7d6a5e",
+   "teja": "#a2584a",
+   "copa": [
+    "#6f9a5a",
+    "#83a866"
+   ],
+   "tronco": "#5a4a3c"
+  },
+  "ventanas": {
+   "pitch_x": 2.6,
+   "pitch_z": 3.0,
+   "base": 0.0,
+   "margin_x": 0.32,
+   "margin_z": 0.3,
+   "lit": 0.0,
+   "cold_ratio": 0.0,
+   "warm": "#ffb05c",
+   "cold": "#9ff0ff",
+   "dark": "#3a3a48"
+  }
+ },
+ "caminito": {
+  "seed": 3,
+  "ancho": 8.0,
+  "datos": "data/entorno.json"
+ }
+}

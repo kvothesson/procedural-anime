@@ -1,0 +1,99 @@
+{
+  "width": 1080,
+  "height": 1920,
+  "fps": 12,
+  "frames": 84,
+  "samples": 8,
+  "storyboard": [
+    20,
+    50,
+    80
+  ],
+  "sky": {
+    "horizon": "#f2c9a2",
+    "top": "#6d9bd2",
+    "ambient": "#8a9cc0",
+    "ambient_strength": 0.55
+  },
+  "fog": {
+    "color": "#c9b9a8",
+    "dist": 400.0
+  },
+  "toon": {
+    "steps": [
+      [
+        0.0,
+        0.42
+      ],
+      [
+        0.1,
+        0.7
+      ],
+      [
+        0.38,
+        1.0
+      ]
+    ]
+  },
+  "lights": [
+    {
+      "kind": "SUN",
+      "color": "#ffdcb0",
+      "energy": 3.2,
+      "hacia": [
+        -0.3,
+        -0.3,
+        0.9
+      ],
+      "angle": 0.8
+    }
+  ],
+  "line": {
+    "color": "#1a1230",
+    "radius": 0.0022,
+    "crease_deg": 120
+  },
+  "post": {
+    "rain": false,
+    "glow": {
+      "threshold": 0.97
+    }
+  },
+  "camera": {
+    "lens": 38,
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          -0.2,
+          -1.45,
+          -0.25
+        ],
+        "aim": [
+          0.0,
+          0.0,
+          -0.1
+        ]
+      }
+    ]
+  },
+  "chapa": {
+    "velocidad": 0.006,
+    "demora": 1.0,
+    "colores": {
+      "abajo": "#6fb4d4",
+      "arriba": "#efc12f",
+      "tablon": "#4c8a3c"
+    }
+  },
+  "filete": {
+    "escala": 0.85,
+    "origen": [
+      -0.04,
+      -0.12
+    ],
+    "inicio": 1
+  },
+  "pincel": {},
+  "_desc": "03 filete: pinta la hoja de acanto, la banda y el firulete; el color vuelve detras del pincel"
+}

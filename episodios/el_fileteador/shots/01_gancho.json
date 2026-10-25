@@ -1,0 +1,74 @@
+{
+ "extends": "03_filete.json",
+ "frames": 36,
+ "storyboard": [
+  1,
+  12,
+  36
+ ],
+ "_desc": "01 gancho: el barrido cian borra el filete en bloques y deja la chapa gris; entra el pincel",
+ "chapa": {
+  "colorida": true
+ },
+ "filete": {
+  "terminado": true,
+  "firma": [
+   -30,
+   -25
+  ]
+ },
+ "corte": [
+  [
+   1,
+   0.37
+  ],
+  [
+   4,
+   0.3
+  ],
+  [
+   20,
+   -0.7
+  ]
+ ],
+ "pincel": {
+  "camino": [
+   [
+    1,
+    0.7,
+    -0.75,
+    0.3
+   ],
+   [
+    22,
+    0.7,
+    -0.75,
+    0.3
+   ],
+   [
+    36,
+    -0.24,
+    -0.1,
+    0.02
+   ]
+  ]
+ },
+ "camera": {
+  "lens": 38,
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     -0.1,
+     -1.42,
+     -0.22
+    ],
+    "aim": [
+     0.03,
+     0.0,
+     -0.11
+    ]
+   }
+  ]
+ }
+}

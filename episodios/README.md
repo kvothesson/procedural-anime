@@ -15,6 +15,7 @@ Cada carpeta es un short, un escenario o una demo. Cómo se organiza todo en cap
 | [el_relojero](el_relojero/README.md) | Un robot relojero en la torre de la catedral de San Isidro | Ver su README | Sí: robot, esfera, escalera, torre y **su propia catedral** (la vieja, no la del motor) | Engranajes y despiece del motor; banda de `nodo_404/banda.py` |
 | [catedral](catedral/README.md) | **Escenario**, no un short: Catedral de San Isidro real (OSM, SRTM, fotos), servidores, estilos, hora y clima | Base para shorts | `motor/piezas/catedral.py`, `servidores.py`, `entorno.py` | |
 | [nunca_se_apagan](nunca_se_apagan/README.md) | POV de un papá y su hija que entran a la catedral de servidores (AUSTRAL) | Publicado 2026-10-18 | Sí: la nena y el brazo del papá | Escenario `catedral`: `../catedral/data/entorno.json` y copias de sus estilos |
+| [el_fileteador](el_fileteador/README.md) | Caminito pierde el color y un robot fileteador lo vuelve a pintar (AUSTRAL) | Publicado 2026-10-25 | Sí: chapa y filete que se pinta (`filete.py`, `piezas.py`), conventillos de Caminito sobre la calle real (`calle.py`, `caminito.py`), brazo con codo | Robot de `el_relojero/piezas.py`; instrumentos de `nodo_404/banda.py` |
 | [_reglas](_reglas/README.md) | Demos mal / bien de reglas de PRODUCCION.md | Demo | No | |
 
 ## Dependencias entre carpetas (no se ven en el motor)
@@ -25,7 +26,8 @@ Tocar un archivo de esta columna puede romper otro episodio:
 |---|---|---|
 | `nodo_0/piezas.py` | `duende_rojo/piezas.py` | `importlib` por ruta: drones (`build_nyx`, `build_vesper`, pisando `mat_dron`), helpers de malla y materiales (`_m`, `_mix`, `_noise`, `_mesh_obj`, `mat_toon_albedo`) |
 | `nodo_0/banda.py` | `duende_rojo/banda.py` | `importlib` por ruta (instrumentos) |
-| `nodo_404/banda.py` | `nodo_0/banda.py`, `el_relojero/banda.py` | `importlib` por ruta (instrumentos) |
+| `nodo_404/banda.py` | `nodo_0/banda.py`, `el_relojero/banda.py`, `el_fileteador/banda.py` | `importlib` por ruta (instrumentos) |
+| `el_relojero/piezas.py` | `el_fileteador/piezas.py` | `importlib` por ruta: el robot entero (`build_relojero`, `GRIP`, IK del brazo izquierdo) |
 | `chasqui_relevo/banda.py`, `subs.py` | `chasqui_presenta/banda.py`, `subs.py` | `importlib` por ruta (instrumentos, `reveal`, colores) |
 | `chasqui_relevo/voz/` | `chasqui_presenta` (banda y subtítulos) | Ruta `../chasqui_relevo/voz` en `voces.json` |
 | `chasqui_relevo/shots/02_puente.json`, `04_orbita`, `05_tokio` | `chasqui_presenta/shots/` | Copia (ya difieren: horizontal, lente ×1,4) |

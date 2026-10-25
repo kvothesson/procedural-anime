@@ -1,0 +1,30 @@
+{
+  "titulo_youtube": "EL FILETEADOR: Caminito se estaba quedando sin color 🇦🇷🎨",
+  "descripcion_youtube": "La Boca, en el futuro. Una línea cian recorre Caminito y comprime todo: los colores de las chapas se rompen en bloques y quedan grises. Un robot fileteador lo vuelve a pintar, trazo por trazo, con una hoja de acanto, una banda y su firulete. Cuando no le da el tiempo, cambia de pincel y tira una sola línea que corre por todas las fachadas.\n\nCaminito es la calle real: el trazado sale de OpenStreetMap. El filete sigue las reglas del oficio (talón, banda, firulete, hoja de acanto que nace de una voluta, bolitas y sombra proyectada). El fileteado porteño es Patrimonio Cultural Inmaterial de la Humanidad desde 2015.\n\nHecho 100 % con código: Blender + Python, sin IA que genere imagen ni video. La milonga y cada pincelada que suena están sintetizadas, sin samples.\n\nUniverso Austral.",
+  "tags": [
+    "kvothesson",
+    "shorts",
+    "anime",
+    "caminito",
+    "la boca",
+    "fileteado",
+    "filete porteño",
+    "buenos aires",
+    "argentina",
+    "robot",
+    "milonga",
+    "blender",
+    "universo austral"
+  ],
+  "categoria": "1",
+  "idioma": "es",
+  "privacidad": "public",
+  "video_final": "out/el_fileteador.mp4",
+  "duracion_segundos": 35,
+  "resolucion": "1080x1920",
+  "fps": 24,
+  "herramientas": "Blender 5.2 (EEVEE, Line Art) + Python (numpy, scipy, PIL, OpenCV) + ffmpeg; OpenStreetMap",
+  "youtube_id": "Nos5Ib7WaC0",
+  "youtube_url": "https://youtube.com/shorts/Nos5Ib7WaC0",
+  "fecha_publicacion": "2026-10-25T03:03:15Z"
+}

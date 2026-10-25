@@ -538,6 +538,44 @@ Salieron de cada vez que quien dirigía miró un frame y dijo "esto no". Pesan t
   `main` con `OCCLUSION_ONLY` (y no costó tiempo). Mallas que se cruzan a propósito (bolas de una
   copa, tramos de rama) van con `lineart.usage = "NO_INTERSECTION"`; los tubos, con tapa.
 
+## 15. Pintar con código y una calle que cambia de color (aprendido en el_fileteador)
+
+- **Un ornamento real se dibuja con sus reglas, no a ojo.** El primer filete se leía como
+  enredadera (hojitas sueltas); con las reglas del manual (acanto = un solo follaje carnoso con
+  lóbulos que nacen de una voluta, banda con volumen, firulete fino que acompaña a la banda,
+  peso abajo a la izquierda) se leyó como filete. Juntar referencias del oficio antes del
+  primer trazo, y mirar el detalle (el firulete), no solo el conjunto.
+- **Pincelada que aparece = shader, no geometría que crece**: cada trazo es una cinta con un
+  atributo de avance (0 → 1 a lo largo) y el material la muestra hasta `prog`. Esa pintura va
+  **fuera de Line Art**: la tinta no ve el shader y contornearía lo que todavía no se pintó.
+- **Superficie ondulada (chapa acanalada) con el pool de sombras chico:** su sombra propia sale
+  en escalones a lo largo de cada cresta. Que no proyecte sombra (`visible_shadow = False`) y la
+  canaleta la dibuje la normal con el sol rasante. A distancia, canaleta por bump que se apaga con
+  la distancia (si no, moiré).
+- **Un contagio con ruido en el borde: el ruido solo atrasa.** Con ruido simétrico el color
+  aparecía antes de que pasara el pincel (se lee como error de causalidad).
+- **Un brazo colgado de la herramienta flota y se desliza rígido.** Hombro fuera de cuadro que
+  sigue a la mano con retraso + codo por IK hacia abajo + manga que sigue más allá del hombro:
+  el brazo siempre sale del cuadro y no tapa lo que se acaba de pintar si baja (no cruza).
+  Ordenar los trazos para que el brazo pase sobre lo que todavía no se pintó.
+- **Viajes del pincel entre trazos**: tiempo propio (1 a 2,5 cuadros, en arco) en vez de saltar
+  en un cuadro; después se reescala todo para que el plano termine donde tiene que terminar.
+- **Posición sobre una calle curva: por vértice.** Proyectar sobre la cuerda de la calle se corre
+  varios metros en la curva y el color no volvía detrás de la banda; guardar en cada vértice la
+  s del punto más cercano de la calle.
+- **Un personaje parado en un entorno de OSM se apoya con un rayo**, no con z = 0: las calles
+  peatonales y las veredas están más altas que el piso (en Caminito, 14 cm) y los pies quedan
+  enterrados. Rayo hacia abajo desde medio metro arriba de donde está parado.
+- **La cortina del barrido no puede ir pegada a la cámara**: si la cámara la sigue, todo el
+  cuadro queda teñido. Se apaga cuando la alcanzan.
+- **Geometría que hay que consultar sin Blender** (lotes, horarios de trazos): en un módulo de
+  Python puro que usan la pieza, el generador de planos y la banda. Separarlo después y
+  comparar un cuadro contra el render aprobado (diferencia 0,0).
+- **Loop de audio con filtros que se mueven:** procesar con un segundo del final antes (el estado
+  del filtro arranca caliente) y que lo que suena en el último segundo tenga el mismo color y
+  nivel que lo que arranca en el primero; medir el salto del empalme contra el percentil 99 de los
+  pasos de alrededor.
+
 ## 9. Publicar
 
 El motor no sube nada: `montaje.py` deja `episodios/<ep>/out/<ep>.mp4` (H.264 + AAC a 48 kHz,

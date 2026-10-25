@@ -1,0 +1,78 @@
+{
+ "extends": "03_filete.json",
+ "frames": 60,
+ "storyboard": [
+  14,
+  60
+ ],
+ "_desc": "06 firma: repique bajo el remate; la camara se acerca y asoma otro barrido (loop)",
+ "chapa": {
+  "colorida": true
+ },
+ "filete": {
+  "terminado": true,
+  "firma": [
+   6,
+   22
+  ]
+ },
+ "corte": [
+  [
+   1,
+   5.0
+  ],
+  [
+   48,
+   5.0
+  ],
+  [
+   60,
+   0.37
+  ]
+ ],
+ "camera": {
+  "lens": 38,
+  "ease": true,
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     -0.2,
+     -1.45,
+     -0.25
+    ],
+    "aim": [
+     0.0,
+     0.0,
+     -0.1
+    ]
+   },
+   {
+    "frame": 30,
+    "pos": [
+     -0.2,
+     -1.45,
+     -0.25
+    ],
+    "aim": [
+     0.0,
+     0.0,
+     -0.1
+    ]
+   },
+   {
+    "frame": 60,
+    "pos": [
+     -0.1,
+     -1.42,
+     -0.22
+    ],
+    "aim": [
+     0.03,
+     0.0,
+     -0.11
+    ]
+   }
+  ]
+ }
+}
