@@ -26,5 +26,6 @@
   "herramientas": "Blender 5.2 (EEVEE, Line Art) + Python (numpy, scipy, PIL, OpenCV) + ffmpeg",
   "youtube_id": "k0WxOwlrWTM",
   "youtube_url": "https://youtube.com/shorts/k0WxOwlrWTM",
-  "fecha_publicacion": "2026-10-25T17:28:40Z"
+  "fecha_publicacion": "2026-10-25T17:28:40Z",
+  "portada": "out/portada.jpg (portada.py: cuadro 68 del despliegue)"
 }
