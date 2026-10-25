@@ -112,7 +112,12 @@ def build_lineart(e, colls):
         else bpy.data.grease_pencils_v3.new("tinta")
     gp = bpy.data.objects.new("tinta", gp_data)
     link(gp)
-    gp_data.layers.new("linea")
+    capa = gp_data.layers.new("linea")
+    # "luz": false = la tinta no recibe luz de la escena. En 5.x la capa viene
+    # iluminada y una luz fuerte cerca (el interior de una heladera) vuelve
+    # blancas las lineas negras. Por defecto queda como estaba.
+    if hasattr(capa, "use_lights"):
+        capa.use_lights = e.get("luz", True)
     m = bpy.data.materials.new("tinta_m")
     bpy.data.materials.create_gpencil_data(m)
     m.grease_pencil.color = lin(e["color"])

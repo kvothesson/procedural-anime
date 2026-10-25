@@ -221,6 +221,11 @@ raytracing, `light_threshold` en 0.05. Diferencia visual media: 1,9/255.
   (`render.py` lo hace).
 - `bpy.data.materials.create_gpencil_data(m)` deja `show_stroke = False`: Line Art genera los
   trazos y no se dibuja nada.
+- **La capa de tinta recibe luz** (`use_lights` viene activado): una luz fuerte cerca, como el
+  interior de una heladera, vuelve blancas o lavanda las líneas negras. `"line": {"luz": false}`
+  la apaga (por defecto queda como estaba, para no cambiar episodios publicados).
+- Una **luz puntual adentro de una caja cerrada** con sombra no ilumina nada (el mapa de sombras
+  de 2 GB la apaga): `use_shadow = False`.
 - Un **spot mira a -Z**: para iluminar algo desde abajo, apuntarlo con Track To.
 - Light linking: `light.light_linking.receiver_collection = coll` y
   `coll.collection_objects[i].light_linking.link_state = "EXCLUDE"` (**por índice**, no
