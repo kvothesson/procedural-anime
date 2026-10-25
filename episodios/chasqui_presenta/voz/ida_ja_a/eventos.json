@@ -1,0 +1,170 @@
+{
+ "toma": {
+  "src": "ja",
+  "tgt": "es",
+  "text": "もしもし、東京には無事に着いた？さみしいよ。",
+  "voice": "sage",
+  "how": "若い人の自然な声。愛情をこめて、少し心配そうにたずねる。演技っぽくなく。"
+ },
+ "pares": [
+  {
+   "t": 10.113426208496094,
+   "src": "もしもし東京には無事に着いた? 寂しいよ。",
+   "tgt": "Hola, Osaka, ¿llegaste bien a Tokio? Te extraño.",
+   "latency_ms": 7885.263442993164
+  }
+ ],
+ "deltas": [
+  {
+   "t": 2.2281432151794434,
+   "type": "session.input_transcript.delta",
+   "text": " "
+  },
+  {
+   "t": 2.2371468544006348,
+   "type": "session.input_transcript.delta",
+   "text": "もし"
+  },
+  {
+   "t": 2.4234936237335205,
+   "type": "session.input_transcript.delta",
+   "text": "もし"
+  },
+  {
+   "t": 3.4315743446350098,
+   "type": "session.input_transcript.delta",
+   "text": "東京"
+  },
+  {
+   "t": 3.833325147628784,
+   "type": "session.input_transcript.delta",
+   "text": "には"
+  },
+  {
+   "t": 4.231834650039673,
+   "type": "session.input_transcript.delta",
+   "text": "無"
+  },
+  {
+   "t": 4.431368589401245,
+   "type": "session.input_transcript.delta",
+   "text": "事"
+  },
+  {
+   "t": 4.623878240585327,
+   "type": "session.input_transcript.delta",
+   "text": "に"
+  },
+  {
+   "t": 4.814954519271851,
+   "type": "session.input_transcript.delta",
+   "text": "着"
+  },
+  {
+   "t": 4.970617294311523,
+   "type": "session.output_transcript.delta",
+   "text": "Hola"
+  },
+  {
+   "t": 5.0262696743011475,
+   "type": "session.input_transcript.delta",
+   "text": "いた"
+  },
+  {
+   "t": 5.0302958488464355,
+   "type": "session.input_transcript.delta",
+   "text": "?"
+  },
+  {
+   "t": 5.1678619384765625,
+   "type": "session.output_transcript.delta",
+   "text": ","
+  },
+  {
+   "t": 5.40217399597168,
+   "type": "session.output_transcript.delta",
+   "text": " Osaka"
+  },
+  {
+   "t": 5.967676162719727,
+   "type": "session.output_transcript.delta",
+   "text": ","
+  },
+  {
+   "t": 6.189526319503784,
+   "type": "session.output_transcript.delta",
+   "text": " ¿"
+  },
+  {
+   "t": 6.189546823501587,
+   "type": "session.output_transcript.delta",
+   "text": "l"
+  },
+  {
+   "t": 6.241787433624268,
+   "type": "session.input_transcript.delta",
+   "text": " 寂"
+  },
+  {
+   "t": 6.361449718475342,
+   "type": "session.output_transcript.delta",
+   "text": "leg"
+  },
+  {
+   "t": 6.426271200180054,
+   "type": "session.input_transcript.delta",
+   "text": "しい"
+  },
+  {
+   "t": 6.572478532791138,
+   "type": "session.output_transcript.delta",
+   "text": "aste"
+  },
+  {
+   "t": 6.6198835372924805,
+   "type": "session.input_transcript.delta",
+   "text": "よ"
+  },
+  {
+   "t": 6.628461599349976,
+   "type": "session.input_transcript.delta",
+   "text": "。"
+  },
+  {
+   "t": 6.762227535247803,
+   "type": "session.output_transcript.delta",
+   "text": " bien"
+  },
+  {
+   "t": 6.965240001678467,
+   "type": "session.output_transcript.delta",
+   "text": " a"
+  },
+  {
+   "t": 7.1581597328186035,
+   "type": "session.output_transcript.delta",
+   "text": " Tokio"
+  },
+  {
+   "t": 7.551880359649658,
+   "type": "session.output_transcript.delta",
+   "text": "?"
+  },
+  {
+   "t": 7.9606146812438965,
+   "type": "session.output_transcript.delta",
+   "text": " Te"
+  },
+  {
+   "t": 8.162765502929688,
+   "type": "session.output_transcript.delta",
+   "text": " extraño"
+  },
+  {
+   "t": 8.778941869735718,
+   "type": "session.output_transcript.delta",
+   "text": "."
+  }
+ ],
+ "audio_parts": 37
+}

@@ -1,0 +1,15 @@
+{
+  "name": "mariposa_bandera",
+  "fps_unique": 24,
+  "fps_out": 24,
+  "shots": [
+    "01_crisalida",
+    "02_despliegue",
+    "03_puerto",
+    "04_reserva",
+    "05_entrega",
+    "06_enjambre",
+    "06b_gris",
+    "07_loop"
+  ]
+}

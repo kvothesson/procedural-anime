@@ -1,0 +1,198 @@
+{
+ "extends": "duelo.json",
+ "_desc": "El mismo duelo con motor/poses.py: breakdown por rama, anticipacion, overshoot, cabeza tarde y pies clavados.",
+ "storyboard": [
+  31,
+  34,
+  41
+ ],
+ "luchadores": {
+  "rim": {
+   "color": "#8fe6ff",
+   "dir": [
+    0,
+    1,
+    0.7
+   ]
+  },
+  "list": [
+   {
+    "id": "tsubame",
+    "look": "bufanda",
+    "keys": [
+     [
+      1,
+      "guardia",
+      [
+       -1.1,
+       3.0
+      ],
+      0
+     ],
+     [
+      25,
+      "carga",
+      [
+       -1.1,
+       3.0
+      ],
+      0,
+      {
+       "ib": [
+        [
+         2,
+         {
+          "*": 0.4,
+          "torso": 0.65,
+          "cabeza": 0.3
+         }
+        ]
+       ],
+       "antes": [
+        5,
+        {
+         "*": 0.8,
+         "pierna_f": 0,
+         "pierna_b": 0,
+         "raiz": 0.6
+        }
+       ]
+      }
+     ],
+     [
+      33,
+      "embestida",
+      [
+       -1.1,
+       3.0
+      ],
+      0,
+      {
+       "slide": [
+        0.3,
+        3.0
+       ],
+       "suelo": false,
+       "ib": [
+        [
+         1,
+         {
+          "*": 0.5,
+          "brazo_b": 0.0,
+          "brazo_f": 0.2,
+          "cabeza": 0.2
+         }
+        ],
+        [
+         1,
+         {
+          "*": 0.85,
+          "brazo_b": 0.35,
+          "brazo_f": 0.6
+         }
+        ]
+       ]
+      }
+     ],
+     [
+      39,
+      "golpe",
+      [
+       0.36,
+       3.0
+      ],
+      0,
+      {
+       "ib": [
+        [
+         1,
+         {
+          "*": 0.75,
+          "brazo_b": 0.4
+         }
+        ]
+       ],
+       "pasa": [
+        3,
+        {
+         "*": 0,
+         "torso": -0.4,
+         "cabeza": -0.4,
+         "brazo_b": 0.08
+        }
+       ]
+      }
+     ],
+     [
+      70,
+      "remate",
+      [
+       2.1,
+       3.0
+      ],
+      0,
+      {
+       "ib": 0
+      }
+     ]
+    ],
+    "tarde": {
+     "cabeza": 2
+    },
+    "contactos": [
+     [
+      "anklef",
+      1,
+      32
+     ],
+     [
+      "anklef",
+      40,
+      69
+     ]
+    ]
+   },
+   {
+    "id": "kiri",
+    "look": "capucha",
+    "keys": [
+     [
+      1,
+      "guardia",
+      [
+       1.35,
+       3.0
+      ],
+      180
+     ],
+     [
+      43,
+      "recibe",
+      [
+       1.42,
+       3.0
+      ],
+      180,
+      {
+       "ib": 0,
+       "pasa": [
+        3,
+        0.4
+       ]
+      }
+     ]
+    ],
+    "tarde": {
+     "cabeza": 2
+    },
+    "contactos": [
+     [
+      "ankleb",
+      1,
+      108
+     ]
+    ]
+   }
+  ]
+ }
+}

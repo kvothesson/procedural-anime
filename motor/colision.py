@@ -32,10 +32,14 @@ def outside():
     ap.add_argument("--cada", type=int, default=1)
     ap.add_argument("--solo", default="")
     ap.add_argument("--base", action="store_true", help="listar contactos del frame 1 entre piezas no vecinas")
+    ap.add_argument("--entre-raices", action="store_true",
+                    help="solo choques entre piezas de objetos raiz distintos (una mariposa contra una rama)")
+    ap.add_argument("--sin-base", action="store_true", help="informar tambien lo que ya se cruza en el frame 1")
+    ap.add_argument("--ignorar", default="", help="prefijos de objetos que no cuentan (adornos de luz)")
     a = ap.parse_args()
     shot = (a.episode / "shots" / f"{a.shot}.json").resolve()
     cmd = [find_blender(), "-b", "-P", str(Path(__file__).resolve()), "--", str(shot), "_",
-           "--sin-render", "--cada", str(a.cada), "--solo", a.solo] + (["--base"] if a.base else [])
+           "--sin-render", "--cada", str(a.cada), "--solo", a.solo, "--ignorar", a.ignorar]         + (["--base"] if a.base else []) + (["--entre-raices"] if a.entre_raices else [])         + (["--sin-base"] if a.sin_base else [])
     p = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace")
     out = p.stdout + p.stderr
     rep = [l[4:] for l in out.splitlines() if l.startswith("COL ")]
@@ -53,14 +57,27 @@ def inside():
     argv = sys.argv[sys.argv.index("--") + 1:]
     cada = int(argv[argv.index("--cada") + 1])
     solo = [x for x in argv[argv.index("--solo") + 1].split(",") if x] if "--solo" in argv else []
+    ignorar = tuple(x for x in argv[argv.index("--ignorar") + 1].split(",") if x) if "--ignorar" in argv else ()
+    entre_raices = "--entre-raices" in argv
     runpy.run_path(str(MOTOR / "escena.py"), run_name="__main__")
     scene = bpy.context.scene
-    obs = [o for o in bpy.data.objects if o.type == "MESH" and not o.name.startswith(("piso", "pared"))]
+    refl = set(bpy.data.collections["reflejo"].all_objects) if "reflejo" in bpy.data.collections else set()
+    obs = [o for o in bpy.data.objects if o.type in ("MESH", "CURVE") and o not in refl
+           and not o.name.startswith(("piso", "pared") + ignorar)]
+
+    def raiz(o):
+        while o.parent:
+            o = o.parent
+        return o
 
     def tree(o):
-        m = o.matrix_world
-        verts = [m @ v.co for v in o.data.vertices]
-        polys = [tuple(p.vertices) for p in o.data.polygons]
+        # la malla evaluada: con shape keys (un ala que se dobla) y las curvas con su grosor
+        ev = o.evaluated_get(bpy.context.evaluated_depsgraph_get())
+        me = ev.to_mesh()
+        m = ev.matrix_world
+        verts = [m @ v.co for v in me.vertices]
+        polys = [tuple(p.vertices) for p in me.polygons]
+        ev.to_mesh_clear()
         return BVHTree.FromPolygons(verts, polys), verts
 
     def boxes_touch(va, vb):
@@ -80,6 +97,8 @@ def inside():
             for b in live[i + 1:]:
                 if not (pick(a) or pick(b)):
                     continue
+                if entre_raices and raiz(a) == raiz(b):
+                    continue
                 (ta, va), (tb, vb) = data[a.name], data[b.name]
                 if boxes_touch(va, vb) and ta.overlap(tb):
                     out.add((a.name, b.name))
@@ -91,7 +110,7 @@ def inside():
     # "colision_base": frames cuyos contactos son normales (por defecto el 1; en un
     # armado por despiece, tambien el frame con el robot completo)
     base = {(a, b) for a, b in ok} | {(b, a) for a, b in ok}
-    for fb in shot.get("colision_base", [1]):
+    for fb in ([] if "--sin-base" in argv else shot.get("colision_base", [1])):
         scene.frame_set(fb)
         base |= hits()
     found = {}

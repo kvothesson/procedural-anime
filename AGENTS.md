@@ -33,6 +33,7 @@ dirección).
 | [motor/osm.py](motor/osm.py) | Baja OpenStreetMap y lo pasa a metros en el marco de la escena (`<ep>/data/osm.json` → `entorno.json`); completa alturas, casas faltantes y árboles marcados como `relleno`; con `huellas` suma edificios reales de Microsoft Global ML Building Footprints; con `terreno` baja la elevación (SRTM, tiles de Mapzen) y deja una grilla de alturas; con `bosque` pone árboles donde hay mucha pendiente (y `lejos`, la arboleda más allá del barrio); `agua` hunde el río de OSM bajo su cota; `alturas` fija edificios medidos; `monumentos` (puntos de OSM): `python motor/osm.py episodios/<ep>` |
 | [motor/cielo.py](motor/cielo.py) | Hora del día y clima: el sol real del lugar (elevación y azimut por fecha y hora), cielo, luz, niebla, ventanas y reflectores según la altura del sol; climas `despejado`, `nublado`, `lluvia`, `niebla`, `tormenta` (relámpagos) |
 | [motor/textos.py](motor/textos.py) | Texto 2D: `post.textos` por plano y subtítulos del corte (`timeline.subs`, con `reveal` palabra por palabra) |
+| [motor/poses.py](motor/poses.py) | Poses clave como datos (Python puro): exposición con intermedios elegidos (`ib`), breakdown por rama (overlap), `antes` (anticipación), `pasa` (overshoot), `tarde` (una rama llega N cuadros después) y `contactos` (pie clavado por IK de dos tramos). Lo usa el duelo de `episodios/_sakuga/` |
 | [motor/colision.py](motor/colision.py) | Traspasos entre mallas frame por frame (BVH, sin render): `python motor/colision.py episodios/<ep> <plano>` |
 | [motor/engrane.py](motor/engrane.py) | Engrane sin penetración entre pares de engranajes, frame por frame |
 | [motor/plano.py](motor/plano.py) | Carga de planos con `extends`/`drop`. Una sola implementación para escena, post, render y banda |
@@ -122,7 +123,7 @@ la vez se cuelgan).
 | `engranajes` | Engranajes de relojería (`list` con `r`, `teeth`, `step`/`spin`, `stop`, `strain`, `free`, `salta`, `axle`, `ghost`) |
 | `luz_mala` | Destello verde en frames dados |
 | `blackout` | Apagón en cascada o reencendido (`mode: "on"`), latido del cristal |
-| `camera` | `from`/`to` lineal o `keys` con `ease`; `lens_keys` [[frame, mm]] cambia la lente; `verticales`: nivelada con descentramiento (edificios derechos). El sensor de 36 mm va al alto de la imagen |
+| `camera` | `from`/`to` lineal o `keys` con `ease`; `lens_keys` [[frame, mm]] cambia la lente; `verticales`: nivelada con descentramiento (edificios derechos); `dof` {objeto o dist, fstop}: foco que sigue a un objeto. El sensor de 36 mm va al alto de la imagen |
 | `catedral` | Catedral de San Isidro (`techo`, `anexos`, `suelo`, `colores`, `vidrios` con `luz`, `traceria`, `reflectores` puntuales o en cono, `brillos`, `puertas`, `rayos`, `niebla_piso`) |
 | `servidores` | Racks, cables y núcleo dentro de la catedral (`colores`, `leds`, `nucleo`, `luces`, `filas`) |
 | `entorno` | Alrededores de OSM sobre el relieve (`datos`, `terreno`, `piso`, `radio`, `relleno`, `arboles`, `escala_arboles`, `arboles_finos`, `quitar_arboles`, `lejos`, `agua`, `colores` (con `copa_<especie>`: tipa, fresno, liquidambar, jacaranda, platano, paraiso, tilo, monte, lejos), `ventanas`, `faroles` con cables) |

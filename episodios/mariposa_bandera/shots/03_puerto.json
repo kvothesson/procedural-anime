@@ -1,0 +1,294 @@
+{
+  "extends": "02_alas.json",
+  "drop": [
+    "mariposa",
+    "storyboard"
+  ],
+  "_desc": "Plano 3: sale de la punta del cable de la grua y se aleja sobre el dique de Puerto Madero; la ciudad no la mira. Se achica hasta ser un punto de luz.",
+  "frames": 132,
+  "storyboard": [
+    1,
+    50,
+    120
+  ],
+  "fog": {
+    "color": "#120c26",
+    "dist": 260.0
+  },
+  "line": {
+    "color": "#0d0b24",
+    "radius": 0.012,
+    "crease_deg": 150
+  },
+  "puerto": {
+    "ancho": 60,
+    "largo": 520,
+    "docks": {
+      "desde": -80,
+      "hasta": 400
+    },
+    "gruas": [
+      {
+        "at": [
+          -36,
+          0
+        ],
+        "rumbo": 0,
+        "alto": 12,
+        "pluma": 32,
+        "angulo": 38,
+        "cuelga": 14
+      },
+      {
+        "at": [
+          -36,
+          75
+        ],
+        "rumbo": 0,
+        "alto": 12,
+        "pluma": 32,
+        "angulo": 38,
+        "cuelga": 14
+      },
+      {
+        "at": [
+          -36,
+          150
+        ],
+        "rumbo": 0,
+        "alto": 12,
+        "pluma": 32,
+        "angulo": 38,
+        "cuelga": 14
+      },
+      {
+        "at": [
+          -36,
+          225
+        ],
+        "rumbo": 0,
+        "alto": 12,
+        "pluma": 32,
+        "angulo": 38,
+        "cuelga": 14
+      }
+    ],
+    "torres": [
+      {
+        "at": [
+          70,
+          20
+        ],
+        "tam": [
+          26,
+          30
+        ],
+        "alto": 90
+      },
+      {
+        "at": [
+          105,
+          80
+        ],
+        "tam": [
+          26,
+          30
+        ],
+        "alto": 165
+      },
+      {
+        "at": [
+          140,
+          140
+        ],
+        "tam": [
+          26,
+          30
+        ],
+        "alto": 140
+      },
+      {
+        "at": [
+          70,
+          200
+        ],
+        "tam": [
+          26,
+          30
+        ],
+        "alto": 115
+      },
+      {
+        "at": [
+          105,
+          260
+        ],
+        "tam": [
+          26,
+          30
+        ],
+        "alto": 90
+      },
+      {
+        "at": [
+          140,
+          320
+        ],
+        "tam": [
+          26,
+          30
+        ],
+        "alto": 165
+      }
+    ],
+    "puente": {
+      "y": 175,
+      "pie_x": 8,
+      "inclina": 39
+    }
+  },
+  "mascara_anclas": true,
+  "mariposa": {
+    "escala": 0.05,
+    "sin_tinta": true,
+    "ancla": true,
+    "keys": [
+      [
+        1,
+        [
+          -9.5,
+          -0.81,
+          23.28
+        ],
+        -8,
+        8
+      ],
+      [
+        30,
+        [
+          -9.1,
+          2.19,
+          22.68
+        ],
+        -10,
+        8
+      ],
+      [
+        70,
+        [
+          -6.5,
+          17.19,
+          19.28
+        ],
+        -8,
+        6
+      ],
+      [
+        132,
+        [
+          -0.5,
+          69.19,
+          12.280000000000001
+        ],
+        -5,
+        4
+      ]
+    ],
+    "aleteo": [
+      [
+        1,
+        10,
+        62,
+        22
+      ]
+    ],
+    "halo": 0.08,
+    "halo_desde": 56,
+    "dorso_k": 0.74,
+    "estela": {
+      "por_golpe": 30,
+      "base": 1.5,
+      "vida": [
+        20,
+        40
+      ],
+      "tam": 0.06,
+      "brillo": 4.0
+    }
+  },
+  "camera": {
+    "lens": 24,
+    "lens_keys": [
+      [
+        1,
+        45
+      ],
+      [
+        44,
+        24
+      ]
+    ],
+    "clip_start": 0.05,
+    "clip_end": 2000,
+    "ease": true,
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          -9.6,
+          -1.2,
+          23.4
+        ],
+        "aim": [
+          -9.47,
+          -0.01,
+          23.08
+        ]
+      },
+      {
+        "frame": 44,
+        "pos": [
+          -8.9,
+          3.19,
+          22.68
+        ],
+        "aim": [
+          -7.5,
+          29.19,
+          19.28
+        ]
+      },
+      {
+        "frame": 132,
+        "pos": [
+          -8.88,
+          3.29,
+          22.66
+        ],
+        "aim": [
+          -3.0,
+          59.19,
+          14.28
+        ]
+      }
+    ]
+  },
+  "post": {
+    "fps_unique": 24,
+    "fps_out": 24,
+    "glow": {
+      "threshold": 0.8,
+      "radii": [
+        5,
+        18,
+        55
+      ],
+      "weights": [
+        0.7,
+        0.55,
+        0.4
+      ],
+      "strength": 1.4
+    }
+  }
+}

@@ -150,6 +150,16 @@ def build_camera(c):
     cam_data.sensor_height = 36.0
     cam_data.clip_end = c.get("clip_end", 500)
     cam_data.clip_start = c.get("clip_start", 0.1)
+    # "dof": {"objeto": nombre, "fstop": 2.0} o {"dist": m}: foco en un objeto
+    # que se mueve (un primer plano macro con la ciudad hecha bokeh atras)
+    dof = c.get("dof")
+    if dof:
+        cam_data.dof.use_dof = True
+        cam_data.dof.aperture_fstop = dof.get("fstop", 2.8)
+        if dof.get("objeto") in bpy.data.objects:
+            cam_data.dof.focus_object = bpy.data.objects[dof["objeto"]]
+        else:
+            cam_data.dof.focus_distance = dof.get("dist", 10.0)
     cam = bpy.data.objects.new("cam", cam_data)
     link(cam)
     target = bpy.data.objects.new("mira", None)

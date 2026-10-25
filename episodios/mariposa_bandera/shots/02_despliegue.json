@@ -1,0 +1,277 @@
+{
+  "extends": "02_alas.json",
+  "_desc": "Plano 2: recien salida, colgada de la cascara vacia bajo el cable (cabeza arriba, como sale de verdad). Las alas arrugadas cuelgan y se estiran mientras la luz las inunda desde la base; las abre y da los primeros golpes. Sakuga a 24 fps.",
+  "frames": 72,
+  "storyboard": [
+    8,
+    32,
+    60
+  ],
+  "mariposa": {
+    "keys": [
+      [
+        1,
+        [
+          0,
+          0,
+          1.4575
+        ],
+        180,
+        90
+      ],
+      [
+        72,
+        [
+          0,
+          0,
+          1.4575
+        ],
+        180,
+        90
+      ]
+    ],
+    "vaiven": 0.0,
+    "rebote": 0.0,
+    "despliegue": [
+      [
+        1,
+        0.0
+      ],
+      [
+        6,
+        0.0
+      ],
+      [
+        46,
+        1.0
+      ]
+    ],
+    "aleteo": [
+      [
+        1,
+        4,
+        3,
+        86
+      ],
+      [
+        8,
+        4,
+        3,
+        86
+      ],
+      [
+        12,
+        12,
+        0,
+        86
+      ],
+      [
+        48,
+        12,
+        0,
+        86
+      ],
+      [
+        58,
+        12,
+        0,
+        10
+      ],
+      [
+        62,
+        14,
+        25,
+        24
+      ],
+      [
+        72,
+        14,
+        40,
+        24
+      ]
+    ],
+    "estela": {
+      "por_golpe": 42,
+      "base": 1.2,
+      "vida": [
+        14,
+        30
+      ],
+      "tam": 0.018,
+      "brillo": 3.4,
+      "seed": 11
+    },
+    "onda_k": 1.5,
+    "onda": "#cdf6ff",
+    "agarre": true,
+    "pliegue": [
+      [
+        1,
+        55
+      ],
+      [
+        46,
+        40
+      ],
+      [
+        54,
+        40
+      ],
+      [
+        60,
+        0
+      ],
+      [
+        72,
+        0
+      ]
+    ],
+    "antenas": [
+      [
+        1,
+        95,
+        35
+      ],
+      [
+        72,
+        95,
+        35
+      ]
+    ]
+  },
+  "cable": {
+    "desde": [
+      -0.45,
+      0,
+      1.5
+    ],
+    "hasta": [
+      0.45,
+      0,
+      1.5
+    ],
+    "radio": 0.004,
+    "flecha": 0.0
+  },
+  "crisalida": {
+    "at": [
+      0,
+      0,
+      1.5
+    ],
+    "largo": 0.026,
+    "abierta": true,
+    "luz": 0.002,
+    "ventana": 0.4,
+    "punta": 0.82,
+    "adentro_k": 0.55
+  },
+  "bokeh": {
+    "centro": [
+      0,
+      0,
+      1.5
+    ],
+    "dir": [
+      -0.8,
+      -0.3,
+      0.1
+    ],
+    "dist": [
+      5,
+      45
+    ],
+    "count": 220,
+    "seed": 7
+  },
+  "camera": {
+    "lens": 45,
+    "clip_start": 0.02,
+    "clip_end": 400,
+    "ease": true,
+    "dof": {
+      "objeto": "mariposa",
+      "fstop": 3.2
+    },
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          0.1,
+          0.075,
+          1.44
+        ],
+        "aim": [
+          0,
+          0,
+          1.447
+        ]
+      },
+      {
+        "frame": 40,
+        "pos": [
+          0.095,
+          0.09,
+          1.445
+        ],
+        "aim": [
+          0,
+          0,
+          1.445
+        ]
+      },
+      {
+        "frame": 72,
+        "pos": [
+          0.035,
+          0.13,
+          1.462
+        ],
+        "aim": [
+          0,
+          0,
+          1.448
+        ]
+      }
+    ],
+    "lens_keys": [
+      [
+        1,
+        42
+      ],
+      [
+        40,
+        38
+      ],
+      [
+        72,
+        30
+      ]
+    ]
+  },
+  "lights": [
+    {
+      "kind": "SUN",
+      "color": "#d4e2ff",
+      "energy": 1.9,
+      "rot": [
+        -55,
+        0,
+        -40
+      ],
+      "angle": 1
+    },
+    {
+      "kind": "SUN",
+      "color": "#ff4fa8",
+      "energy": 0.45,
+      "rot": [
+        110,
+        0,
+        160
+      ],
+      "angle": 1,
+      "shadow": false
+    }
+  ]
+}

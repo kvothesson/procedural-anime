@@ -1,0 +1,258 @@
+{
+  "_desc": "Prototipo del riesgo: la mariposa suspendida en primer plano, aleteando, con la ciudad hecha bokeh atras. Sakuga a 24 fps.",
+  "width": 1080,
+  "height": 1920,
+  "fps": 24,
+  "frames": 48,
+  "samples": 8,
+  "storyboard": [
+    1,
+    4,
+    9
+  ],
+  "sky": {
+    "horizon": "#1c1038",
+    "top": "#04050c",
+    "zenith_at": 0.6,
+    "ambient": "#1c2a5a",
+    "ambient_strength": 1.0
+  },
+  "fog": {
+    "color": "#120c26",
+    "dist": 70.0
+  },
+  "toon": {
+    "steps": [
+      [
+        0.0,
+        0.3
+      ],
+      [
+        0.12,
+        0.62
+      ],
+      [
+        0.5,
+        1.0
+      ]
+    ]
+  },
+  "lights": [
+    {
+      "kind": "SUN",
+      "color": "#d4e2ff",
+      "energy": 1.9,
+      "rot": [
+        40,
+        0,
+        -35
+      ],
+      "angle": 1
+    },
+    {
+      "kind": "SUN",
+      "color": "#ff4fa8",
+      "energy": 0.45,
+      "rot": [
+        110,
+        0,
+        160
+      ],
+      "angle": 1,
+      "shadow": false
+    }
+  ],
+  "line": {
+    "color": "#0d0b24",
+    "radius": 0.00028,
+    "crease_deg": 150,
+    "intersection": true
+  },
+  "mariposa": {
+    "escala": 0.05,
+    "keys": [
+      [
+        1,
+        [
+          0,
+          0,
+          1.5
+        ],
+        -62,
+        6
+      ],
+      [
+        48,
+        [
+          0.004,
+          0.006,
+          1.505
+        ],
+        -58,
+        6
+      ]
+    ],
+    "aleteo": [
+      [
+        1,
+        12,
+        62,
+        22
+      ],
+      [
+        48,
+        12,
+        62,
+        22
+      ]
+    ],
+    "vaiven": 0.003,
+    "luz": 0.002,
+    "ocelos_ant": [
+      [
+        0.62,
+        0.62,
+        0.07
+      ],
+      [
+        0.74,
+        0.4,
+        0.055
+      ]
+    ],
+    "ocelos_pos": [
+      [
+        0.55,
+        0.3,
+        0.08
+      ],
+      [
+        0.62,
+        0.55,
+        0.09
+      ],
+      [
+        0.58,
+        0.78,
+        0.065
+      ]
+    ],
+    "dorso": [
+      [
+        0.0,
+        "#cfe4f4"
+      ],
+      [
+        0.4,
+        "#c4e4f7"
+      ],
+      [
+        0.54,
+        "#8fd6f5"
+      ],
+      [
+        0.66,
+        "#4f9cf0"
+      ],
+      [
+        0.78,
+        "#7357e8"
+      ],
+      [
+        0.9,
+        "#e04ac4"
+      ]
+    ],
+    "vena_base": 0.6,
+    "vena_pulso": 3.0,
+    "autoluz": 0.22,
+    "dorso_k": 0.74
+  },
+  "bokeh": {
+    "centro": [
+      0,
+      0,
+      1.5
+    ],
+    "dir": [
+      -0.5,
+      -0.72,
+      -0.48
+    ],
+    "dist": [
+      5,
+      45
+    ],
+    "count": 220,
+    "seed": 7,
+    "colores": [
+      "#7fe8ff",
+      "#ff4fd8",
+      "#ffb347",
+      "#4f7cff",
+      "#a35cff"
+    ]
+  },
+  "camera": {
+    "lens": 45,
+    "clip_start": 0.02,
+    "clip_end": 400,
+    "ease": true,
+    "dof": {
+      "objeto": "mariposa",
+      "fstop": 3.2
+    },
+    "keys": [
+      {
+        "frame": 1,
+        "pos": [
+          0.085,
+          0.12,
+          1.585
+        ],
+        "aim": [
+          0,
+          0,
+          1.505
+        ]
+      },
+      {
+        "frame": 48,
+        "pos": [
+          0.105,
+          0.105,
+          1.582
+        ],
+        "aim": [
+          0.004,
+          0.006,
+          1.508
+        ]
+      }
+    ]
+  },
+  "post": {
+    "fps_unique": 24,
+    "fps_out": 24,
+    "glow": {
+      "threshold": 0.82,
+      "radii": [
+        5,
+        18,
+        55
+      ],
+      "weights": [
+        0.7,
+        0.55,
+        0.4
+      ],
+      "strength": 1.3
+    },
+    "rain_dim": [
+      [
+        1,
+        0.6
+      ]
+    ]
+  }
+}

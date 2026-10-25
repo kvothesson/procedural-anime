@@ -230,6 +230,38 @@ raytracing, `light_threshold` en 0.05. Diferencia visual media: 1,9/255.
 - `view_transform = "Standard"`: AgX desatura y levanta negros.
 - Color: Blender espera **lineal**; todo hex del JSON pasa por `lin()`.
 
+### Cambios de la API entre 5.0 y 5.2 que tocan al motor
+
+Sacado de las notas oficiales (developer.blender.org/docs/release_notes/5.x) y comprobado en
+5.2.1 LTS el 2026-10-25. Para dudas puntuales, preguntarle al propio Blender en headless
+(`bl_rna.properties`, `enum_items`): es la fuente exacta de esta versión.
+
+- **Material y mundo nacen con nodos** (Principled + Output). `use_nodes` siempre da True y
+  asignarlo no hace nada; se va en 6.0. El `nodes.clear()` que hacemos sigue haciendo falta.
+- **Compositor:** `scene.node_tree` ya no existe; ahora es `scene.compositing_node_group`, un
+  grupo de `bpy.data.node_groups.new(..., "CompositorNodeTree")` con `NodeGroupOutput` y
+  `CompositorNodeRLayers`. El nodo File Output perdió `file_slots`/`base_path` (ahora
+  `directory`, `file_name`, `file_output_items`). Hoy el post va por `motor/post.py` y no lo usamos.
+- Pases renombrados: "Z" → "Depth", "IndexMA" → "Material Index", "DiffCol" → "Diffuse Color".
+- `ImageFormatSettings.media_type` va **antes** de `file_format`.
+- Grease Pencil v3 ahora es `bpy.data.grease_pencils` (el `grease_pencils_v3` viejo no existe).
+- Acciones: `action.fcurves` y `action.groups` se borraron; solo `channelbag.fcurves`.
+- Boolean: el solver "FAST" ahora se llama "FLOAT".
+- Sky Texture perdió `sun_direction`, `turbidity` y `ground_albedo`.
+- Las propiedades de `bpy.props` ya no se leen como `scene['cycles']`; las custom (`world["amb"]`) sí.
+- **Shader To RGB (la base del toon):** desde 5.1 evalúa la transparencia; en 5.2 un material
+  Blended con Shader To RGB admite 2 texturas menos. Si un material de vidrio deja de compilar, es eso.
+- 5.2 sacó el límite de **8 atributos de objeto por material** (útil para los leds por rack).
+- 5.2: la instanciación de EEVEE rinde hasta el doble en escenas con muchas copias limitadas
+  por CPU. Probar instancias de colección antes de seguir juntando mallas a mano.
+- 5.2: el SSR y el Fast GI cambiaron (pueden salir más oscuros que en 5.1). Con `PERF` no los
+  usamos; si un estilo los prende, comparar frames.
+- 5.2: `shadow_pool_size` suma 1536 y 2048. **No usarlos con 2 GB de VRAM.**
+- Nuevo (5.1): `scene.eevee.direct_light_intensity` / `indirect_light_intensity`, que escalan
+  la luz al final del pixel sin cambiar el transporte; y el nodo `ShaderNodeRaycast` (solo
+  espacio de pantalla en EEVEE). Nuevo (5.2): `render.anisotropic_filter`.
+- El formato del log de render en background cambió en 5.0; si `render.py` parsea progreso, revisar ahí.
+
 ## 7. Sonido
 
 Síntesis pura (`motor/audio/dsp.py`, copia de `pixelfilm/audio/dsp.py`): aditiva con límite de
@@ -253,6 +285,11 @@ banda, campanas inarmónicas, pads desafinados, reverb por convolución con IR g
 - **Silencio que corta en seco:** si la imagen se desatura en dos cuadros, el sonido igual se corta
   en el primer cuadro del plano. Copiando la rampa de la imagen, el "silencio" medía -23 dB.
   Medir el pico del tramo, no solo el RMS (en nodo_0 quedó en 0,0).
+- **Un silencio total se oye como una falla:** en LA BANDERA, cortar todo (lluvia incluida)
+  0,7 s se reportó como "corte de sonido". Que la música se apague y quede el ambiente bajo.
+- **Un hueco de 40 ms antes de un golpe se oye como un corte:** lo que prepara un golpe (una
+  raja que crepita) tiene que durar hasta el cuadro del golpe, no hasta donde termina su animación.
+  Chequearlo en el wav: buscar tramos de 10 ms que caigan 9 dB bajo los 100 ms anteriores.
 - **Lo que suena dentro de un silencio va en otro bus,** que se suma después de la máscara (el de Nyx
   en el 08). Así la máscara también corta las colas de reverb del resto.
 
@@ -421,6 +458,13 @@ Salieron de cada vez que quien dirigía miró un frame y dijo "esto no". Pesan t
 - **Impact frames** (`post.impacto`): dos tonos (la tinta = lo oscuro, lo que brilla invertido)
   sobre fondo rojo, negro o blanco cada dos cuadros a 24 fps, con líneas de foco. Hit-stop:
   cuadros sin cambio en la escena y **silencio exacto** en la banda.
+- **Timing de sakuga con `motor/poses.py`** (aprendido en `_sakuga`): poses sostenidas y pocos
+  intermedios por rama, no curvas. Un intermedio con `{"*": 0.85, "brazo_b": 0.35}` deja el brazo
+  atrás del torso (overlap). La anticipación (`antes`) y el overshoot (`pasa`) se aplican **sin las
+  piernas**: con el suelo activo, empujar las piernas baja los pies y el cuerpo entero sube. En un
+  golpe, el overshoot va en el torso, no en el brazo estirado (empujar un ángulo que ya giró 160°
+  levanta el brazo). Los intermedios caen en los cuadros justo después de la clave: el criterio se
+  mira en esos cuadros.
 - **Cadencias mezcladas en el montaje:** cada plano declara `fps` (12 en doses, 24 el sakuga) y el
   montaje repite cuadros para llevarlo a la cadencia del corte. La banda lee la misma `fps`.
 - **Sonoridad:** el montaje normaliza a -14 LUFS (`loudnorm`), el estándar de YouTube. La banda
@@ -537,6 +581,49 @@ Salieron de cada vez que quien dirigía miró un frame y dijo "esto no". Pesan t
   contorno de la parte enterrada de un tronco se dibujaba sobre el pasto. El piso va dentro de
   `main` con `OCCLUSION_ONLY` (y no costó tiempo). Mallas que se cruzan a propósito (bolas de una
   copa, tramos de rama) van con `lineart.usage = "NO_INTERSECTION"`; los tubos, con tapa.
+
+## 14. Alas, macro y partículas (aprendido en mariposa_bandera)
+
+- **Membranas como abanico con UV propio:** u de la bisagra al borde, v a lo largo del contorno.
+  Nervaduras (v constante), borde (u alto) y escamas (grilla en u, v) salen del shader sin
+  texturas. El ala se dobla con una shape key cuyo valor sigue la velocidad del golpe un poco
+  atrasada: la punta llega tarde y la membrana pesa.
+- **Aleteo que se lee:** bajada más corta que la subida, ala de atrás atrasada, torsión del borde
+  de ataque, y el cuerpo y las antenas reaccionando con retraso. Un ciclo de 12 cuadros a 24 fps
+  se lee; la frecuencia real (5-10 Hz) es un borrón.
+- **El brillo del post mide el canal más alto:** un celeste con el azul en 1 dispara el glow en
+  toda el ala aunque se vea "claro". Medir qué fracción del cuadro supera el umbral en el crudo
+  antes de tocar colores.
+- **Una luz puntual a milímetros de una superficie la quema:** la irradiancia va con 1/d². En
+  escala macro (5 cm), energías de milésimas de W.
+- **Macro con ciudad atrás:** `camera.dof` con foco en el personaje; luces emisivas lejanas se
+  vuelven discos. Lo desenfocado va fuera de Line Art (colección `neon`): la tinta no se desenfoca.
+- **Partículas deterministas:** simular en Python y armar una malla por cuadro, visible solo en
+  su cuadro (`hide_render` con claves CONSTANT); el color y el brillo de cada una en un atributo
+  de color. Sin sistemas de partículas de Blender.
+- **`shape_key_add(from_mix=False)` deja la key nueva con valor 1:** si no se anima en ese
+  plano, queda aplicada entera. Ponerla en 0 al crearla.
+- **Continuidad de un nacimiento:** lo que sale de algo colgado queda colgado de eso (la mariposa
+  cuelga de la cáscara, cabeza arriba); no aparece "arriba" en el plano siguiente.
+- **`extends` mezcla en profundidad:** un plano que redefine un bloque (la crisálida del loop)
+  hereda las claves que no pisa (la grieta del plano 1). Para el loop, poner en 0 explícito todo
+  lo animado del plano de origen.
+- **Agua que refleja una ciudad:** el reflejo del post (`reflejos`) estira lo que brilla justo
+  arriba de un charco; para torres sobre un dique no alcanza. Mejor copias espejadas (escala z -1)
+  de lo construido, con sus materiales, en la colección `reflejo`, y el agua semitransparente con
+  franjas de onda. `post.reflejos.objetos` marca superficies enteras en la máscara, y los
+  objetos `ancla` quedan fuera de la fuente del reflejo.
+- **Tinta en un plano de escala de ciudad:** el radio va en metros; un personaje a 40 cm de la
+  cámara sale negro. Sacarlo de Line Art (colección `neon`) en ese plano.
+- **Traspasos con alas y ramas:** `colision.py` mide con la malla evaluada (shape keys) e
+  incluye curvas; `--entre-raices --sin-base --solo ala_,...` da solo choques entre la mariposa y
+  el mundo. Las rutas se planifican con espacio libre medido (`arbol.libre`, `camino_libre`)
+  antes de escribir las claves: un ala de 5 cm necesita ~6 cm de aire a cada lado.
+- **Una transformación tiene que leerse:** que una mariposa se vuelva crisálida se leyó como
+  "se convierte en huevo". El loop se cerró con un gesto (toca a otra que espera) y no con una
+  metamorfosis.
+- **En un cuadro vertical, alas abiertas obligan a alejar la cámara:** mejor dejar que las puntas
+  salgan del cuadro en la bajada (primer plano de anime) que achicar al personaje.
 
 ## 15. Pintar con código y una calle que cambia de color (aprendido en el_fileteador)
 

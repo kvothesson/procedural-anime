@@ -116,7 +116,7 @@ def estelas(img, E):
     return 1 - (1 - img) * (1 - acc)
 
 
-def reflejos(img, mask, E):
+def reflejos(img, mask, E, fuera=None):
     """Piso mojado: en los charcos (mask, de la pasada c_####.png de
     escena.py) se pinta lo que brilla justo arriba, estirado hacia abajo y
     ondulado en el ancho, como el reflejo de una luz en el agua de un fondo de
@@ -126,6 +126,10 @@ def reflejos(img, mask, E):
     lum = img.max(axis=2)
     th = E.get("umbral", 0.5)
     src = img * np.clip((lum - th) / (1 - th), 0, 1)[..., None]
+    if fuera is not None:
+        # los anclas (un personaje en primer plano) no se reflejan: estan
+        # lejos del agua aunque en pantalla queden arriba de ella
+        src = src * (1 - fuera)
     q = 4
     small = cv2.resize(src, (w // q, h // q), interpolation=cv2.INTER_AREA)
     L = max(2, int(E.get("largo", 0.4) * h / q))
@@ -564,7 +568,7 @@ def _frame(f):
     if P.get("reflejos"):
         mc = mascara_charcos(f.parent, i, w, h)
         if mc is not None:
-            img = reflejos(img, mc, P["reflejos"])
+            img = reflejos(img, mc, P["reflejos"], mask)
     if P.get("estelas"):
         img = estelas(img, P["estelas"])
     C = P.get("congelar")

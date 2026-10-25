@@ -218,6 +218,15 @@ def render_charcos(cfg, scene, out):
     em.inputs["Color"].default_value = (0, 0, 0, 1)
     mo = negro.node_tree.nodes.new("ShaderNodeOutputMaterial")
     negro.node_tree.links.new(em.outputs[0], mo.inputs["Surface"])
+    # "post.reflejos.objetos": superficies enteras que reflejan (el agua de un dique)
+    espejos = set(cfg.get("post", {}).get("reflejos", {}).get("objetos", []))
+    blanco = bpy.data.materials.new("_mascara_blanco")
+    blanco.use_nodes = True
+    blanco.node_tree.nodes.clear()
+    eb = blanco.node_tree.nodes.new("ShaderNodeEmission")
+    eb.inputs["Color"].default_value = (1, 1, 1, 1)
+    ob_ = blanco.node_tree.nodes.new("ShaderNodeOutputMaterial")
+    blanco.node_tree.links.new(eb.outputs[0], ob_.inputs["Surface"])
     calles = {"entorno_calzadas": dib.get("asfalto", {}).get("charcos"),
               "entorno_adoquines": dib.get("adoquin", {}).get("charcos")}
     fuera = set()
@@ -232,6 +241,8 @@ def render_charcos(cfg, scene, out):
             continue
         C = calles.get(ob.name)
         m = mat_mascara_charcos("_mascara_charcos", C) if C else negro
+        if ob.name in espejos:
+            m = blanco
         ob.data.materials.clear()
         ob.data.materials.append(m)
     world = scene.world

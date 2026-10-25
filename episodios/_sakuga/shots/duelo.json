@@ -1,0 +1,393 @@
+{
+ "_desc": "Prueba del rig humanoide: duelo de un golpe en el callejon bajo las vias. Tsubame (bufanda roja) carga, embiste y conecta un cruzado; Kiri (capucha) lo recibe.",
+ "width": 1080,
+ "height": 1920,
+ "fps": 24,
+ "frames": 108,
+ "samples": 8,
+ "sky": {
+  "horizon": "#4a2c62",
+  "top": "#080a1a",
+  "zenith_at": 0.6,
+  "ambient": "#1e2850",
+  "ambient_strength": 1.0
+ },
+ "fog": {
+  "color": "#2a2350",
+  "dist": 55.0
+ },
+ "toon": {
+  "steps": [
+   [
+    0.0,
+    0.25
+   ],
+   [
+    0.12,
+    0.6
+   ],
+   [
+    0.55,
+    1.0
+   ]
+  ]
+ },
+ "lights": [
+  {
+   "kind": "SUN",
+   "color": "#6f8cff",
+   "energy": 1.4,
+   "rot": [
+    55,
+    0,
+    -50
+   ],
+   "angle": 1
+  },
+  {
+   "kind": "SUN",
+   "color": "#ff7a5a",
+   "energy": 0.5,
+   "rot": [
+    70,
+    0,
+    140
+   ],
+   "angle": 1
+  }
+ ],
+ "line": {
+  "color": "#0d0b24",
+  "radius": 0.014,
+  "crease_deg": 140
+ },
+ "street": {
+  "length": 80,
+  "width": 5,
+  "sidewalk": 0.9,
+  "start": -12,
+  "asphalt": "#2b2b44",
+  "sidewalk_color": "#3a3a54",
+  "line_color": "#2b2b44",
+  "missing": 1.0,
+  "puddles": {
+   "scale": 3.0,
+   "threshold": 0.6,
+   "stretch": 0.35
+  },
+  "reflection_tint": "#0b0d22",
+  "reflection_dim": 0.35
+ },
+ "blocks": {
+  "seed": 17,
+  "start": -14,
+  "end": 34,
+  "width": [
+   4,
+   7
+  ],
+  "height": [
+   8,
+   15
+  ],
+  "depth": [
+   8,
+   12
+  ],
+  "setback": 0.2,
+  "colors": [
+   "#8c8794",
+   "#6f6a76",
+   "#9b8f82",
+   "#7c7270",
+   "#a6a19b",
+   "#5e6274"
+  ],
+  "antenna_color": "#1a1830",
+  "awning": 0.75,
+  "shop_colors": [
+   "#ffb46a",
+   "#ffd9a0",
+   "#fff2d8"
+  ],
+  "sign_body": "#141226",
+  "signs": [],
+  "fronts": [],
+  "shop_light": 380,
+  "balconies": 0.35,
+  "balcony_color": "#4a4656",
+  "billboards": 0,
+  "windows": {
+   "pitch_x": 1.8,
+   "pitch_z": 3.0,
+   "base": 3.8,
+   "margin_x": 0.28,
+   "margin_z": 0.25,
+   "lit": 0.45,
+   "cold_ratio": 0.35,
+   "warm": "#ffcf8a",
+   "cold": "#cfe8ff",
+   "dark": "#262838"
+  }
+ },
+ "cables": {
+  "seed": 5,
+  "count": 16,
+  "y": [
+   -6,
+   34
+  ],
+  "z": [
+   5.5,
+   9
+  ],
+  "span": 10,
+  "color": "#0d0b24",
+  "thickness": 0.025
+ },
+ "viaducto": {
+  "y": 40,
+  "z": 6.5,
+  "length": 220,
+  "brick": "#5b3a36",
+  "span": 9,
+  "gap": 4.5,
+  "bars": "#ffb46a",
+  "tren": {
+   "x": [
+    -60,
+    120
+   ],
+   "frames": [
+    40,
+    96
+   ],
+   "cars": 4,
+   "stripe": "#7ac143"
+  }
+ },
+ "chochin": {
+  "colors": [
+   "#ff5a3c",
+   "#ff5a3c",
+   "#fff0d6"
+  ],
+  "rows": [
+   {
+    "x": 3.0,
+    "z": 2.8,
+    "y": [
+     -6,
+     33
+    ]
+   },
+   {
+    "x": -3.0,
+    "z": 2.8,
+    "y": [
+     -6,
+     33
+    ]
+   }
+  ],
+  "light": 80
+ },
+ "expendedoras": {
+  "list": [
+   {
+    "at": [
+     2.9,
+     4
+    ]
+   },
+   {
+    "at": [
+     -2.9,
+     13
+    ],
+    "color": "#e6f2ff"
+   },
+   {
+    "at": [
+     2.9,
+     21
+    ]
+   }
+  ]
+ },
+ "farol_hex": {
+  "at": [
+   0,
+   9,
+   4.4
+  ],
+  "r": 0.42,
+  "h": 0.7,
+  "hang": 2.6,
+  "colors": [
+   [
+    1,
+    "#5ec5e2"
+   ]
+  ],
+  "power": [
+   [
+    1,
+    1.0
+   ],
+   [
+    108,
+    1.0
+   ]
+  ],
+  "light": 260
+ },
+ "camera": {
+  "lens": 24,
+  "clip_end": 800,
+  "ease": true,
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     0.15,
+     -2.3,
+     0.95
+    ],
+    "aim": [
+     0.15,
+     3.0,
+     1.05
+    ]
+   },
+   {
+    "frame": 108,
+    "pos": [
+     0.15,
+     -2.3,
+     0.95
+    ],
+    "aim": [
+     0.15,
+     3.0,
+     1.05
+    ]
+   }
+  ]
+ },
+ "post": {
+  "glow": {
+   "threshold": 0.6
+  }
+ },
+ "storyboard": [
+  12,
+  28,
+  36,
+  40
+ ],
+ "luchadores": {
+  "list": [
+   {
+    "id": "tsubame",
+    "look": "bufanda",
+    "keys": [
+     [
+      1,
+      "guardia",
+      [
+       -1.1,
+       3.0
+      ],
+      0
+     ],
+     [
+      25,
+      "carga",
+      [
+       -1.1,
+       3.0
+      ],
+      0
+     ],
+     [
+      33,
+      "embestida",
+      [
+       -1.1,
+       3.0
+      ],
+      0,
+      {
+       "slide": [
+        0.3,
+        3.0
+       ],
+       "suelo": false,
+       "ib": 0
+      }
+     ],
+     [
+      39,
+      "golpe",
+      [
+       0.36,
+       3.0
+      ],
+      0,
+      {
+       "ib": 0
+      }
+     ],
+     [
+      70,
+      "remate",
+      [
+       2.1,
+       3.0
+      ],
+      0,
+      {
+       "ib": 0
+      }
+     ]
+    ]
+   },
+   {
+    "id": "kiri",
+    "look": "capucha",
+    "keys": [
+     [
+      1,
+      "guardia",
+      [
+       1.35,
+       3.0
+      ],
+      180
+     ],
+     [
+      43,
+      "recibe",
+      [
+       1.42,
+       3.0
+      ],
+      180,
+      {
+       "ib": 0
+      }
+     ]
+    ]
+   }
+  ],
+  "rim": {
+   "color": "#8fe6ff",
+   "dir": [
+    0,
+    1,
+    0.7
+   ]
+  }
+ }
+}
