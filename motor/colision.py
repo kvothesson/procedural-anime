@@ -81,6 +81,8 @@ def inside():
         return BVHTree.FromPolygons(verts, polys), verts
 
     def boxes_touch(va, vb):
+        if not va or not vb:
+            return False        # malla vacia (un Boolean que la corto entera)
         for i in range(3):
             if max(v[i] for v in va) < min(v[i] for v in vb) or max(v[i] for v in vb) < min(v[i] for v in va):
                 return False
