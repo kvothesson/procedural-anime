@@ -123,6 +123,10 @@ planos, el look se va corriendo de a poco.
 - **Chequeo de traspasos:** `python motor/colision.py episodios/<ep> <plano>` (BVH por
   frame, sin render). Lo que se toca en el frame 1 es la base; los contactos buscados van en
   `"colision_ok"`. Mirar frames no alcanza: un traspaso de tres frames no se ve en la lámina.
+- **Chequeo de encuadre:** `python motor/encuadre.py episodios/<ep> <plano> --sujeto <prefijos>` (sin
+  render). Avisa si el personaje tapa, queda cortado o apenas asoma, si señala a otra cosa, si el sujeto
+  queda chico o bajo el texto, y si hay piezas pegadas al lente. Estos errores seguían saliendo con la
+  trampa ya anotada: lo que se puede medir, se mide.
 - **Luz que se mueve con un objeto: resplandor por shader, no luz puntual.** Una luz puntual
   cerca de superficies curvas moteaba el cel (aun sin sombra). `glow_follow`: distancia a un
   vacío vía coordenadas de objeto, intensidad en un nodo Value animado.
