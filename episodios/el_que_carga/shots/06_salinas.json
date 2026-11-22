@@ -1,0 +1,187 @@
+{
+ "width": 1080,
+ "height": 1920,
+ "fps": 12,
+ "samples": 8,
+ "toon": {
+  "steps": [
+   [
+    0.0,
+    0.6
+   ],
+   [
+    0.25,
+    1.0
+   ]
+  ]
+ },
+ "lights": [
+  {
+   "kind": "SUN",
+   "color": "#ffffff",
+   "energy": 4.0,
+   "hacia": [
+    0.3,
+    -0.5,
+    0.8
+   ],
+   "angle": 0.6
+  }
+ ],
+ "line": {
+  "color": "#1d1030",
+  "radius": 0.055,
+  "crease_deg": 100
+ },
+ "post": {
+  "rain": false,
+  "glow": {
+   "threshold": 0.985,
+   "strength": 0.6
+  },
+  "grain": 0.012,
+  "papel": {
+   "manchas": 0.07,
+   "fibra": 0.03,
+   "seed": 11
+  }
+ },
+ "roca": {
+  "punta": [
+   0.49,
+   0.0,
+   6.95
+  ],
+  "radio": 85,
+  "alto": 58,
+  "forma": 1.0,
+  "rugosidad": 0.12,
+  "anillos": 26,
+  "segmentos": 48,
+  "seed": 7,
+  "color": "#1e1440"
+ },
+ "tanque": {
+  "at": [
+   0,
+   0,
+   0
+  ],
+  "paso": 0.12,
+  "abre": 0.7,
+  "inclina": 0.2,
+  "mano_z": 6.6,
+  "ciclo": {
+   "frames": 18,
+   "zancada": 0.85
+  }
+ },
+ "colision_ok": [
+  [
+   "bombacha_i",
+   "faja"
+  ],
+  [
+   "bombacha_d",
+   "faja"
+  ]
+ ],
+ "sky": {
+  "horizon": "#a8d4f4",
+  "top": "#1d47b0",
+  "ambient": "#9fbde0",
+  "ambient_strength": 0.6,
+  "zenith_at": 0.45
+ },
+ "fog": {
+  "color": "#a8d4f4",
+  "dist": 4000.0
+ },
+ "paisaje": {
+  "piso": "#f5f6f1",
+  "cerros": [
+   {
+    "dist": 1300,
+    "alto": 60,
+    "color": "#8b7ba6",
+    "arco": [
+     30,
+     150
+    ],
+    "picos": true
+   },
+   {
+    "dist": 900,
+    "alto": 22,
+    "color": "#b2a6c4",
+    "arco": [
+     30,
+     150
+    ]
+   },
+   {
+    "recta": {
+     "y": -22.8,
+     "x0": -16.0,
+     "x1": 40.8,
+     "n": 340
+    },
+    "alto": 2.7,
+    "base": -1.2,
+    "color": "#c9cfd6",
+    "ondas": [
+     [
+      127.8,
+      0.5
+     ],
+     [
+      320.91999999999996,
+      0.35
+     ],
+     [
+      19.88,
+      0.4
+     ]
+    ]
+   }
+  ],
+  "nubes": []
+ },
+ "camera": {
+  "lens": 26,
+  "clip_end": 3000,
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     9.0,
+     -26.0,
+     1.9
+    ],
+    "aim": [
+     0.5,
+     0.0,
+     12.5
+    ]
+   },
+   {
+    "frame": 36,
+    "pos": [
+     15.61111111111111,
+     -26.0,
+     1.9
+    ],
+    "aim": [
+     7.111111111111111,
+     0.0,
+     12.5
+    ]
+   }
+  ]
+ },
+ "_desc": "06 salinas - Salinas Grandes: piso blanco, cielo azul profundo, cerros lejanos violeta",
+ "frames": 36,
+ "storyboard": [
+  18
+ ]
+}

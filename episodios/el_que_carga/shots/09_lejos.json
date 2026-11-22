@@ -1,0 +1,303 @@
+{
+ "width": 1080,
+ "height": 1920,
+ "fps": 12,
+ "samples": 8,
+ "toon": {
+  "steps": [
+   [
+    0.0,
+    0.6
+   ],
+   [
+    0.25,
+    1.0
+   ]
+  ]
+ },
+ "lights": [
+  {
+   "kind": "SUN",
+   "color": "#ffd9a0",
+   "energy": 3.4,
+   "hacia": [
+    -0.6,
+    0.3,
+    0.35
+   ],
+   "angle": 0.6
+  }
+ ],
+ "line": {
+  "color": "#1d1030",
+  "radius": 0.055,
+  "crease_deg": 100
+ },
+ "post": {
+  "rain": false,
+  "glow": {
+   "threshold": 0.985,
+   "strength": 0.6
+  },
+  "grain": 0.012,
+  "papel": {
+   "manchas": 0.07,
+   "fibra": 0.03,
+   "seed": 11
+  }
+ },
+ "roca": {
+  "punta": [
+   0.49,
+   0.0,
+   6.95
+  ],
+  "radio": 85,
+  "alto": 58,
+  "forma": 1.0,
+  "rugosidad": 0.12,
+  "anillos": 26,
+  "segmentos": 48,
+  "seed": 7,
+  "color": "#2d1e3a",
+  "pasto": "#9dbb52",
+  "laboratorio": {
+   "torres": [
+    [
+     0,
+     0,
+     34,
+     5
+    ],
+    [
+     -18,
+     10,
+     24,
+     4
+    ],
+    [
+     16,
+     -8,
+     20,
+     4
+    ],
+    [
+     -8,
+     -22,
+     14,
+     3.5
+    ],
+    [
+     26,
+     14,
+     16,
+     3.5
+    ],
+    [
+     -30,
+     -6,
+     12,
+     3
+    ]
+   ]
+  }
+ },
+ "tanque": {
+  "at": [
+   0,
+   0,
+   0
+  ],
+  "paso": 0.12,
+  "abre": 0.7,
+  "inclina": 0.14,
+  "mano_z": 6.7,
+  "ciclo": {
+   "frames": 18,
+   "zancada": 0.85
+  }
+ },
+ "colision_ok": [
+  [
+   "bombacha_i",
+   "faja"
+  ],
+  [
+   "bombacha_d",
+   "faja"
+  ]
+ ],
+ "sky": {
+  "horizon": "#f6d7a0",
+  "top": "#5c8fd0",
+  "mid": "#c9c4c0",
+  "mid_at": 0.2,
+  "interp": "EASE",
+  "ambient": "#c9b8a8",
+  "ambient_strength": 0.6,
+  "zenith_at": 0.55
+ },
+ "fog": {
+  "color": "#f6d7a0",
+  "dist": 10000000.0
+ },
+ "paisaje": {
+  "piso": "#9dbb52",
+  "cerros": [
+   {
+    "dist": 1100,
+    "alto": 70,
+    "color": "#86aed3",
+    "arco": [
+     60,
+     210
+    ],
+    "picos": true
+   },
+   {
+    "dist": 700,
+    "alto": 30,
+    "color": "#5f8fbf",
+    "arco": [
+     60,
+     210
+    ]
+   },
+   {
+    "dist": 420,
+    "alto": 9,
+    "color": "#7fa64a",
+    "arco": [
+     60,
+     210
+    ],
+    "ondas": [
+     [
+      5,
+      0.6
+     ],
+     [
+      17,
+      0.3
+     ]
+    ]
+   }
+  ],
+  "nubes": [
+   {
+    "at": [
+     -305.2,
+     573.9,
+     70
+    ],
+    "escala": 60
+   },
+   {
+    "at": [
+     -623.5,
+     360.0,
+     30
+    ],
+    "escala": 75
+   },
+   {
+    "at": [
+     -90.3,
+     512.1,
+     170
+    ],
+    "escala": 40
+   },
+   {
+    "at": [
+     -579.6,
+     155.3,
+     210
+    ],
+    "escala": 50
+   }
+  ]
+ },
+ "camera": {
+  "lens": 85,
+  "clip_end": 3000,
+  "lens_keys": [
+   [
+    1,
+    85
+   ],
+   [
+    34,
+    85
+   ],
+   [
+    58,
+    1400
+   ],
+   [
+    60,
+    1400
+   ]
+  ],
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     620.0,
+     -660.0,
+     3.0
+    ],
+    "aim": [
+     0.0,
+     0.0,
+     110.0
+    ]
+   },
+   {
+    "frame": 34,
+    "pos": [
+     620.0,
+     -660.0,
+     3.0
+    ],
+    "aim": [
+     6.233333333333333,
+     0.0,
+     110.0
+    ]
+   },
+   {
+    "frame": 58,
+    "pos": [
+     620.0,
+     -660.0,
+     3.0
+    ],
+    "aim": [
+     10.766666666666666,
+     0.0,
+     38.0
+    ]
+   },
+   {
+    "frame": 60,
+    "pos": [
+     620.0,
+     -660.0,
+     3.0
+    ],
+    "aim": [
+     11.144444444444444,
+     0.0,
+     38.0
+    ]
+   }
+  ]
+ },
+ "_desc": "09 lejos - Muy lejos: la roca con el laboratorio es una columna oscura sobre el horizonte; el diminuto abajo",
+ "frames": 60,
+ "storyboard": [
+  30,
+  60
+ ]
+}

@@ -485,6 +485,24 @@ def grain_patterns(w, h, amt, n=3, seed=7):
     return pats
 
 
+def papel_textura(w, h, Pp):
+    """Papel de acuarela: manchas grandes y suaves (el agua que seco
+    desparejo) + fibra fina, con media 1. Se multiplica sobre la imagen, fija
+    en todos los cuadros (es el soporte, no ruido): Pp = {"fuerza", "manchas",
+    "fibra", "seed"}."""
+    rnd = np.random.default_rng(Pp.get("seed", 11))
+    tex = np.zeros((h, w), np.float32)
+    for div, amp in ((6, 1.0), (24, 0.6), (80, 0.35)):
+        g = rnd.normal(0, 1, (max(h // (h // div), 2), max(w // (h // div), 2))).astype(np.float32)
+        g = cv2.resize(g, (w, h), interpolation=cv2.INTER_CUBIC)
+        tex += amp * g
+    tex = Pp.get("manchas", 0.06) * tex / (np.abs(tex).max() + 1e-6)
+    fib = rnd.normal(0, 1, (h, w)).astype(np.float32)
+    fib = cv2.GaussianBlur(fib, (0, 0), sigmaX=2.2, sigmaY=0.6)
+    fib = Pp.get("fibra", 0.025) * fib / (np.abs(fib).max() + 1e-6)
+    return (1.0 + tex + fib)[..., None]
+
+
 _IMG = {}   # imagenes ya leidas y escaladas, por (ruta, alto)
 
 
@@ -541,6 +559,7 @@ def _init(P, w, h, dst):
               rain=Rain(P["rain"], w, h) if P.get("rain") else None,
               vig=vignette_mask(w, h, P["vignette"]),
               grains=grain_patterns(w, h, P["grain"]),
+              papel=papel_textura(w, h, P["papel"]) if P.get("papel") else None,
               ripples=Ripples(P["ripples"], w, h) if P.get("ripples") else None)
 
 
@@ -589,6 +608,8 @@ def _frame(f):
         img = impacto(img, i, I, w, h)
     img = aberration(img, P["aberration"])
     img = img * _W["vig"]
+    if _W["papel"] is not None:
+        img = img * _W["papel"]
     if P.get("imagenes"):
         img = imagenes(img, i, P["imagenes"], w, h)
     if P.get("textos"):

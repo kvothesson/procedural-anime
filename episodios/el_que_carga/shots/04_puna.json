@@ -1,0 +1,234 @@
+{
+ "width": 1080,
+ "height": 1920,
+ "fps": 12,
+ "samples": 8,
+ "toon": {
+  "steps": [
+   [
+    0.0,
+    0.6
+   ],
+   [
+    0.25,
+    1.0
+   ]
+  ]
+ },
+ "lights": [
+  {
+   "kind": "SUN",
+   "color": "#ffc89a",
+   "energy": 2.6,
+   "hacia": [
+    0.7,
+    -0.3,
+    0.4
+   ],
+   "angle": 0.6
+  }
+ ],
+ "line": {
+  "color": "#1d1030",
+  "radius": 0.055,
+  "crease_deg": 100
+ },
+ "post": {
+  "rain": false,
+  "glow": {
+   "threshold": 0.985,
+   "strength": 0.6
+  },
+  "grain": 0.012,
+  "papel": {
+   "manchas": 0.07,
+   "fibra": 0.03,
+   "seed": 11
+  }
+ },
+ "roca": {
+  "punta": [
+   0.49,
+   0.0,
+   6.95
+  ],
+  "radio": 85,
+  "alto": 58,
+  "forma": 1.0,
+  "rugosidad": 0.12,
+  "anillos": 26,
+  "segmentos": 48,
+  "seed": 7,
+  "color": "#2b1230"
+ },
+ "tanque": {
+  "at": [
+   0,
+   0,
+   0
+  ],
+  "paso": 0.12,
+  "abre": 0.7,
+  "inclina": 0.2,
+  "mano_z": 6.6,
+  "colores": {
+   "poncho": "#efd9b8",
+   "metal": "#8aa39a"
+  },
+  "ciclo": {
+   "frames": 18,
+   "zancada": 0.85
+  }
+ },
+ "colision_ok": [
+  [
+   "bombacha_i",
+   "faja"
+  ],
+  [
+   "bombacha_d",
+   "faja"
+  ]
+ ],
+ "sky": {
+  "horizon": "#f4b987",
+  "top": "#6e5aa8",
+  "mid": "#d98a8f",
+  "mid_at": 0.25,
+  "interp": "EASE",
+  "ambient": "#c89aa8",
+  "ambient_strength": 0.6,
+  "zenith_at": 0.6
+ },
+ "fog": {
+  "color": "#f0b48c",
+  "dist": 4000.0
+ },
+ "paisaje": {
+  "piso": "#b98a5e",
+  "cerros": [
+   {
+    "dist": 1300,
+    "alto": 120,
+    "color": "#6b4a86",
+    "arco": [
+     30,
+     150
+    ],
+    "picos": true
+   },
+   {
+    "dist": 800,
+    "alto": 70,
+    "color": "#9a3f6b",
+    "arco": [
+     30,
+     150
+    ],
+    "picos": true
+   },
+   {
+    "dist": 450,
+    "alto": 28,
+    "color": "#bf4a3a",
+    "arco": [
+     30,
+     150
+    ],
+    "picos": true
+   },
+   {
+    "dist": 160,
+    "alto": 3,
+    "color": "#a8744a",
+    "arco": [
+     30,
+     150
+    ],
+    "ondas": [
+     [
+      11,
+      0.5
+     ],
+     [
+      31,
+      0.3
+     ]
+    ]
+   },
+   {
+    "recta": {
+     "y": -22.8,
+     "x0": -16.0,
+     "x1": 41.93333333333334,
+     "n": 347
+    },
+    "alto": 2.7,
+    "base": -1.2,
+    "color": "#4a2a2a",
+    "ondas": [
+     [
+      130.35,
+      0.5
+     ],
+     [
+      327.3233333333334,
+      0.35
+     ],
+     [
+      20.276666666666667,
+      0.4
+     ]
+    ]
+   }
+  ],
+  "nubes": [
+   {
+    "at": [
+     -500,
+     700,
+     200
+    ],
+    "escala": 60,
+    "color": "#f6d2c0"
+   }
+  ]
+ },
+ "camera": {
+  "lens": 26,
+  "clip_end": 3000,
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     9.0,
+     -26.0,
+     1.9
+    ],
+    "aim": [
+     0.5,
+     0.0,
+     12.5
+    ]
+   },
+   {
+    "frame": 42,
+    "pos": [
+     16.744444444444444,
+     -26.0,
+     1.9
+    ],
+    "aim": [
+     8.244444444444444,
+     0.0,
+     12.5
+    ]
+   }
+  ]
+ },
+ "_desc": "04 puna - Camina por la Puna al atardecer: cerros rojos y violetas, suelo ocre",
+ "frames": 42,
+ "storyboard": [
+  21
+ ]
+}

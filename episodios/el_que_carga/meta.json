@@ -1,0 +1,31 @@
+{
+  "titulo_youtube": "EL QUE CARGA: un gaucho de silicio sostiene una ciudad flotante 🇦🇷",
+  "descripcion_youtube": "Un Hombre-Tanque carga sobre los hombros el laboratorio flotante y camina por la Ruta 404: la pampa, la Puna, la nieve patagónica, las Salinas Grandes. Arriba nadie lo mira. Pierde aceite negro a cada paso y deja el camino marcado.\n\nLos Hombres-Tanque son gauchos de silicio que todavía vagan por el campo argentino. Si le mirás los ojos, solo encontrás errores de renderizado.\n\nHecho 100 % con código: Blender + Python, sin IA que genere imagen ni video. Cada pisada, cada gota y el bandoneón están sintetizados, sin samples.\n\nUniverso Austral.",
+  "tags": [
+    "kvothesson",
+    "shorts",
+    "anime",
+    "gaucho",
+    "robot",
+    "mecha",
+    "pampa",
+    "puna",
+    "patagonia",
+    "salinas grandes",
+    "fileteado",
+    "argentina",
+    "blender",
+    "universo austral"
+  ],
+  "categoria": "1",
+  "idioma": "es",
+  "privacidad": "public",
+  "video_final": "out/el_que_carga.mp4",
+  "duracion_segundos": 34,
+  "resolucion": "1080x1920",
+  "fps": 24,
+  "herramientas": "Blender 5.2 (EEVEE, Line Art) + Python (numpy, scipy, PIL, OpenCV) + ffmpeg",
+  "youtube_id": "cep3wtHE0XA",
+  "youtube_url": "https://youtube.com/shorts/cep3wtHE0XA",
+  "fecha_publicacion": "2026-11-22T22:57:25Z"
+}

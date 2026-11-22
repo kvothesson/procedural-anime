@@ -1,0 +1,190 @@
+{
+ "width": 1080,
+ "height": 1920,
+ "fps": 12,
+ "samples": 8,
+ "toon": {
+  "steps": [
+   [
+    0.0,
+    0.6
+   ],
+   [
+    0.25,
+    1.0
+   ]
+  ]
+ },
+ "lights": [
+  {
+   "kind": "SUN",
+   "color": "#fff1d6",
+   "energy": 4.5,
+   "hacia": [
+    0.5,
+    -0.45,
+    0.75
+   ],
+   "angle": 0.6
+  }
+ ],
+ "line": {
+  "color": "#1d1030",
+  "radius": 0.055,
+  "crease_deg": 100
+ },
+ "post": {
+  "rain": false,
+  "glow": {
+   "threshold": 0.985,
+   "strength": 0.6
+  },
+  "grain": 0.012,
+  "papel": {
+   "manchas": 0.07,
+   "fibra": 0.03,
+   "seed": 11
+  }
+ },
+ "roca": {
+  "punta": [
+   0.49,
+   0.0,
+   6.95
+  ],
+  "radio": 85,
+  "alto": 58,
+  "forma": 1.0,
+  "rugosidad": 0.12,
+  "anillos": 26,
+  "segmentos": 48,
+  "seed": 7,
+  "pasto": "#b9e04a",
+  "laboratorio": {
+   "torres": [
+    [
+     0,
+     0,
+     34,
+     5
+    ],
+    [
+     -18,
+     10,
+     24,
+     4
+    ],
+    [
+     16,
+     -8,
+     20,
+     4
+    ],
+    [
+     -8,
+     -22,
+     14,
+     3.5
+    ],
+    [
+     26,
+     14,
+     16,
+     3.5
+    ],
+    [
+     -30,
+     -6,
+     12,
+     3
+    ]
+   ]
+  }
+ },
+ "tanque": {
+  "at": [
+   0,
+   0,
+   0
+  ],
+  "paso": 0.12,
+  "abre": 0.7,
+  "inclina": 0.14,
+  "mano_z": 6.7
+ },
+ "colision_ok": [
+  [
+   "bombacha_i",
+   "faja"
+  ],
+  [
+   "bombacha_d",
+   "faja"
+  ]
+ ],
+ "sky": {
+  "horizon": "#c6fbf2",
+  "top": "#2fd3d0",
+  "ambient": "#9ee9e2",
+  "ambient_strength": 0.7,
+  "zenith_at": 0.55
+ },
+ "fog": {
+  "color": "#c6fbf2",
+  "dist": 4000.0
+ },
+ "paisaje": {
+  "piso": "#9dbb52",
+  "cerros": [],
+  "nubes": [
+   {
+    "at": [
+     -40,
+     -120,
+     40
+    ],
+    "escala": 30
+   },
+   {
+    "at": [
+     70,
+     -90,
+     30
+    ],
+    "escala": 26
+   },
+   {
+    "at": [
+     -160,
+     200,
+     60
+    ],
+    "escala": 50
+   }
+  ]
+ },
+ "camera": {
+  "lens": 35,
+  "clip_end": 3000,
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     62.0,
+     -150.0,
+     78.0
+    ],
+    "aim": [
+     0.0,
+     0.0,
+     84.0
+    ]
+   }
+  ]
+ },
+ "_desc": "02 cima - Arriba: pasto lima, torres del laboratorio con ventanas cian, nubes abajo. Calma total",
+ "frames": 36,
+ "storyboard": [
+  18
+ ]
+}

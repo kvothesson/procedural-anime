@@ -1,0 +1,61 @@
+{
+ "width": 1080,
+ "height": 1920,
+ "fps": 12,
+ "samples": 8,
+ "_desc": "07 leyenda - Cartel fileteado (leyenda.py): EL QUE CARGA, leyenda del Hombre-Tanque",
+ "frames": 60,
+ "storyboard": [
+  30
+ ],
+ "sky": {
+  "horizon": "#120e0c",
+  "top": "#120e0c",
+  "ambient": "#000000",
+  "ambient_strength": 0.0
+ },
+ "camera": {
+  "lens": 35,
+  "clip_end": 3000,
+  "keys": [
+   {
+    "frame": 1,
+    "pos": [
+     0,
+     -10,
+     2
+    ],
+    "aim": [
+     0,
+     0,
+     2
+    ]
+   }
+  ]
+ },
+ "post": {
+  "rain": false,
+  "glow": {
+   "threshold": 0.99,
+   "strength": 0.0
+  },
+  "vignette": 0.0,
+  "aberration": 0.0,
+  "grain": 0.008,
+  "imagenes": [
+   {
+    "src": "out/leyenda.png",
+    "pos": [
+     0.5,
+     0.5
+    ],
+    "height": 1.0,
+    "frames": [
+     1,
+     60
+    ],
+    "shadow": 0.0
+   }
+  ]
+ }
+}
